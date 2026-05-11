@@ -24,22 +24,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable} h-full dark`}>
-      <body className="min-h-full flex flex-col bg-black text-white selection:bg-white/20">
+    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
+      <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)", color: "var(--text-1)" }}>
         <Navbar />
-        <main className="flex-1">
+        <main style={{ flex: 1 }}>
           {children}
         </main>
-        <footer className="border-t border-white/10 py-12 bg-black">
-          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-[10px] font-bold">U</div>
-              <span className="text-sm text-zinc-500 font-medium">© 2026 Unimate Platform</span>
+        <footer style={{
+          borderTop: "1px solid var(--border)",
+          padding: "28px 32px",
+          background: "var(--bg)",
+        }}>
+          <div style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 16,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 22, height: 22, borderRadius: 6, background: "var(--text-1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: "var(--bg)" }}>U</div>
+              <span style={{ fontSize: 12, color: "var(--text-3)", fontWeight: 500 }}>© 2026 Unimate</span>
             </div>
-            <div className="flex gap-8">
-              <a href="#" className="text-xs text-zinc-500 hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="text-xs text-zinc-500 hover:text-white transition-colors">Terms</a>
-              <a href="#" className="text-xs text-zinc-500 hover:text-white transition-colors">Twitter</a>
+            <div style={{ display: "flex", gap: 24 }}>
+              {["Privacy", "Terms", "Twitter"].map((l) => (
+                <a key={l} href="#" className="footer-link">{l}</a>
+              ))}
             </div>
           </div>
         </footer>

@@ -26,166 +26,311 @@ export default function Universities() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
-      {/* Hero */}
-      <div className="max-w-3xl mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gradient mb-6">
-          Find your future <br />university in Europe.
+    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px 80px" }}>
+
+      {/* ── Hero ──────────────────────────────────── */}
+      <div style={{ padding: "72px 0 56px", borderBottom: "1px solid var(--border)", maxWidth: 680 }}>
+        <h1 style={{
+          fontSize: "clamp(36px, 5vw, 60px)",
+          fontWeight: 800,
+          letterSpacing: "-1.2px",
+          lineHeight: 1.1,
+          color: "var(--text-1)",
+          margin: "0 0 16px",
+        }}>
+          Find your university<br />in Europe.
         </h1>
-        <p className="text-zinc-400 text-lg leading-relaxed mb-10">
-          Explore detailed information about tuition, cost of living, and academic strengths. 
-          Use filters to narrow down your search.
+        <p style={{ fontSize: 17, color: "var(--text-2)", lineHeight: 1.7, margin: "0 0 32px", maxWidth: 520 }}>
+          Explore tuition, cost of living and academic strengths across {universities.length} universities.
         </p>
 
         {/* Search */}
-        <div className="relative group">
-          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-zinc-500">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <div style={{ position: "relative" }}>
+          <div style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: "var(--text-3)", pointerEvents: "none" }}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
           </div>
           <input
             type="text"
-            placeholder="Search by name, city or subject..."
+            placeholder="Search by name, city or subject…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 rounded-xl border border-white/10 bg-zinc-900/50 text-white placeholder:text-zinc-600 outline-none focus:border-white/20 focus:bg-zinc-900/80 transition-all"
+            style={{
+              width: "100%",
+              padding: "14px 18px 14px 44px",
+              borderRadius: 12,
+              border: "1px solid var(--border)",
+              background: "var(--surface)",
+              color: "var(--text-1)",
+              fontSize: 15,
+              outline: "none",
+              fontFamily: "inherit",
+              boxSizing: "border-box",
+              transition: "border-color 0.15s",
+            }}
+            onFocus={e => (e.target.style.borderColor = "var(--border-strong)")}
+            onBlur={e => (e.target.style.borderColor = "var(--border)")}
           />
         </div>
       </div>
 
-      {/* Filters Section */}
-      <div className="space-y-8 mb-16 border-y border-white/5 py-10">
-        <div>
-          <h3 className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-4">Countries</h3>
-          <div className="flex flex-wrap gap-2">
-            {countries.map((c) => (
-              <button
-                key={c.code}
-                onClick={() => setSelected(c.code)}
-                className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all border ${
-                  selected === c.code 
-                    ? "bg-white border-white text-black" 
-                    : "bg-transparent border-white/10 text-zinc-400 hover:text-white hover:border-white/20"
-                }`}
-              >
-                {c.flag} {c.name}
-              </button>
-            ))}
-          </div>
+      {/* ── Filters ───────────────────────────────── */}
+      <div style={{ padding: "28px 0 32px", borderBottom: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+          <span className="label" style={{ marginRight: 8, flexShrink: 0 }}>Country</span>
+          {countries.map((c) => (
+            <button
+              key={c.code}
+              onClick={() => setSelected(c.code)}
+              className={`pill${selected === c.code ? " active" : ""}`}
+            >
+              {c.name}
+            </button>
+          ))}
         </div>
-
-        <div>
-          <h3 className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-4">Faculties</h3>
-          <div className="flex flex-wrap gap-2">
-            {faculties.map((f) => (
-              <button
-                key={f.code}
-                onClick={() => setSelectedFaculty(f.code)}
-                className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium transition-all border ${
-                  selectedFaculty === f.code 
-                    ? "bg-white border-white text-black" 
-                    : "bg-transparent border-white/10 text-zinc-400 hover:text-white hover:border-white/20"
-                }`}
-              >
-                <span>{f.icon}</span>
-                {f.name}
-              </button>
-            ))}
-          </div>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+          <span className="label" style={{ marginRight: 8, flexShrink: 0 }}>Faculty</span>
+          {faculties.map((f) => (
+            <button
+              key={f.code}
+              onClick={() => setSelectedFaculty(f.code)}
+              className={`pill${selectedFaculty === f.code ? " active" : ""}`}
+            >
+              {f.name}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Active filters summary */}
+      {/* ── Results count ─────────────────────────── */}
       {(selected !== "all" || selectedFaculty !== "all" || search !== "") && (
-        <div className="flex items-center justify-between mb-8">
-          <span className="text-sm text-zinc-500">
-            Showing <span className="text-white font-medium">{filtered.length}</span> results
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 0 4px" }}>
+          <span style={{ fontSize: 13, color: "var(--text-3)" }}>
+            <span style={{ color: "var(--text-1)", fontWeight: 600 }}>{filtered.length}</span> universities found
           </span>
           <button
             onClick={() => { setSelected("all"); setSelectedFaculty("all"); setSearch(""); }}
-            className="text-xs font-semibold text-zinc-400 hover:text-white transition-colors flex items-center gap-1"
+            style={{ fontSize: 12, color: "var(--text-3)", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontFamily: "inherit", transition: "color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
+            onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
           >
-            Clear all filters
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            Clear all
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
         </div>
       )}
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* ── Grid ──────────────────────────────────── */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
+        gap: 24,
+        paddingTop: 40,
+      }}>
         {filtered.map((uni) => (
           <div
             key={uni.id}
-            className="group flex flex-col rounded-2xl border border-white/10 bg-zinc-900/30 p-6 transition-all hover:border-white/20 hover:bg-zinc-900/50"
+            style={{
+              background: "var(--surface)",
+              borderRadius: 18,
+              border: "1px solid var(--border)",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+              transition: "border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLDivElement;
+              el.style.borderColor = "var(--border-strong)";
+              el.style.transform = "translateY(-3px)";
+              el.style.boxShadow = "0 24px 64px rgba(0,0,0,0.5)";
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLDivElement;
+              el.style.borderColor = "var(--border)";
+              el.style.transform = "translateY(0)";
+              el.style.boxShadow = "none";
+            }}
           >
-            {/* Top */}
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <div className="text-2xl mb-2">{uni.flag}</div>
-                <h2 className="text-lg font-bold text-white leading-tight mb-1 group-hover:text-zinc-200">{uni.name}</h2>
-                <div className="text-xs text-zinc-500 font-medium">{uni.city}, {uni.country}</div>
-              </div>
-              {uni.ranking && (
-                <div className="px-2 py-0.5 rounded bg-zinc-800 border border-white/5 text-[10px] font-mono text-zinc-400">
-                  {uni.ranking}
+            {/* Card top — identity */}
+            <div style={{ padding: "28px 28px 0" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                  <span style={{ fontSize: 32, lineHeight: 1 }}>{uni.flag}</span>
+                  <div>
+                    <h2 style={{
+                      margin: 0,
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "var(--text-1)",
+                      letterSpacing: "-0.3px",
+                      lineHeight: 1.25,
+                    }}>
+                      {uni.name}
+                    </h2>
+                    <div style={{ fontSize: 13, color: "var(--text-3)", marginTop: 3, fontWeight: 400 }}>
+                      {uni.city} · {uni.country}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-
-            {/* Description */}
-            <p className="text-sm text-zinc-400 leading-relaxed mb-6 line-clamp-3 flex-1">
-              {uni.description}
-            </p>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="bg-black/40 rounded-xl p-3 border border-white/5">
-                <div className="text-[9px] font-mono uppercase text-zinc-600 mb-1">Tuition</div>
-                <div className="text-sm font-bold text-white">{uni.tuition}</div>
+                {uni.ranking && (
+                  <div style={{
+                    padding: "4px 10px",
+                    borderRadius: 7,
+                    background: "var(--accent-dim)",
+                    border: "1px solid var(--accent-border)",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "var(--accent)",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}>
+                    {uni.ranking}
+                  </div>
+                )}
               </div>
-              <div className="bg-black/40 rounded-xl p-3 border border-white/5">
-                <div className="text-[9px] font-mono uppercase text-zinc-600 mb-1">Living cost</div>
-                <div className="text-sm font-bold text-white">{uni.livingCost}</div>
-              </div>
-            </div>
 
-            {/* Strengths */}
-            <div className="mb-8">
-              <div className="flex flex-wrap gap-1.5">
-                {uni.strengths.slice(0, 3).map((s) => (
-                  <span key={s} className="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-[10px] text-zinc-400">
+              {/* Description */}
+              <p style={{
+                margin: "0 0 24px",
+                fontSize: 14,
+                color: "var(--text-2)",
+                lineHeight: 1.75,
+                display: "-webkit-box",
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}>
+                {uni.description}
+              </p>
+
+              {/* Stats row */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }}>
+                <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
+                  <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 5 }}>Tuition / yr</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--green)", letterSpacing: "-0.2px" }}>{uni.tuition}</div>
+                </div>
+                <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
+                  <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 5 }}>Living / mo</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.2px" }}>{uni.livingCost}</div>
+                </div>
+              </div>
+
+              {/* Teaching pill */}
+              <div style={{ marginBottom: 20 }}>
+                <span style={{
+                  display: "inline-block",
+                  padding: "4px 10px",
+                  borderRadius: 6,
+                  border: "1px solid var(--border)",
+                  fontSize: 12,
+                  color: "var(--text-2)",
+                  background: "rgba(255,255,255,0.03)",
+                }}>
+                  {uni.teaching}
+                </span>
+              </div>
+
+              {/* Strengths */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 24 }}>
+                {uni.strengths.slice(0, 4).map((s) => (
+                  <span key={s} style={{
+                    padding: "3px 10px",
+                    borderRadius: 6,
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid var(--border)",
+                    fontSize: 12,
+                    color: "var(--text-3)",
+                  }}>
                     {s}
                   </span>
                 ))}
-                {uni.strengths.length > 3 && (
-                  <span className="text-[10px] text-zinc-600 ml-1">+{uni.strengths.length - 3} more</span>
+                {uni.strengths.length > 4 && (
+                  <span style={{ fontSize: 12, color: "var(--text-3)", alignSelf: "center" }}>
+                    +{uni.strengths.length - 4}
+                  </span>
                 )}
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="flex gap-3 pt-4 border-t border-white/5">
+            {/* Languages */}
+            <div style={{ padding: "0 28px 20px", display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {uni.languages.map((l) => (
+                <span key={l} style={{
+                  padding: "3px 9px",
+                  borderRadius: 6,
+                  background: "var(--accent-dim)",
+                  border: "1px solid var(--accent-border)",
+                  fontSize: 12,
+                  color: "var(--accent)",
+                  fontWeight: 500,
+                }}>
+                  {l}
+                </span>
+              ))}
+            </div>
+
+            {/* CTA strip */}
+            <div style={{
+              padding: "16px 28px 24px",
+              borderTop: "1px solid var(--border)",
+              display: "flex",
+              gap: 10,
+              marginTop: "auto",
+            }}>
               <Link
                 href={`/universities/${uni.id}`}
-                className="flex-1 px-4 py-2.5 rounded-lg bg-white text-black text-xs font-bold text-center transition-all hover:bg-zinc-200"
+                style={{
+                  flex: 1,
+                  padding: "11px 16px",
+                  borderRadius: 10,
+                  background: "var(--text-1)",
+                  color: "var(--bg)",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  textDecoration: "none",
+                  textAlign: "center",
+                  transition: "opacity 0.15s, transform 0.15s",
+                  display: "block",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.88"; (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)"; }}
               >
-                View Programmes
+                View programmes →
               </Link>
               <a
                 href={uni.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold border border-white/5 hover:bg-zinc-700 transition-all"
+                style={{
+                  padding: "11px 16px",
+                  borderRadius: 10,
+                  background: "transparent",
+                  color: "var(--text-2)",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  textDecoration: "none",
+                  border: "1px solid var(--border)",
+                  transition: "border-color 0.15s, color 0.15s",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--border-strong)"; (e.currentTarget as HTMLAnchorElement).style.color = "var(--text-1)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLAnchorElement).style.color = "var(--text-2)"; }}
               >
-                Site
+                Official site
               </a>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Empty state */}
       {filtered.length === 0 && (
-        <div className="py-32 text-center border border-dashed border-white/10 rounded-3xl">
-          <p className="text-zinc-500 font-mono text-sm">No universities found matching your criteria.</p>
+        <div style={{ padding: "80px 0", textAlign: "center", border: "1px dashed var(--border)", borderRadius: 20, marginTop: 40 }}>
+          <div style={{ fontSize: 32, marginBottom: 16 }}>🔍</div>
+          <p style={{ fontSize: 15, color: "var(--text-3)", marginBottom: 20 }}>No universities match your filters.</p>
+          <Link href="/chat" className="btn-primary" style={{ fontSize: 13 }}>Ask AI assistant</Link>
         </div>
       )}
     </div>
