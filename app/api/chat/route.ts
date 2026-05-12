@@ -90,11 +90,18 @@ export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
 
+    // Anthropic requires the first message to be from the user.
+    // The UI initializes with an assistant welcome bubble — strip it before sending.
+    const firstUserIndex = messages.findIndex((m: { role: string }) => m.role === "user");
+    const apiMessages = firstUserIndex >= 0 ? messages.slice(firstUserIndex) : messages;
+
+    const today = new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+
     const response = await client.messages.create({
-      model: "claude-opus-4-6",
+      model: "claude-sonnet-4-6",
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: messages,
+      system: `${SYSTEM_PROMPT}\n\nData di oggi: ${today}.`,
+      messages: apiMessages,
     });
 
     const content = response.content[0];
@@ -104,7 +111,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: content.text });
   } catch (error) {
-    console.error("Error:", error);
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Anthropic error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
