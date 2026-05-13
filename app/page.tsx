@@ -4,91 +4,56 @@ import { useState, useEffect, useRef } from "react";
 import { TransitionLink } from "./components/PageTransition";
 import { news, newsCountries, newsTags, NewsItem } from "./data/news";
 
-/* ─── Video background ────────────────────────────── */
-// REPLACE with actual university footage before production
-const HLS_SRC = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+/* ─── Hero slideshow ──────────────────────────────── */
+const ALL_SLIDES = [
+  "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1571167366136-b57e03af7a98?auto=format&fit=crop&w=1920&q=80",
+];
 
-const FALLBACK_IMG =
-  "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&q=80";
-
-function VideoBackground() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoOpacity, setVideoOpacity] = useState(0);
+function HeroSlideshow() {
+  const [slides, setSlides] = useState(ALL_SLIDES);
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const timer = setInterval(() => setCurrent((p) => (p + 1) % slides.length), 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
-    let hlsInstance: import("hls.js").default | null = null;
+  function handleError(failedSrc: string) {
+    setSlides((prev) => {
+      const next = prev.filter((s) => s !== failedSrc);
+      return next.length > 0 ? next : prev;
+    });
+    setCurrent((p) => Math.max(0, p - 1));
+  }
 
-    async function init() {
-      if (!video) return;
-
-      if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        // Native HLS — Safari
-        video.src = HLS_SRC;
-        video.load();
-      } else {
-        // Dynamic import keeps hls.js out of the SSR bundle
-        const { default: Hls } = await import("hls.js");
-        if (Hls.isSupported()) {
-          hlsInstance = new Hls({ startLevel: 3 });
-          hlsInstance.loadSource(HLS_SRC);
-          hlsInstance.attachMedia(video);
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-            video.play().catch(() => {
-              // Autoplay blocked — silently ignore; fallback image stays visible
-            });
-          });
-        }
-        // If neither native HLS nor Hls.isSupported, the fallback image handles it
-      }
-    }
-
-    init();
-
-    return () => {
-      if (hlsInstance) {
-        hlsInstance.destroy();
-        hlsInstance = null;
-      }
-    };
-  }, []);
+  if (slides.length === 0) return null;
 
   return (
-    <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden", background: "#000" }}>
-      {/* Fallback image — always visible, prevents black flash while video loads */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={FALLBACK_IMG}
-        alt=""
-        aria-hidden="true"
-        className="kenBurns-img"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-      />
-
-      {/* HLS video — fades in once ready */}
-      <video
-        ref={videoRef}
-        muted
-        autoPlay
-        loop
-        playsInline
-        preload="auto"
-        onCanPlay={() => setVideoOpacity(1)}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          display: "block",
-          opacity: videoOpacity,
-          transition: "opacity 1s ease",
-        }}
-      />
-
-      {/* Dark overlay */}
+    <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }}>
+      <div style={{
+        display: "flex",
+        width: `${slides.length * 100}%`,
+        height: "100%",
+        transform: `translateX(-${(current * 100) / slides.length}%)`,
+        transition: "transform 0.85s cubic-bezier(0.77, 0, 0.175, 1)",
+        willChange: "transform",
+      }}>
+        {slides.map((src) => (
+          <div key={src} style={{ width: `${100 / slides.length}%`, height: "100%", flexShrink: 0, overflow: "hidden" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={src} alt="" aria-hidden="true"
+              className="kenBurns-img"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              onError={() => handleError(src)}
+            />
+          </div>
+        ))}
+      </div>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.58)" }} />
     </div>
   );
@@ -393,7 +358,7 @@ export default function Home() {
     <>
       {/* ── Fixed full-screen hero ─────────────────── */}
       <section style={{ position: "fixed", inset: 0, zIndex: -1, overflow: "hidden" }}>
-        <VideoBackground />
+        <HeroSlideshow />
 
         {/* Centered hero content */}
         <div
@@ -438,16 +403,6 @@ export default function Home() {
           }}>
             Admissions, scholarships, housing and visa news — curated for students moving to Europe.
           </p>
-
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", opacity: 0, animation: "fadeUp 0.6s ease-out 0.9s forwards" }}>
-            <TransitionLink href="/universities" className="btn-primary">
-              Browse universities
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </TransitionLink>
-            <TransitionLink href="/chat" className="btn-ghost">
-              Ask AI assistant
-            </TransitionLink>
-          </div>
 
           {/* Stats */}
           <div style={{
@@ -515,7 +470,7 @@ export default function Home() {
       </section>
 
       {/* ── Spacer: keeps page scrollable past hero ─── */}
-      <div style={{ height: "100svh" }} aria-hidden="true" />
+      <div style={{ height: "100svh", pointerEvents: "none" }} aria-hidden="true" />
 
       {/* ── News panel slides over the hero ──────────── */}
       <div style={{
