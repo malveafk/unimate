@@ -4,56 +4,91 @@ import { useState, useEffect, useRef } from "react";
 import { TransitionLink } from "./components/PageTransition";
 import { news, newsCountries, newsTags, NewsItem } from "./data/news";
 
-/* ─── Hero slideshow ──────────────────────────────── */
-const ALL_SLIDES = [
-  "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1571167366136-b57e03af7a98?auto=format&fit=crop&w=1920&q=80",
-];
+/* ─── Video background ────────────────────────────── */
+// REPLACE with actual university footage before production
+const HLS_SRC = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
 
-function HeroSlideshow() {
-  const [slides, setSlides] = useState(ALL_SLIDES);
-  const [current, setCurrent] = useState(0);
+const FALLBACK_IMG =
+  "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&q=80";
+
+function VideoBackground() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoOpacity, setVideoOpacity] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrent((p) => (p + 1) % slides.length), 5000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
+    const video = videoRef.current;
+    if (!video) return;
 
-  function handleError(failedSrc: string) {
-    setSlides((prev) => {
-      const next = prev.filter((s) => s !== failedSrc);
-      return next.length > 0 ? next : prev;
-    });
-    setCurrent((p) => Math.max(0, p - 1));
-  }
+    let hlsInstance: import("hls.js").default | null = null;
 
-  if (slides.length === 0) return null;
+    async function init() {
+      if (!video) return;
+
+      if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        // Native HLS — Safari
+        video.src = HLS_SRC;
+        video.load();
+      } else {
+        // Dynamic import keeps hls.js out of the SSR bundle
+        const { default: Hls } = await import("hls.js");
+        if (Hls.isSupported()) {
+          hlsInstance = new Hls({ startLevel: 3 });
+          hlsInstance.loadSource(HLS_SRC);
+          hlsInstance.attachMedia(video);
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+            video.play().catch(() => {
+              // Autoplay blocked — silently ignore; fallback image stays visible
+            });
+          });
+        }
+        // If neither native HLS nor Hls.isSupported, the fallback image handles it
+      }
+    }
+
+    init();
+
+    return () => {
+      if (hlsInstance) {
+        hlsInstance.destroy();
+        hlsInstance = null;
+      }
+    };
+  }, []);
 
   return (
-    <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }}>
-      <div style={{
-        display: "flex",
-        width: `${slides.length * 100}%`,
-        height: "100%",
-        transform: `translateX(-${(current * 100) / slides.length}%)`,
-        transition: "transform 0.85s cubic-bezier(0.77, 0, 0.175, 1)",
-        willChange: "transform",
-      }}>
-        {slides.map((src) => (
-          <div key={src} style={{ width: `${100 / slides.length}%`, height: "100%", flexShrink: 0, overflow: "hidden" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" aria-hidden="true"
-              className="kenBurns-img"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              onError={() => handleError(src)}
-            />
-          </div>
-        ))}
-      </div>
+    <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden", background: "#000" }}>
+      {/* Fallback image — always visible, prevents black flash while video loads */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={FALLBACK_IMG}
+        alt=""
+        aria-hidden="true"
+        className="kenBurns-img"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      />
+
+      {/* HLS video — fades in once ready */}
+      <video
+        ref={videoRef}
+        muted
+        autoPlay
+        loop
+        playsInline
+        preload="auto"
+        onCanPlay={() => setVideoOpacity(1)}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          display: "block",
+          opacity: videoOpacity,
+          transition: "opacity 1s ease",
+        }}
+      />
+
+      {/* Dark overlay */}
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.58)" }} />
     </div>
   );
@@ -133,6 +168,75 @@ function onTiltLeave(e: React.MouseEvent<HTMLDivElement>) {
   const el = e.currentTarget;
   el.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1), border-color 0.2s ease, box-shadow 0.2s ease";
   el.style.transform = "";
+}
+
+/* ─── Quick-nav tile ─────────────────────────────── */
+type NavTileItem = { href: string; label: string; step: string; hint: string; rgb: string };
+
+function NavTile({ item }: { item: NavTileItem }) {
+  const [hovered, setHovered] = useState(false);
+  const [arrowHovered, setArrowHovered] = useState(false);
+
+  return (
+    <TransitionLink href={item.href} style={{ textDecoration: "none" }}>
+      <div
+        style={{
+          padding: "14px 20px",
+          borderRadius: 14,
+          border: `1px solid rgba(${item.rgb},${hovered ? 0.45 : 0.2})`,
+          background: `rgba(${item.rgb},${hovered ? 0.14 : 0.07})`,
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          minWidth: 130,
+          textAlign: "left",
+          cursor: "pointer",
+          boxShadow: hovered
+            ? `0 0 20px rgba(${item.rgb},0.2), 0 12px 40px rgba(${item.rgb},0.18)`
+            : "none",
+          transform: hovered ? "scale(1.03)" : "scale(1)",
+          transition: "all 0.22s cubic-bezier(0.22,1,0.36,1)",
+        }}
+        onMouseMove={(e) => {
+          if (!hovered) return;
+          const el = e.currentTarget;
+          const r = el.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+          const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+          el.style.transition = "transform 0.08s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.22s ease";
+          el.style.transform = `perspective(800px) rotateX(${-y * 6}deg) rotateY(${x * 10}deg) translateZ(12px) scale(1.03)`;
+        }}
+        onMouseEnter={() => { setHovered(true); setArrowHovered(true); }}
+        onMouseLeave={(e) => {
+          setHovered(false);
+          setArrowHovered(false);
+          const el = e.currentTarget;
+          el.style.transition = "all 0.22s cubic-bezier(0.22,1,0.36,1)";
+          el.style.transform = "";
+        }}
+      >
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: `rgb(${item.rgb})`, letterSpacing: "0.12em", opacity: 0.8 }}>
+          {item.step}
+        </span>
+        <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>
+          {item.label}
+        </span>
+        <span style={{ fontSize: 11, color: "rgba(237,237,237,0.4)", display: "flex", alignItems: "center", gap: 2 }}>
+          {item.hint}
+          {" "}
+          <span style={{
+            display: "inline-block",
+            transform: arrowHovered ? "translateX(4px)" : "translateX(0)",
+            transition: "transform 0.2s ease",
+          }}>
+            →
+          </span>
+        </span>
+      </div>
+    </TransitionLink>
+  );
 }
 
 /* ─── Featured card ───────────────────────────────── */
@@ -289,7 +393,7 @@ export default function Home() {
     <>
       {/* ── Fixed full-screen hero ─────────────────── */}
       <section style={{ position: "fixed", inset: 0, zIndex: -1, overflow: "hidden" }}>
-        <HeroSlideshow />
+        <VideoBackground />
 
         {/* Centered hero content */}
         <div
@@ -379,50 +483,12 @@ export default function Home() {
             animation: "fadeUp 0.6s ease-out 1.35s forwards",
             marginTop: 16,
           }}>
-            {[
+            {([
               { href: "/universities", label: "Universities", step: "02", hint: "24+ universities", rgb: "52,211,153" },
               { href: "/compare",      label: "Compare",      step: "03", hint: "Side by side",     rgb: "251,191,36" },
               { href: "/chat",         label: "Chat AI",      step: "04", hint: "AI assistant",     rgb: "96,165,250" },
-            ].map((item) => (
-              <TransitionLink key={item.href} href={item.href} style={{ textDecoration: "none" }}>
-                <div
-                  style={{
-                    padding: "14px 20px",
-                    borderRadius: 14,
-                    border: `1px solid rgba(${item.rgb},0.2)`,
-                    background: `rgba(${item.rgb},0.07)`,
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 4,
-                    minWidth: 130,
-                    textAlign: "left",
-                    cursor: "pointer",
-                    transition: "border-color 0.2s, box-shadow 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1)",
-                  }}
-                  onMouseMove={onTiltMove}
-                  onMouseLeave={(e) => {
-                    onTiltLeave(e);
-                    e.currentTarget.style.borderColor = `rgba(${item.rgb},0.2)`;
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = `rgba(${item.rgb},0.45)`;
-                    e.currentTarget.style.boxShadow = `0 8px 32px rgba(${item.rgb},0.15)`;
-                  }}
-                >
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: `rgb(${item.rgb})`, letterSpacing: "0.12em", opacity: 0.8 }}>
-                    {item.step}
-                  </span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>
-                    {item.label}
-                  </span>
-                  <span style={{ fontSize: 11, color: "rgba(237,237,237,0.4)" }}>
-                    {item.hint} →
-                  </span>
-                </div>
-              </TransitionLink>
+            ] as NavTileItem[]).map((item) => (
+              <NavTile key={item.href} item={item} />
             ))}
           </div>
         </div>
