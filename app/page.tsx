@@ -357,96 +357,100 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Fixed full-screen hero ─────────────────── */}
-      <section style={{ position: "fixed", inset: 0, zIndex: -1, overflow: "hidden" }}>
+      {/* ── Fixed background only (no content, no pointer-event conflict) ── */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden" }}>
         <HeroSlideshow />
+      </div>
 
-        {/* Centered hero content */}
-        <div
-          ref={heroContentRef}
-          style={{
-            position: "relative",
-            zIndex: 1,
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            padding: "80px 32px 40px",
-            gap: 24,
-          }}
-        >
-          <span className="label" style={{ color: "var(--accent)", opacity: 0, animation: "fadeIn 0.5s ease-out 0.3s forwards" }}>
-            Unimate · Study Abroad Intelligence
-          </span>
+      {/* ── Hero content — normal document flow, fully interactive ────── */}
+      {/* height:100svh replaces the old spacer div; position:relative lets  */}
+      {/* the absolute scroll-indicator be anchored here instead of the      */}
+      {/* fixed section. zIndex:5 puts this above the fixed bg (z:0) and    */}
+      {/* below the news panel (z:10) so the panel slides over it correctly. */}
+      <div
+        ref={heroContentRef}
+        style={{
+          position: "relative",
+          height: "100svh",
+          zIndex: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          padding: "80px 32px 40px",
+          gap: 24,
+        }}
+      >
+        <span className="label" style={{ color: "var(--accent)", opacity: 0, animation: "fadeIn 0.5s ease-out 0.3s forwards" }}>
+          Unimate · Study Abroad Intelligence
+        </span>
 
-          <h1 style={{
-            fontSize: "clamp(44px, 7vw, 88px)",
-            fontWeight: 800,
-            lineHeight: 1.08,
-            letterSpacing: "-2px",
-            color: "var(--text-1)",
-            margin: 0,
-            maxWidth: 900,
-          }}>
-            <AnimatedHeadline text="The Hub for International Students." />
-          </h1>
+        <h1 style={{
+          fontSize: "clamp(44px, 7vw, 88px)",
+          fontWeight: 800,
+          lineHeight: 1.08,
+          letterSpacing: "-2px",
+          color: "var(--text-1)",
+          margin: 0,
+          maxWidth: 900,
+        }}>
+          <AnimatedHeadline text="The Hub for International Students." />
+        </h1>
 
-          <p style={{
-            fontSize: "clamp(15px, 1.8vw, 19px)",
-            color: "rgba(237,237,237,0.65)",
-            lineHeight: 1.7,
-            maxWidth: 480,
-            margin: 0,
-            opacity: 0,
-            animation: "fadeUp 0.6s ease-out 0.7s forwards",
-          }}>
-            Admissions, scholarships, housing and visa news — curated for students moving to Europe.
-          </p>
+        <p style={{
+          fontSize: "clamp(15px, 1.8vw, 19px)",
+          color: "rgba(237,237,237,0.65)",
+          lineHeight: 1.7,
+          maxWidth: 480,
+          margin: 0,
+          opacity: 0,
+          animation: "fadeUp 0.6s ease-out 0.7s forwards",
+        }}>
+          Admissions, scholarships, housing and visa news — curated for students moving to Europe.
+        </p>
 
-          {/* Stats */}
-          <div style={{
-            display: "flex",
-            gap: 48,
-            flexWrap: "wrap",
-            justifyContent: "center",
-            opacity: 0,
-            animation: "fadeUp 0.6s ease-out 1.1s forwards",
-            marginTop: 8,
-          }}>
-            {[
-              { value: 24, suffix: "+", label: "Universities" },
-              { value: 12, suffix: "", label: "Countries" },
-              { value: 8, suffix: "", label: "Faculties" },
-            ].map(({ value, suffix, label }) => (
-              <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                <span style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", fontVariantNumeric: "tabular-nums" }}>
-                  <Counter to={value} suffix={suffix} />
-                </span>
-                <span className="label">{label}</span>
-              </div>
-            ))}
-          </div>
+        {/* Stats */}
+        <div style={{
+          display: "flex",
+          gap: 48,
+          flexWrap: "wrap",
+          justifyContent: "center",
+          opacity: 0,
+          animation: "fadeUp 0.6s ease-out 1.1s forwards",
+          marginTop: 8,
+        }}>
+          {[
+            { value: 24, suffix: "+", label: "Universities" },
+            { value: 12, suffix: "", label: "Countries" },
+            { value: 8, suffix: "", label: "Faculties" },
+          ].map(({ value, suffix, label }) => (
+            <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+              <span style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", fontVariantNumeric: "tabular-nums" }}>
+                <Counter to={value} suffix={suffix} />
+              </span>
+              <span className="label">{label}</span>
+            </div>
+          ))}
+        </div>
 
-          {/* ── Quick-nav destination tiles ───────────── */}
-          <div style={{
-            display: "flex",
-            gap: 10,
-            flexWrap: "wrap",
-            justifyContent: "center",
-            opacity: 0,
-            animation: "fadeUp 0.6s ease-out 1.35s forwards",
-            marginTop: 16,
-          }}>
-            {([
-              { href: "/universities", label: "Universities", step: "02", hint: "24+ universities", rgb: "52,211,153" },
-              { href: "/compare",      label: "Compare",      step: "03", hint: "Side by side",     rgb: "251,191,36" },
-              { href: "/chat",         label: "Chat AI",      step: "04", hint: "AI assistant",     rgb: "96,165,250" },
-            ] as NavTileItem[]).map((item) => (
-              <NavTile key={item.href} item={item} />
-            ))}
-          </div>
+        {/* ── Quick-nav destination tiles ───────────── */}
+        <div style={{
+          display: "flex",
+          gap: 10,
+          flexWrap: "wrap",
+          justifyContent: "center",
+          opacity: 0,
+          animation: "fadeUp 0.6s ease-out 1.35s forwards",
+          marginTop: 16,
+        }}>
+          {([
+            { href: "/universities", label: "Universities", step: "02", hint: "24+ universities", rgb: "52,211,153" },
+            { href: "/compare",      label: "Compare",      step: "03", hint: "Side by side",     rgb: "251,191,36" },
+            { href: "/chat",         label: "Chat AI",      step: "04", hint: "AI assistant",     rgb: "96,165,250" },
+          ] as NavTileItem[]).map((item) => (
+            <NavTile key={item.href} item={item} />
+          ))}
         </div>
 
         {/* Scroll indicator */}
@@ -468,15 +472,12 @@ export default function Home() {
           <span className="label" style={{ color: "rgba(255,255,255,0.35)" }}>scroll</span>
           <div className="scroll-chevron" />
         </div>
-      </section>
-
-      {/* ── Spacer: keeps page scrollable past hero ─── */}
-      <div style={{ height: "100svh", pointerEvents: "none" }} aria-hidden="true" />
+      </div>
 
       {/* ── News panel slides over the hero ──────────── */}
       <div style={{
         position: "relative",
-        zIndex: 1,
+        zIndex: 10,
         background: "var(--bg)",
         borderRadius: "28px 28px 0 0",
         boxShadow: "0 -28px 80px rgba(0,0,0,0.9), 0 -1px 0 rgba(255,255,255,0.07)",
