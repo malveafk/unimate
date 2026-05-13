@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import Navbar from "./components/Navbar";
+import { PageTransitionProvider } from "./components/PageTransition";
+import { MainWrapper } from "./components/MainWrapper";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,13 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${mono.variable}`}>
       <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)", color: "var(--text-1)" }}>
-        <Navbar />
-        <main style={{ flex: 1 }}>
-          {children}
-        </main>
-        <footer style={{
+        <PageTransitionProvider>
+          <Navbar />
+          <MainWrapper>
+            {children}
+          </MainWrapper>
+          <footer style={{
           borderTop: "1px solid var(--border)",
           padding: "28px 32px",
           background: "var(--bg)",
@@ -55,6 +58,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </PageTransitionProvider>
       </body>
     </html>
   );
