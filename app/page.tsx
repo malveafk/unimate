@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { TransitionLink } from "./components/PageTransition";
 import { news, newsCountries, newsTags, NewsItem } from "./data/news";
 
@@ -143,7 +144,7 @@ function NavTile({ item }: { item: NavTileItem }) {
   const [arrowHovered, setArrowHovered] = useState(false);
 
   return (
-    <TransitionLink href={item.href} style={{ textDecoration: "none" }}>
+    <Link href={item.href} style={{ textDecoration: "none", display: "block" }}>
       <div
         style={{
           padding: "14px 20px",
@@ -200,7 +201,7 @@ function NavTile({ item }: { item: NavTileItem }) {
           </span>
         </span>
       </div>
-    </TransitionLink>
+    </Link>
   );
 }
 
