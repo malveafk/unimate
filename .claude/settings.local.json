@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/lorenzodistefano/Desktop/4UNI/unimate-main/utils/supabase)",
+      "Bash(npx tsc *)",
+      "Bash(kill 52210)",
+      "Bash(npm run *)"
+    ],
+    "additionalDirectories": [
+      "/Users/lorenzodistefano/Desktop/4UNI/unimate-main/utils"
+    ]
+  }
+}
