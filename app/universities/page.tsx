@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { universities, countries, faculties } from "../data/universities";
+import { countries, faculties } from "../data/universities";
+import { getUniversities, type University } from "../../utils/universities";
 
 export default function Universities() {
+  const [universities, setUniversities] = useState<University[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState("all");
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    getUniversities()
+      .then((data) => setUniversities(data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
 
   const filtered = universities.filter((u) => {
     const matchCountry = selected === "all" || u.country === selected;
@@ -24,6 +34,12 @@ export default function Universities() {
       );
     return matchCountry && matchSearch && matchFaculty;
   });
+
+  if (loading) return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", color: "var(--text-3)", fontSize: 15 }}>
+      Loading universities…
+    </div>
+  );
 
   return (
     <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px 80px" }}>

@@ -86,9 +86,38 @@ Always:
 - Be encouraging and direct
 - Remember everything from earlier in the conversation`;
 
+// Simple in-memory rate limiter: max 15 requests per minute per IP
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
+    return false;
+  }
+  if (entry.count >= 15) return true;
+  entry.count++;
+  return false;
+}
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: "Troppe richieste. Aspetta un minuto." }, { status: 429 });
+  }
+
   try {
     const { messages } = await req.json();
+
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: "Richiesta non valida." }, { status: 400 });
+    }
+
+    if (messages.length > 40) {
+      return NextResponse.json({ error: "Conversazione troppo lunga. Inizia una nuova chat." }, { status: 400 });
+    }
 
     // Anthropic requires the first message to be from the user.
     // The UI initializes with an assistant welcome bubble — strip it before sending.

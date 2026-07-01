@@ -19,6 +19,8 @@ export default function Chat() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rateLimited, setRateLimited] = useState(false);
+  const [notifyClicked, setNotifyClicked] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -43,6 +45,13 @@ export default function Chat() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: newMessages }),
       });
+
+      if (response.status === 429) {
+        setRateLimited(true);
+        setTimeout(() => setRateLimited(false), 60_000); // stesso limite del server: 1 minuto
+        return;
+      }
+
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.message) {
         throw new Error(data.error || `Request failed (${response.status})`);
@@ -386,6 +395,50 @@ export default function Chat() {
         }}
       >
         <div style={{ maxWidth: 680, margin: "0 auto", width: "100%" }}>
+          {rateLimited ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 16,
+                padding: "14px 16px",
+                borderRadius: 14,
+                background: "var(--accent-dim)",
+                border: "1px solid var(--accent-border)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                <span style={{ fontSize: 18, flexShrink: 0 }}>✨</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.1px" }}>
+                    You've hit the free message limit
+                  </span>
+                  <span style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.4 }}>
+                    Unimate Premium (coming soon) will offer unlimited chats. Try again in a minute.
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setNotifyClicked(true)}
+                disabled={notifyClicked}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: "1px solid var(--accent-border)",
+                  background: notifyClicked ? "transparent" : "var(--accent)",
+                  color: notifyClicked ? "var(--text-2)" : "white",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: notifyClicked ? "default" : "pointer",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
+                }}
+              >
+                {notifyClicked ? "We'll let you know 🎉" : "Notify me"}
+              </button>
+            </div>
+          ) : (
           <div
             style={{
               background: "var(--surface)",
@@ -495,6 +548,7 @@ export default function Chat() {
               </button>
             </div>
           </div>
+          )}
 
           {/* Powered-by label */}
           <p

@@ -2,22 +2,44 @@
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { use, useState } from "react";
-import { universities } from "../../../data/universities";
+import { use, useEffect, useState } from "react";
+import { getUniversity, type University, type Bachelor } from "../../../../utils/universities";
+import { universities as staticUniversities } from "../../../data/universities";
 
 export default function BachelorDetail({ params }: { params: Promise<{ id: string; bachelor: string }> }) {
   const { id, bachelor: bachelorId } = use(params);
-  const uni = universities.find((u) => u.id === id);
+  const [uni, setUni] = useState<University | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getUniversity(id)
+      .then((data) => setUni(data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-12 text-center text-zinc-500">
+        Loading…
+      </div>
+    );
+  }
+
   if (!uni) notFound();
-  const bachelor = uni.bachelors.find((b) => b.id === bachelorId);
+  const bachelor: Bachelor | undefined = uni.bachelors.find((b) => b.id === bachelorId);
   if (!bachelor) notFound();
 
-  const hasYears = bachelor.courses.some((c) => c.year !== undefined);
-  const maxYear = hasYears ? Math.max(...bachelor.courses.map((c) => c.year ?? 1)) : 3;
-  const yearOptions = hasYears ? Array.from({ length: maxYear }, (_, i) => (i + 1) as 1 | 2 | 3 | 4 | 5) : null;
-  const [activeYear, setActiveYear] = useState<1 | 2 | 3 | 4 | 5>(1);
-
-  const visibleCourses = hasYears ? bachelor.courses.filter((c) => c.year === activeYear) : bachelor.courses;
+  // The Supabase-backed `bachelors` table has no `courses` column, so the
+  // curriculum is sourced from the static data file that seeds it instead.
+  const courses = staticUniversities
+    .find((u) => u.id === uni.id)
+    ?.bachelors.find((b) => b.id === bachelor.id)?.courses;
+  const coursesByYear = (courses ?? []).reduce<Record<number, typeof courses>>((acc, course) => {
+    const year = course.year ?? 0;
+    acc[year] = [...(acc[year] ?? []), course];
+    return acc;
+  }, {});
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
@@ -49,10 +71,6 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
             <span className="text-[10px] font-mono uppercase text-zinc-500 tracking-widest">Language</span>
             <span className="text-sm font-bold text-white">{bachelor.language}</span>
           </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500 tracking-widest">Credits</span>
-            <span className="text-sm font-bold text-white">{bachelor.courses.length} courses</span>
-          </div>
         </div>
       </header>
 
@@ -61,54 +79,37 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
         <p className="text-zinc-300 text-base leading-relaxed">{bachelor.description}</p>
       </div>
 
-      <section>
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-          <h2 className="text-xl font-bold tracking-tight">Course Curriculum</h2>
-
-          {yearOptions && (
-            <div className="flex items-center gap-1 p-1 rounded-xl bg-zinc-900 border border-white/5">
-              {yearOptions.map((y) => (
-                <button
-                  key={y}
-                  onClick={() => setActiveYear(y)}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    activeYear === y ? "bg-white text-black" : "text-zinc-500 hover:text-white"
-                  }`}
-                >
-                  Year {y}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-zinc-900/30 overflow-hidden">
-          {visibleCourses.length === 0 ? (
-            <div className="p-12 text-center text-zinc-500 font-mono text-sm italic">
-              No courses listed for this academic year.
-            </div>
-          ) : (
-            <div className="divide-y divide-white/5">
-              {visibleCourses.map((course, i) => (
-                <div
-                  key={`${course.name}-${i}`}
-                  className="flex items-center justify-between p-5 hover:bg-white/5 transition-colors group"
-                >
-                  <div className="flex items-center gap-5">
-                    <span className="text-[10px] font-mono text-zinc-700 group-hover:text-zinc-500 w-4">{i + 1}</span>
-                    <span className="text-sm font-medium text-zinc-300 group-hover:text-white">{course.name}</span>
-                  </div>
-                  {course.credits && (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 border border-white/5 text-zinc-500">
-                      {course.credits}
-                    </span>
-                  )}
+      {Object.keys(coursesByYear).length > 0 && (
+        <div className="mb-16">
+          <h3 className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-6">Curriculum</h3>
+          <div className="flex flex-col gap-8">
+            {Object.entries(coursesByYear)
+              .sort(([a], [b]) => Number(a) - Number(b))
+              .map(([year, yearCourses]) => (
+                <div key={year}>
+                  <h4 className="text-sm font-bold text-white mb-3">
+                    {year === "0" ? "Courses" : `Year ${year}`}
+                  </h4>
+                  <ul className="flex flex-col gap-2">
+                    {yearCourses?.map((course, i) => (
+                      <li
+                        key={i}
+                        className="flex items-center justify-between gap-4 text-sm text-zinc-300 border-b border-white/5 pb-2"
+                      >
+                        <span>{course.name}</span>
+                        {course.credits && (
+                          <span className="text-[11px] font-mono text-zinc-500 whitespace-nowrap">
+                            {course.credits}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
-            </div>
-          )}
+          </div>
         </div>
-      </section>
+      )}
 
       <div className="mt-16 pt-12 border-t border-white/5 flex flex-wrap gap-4">
         <a
