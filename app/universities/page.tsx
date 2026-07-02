@@ -64,6 +64,7 @@ const DEADLINE_BRACKETS = [
 export default function Universities() {
   const [universities, setUniversities] = useState<University[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState("all");
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [search, setSearch] = useState("");
@@ -77,7 +78,10 @@ export default function Universities() {
   useEffect(() => {
     getUniversities()
       .then((data) => setUniversities(data))
-      .catch((error) => console.error(error))
+      .catch((error) => {
+        console.error("Failed to load universities:", error?.message ?? error);
+        setError("Impossibile caricare le università. Riprova più tardi.");
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -132,6 +136,12 @@ export default function Universities() {
   if (loading) return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", color: "var(--text-3)", fontSize: 15 }}>
       Loading universities…
+    </div>
+  );
+
+  if (error) return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", color: "var(--text-2)", fontSize: 15 }}>
+      {error}
     </div>
   );
 

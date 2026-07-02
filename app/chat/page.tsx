@@ -58,7 +58,7 @@ export default function Chat() {
       }
       setMessages([...newMessages, { role: "assistant", content: data.message }]);
     } catch (err) {
-      console.error(err);
+      console.error("Chat request failed:", err instanceof Error ? err.message : err);
       setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again!" }]);
     } finally {
       setLoading(false);

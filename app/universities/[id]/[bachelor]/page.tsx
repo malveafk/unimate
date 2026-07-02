@@ -10,11 +10,15 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
   const { id, bachelor: bachelorId } = use(params);
   const [uni, setUni] = useState<University | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getUniversity(id)
       .then((data) => setUni(data))
-      .catch((error) => console.error(error))
+      .catch((error) => {
+        console.error("Failed to load university:", error?.message ?? error);
+        setError("Impossibile caricare i dati. Riprova più tardi.");
+      })
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -22,6 +26,14 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
     return (
       <div className="max-w-4xl mx-auto px-6 py-12 text-center text-zinc-500">
         Loading…
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-12 text-center text-zinc-500">
+        {error}
       </div>
     );
   }
