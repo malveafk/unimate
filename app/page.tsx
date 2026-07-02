@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { TransitionLink } from "./components/PageTransition";
 
 /* ─── Hero slideshow ──────────────────────────────── */
 const ALL_SLIDES = [
-  "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&q=80", // grand library wooden desks
-  "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1920&q=80", // library tall bookshelves
-  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80", // university lecture hall
-  "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80", // amphitheatre lecture hall
-  "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=1920&q=80", // university hallway arches
-  "https://images.unsplash.com/photo-1571167366136-b57e03af7a98?auto=format&fit=crop&w=1920&q=80", // campus at dusk
+  "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1516550893435-5b0e6bfe3bc1?auto=format&fit=crop&w=1920&q=80",
 ];
+
 
 function HeroSlideshow() {
   const [slides, setSlides] = useState(ALL_SLIDES);
@@ -42,22 +44,20 @@ function HeroSlideshow() {
         willChange: "transform",
       }}>
         {slides.map((src) => (
-          <div key={src} style={{ width: `${100 / slides.length}%`, height: "100%", flexShrink: 0 }}>
+          <div key={src} style={{ width: `${100 / slides.length}%`, height: "100%", flexShrink: 0, overflow: "hidden" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={src} alt="" aria-hidden="true"
+              className="kenBurns-img"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               onError={() => handleError(src)}
             />
           </div>
         ))}
       </div>
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.62)" }} />
+      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.58)" }} />
     </div>
   );
 }
-import Link from "next/link";
-import { news, newsCountries, newsTags, NewsItem } from "./data/news";
-
 
 /* ─── Intersection Observer hook ─────────────────── */
 function useReveal() {
@@ -77,293 +77,263 @@ function AnimatedHeadline({ text }: { text: string }) {
   return (
     <>
       {words.map((word, i) => (
-        <span
-          key={i}
-          className="word-animate"
-          style={{ animationDelay: `${i * 90}ms` }}
-        >
+        <span key={i} className="word-animate" style={{ animationDelay: `${i * 90}ms`, marginRight: i < words.length - 1 ? "0.28em" : 0 }}>
           {word}
-          {i < words.length - 1 ? "\u00A0" : ""}
         </span>
       ))}
     </>
   );
 }
 
-/* ─── Counter ─────────────────────────────────────── */
-function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started.current) {
-        started.current = true;
-        const dur = 1200;
-        const start = performance.now();
-        const tick = (now: number) => {
-          const t = Math.min((now - start) / dur, 1);
-          const ease = 1 - Math.pow(1 - t, 3);
-          setVal(Math.round(ease * to));
-          if (t < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }
-    }, { threshold: 0.5 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [to]);
-
-  return <span ref={ref}>{val}{suffix}</span>;
+/* ─── 3D tilt helpers ─────────────────────────────── */
+function onTiltMove(e: React.MouseEvent<HTMLDivElement>) {
+  const el = e.currentTarget;
+  const r = el.getBoundingClientRect();
+  const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+  const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+  el.style.transition = "transform 0.08s ease, border-color 0.2s ease, box-shadow 0.2s ease";
+  el.style.transform = `perspective(800px) rotateX(${-y * 6}deg) rotateY(${x * 10}deg) translateZ(12px)`;
 }
-
-/* ─── Featured card ───────────────────────────────── */
-function FeaturedCard({ item }: { item: NewsItem }) {
-  return (
-    <div
-      className="reveal"
-      style={{
-        position: "relative",
-        borderRadius: "var(--radius-lg)",
-        overflow: "hidden",
-        border: "1px solid var(--border)",
-        background: "var(--surface)",
-        transition: "border-color 0.2s ease",
-      }}
-      onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--border-strong)")}
-      onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}
-    >
-      {/* Image */}
-      <div style={{ aspectRatio: "21/9", overflow: "hidden" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={item.image}
-          alt={item.title}
-          style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.6s ease", display: "block" }}
-          onMouseEnter={e => ((e.target as HTMLImageElement).style.transform = "scale(1.04)")}
-          onMouseLeave={e => ((e.target as HTMLImageElement).style.transform = "scale(1)")}
-        />
-      </div>
-
-      {/* Gradient overlay */}
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)", pointerEvents: "none" }} />
-
-      {/* Content */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "32px 36px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-          <span style={{ padding: "3px 10px", borderRadius: 5, background: "var(--text-1)", color: "var(--bg)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-            Featured
-          </span>
-          <span style={{ padding: "3px 10px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.15)", color: "var(--text-2)", fontSize: 10, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-            {item.tag}
-          </span>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, fontSize: 12, color: "var(--text-2)" }}>
-          {item.university && <span style={{ color: "rgba(237,237,237,0.7)", fontWeight: 500 }}>{item.university}</span>}
-          <span style={{ marginLeft: "auto", fontFamily: "var(--font-mono)", fontSize: 11 }}>{item.date}</span>
-        </div>
-
-        <h2 style={{ fontSize: "clamp(20px, 3vw, 28px)", fontWeight: 700, color: "var(--text-1)", lineHeight: 1.3, marginBottom: 12, letterSpacing: "-0.3px", maxWidth: 680 }}>
-          {item.title}
-        </h2>
-
-        <p style={{ fontSize: 14, color: "rgba(237,237,237,0.55)", marginBottom: 24, lineHeight: 1.7, maxWidth: 560, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-          {item.summary}
-        </p>
-
-        <Link href={`/chat?news=${encodeURIComponent(item.title)}`} className="btn-primary" style={{ fontSize: 13 }}>
-          Ask AI about this
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-/* ─── News card ───────────────────────────────────── */
-function NewsCard({ item, index }: { item: NewsItem; index: number }) {
-  return (
-    <div
-      className={`card reveal reveal-d${Math.min(index + 1, 6)}`}
-      style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
-    >
-      {/* Image */}
-      <div style={{ aspectRatio: "16/9", overflow: "hidden" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={item.image}
-          alt={item.title}
-          style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease", display: "block" }}
-          onMouseEnter={e => ((e.target as HTMLImageElement).style.transform = "scale(1.06)")}
-          onMouseLeave={e => ((e.target as HTMLImageElement).style.transform = "scale(1)")}
-        />
-      </div>
-
-      {/* Body */}
-      <div style={{ padding: "20px 22px", display: "flex", flexDirection: "column", flex: 1, gap: 10 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ padding: "3px 9px", borderRadius: 5, border: "1px solid var(--border)", color: "var(--text-3)", fontSize: 10, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-            {item.tag}
-          </span>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)" }}>{item.date}</span>
-        </div>
-
-        <h3 style={{ fontSize: 15, fontWeight: 600, color: "var(--text-1)", lineHeight: 1.45, letterSpacing: "-0.2px", margin: 0, flex: 1 }}>
-          {item.title}
-        </h3>
-
-        <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.65, margin: 0, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-          {item.summary}
-        </p>
-
-        <Link
-          href={`/chat?news=${encodeURIComponent(item.title)}`}
-          style={{ fontSize: 12, fontWeight: 600, color: "var(--text-2)", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, marginTop: 4, transition: "color 0.15s" }}
-          onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
-          onMouseLeave={e => (e.currentTarget.style.color = "var(--text-2)")}
-        >
-          Explore details <span>→</span>
-        </Link>
-      </div>
-    </div>
-  );
+function onTiltLeave(e: React.MouseEvent<HTMLDivElement>) {
+  const el = e.currentTarget;
+  el.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1), border-color 0.2s ease, box-shadow 0.2s ease";
+  el.style.transform = "";
 }
 
 /* ─── Main page ───────────────────────────────────── */
 export default function Home() {
-  const [selectedCountry, setSelectedCountry] = useState("all");
-  const [selectedTag, setSelectedTag] = useState("All");
+  const heroContentRef = useRef<HTMLDivElement>(null);
   useReveal();
 
-  const filtered = news.filter((n) => {
-    const matchCountry = selectedCountry === "all" || n.country === selectedCountry;
-    const matchTag = selectedTag === "All" || n.tag === selectedTag;
-    return matchCountry && matchTag;
-  });
-
-  const featured = filtered[0];
-  const rest = filtered.slice(1);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroContentRef.current) {
+        const progress = Math.min(window.scrollY / window.innerHeight, 1);
+        heroContentRef.current.style.opacity = String(Math.max(0, 1 - progress * 2.2));
+        heroContentRef.current.style.transform = `translateY(${-progress * 55}px)`;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      {/* ── Hero — full viewport width ─────────────── */}
-      <section style={{ position: "relative", overflow: "hidden", borderBottom: "1px solid var(--border)" }}>
+      {/* Fixed background */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden" }}>
         <HeroSlideshow />
-        <div style={{ position: "relative", zIndex: 1, maxWidth: 1280, margin: "0 auto", padding: "88px 32px 72px" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 760 }}>
+      </div>
 
-          <span className="label" style={{ color: "var(--accent)" }}>
-            Unimate · Study Abroad Intelligence
-          </span>
+      {/* Fixed quick-action bar */}
+      <div style={{
+        position: "fixed",
+        top: 100,
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 200,
+        opacity: 0,
+        animation: "fadeIn 0.5s ease-out 0.5s forwards",
+        display: "flex",
+        alignItems: "stretch",
+        background: "rgba(255,255,255,0.12)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        border: "1px solid rgba(255,255,255,0.22)",
+        borderRadius: 100,
+        padding: 5,
+        gap: 4,
+      }}>
+        {[
+          { label: "Find your university", icon: "🎓", href: "/universities" },
+          { label: "Find your apartment", icon: "🏠", href: "/housing" },
+        ].map(({ label, icon, href }, i) => (
+          <React.Fragment key={href}>
+            {i > 0 && (
+              <div style={{
+                width: 1,
+                background: "rgba(255,255,255,0.18)",
+                alignSelf: "stretch",
+                margin: "6px 0",
+              }} />
+            )}
+            <TransitionLink
+              href={href}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 9,
+                padding: "10px 22px",
+                borderRadius: 100,
+                color: "rgba(255,255,255,0.88)",
+                fontSize: 13.5,
+                fontWeight: 500,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                transition: "background 0.15s ease",
+                letterSpacing: "0.01em",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = "transparent";
+              }}
+            >
+              <span style={{ fontSize: 16 }}>{icon}</span>
+              {label}
+              <span style={{ opacity: 0.4, fontSize: 12 }}>→</span>
+            </TransitionLink>
+          </React.Fragment>
+        ))}
+      </div>
 
-          <h1 style={{
-            fontSize: "clamp(40px, 6vw, 72px)",
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: "-1.5px",
-            color: "var(--text-1)",
-            margin: 0,
-          }}>
-            <AnimatedHeadline text="The Hub for International Students." />
-          </h1>
+      {/* Hero */}
+      <div
+        ref={heroContentRef}
+        style={{
+          position: "relative",
+          height: "100svh",
+          zIndex: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          padding: "80px 32px 40px",
+          gap: 24,
+        }}
+      >
+        <span className="label" style={{ color: "var(--accent)", opacity: 0, animation: "fadeIn 0.5s ease-out 0.3s forwards" }}>
+          One click away from your future
+        </span>
 
-          <p style={{ fontSize: "clamp(15px, 1.8vw, 18px)", color: "var(--text-2)", lineHeight: 1.7, maxWidth: 520, margin: 0, opacity: 0, animation: "fadeUp 0.6s ease-out 0.7s forwards" }}>
-            Admissions, scholarships, housing and visa news — curated for students moving to Europe.
-          </p>
-
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", opacity: 0, animation: "fadeUp 0.6s ease-out 0.9s forwards" }}>
-            <Link href="/universities" className="btn-primary">
-              Browse universities
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </Link>
-            <Link href="/chat" className="btn-ghost">
-              Ask AI assistant
-            </Link>
-          </div>
-        </div>
-
-        {/* Stats bar */}
-        <div style={{
-          display: "flex", gap: 48, marginTop: 60, flexWrap: "wrap",
-          opacity: 0, animation: "fadeUp 0.6s ease-out 1.1s forwards",
+        <h1 style={{
+          fontSize: "clamp(44px, 7vw, 88px)",
+          fontWeight: 800,
+          lineHeight: 1.08,
+          letterSpacing: "-2px",
+          color: "var(--text-1)",
+          margin: 0,
+          maxWidth: 900,
         }}>
-          {[
-            { value: 24, suffix: "+", label: "Universities" },
-            { value: 12, suffix: "", label: "Countries" },
-            { value: 8, suffix: "", label: "Faculties" },
-          ].map(({ value, suffix, label }) => (
-            <div key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <span style={{ fontSize: 28, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", fontVariantNumeric: "tabular-nums" }}>
-                <Counter to={value} suffix={suffix} />
-              </span>
-              <span className="label">{label}</span>
+          <AnimatedHeadline text="The Hub for International Students." />
+        </h1>
+
+        <p style={{
+          fontSize: "clamp(15px, 1.8vw, 19px)",
+          color: "rgba(237,237,237,0.65)",
+          lineHeight: 1.7,
+          maxWidth: 480,
+          margin: 0,
+          opacity: 0,
+          animation: "fadeUp 0.6s ease-out 0.7s forwards",
+        }}>
+          Find your university, compare costs, and make your move — Europe is closer than you think.
+        </p>
+
+        {/* Stats */}
+        <div style={{
+          display: "flex",
+          gap: 48,
+          flexWrap: "wrap",
+          justifyContent: "center",
+          opacity: 0,
+          animation: "fadeUp 0.6s ease-out 1.1s forwards",
+          marginTop: 8,
+        }}>
+          {["Universities", "Countries", "Faculties"].map((label) => (
+            <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+              <span style={{ fontSize: 32, fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>X</span>
+              <span className="label" style={{ color: "rgba(255,255,255,0.75)" }}>{label}</span>
             </div>
           ))}
         </div>
-        </div>
-      </section>
-
-      {/* ── Rest of page ───────────────────────────── */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px 80px" }}>
-
-      {/* ── Filters ────────────────────────────────── */}
-      <section style={{ padding: "32px 0 24px", borderBottom: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: 20 }}>
-
-        {/* Countries */}
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-          <span className="label" style={{ marginRight: 8, flexShrink: 0 }}>Country</span>
-          {newsCountries.map((c) => (
-            <button
-              key={c.code}
-              onClick={() => setSelectedCountry(c.code)}
-              className={`pill${selectedCountry === c.code ? " active" : ""}`}
-            >
-              {c.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Tags */}
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-          <span className="label" style={{ marginRight: 8, flexShrink: 0 }}>Topic</span>
-          {newsTags.map((tag) => (
-            <button
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
-              className={`pill${selectedTag === tag ? " active" : ""}`}
-            >
-              {tag === "All" ? "All topics" : tag}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Content ────────────────────────────────── */}
-      <section style={{ paddingTop: 48, display: "flex", flexDirection: "column", gap: 48 }}>
-
-        {filtered.length === 0 && (
-          <div style={{ padding: "80px 0", textAlign: "center", color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: 13 }}>
-            No news found for these filters.
-          </div>
-        )}
-
-        {featured && <FeaturedCard item={featured} />}
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          gap: 20,
-        }}>
-          {rest.map((item, i) => (
-            <NewsCard key={item.id} item={item} index={i % 6} />
-          ))}
-        </div>
-      </section>
       </div>
+
+      {/* ── Core Features — comes first ───────────────── */}
+      <div style={{
+        position: "relative",
+        zIndex: 10,
+        background: "var(--bg)",
+        borderRadius: "28px 28px 0 0",
+        boxShadow: "0 -28px 80px rgba(0,0,0,0.9), 0 -1px 0 rgba(255,255,255,0.07)",
+      }}>
+        <div style={{ width: 40, height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 2, margin: "16px auto 0" }} />
+
+        {/* CORE FEATURES CONTENT — inline below the handle */}
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 32px 80px" }}>
+          <div className="reveal" style={{ marginBottom: 56 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 18 }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--accent)", letterSpacing: "0.2em", textTransform: "uppercase" }}>How it works</span>
+              <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
+            </div>
+            <h2 style={{ fontSize: "clamp(38px, 5vw, 64px)", fontWeight: 800, margin: 0, letterSpacing: "-2px", lineHeight: 1.05, background: "linear-gradient(135deg, #ffffff 30%, rgba(167,139,250,0.85) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              Core Features
+            </h2>
+            <p style={{ fontSize: 15, color: "var(--text-2)", margin: "12px 0 0", lineHeight: 1.6, maxWidth: 500 }}>
+              Everything you need to plan your move to Europe — in one place.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+            {/* Find Your University column */}
+            <div className="reveal" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <div style={{ borderRadius: 20, border: "1px solid rgba(52,211,153,0.25)", background: "rgba(52,211,153,0.06)", padding: "32px 32px 28px" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgb(52,211,153)", letterSpacing: "0.18em", textTransform: "uppercase" }}>01</span>
+                <h3 style={{ fontSize: 28, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", margin: "12px 0 10px" }}>Find Your University</h3>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Browse 24+ European universities filtered by country, faculty and language. Each profile includes tuition fees, living costs, entry requirements and available programmes — everything in one place before you apply.</p>
+                <TransitionLink href="/universities" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 20, fontSize: 13, fontWeight: 600, color: "rgb(52,211,153)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Explore universities →</TransitionLink>
+              </div>
+              {[
+                { delay: "d1", accent: "rgba(52,211,153,0.3)", iconColor: "rgb(52,211,153)", bg: "rgba(52,211,153,0.1)", title: "Side-by-side Compare", desc: "Put two universities next to each other and compare tuition, living costs, teaching style and strengths at a glance.", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke="rgb(52,211,153)" strokeWidth="2" strokeLinecap="round"/></svg> },
+                { delay: "d2", accent: "rgba(167,139,250,0.3)", iconColor: "rgba(167,139,250,0.9)", bg: "rgba(167,139,250,0.1)", title: "AI Assistant", desc: "Ask anything — deadlines, required documents, language requirements, scholarship eligibility. Get instant, accurate answers.", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="rgba(167,139,250,0.9)"/></svg> },
+                { delay: "d3", accent: "rgba(251,191,36,0.3)", iconColor: "rgba(251,191,36,0.9)", bg: "rgba(251,191,36,0.1)", title: "Costs & Application Requirements", desc: "Every university profile shows tuition fees, monthly living costs, required documents and language certificates — no more digging through official websites.", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="rgba(251,191,36,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+              ].map(({ delay, accent, iconColor: _ic, bg, title, desc, icon }) => (
+                <div key={title} className={`reveal ${delay}`} style={{ borderRadius: 14, border: "1px solid var(--border)", background: "var(--surface)", padding: "22px 24px", display: "flex", gap: 16, alignItems: "flex-start", transition: "border-color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = accent)} onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
+                  <div><div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div><div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{desc}</div></div>
+                </div>
+              ))}
+            </div>
+
+            {/* Find Your Apartment column */}
+            <div className="reveal reveal-d1" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <div style={{ borderRadius: 20, border: "1px solid rgba(96,165,250,0.25)", background: "rgba(96,165,250,0.06)", padding: "32px 32px 28px" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgb(96,165,250)", letterSpacing: "0.18em", textTransform: "uppercase" }}>02</span>
+                <h3 style={{ fontSize: 28, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", margin: "12px 0 10px" }}>Find Your Apartment</h3>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Housing is one of the biggest challenges for international students. Our AI guides you through the best platforms, average costs per city, student housing options and tips to avoid the most common scams.</p>
+                <TransitionLink href="/housing" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 20, fontSize: 13, fontWeight: 600, color: "rgb(96,165,250)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Browse housing →</TransitionLink>
+              </div>
+              {[
+                { delay: "d2", filters: null, title: "City Cost Guides", desc: "Average rent, utilities and transport costs for Amsterdam, Berlin, Paris, Barcelona and more — updated and broken down by neighbourhood." },
+                { delay: "d3", filters: null, title: "Best Platforms by Country", desc: "Kamernet, HousingAnywhere, Uniplaces, student halls — we tell you which platforms work best in each country and what to watch out for." },
+                { delay: "d4", filters: null, title: "Waiting Lists & Timelines", desc: "Student housing waiting lists can be 6–12 months. We tell you exactly when to register and how to maximise your chances of getting a room in time." },
+                { delay: "d5", filters: ["City", "Budget", "Size", "Furnished", "Distance to uni"], title: "Find an Apartment — with Filters", desc: "Filter by city, budget, size, furnished/unfurnished and distance to university. We surface the right listings from trusted platforms." },
+                { delay: "d6", filters: ["University", "Nationality", "Budget", "Lifestyle", "Language"], title: "Find a Roommate — with Filters", desc: "Splitting rent makes everything more affordable. Filter potential roommates by university, nationality, lifestyle habits and budget to find someone truly compatible." },
+              ].map(({ delay, filters, title, desc }) => (
+                <div key={title} className={`reveal ${delay}`} style={{ borderRadius: 14, border: "1px solid var(--border)", background: "var(--surface)", padding: "22px 24px", display: "flex", gap: 16, alignItems: "flex-start", transition: "border-color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(96,165,250,0.3)")} onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(96,165,250,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="rgb(96,165,250)" strokeWidth="2"/></svg>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>
+                    <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{desc}</div>
+                    {filters && (
+                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+                        {filters.map(f => <span key={f} style={{ fontSize: 10, padding: "3px 9px", borderRadius: 99, border: "1px solid rgba(96,165,250,0.25)", color: "rgb(96,165,250)", fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}>{f}</span>)}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </>
   );
 }
