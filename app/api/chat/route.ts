@@ -1,9 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
+
+const FREE_LIMIT = 20;   // logged-in users per day
+const GUEST_LIMIT = 5;   // guests per day
 
 const SYSTEM_PROMPT = `You are Unimate, a friendly and knowledgeable assistant that helps students move abroad for university. You are like a smart friend who has been through the process themselves — warm, direct, and practical. Think of yourself as a chat on WhatsApp with someone who has done it all before.
 
@@ -90,17 +94,68 @@ export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
 
-    // Anthropic requires the first message to be from the user.
-    // The UI initializes with an assistant welcome bubble — strip it before sending.
+    // ── Rate limiting ────────────────────────────────────────────
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+    if (user) {
+      // Logged-in user: check daily count in Supabase
+      const { data: usage } = await supabase
+        .from("message_usage")
+        .select("count")
+        .eq("user_id", user.id)
+        .eq("date", today)
+        .single();
+
+      const count = usage?.count ?? 0;
+
+      if (count >= FREE_LIMIT) {
+        return NextResponse.json(
+          { error: "daily_limit", message: `You've used all ${FREE_LIMIT} free messages for today. Come back tomorrow! 🌙` },
+          { status: 429 }
+        );
+      }
+
+      // Increment count (upsert handles first message of the day too)
+      await supabase.from("message_usage").upsert(
+        { user_id: user.id, date: today, count: count + 1 },
+        { onConflict: "user_id,date" }
+      );
+    } else {
+      // Guest: use a cookie-based counter
+      const cookieCount = parseInt(req.cookies.get(`msg_${today}`)?.value ?? "0");
+
+      if (cookieCount >= GUEST_LIMIT) {
+        return NextResponse.json(
+          { error: "daily_limit", message: `Sign in to get ${FREE_LIMIT} free messages/day. Guests get ${GUEST_LIMIT}.` },
+          { status: 429 }
+        );
+      }
+    }
+
+    // ── Strip assistant welcome bubble (Anthropic needs user first) ──
     const firstUserIndex = messages.findIndex((m: { role: string }) => m.role === "user");
     const apiMessages = firstUserIndex >= 0 ? messages.slice(firstUserIndex) : messages;
 
-    const today = new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+    const todayFormatted = new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
 
+    // ── Call Claude with prompt caching on the system prompt ─────
     const response = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 1024,
-      system: `${SYSTEM_PROMPT}\n\nData di oggi: ${today}.`,
+      system: [
+        {
+          type: "text",
+          text: SYSTEM_PROMPT,
+          // Cache the large static system prompt — saves ~90% cost on repeat calls
+          cache_control: { type: "ephemeral" },
+        },
+        {
+          type: "text",
+          text: `Data di oggi: ${todayFormatted}.`,
+        },
+      ],
       messages: apiMessages,
     });
 
@@ -109,7 +164,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unexpected response type" }, { status: 500 });
     }
 
-    return NextResponse.json({ message: content.text });
+    // ── Set guest cookie if not logged in ────────────────────────
+    const res = NextResponse.json({ message: content.text });
+    if (!user) {
+      const cookieCount = parseInt(req.cookies.get(`msg_${today}`)?.value ?? "0");
+      res.cookies.set(`msg_${today}`, String(cookieCount + 1), {
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 2, // 2 days
+        path: "/",
+        sameSite: "lax",
+      });
+    }
+
+    return res;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("Anthropic error:", message);

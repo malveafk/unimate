@@ -5,6 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { universities, countries, faculties } from "../data/universities";
 import { universityMeta } from "../data/universityMeta";
+import dynamic from "next/dynamic";
+
+const UniversityMap = dynamic(() => import("../components/UniversityMap"), { ssr: false });
 
 const NAV_ITEMS = [
   {
@@ -69,6 +72,7 @@ export default function Universities() {
   const [deadlineFilter, setDeadlineFilter] = useState("any");
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const pathname = usePathname();
 
   const filtered = universities.filter((u) => {
@@ -176,27 +180,75 @@ export default function Universities() {
           <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
             Filters
           </span>
-          <button
-            onClick={() => setFiltersVisible(v => !v)}
-            style={{
-              display: "flex", alignItems: "center", gap: 6,
-              background: "transparent", border: "1px solid var(--border)",
-              borderRadius: 8, padding: "5px 12px", cursor: "pointer",
-              color: "var(--text-3)", fontSize: 11, fontWeight: 600,
-              letterSpacing: "0.08em", fontFamily: "inherit",
-              transition: "border-color 0.15s, color 0.15s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.color = "var(--text-1)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-3)"; }}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              {filtersVisible
-                ? <><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="18" x2="12" y2="18"/></>
-                : <><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></>
-              }
-            </svg>
-            {filtersVisible ? "Hide filters" : "Show filters"}
-          </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            {/* List / Map toggle */}
+            <div style={{
+              display: "flex",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              overflow: "hidden",
+            }}>
+              <button
+                onClick={() => setViewMode("list")}
+                style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  background: viewMode === "list" ? "var(--border)" : "transparent",
+                  border: "none", borderRight: "1px solid var(--border)",
+                  padding: "5px 12px", cursor: "pointer",
+                  color: viewMode === "list" ? "var(--text-1)" : "var(--text-3)",
+                  fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", fontFamily: "inherit",
+                  transition: "background 0.15s, color 0.15s",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+                List
+              </button>
+              <button
+                onClick={() => setViewMode("map")}
+                style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  background: viewMode === "map" ? "var(--border)" : "transparent",
+                  border: "none",
+                  padding: "5px 12px", cursor: "pointer",
+                  color: viewMode === "map" ? "var(--text-1)" : "var(--text-3)",
+                  fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", fontFamily: "inherit",
+                  transition: "background 0.15s, color 0.15s",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                  <line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+                </svg>
+                Map
+              </button>
+            </div>
+
+            {/* Hide/show filters */}
+            <button
+              onClick={() => setFiltersVisible(v => !v)}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                background: "transparent", border: "1px solid var(--border)",
+                borderRadius: 8, padding: "5px 12px", cursor: "pointer",
+                color: "var(--text-3)", fontSize: 11, fontWeight: 600,
+                letterSpacing: "0.08em", fontFamily: "inherit",
+                transition: "border-color 0.15s, color 0.15s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.color = "var(--text-1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-3)"; }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {filtersVisible
+                  ? <><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="18" x2="12" y2="18"/></>
+                  : <><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></>
+                }
+              </svg>
+              {filtersVisible ? "Hide filters" : "Show filters"}
+            </button>
+          </div>
         </div>
 
         {/* Collapsible filter body */}
@@ -269,7 +321,15 @@ export default function Universities() {
         </div>
       )}
 
-      {/* ── Grid ──────────────────────────────────── */}
+      {/* ── Map view ──────────────────────────────── */}
+      {viewMode === "map" && (
+        <div style={{ paddingTop: 32 }}>
+          <UniversityMap universities={filtered} />
+        </div>
+      )}
+
+      {/* ── Grid / List view ──────────────────────── */}
+      {viewMode === "list" && (
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
@@ -526,9 +586,10 @@ export default function Universities() {
           );
         })}
       </div>
+      )}
 
-      {/* Empty state */}
-      {filtered.length === 0 && (
+      {/* Empty state — only in list mode */}
+      {viewMode === "list" && filtered.length === 0 && (
         <div style={{ padding: "80px 0", textAlign: "center", border: "1px dashed var(--border)", borderRadius: 20, marginTop: 40 }}>
           <div style={{ fontSize: 32, marginBottom: 16 }}>🔍</div>
           <p style={{ fontSize: 15, color: "var(--text-3)", marginBottom: 20 }}>No universities match your filters.</p>
