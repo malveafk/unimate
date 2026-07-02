@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { universities as staticUniversities, type University as StaticUniversity } from "../app/data/universities";
 
 export type Bachelor = {
   id: string;
@@ -64,22 +65,59 @@ function mapRow(row: UniversityRow, bachelors: Bachelor[]): University {
   };
 }
 
+function mapStaticUniversity(uni: StaticUniversity): University {
+  return {
+    id: uni.id,
+    name: uni.name,
+    city: uni.city,
+    country: uni.country,
+    flag: uni.flag,
+    tuition: uni.tuition,
+    livingCost: uni.livingCost,
+    teaching: uni.teaching,
+    languages: uni.languages,
+    strengths: uni.strengths,
+    description: uni.description,
+    cityVibe: uni.cityVibe ?? null,
+    website: uni.website,
+    ranking: uni.ranking ?? null,
+    bachelors: uni.bachelors.map((b) => ({
+      id: b.id,
+      university_id: uni.id,
+      name: b.name,
+      duration: b.duration,
+      language: b.language,
+      description: b.description,
+    })),
+  };
+}
+
 // Prende tutte le università insieme ai bachelor che appartengono a ciascuna.
+// Se Supabase non è raggiungibile, ripiega sui dati statici così il sito
+// resta utilizzabile invece di mostrare un errore.
 export async function getUniversities(): Promise<University[]> {
-  const [{ data: rows, error: uniError }, { data: bachelors, error: bachError }] = await Promise.all([
-    supabase.from("universities").select("*"),
-    supabase.from("bachelors").select("*"),
-  ]);
+  try {
+    const [{ data: rows, error: uniError }, { data: bachelors, error: bachError }] = await Promise.all([
+      supabase.from("universities").select("*"),
+      supabase.from("bachelors").select("*"),
+    ]);
 
-  if (uniError) throw uniError;
-  if (bachError) throw bachError;
+    if (uniError) throw uniError;
+    if (bachError) throw bachError;
 
-  return (rows ?? []).map((row) =>
-    mapRow(
-      row,
-      (bachelors ?? []).filter((b) => b.university_id === row.id)
-    )
-  );
+    return (rows ?? []).map((row) =>
+      mapRow(
+        row,
+        (bachelors ?? []).filter((b) => b.university_id === row.id)
+      )
+    );
+  } catch (error) {
+    console.warn(
+      "Supabase unavailable, falling back to static data:",
+      error instanceof Error ? error.message : error
+    );
+    return staticUniversities.map(mapStaticUniversity);
+  }
 }
 
 // Prende una singola università (con i suoi bachelor) dato il suo id.
