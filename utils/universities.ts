@@ -108,7 +108,15 @@ export async function getUniversities(): Promise<University[]> {
     return (rows ?? []).map((row) =>
       mapRow(
         row,
-        (bachelors ?? []).filter((b) => b.university_id === row.id)
+        (bachelors ?? [])
+          .filter((b) => b.university_id === row.id)
+          // seed.ts stores bachelor ids as "<university_id>__<bachelor_id>" to
+          // keep them unique across universities; strip the prefix back off so
+          // ids match the bare ones used in the static fallback data.
+          .map((b) => ({
+            ...b,
+            id: b.id.startsWith(`${row.id}__`) ? b.id.slice(row.id.length + 2) : b.id,
+          }))
       )
     );
   } catch (error) {

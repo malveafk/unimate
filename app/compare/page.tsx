@@ -450,21 +450,21 @@ export default function Compare() {
               <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
                 <Row label="Programme">
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", lineHeight: 1.3 }}>{prog?.name ?? "—"}</span>
                     </Cell>
                   ))}
                 </Row>
                 <Row label="Duration">
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>{prog?.duration ?? "—"}</span>
                     </Cell>
                   ))}
                 </Row>
                 <Row label="Taught in">
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       {prog ? (
                         <span style={{ padding: "3px 9px", borderRadius: 6, background: "var(--accent-dim)", border: "1px solid var(--accent-border)", fontSize: 12, color: "var(--accent)", fontWeight: 500 }}>
                           {prog.language}
@@ -475,7 +475,7 @@ export default function Compare() {
                 </Row>
                 <Row label="Overview" last>
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       <p style={{ margin: 0, fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>{prog?.description ?? "—"}</p>
                     </Cell>
                   ))}
@@ -513,7 +513,7 @@ export default function Compare() {
                         {progs.map((prog, idx) => {
                           const courses = prog?.courses.filter((c) => c.year === year) ?? [];
                           return (
-                            <Cell key={prog?.id ?? idx}>
+                            <Cell key={idx}>
                               {courses.length > 0 ? (
                                 <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                                   {courses.map((c, ci) => (
