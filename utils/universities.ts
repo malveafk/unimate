@@ -1,6 +1,12 @@
 import { supabase } from "./supabase";
 import { universities as staticUniversities, type University as StaticUniversity } from "../app/data/universities";
 
+export type Course = {
+  name: string;
+  credits?: string;
+  year?: number;
+};
+
 export type Bachelor = {
   id: string;
   university_id: string;
@@ -8,6 +14,7 @@ export type Bachelor = {
   duration: string;
   language: string;
   description: string;
+  courses: Course[];
 };
 
 export type University = {
@@ -88,6 +95,7 @@ function mapStaticUniversity(uni: StaticUniversity): University {
       duration: b.duration,
       language: b.language,
       description: b.description,
+      courses: b.courses,
     })),
   };
 }
@@ -97,25 +105,43 @@ function mapStaticUniversity(uni: StaticUniversity): University {
 // resta utilizzabile invece di mostrare un errore.
 export async function getUniversities(): Promise<University[]> {
   try {
-    const [{ data: rows, error: uniError }, { data: bachelors, error: bachError }] = await Promise.all([
+    const [
+      { data: rows, error: uniError },
+      { data: bachelors, error: bachError },
+      { data: courses, error: courseError },
+    ] = await Promise.all([
       supabase.from("universities").select("*"),
       supabase.from("bachelors").select("*"),
+      supabase.from("courses").select("*"),
     ]);
 
     if (uniError) throw uniError;
     if (bachError) throw bachError;
+    if (courseError) throw courseError;
 
     return (rows ?? []).map((row) =>
       mapRow(
         row,
         (bachelors ?? [])
           .filter((b) => b.university_id === row.id)
-          // seed.ts stores bachelor ids as "<university_id>__<bachelor_id>" to
-          // keep them unique across universities; strip the prefix back off so
-          // ids match the bare ones used in the static fallback data.
           .map((b) => ({
-            ...b,
+            // seed.ts stores bachelor ids as "<university_id>__<bachelor_id>"
+            // to keep them unique across universities; strip the prefix back
+            // off so ids match the bare ones used in the static fallback data.
             id: b.id.startsWith(`${row.id}__`) ? b.id.slice(row.id.length + 2) : b.id,
+            university_id: b.university_id,
+            name: b.name,
+            duration: b.duration,
+            language: b.language,
+            description: b.description,
+            // courses.bachelor_id references the raw (un-stripped) bachelor id.
+            courses: (courses ?? [])
+              .filter((c) => c.bachelor_id === b.id)
+              .map((c) => ({
+                name: c.name,
+                credits: c.credits ?? undefined,
+                year: c.year ?? undefined,
+              })),
           }))
       )
     );

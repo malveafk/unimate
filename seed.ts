@@ -39,8 +39,9 @@ async function seed() {
 
     // 2. Inserisce i corsi di laurea collegati
     for (const bachelor of uni.bachelors) {
+      const bachelorRowId = `${uni.id}__${bachelor.id}`;
       const { error: bachError } = await supabase.from("bachelors").upsert({
-        id: `${uni.id}__${bachelor.id}`,
+        id: bachelorRowId,
         university_id: uni.id,
         name: bachelor.name,
         duration: bachelor.duration,
@@ -50,8 +51,24 @@ async function seed() {
 
       if (bachError) {
         console.error(`  Errore bachelor ${bachelor.name}:`, bachError.message);
-      } else {
-        console.log(`  ↳ ${bachelor.name}`);
+        continue;
+      }
+
+      console.log(`  ↳ ${bachelor.name}`);
+
+      // 3. Inserisce il curriculum del corso di laurea
+      for (const [i, course] of bachelor.courses.entries()) {
+        const { error: courseError } = await supabase.from("courses").upsert({
+          id: `${bachelorRowId}__c${i}`,
+          bachelor_id: bachelorRowId,
+          name: course.name,
+          credits: course.credits ?? null,
+          year: course.year ?? null,
+        });
+
+        if (courseError) {
+          console.error(`    Errore corso ${course.name}:`, courseError.message);
+        }
       }
     }
   }

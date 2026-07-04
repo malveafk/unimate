@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { universities as staticUniversities } from "../data/universities";
 import { getUniversities, type University } from "../../utils/universities";
 
 /* ─── Types ─────────────────────────────────────── */
@@ -55,15 +54,6 @@ function parseCost(s: string): number {
   return parseInt(m[1].replace(/[.,]/g, ""), 10);
 }
 
-// The Supabase-backed `bachelors` table has no `courses` column, so the
-// curriculum is sourced from the static data file that seeds it instead.
-function getCourses(universityId: string, bachelorId: string) {
-  return (
-    staticUniversities
-      .find((u) => u.id === universityId)
-      ?.bachelors.find((b) => b.id === bachelorId)?.courses ?? []
-  );
-}
 
 const SELECT_STYLE: React.CSSProperties = {
   background: "var(--surface)",
@@ -176,13 +166,9 @@ export default function Compare() {
   const availableYears = useMemo(() => {
     if (!bothProgs) return [];
     const years = new Set<number>();
-    progs.forEach((p, i) => {
-      const uniId = unis[i]?.id;
-      if (!p || !uniId) return;
-      getCourses(uniId, p.id).forEach((c) => { if (c.year) years.add(c.year); });
-    });
+    progs.forEach((p) => p?.courses.forEach((c) => { if (c.year) years.add(c.year); }));
     return Array.from(years).sort();
-  }, [progs, bothProgs, unis]);
+  }, [progs, bothProgs]);
 
   // Reset year selection when programmes change
   const setId = (idx: number, val: string) => {
@@ -540,10 +526,7 @@ export default function Compare() {
                     {yearsToShow.map((year, yi) => (
                       <Row key={year} label={`Year ${year}`} last={yi === yearsToShow.length - 1}>
                         {progs.map((prog, idx) => {
-                          const uniId = unis[idx]?.id;
-                          const courses = prog && uniId
-                            ? getCourses(uniId, prog.id).filter((c) => c.year === year)
-                            : [];
+                          const courses = prog?.courses.filter((c) => c.year === year) ?? [];
                           return (
                             <Cell key={idx}>
                               {courses.length > 0 ? (

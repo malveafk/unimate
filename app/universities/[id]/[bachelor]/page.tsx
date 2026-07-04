@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { getUniversity, type University, type Bachelor } from "../../../../utils/universities";
-import { universities as staticUniversities } from "../../../data/universities";
 
 export default function BachelorDetail({ params }: { params: Promise<{ id: string; bachelor: string }> }) {
   const { id, bachelor: bachelorId } = use(params);
@@ -42,12 +41,8 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
   const bachelor: Bachelor | undefined = uni.bachelors.find((b) => b.id === bachelorId);
   if (!bachelor) notFound();
 
-  // The Supabase-backed `bachelors` table has no `courses` column, so the
-  // curriculum is sourced from the static data file that seeds it instead.
-  const courses = staticUniversities
-    .find((u) => u.id === uni.id)
-    ?.bachelors.find((b) => b.id === bachelor.id)?.courses;
-  const coursesByYear = (courses ?? []).reduce<Record<number, typeof courses>>((acc, course) => {
+  const courses = bachelor.courses;
+  const coursesByYear = courses.reduce<Record<number, typeof courses>>((acc, course) => {
     const year = course.year ?? 0;
     acc[year] = [...(acc[year] ?? []), course];
     return acc;
