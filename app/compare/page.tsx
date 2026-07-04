@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { universities } from "../data/universities";
+import { useEffect, useMemo, useState } from "react";
+import { universities as staticUniversities } from "../data/universities";
+import { getUniversities, type University } from "../../utils/universities";
 
 /* ─── Types ─────────────────────────────────────── */
 type LifestyleData = { pros: string[]; cons: string[]; summary: string };
@@ -52,6 +53,16 @@ function parseCost(s: string): number {
   const m = s.match(/(\d[\d.,]*)/);
   if (!m) return 0;
   return parseInt(m[1].replace(/[.,]/g, ""), 10);
+}
+
+// The Supabase-backed `bachelors` table has no `courses` column, so the
+// curriculum is sourced from the static data file that seeds it instead.
+function getCourses(universityId: string, bachelorId: string) {
+  return (
+    staticUniversities
+      .find((u) => u.id === universityId)
+      ?.bachelors.find((b) => b.id === bachelorId)?.courses ?? []
+  );
 }
 
 const SELECT_STYLE: React.CSSProperties = {
@@ -136,13 +147,21 @@ function CostBar({ value, max, best }: { value: number; max: number; best: boole
 
 /* ─── Main ──────────────────────────────────────── */
 export default function Compare() {
+  const [universities, setUniversities] = useState<University[]>([]);
+  const [loading, setLoading] = useState(true);
   const [ids, setIds] = useState<[string, string]>(["", ""]);
   const [progIds, setProgIds] = useState<[string, string]>(["", ""]);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
 
+  useEffect(() => {
+    getUniversities()
+      .then(setUniversities)
+      .finally(() => setLoading(false));
+  }, []);
+
   const unis = useMemo(
     () => ids.map((id) => (id ? universities.find((u) => u.id === id) ?? null : null)),
-    [ids]
+    [ids, universities]
   );
 
   const progs = useMemo(
@@ -157,9 +176,13 @@ export default function Compare() {
   const availableYears = useMemo(() => {
     if (!bothProgs) return [];
     const years = new Set<number>();
-    progs.forEach((p) => p?.courses.forEach((c) => { if (c.year) years.add(c.year); }));
+    progs.forEach((p, i) => {
+      const uniId = unis[i]?.id;
+      if (!p || !uniId) return;
+      getCourses(uniId, p.id).forEach((c) => { if (c.year) years.add(c.year); });
+    });
     return Array.from(years).sort();
-  }, [progs, bothProgs]);
+  }, [progs, bothProgs, unis]);
 
   // Reset year selection when programmes change
   const setId = (idx: number, val: string) => {
@@ -182,6 +205,12 @@ export default function Compare() {
 
   // Years to display (filtered or all)
   const yearsToShow = selectedYear !== null ? [selectedYear] : availableYears;
+
+  if (loading) return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", color: "var(--text-3)", fontSize: 15 }}>
+      Loading universities…
+    </div>
+  );
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px 80px" }}>
@@ -511,7 +540,10 @@ export default function Compare() {
                     {yearsToShow.map((year, yi) => (
                       <Row key={year} label={`Year ${year}`} last={yi === yearsToShow.length - 1}>
                         {progs.map((prog, idx) => {
-                          const courses = prog?.courses.filter((c) => c.year === year) ?? [];
+                          const uniId = unis[idx]?.id;
+                          const courses = prog && uniId
+                            ? getCourses(uniId, prog.id).filter((c) => c.year === year)
+                            : [];
                           return (
                             <Cell key={idx}>
                               {courses.length > 0 ? (
