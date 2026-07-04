@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import type { User } from "@supabase/supabase-js";
 import { TransitionLink, usePageTransition } from "./PageTransition";
+import { createClient } from "@/utils/supabase/client";
+import AuthModal from "./AuthModal";
 
 const SECTIONS = [
   {
@@ -122,8 +125,19 @@ function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; 
 // ─── Navbar ────────────────────────────────────────────────────────────────
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [supabase] = useState(() => createClient());
   const { go } = usePageTransition();
   const pathname = usePathname();
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, [supabase]);
 
   // Close when route changes
   useEffect(() => { setOpen(false); }, [pathname]);
@@ -189,8 +203,51 @@ export default function Navbar() {
         </TransitionLink>
 
 
-        {/* Right side: menu toggle */}
+        {/* Right side: account + menu toggle */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, position: "relative", zIndex: 1001 }}>
+          {/* Account */}
+          {user ? (
+            <button
+              onClick={() => supabase.auth.signOut()}
+              style={{
+                display: "flex", alignItems: "center", gap: 8,
+                background: "transparent",
+                border: "1px solid var(--border)",
+                borderRadius: 8, padding: "7px 14px",
+                cursor: "pointer", color: "var(--text-2)",
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                fontFamily: "inherit", transition: "border-color 0.2s, color 0.2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "var(--text-1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
+            >
+              <div style={{
+                width: 20, height: 20, borderRadius: "50%",
+                background: "var(--accent)", display: "flex", alignItems: "center",
+                justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#fff", flexShrink: 0,
+              }}>
+                {(user.email ?? "?")[0].toUpperCase()}
+              </div>
+              SIGN OUT
+            </button>
+          ) : (
+            <button
+              onClick={() => setAuthOpen(true)}
+              style={{
+                background: "transparent",
+                border: "1px solid var(--border)",
+                borderRadius: 8, padding: "7px 16px",
+                cursor: "pointer", color: "var(--text-2)",
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                fontFamily: "inherit", transition: "border-color 0.2s, color 0.2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "var(--text-1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
+            >
+              SIGN IN
+            </button>
+          )}
+
           {/* Menu toggle */}
           <button
           onClick={() => setOpen(v => !v)}
@@ -329,6 +386,10 @@ export default function Navbar() {
             </div>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       </AnimatePresence>
     </>
   );
