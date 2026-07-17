@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { getUniversities, type University } from "../../utils/universities";
+import { trackComparison } from "../../utils/activity";
 
 /* ─── Types ─────────────────────────────────────── */
 type LifestyleData = { pros: string[]; cons: string[]; summary: string };
@@ -158,6 +159,14 @@ export default function Compare() {
     () => unis.map((uni, i) => uni?.bachelors.find((b) => b.id === progIds[i]) ?? null),
     [unis, progIds]
   );
+
+  // Track the comparison for logged-in users once both universities are chosen.
+  // `unis` is memoized, so this only re-fires when the selected pair changes —
+  // not on unrelated re-renders. The helper no-ops for anonymous visitors.
+  useEffect(() => {
+    const [a, b] = unis;
+    if (a && b) trackComparison([a, b]);
+  }, [unis]);
 
   const colCount = unis.filter(Boolean).length;
   const bothProgs = progs[0] !== null && progs[1] !== null;

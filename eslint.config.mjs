@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Stray nested duplicate of the whole project (own .git/node_modules/.next);
+    // not part of this app and must not be linted.
+    "unimate/**",
   ]),
 ]);
 

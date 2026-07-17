@@ -1,5 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
+
+// Lifetime free-message cap per identifier (user id, or IP for anonymous).
+const FREE_MESSAGE_LIMIT = 10;
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -86,26 +91,45 @@ Always:
 - Be encouraging and direct
 - Remember everything from earlier in the conversation`;
 
-// Simple in-memory rate limiter: max 15 requests per minute per IP
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
-    return false;
-  }
-  if (entry.count >= 15) return true;
-  entry.count++;
-  return false;
-}
-
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
 
-  if (isRateLimited(ip)) {
-    return NextResponse.json({ error: "Troppe richieste. Aspetta un minuto." }, { status: 429 });
+  // Quota key: the logged-in user's id when available, otherwise the IP.
+  let quotaKey = ip;
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) quotaKey = user.id;
+  } catch (error) {
+    // Reading the session failed — fall back to the IP so the cap still applies.
+    console.error("Chat quota: failed to resolve user, using IP", error);
+  }
+
+  // Persistent, cross-instance counter in Supabase (shared across serverless
+  // instances). Each POST consumes one message; the first FREE_MESSAGE_LIMIT
+  // are allowed, from then on we return 429.
+  try {
+    const admin = createAdminClient();
+    const { data: allowed, error } = await admin.rpc("consume_message_quota", {
+      p_identifier: quotaKey,
+      p_max_messages: FREE_MESSAGE_LIMIT,
+    });
+    if (error) throw error;
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "You've used all your free messages. Upgrade to Premium to keep chatting." },
+        { status: 429 }
+      );
+    }
+  } catch (error) {
+    // Fail-safe: if the quota check fails (network/DB), block with 429 instead
+    // of giving away unlimited messages. We log the real error server-side and
+    // never expose it to the client.
+    console.error("Chat quota check failed:", error);
+    return NextResponse.json(
+      { error: "You've used all your free messages. Upgrade to Premium to keep chatting." },
+      { status: 429 }
+    );
   }
 
   try {
@@ -140,8 +164,11 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: content.text });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error("Anthropic error:", message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    // Log the full error (with stack) server-side; never leak it to the client.
+    console.error("Anthropic error:", error instanceof Error ? error.stack ?? error.message : error);
+    return NextResponse.json(
+      { error: "Si è verificato un errore. Riprova tra poco." },
+      { status: 500 }
+    );
   }
 }

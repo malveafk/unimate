@@ -1,17 +1,38 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
+// Send at most this many recent messages to /api/chat, which rejects
+// conversations longer than 40. The full history is still saved to Supabase.
+const MAX_API_MESSAGES = 30;
+
 const WELCOME = `Hey! I'm Unimate 👋
 
 I'm here to help you understand how to study abroad — universities, financial aid, housing, applications, bureaucracy. Everything you wished you'd known earlier.
 
 Where are you from and what would you like to study?`;
+
+// Compact relative time for the chat-history list (e.g. "3h ago").
+function timeAgo(iso: string): string {
+  const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (m < 1) return "just now";
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24);
+  if (d < 7) return `${d}d ago`;
+  const w = Math.floor(d / 7);
+  if (w < 5) return `${w}w ago`;
+  const mo = Math.floor(d / 30);
+  if (mo < 12) return `${mo}mo ago`;
+  return `${Math.floor(d / 365)}y ago`;
+}
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([
@@ -21,12 +42,180 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [rateLimited, setRateLimited] = useState(false);
   const [notifyClicked, setNotifyClicked] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [isPremium, setIsPremium] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [conversations, setConversations] = useState<{ id: string; title: string | null; updated_at: string }[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingTitle, setEditingTitle] = useState("");
+  const [supabase] = useState(() => createClient());
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // On mount, for logged-in users, resume the most recent conversation so the
+  // assistant remembers the previous exchange. Anonymous users keep the
+  // ephemeral welcome screen. Best-effort: failures only log to the console.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || cancelled) return;
+      setUserId(user.id);
+
+      // Premium status gates the chat-history dropdown (read server-side).
+      fetch("/api/me")
+        .then((r) => r.json())
+        .then((d) => { if (!cancelled) setIsPremium(Boolean(d?.premium)); })
+        .catch((e) => console.error("Failed to load premium status:", e));
+
+      // RLS scopes both queries to the current user's rows.
+      const { data: convs } = await supabase
+        .from("conversations")
+        .select("id")
+        .order("updated_at", { ascending: false })
+        .limit(1);
+      const conv = convs?.[0];
+      if (!conv || cancelled) return;
+
+      const { data: msgs } = await supabase
+        .from("messages")
+        .select("role, content")
+        .eq("conversation_id", conv.id)
+        .order("created_at", { ascending: true });
+      if (!msgs || msgs.length === 0 || cancelled) return;
+
+      setConversationId(conv.id);
+      setMessages(msgs as Message[]);
+    })().catch((e) => console.error("Failed to load conversation:", e));
+    return () => { cancelled = true; };
+  }, [supabase]);
+
+  // Load the list of past conversations for the history dropdown (RLS-scoped).
+  const loadConversations = async () => {
+    if (!userId) return;
+    try {
+      const { data } = await supabase
+        .from("conversations")
+        .select("id, title, updated_at")
+        .order("updated_at", { ascending: false });
+      setConversations(data ?? []);
+    } catch (e) {
+      console.error("Failed to load conversations:", e);
+    }
+  };
+
+  // Rename a conversation (premium-only). Title is capped like on creation.
+  const renameConversation = async (id: string, title: string) => {
+    if (!isPremium) return;
+    const finalTitle = title.trim().slice(0, 60) || "Untitled chat";
+    setConversations((prev) => prev.map((c) => (c.id === id ? { ...c, title: finalTitle } : c)));
+    setEditingId(null);
+    try {
+      const { error } = await supabase.from("conversations").update({ title: finalTitle }).eq("id", id);
+      if (error) throw error;
+    } catch (e) {
+      console.error("Failed to rename conversation:", e);
+    }
+  };
+
+  // Delete a conversation and its messages (cascade). Premium-only.
+  const deleteConversation = async (id: string) => {
+    if (!isPremium) return;
+    if (!window.confirm("Delete this chat? This cannot be undone.")) return;
+    setConversations((prev) => prev.filter((c) => c.id !== id));
+    if (id === conversationId) startNewChat();
+    try {
+      const { error } = await supabase.from("conversations").delete().eq("id", id);
+      if (error) throw error;
+    } catch (e) {
+      console.error("Failed to delete conversation:", e);
+    }
+  };
+
+  // Toggle the history dropdown, refreshing the list each time it opens.
+  const toggleHistory = () => {
+    setHistoryOpen((open) => {
+      if (!open) loadConversations();
+      return !open;
+    });
+  };
+
+  // Reopen a past conversation. Premium-only: non-premium users see the list
+  // but cannot load a chat (the button no-ops for them).
+  const openConversation = async (id: string) => {
+    if (!isPremium) return;
+    try {
+      const { data: msgs } = await supabase
+        .from("messages")
+        .select("role, content")
+        .eq("conversation_id", id)
+        .order("created_at", { ascending: true });
+      setConversationId(id);
+      setMessages(msgs && msgs.length > 0 ? (msgs as Message[]) : [{ role: "assistant", content: WELCOME }]);
+      setHistoryOpen(false);
+      setRateLimited(false);
+    } catch (e) {
+      console.error("Failed to open conversation:", e);
+    }
+  };
+
+  // Persist the user message (creating the conversation on first send) and
+  // return the conversation id, or null if not logged in / the save failed.
+  const persistUserMessage = async (userText: string): Promise<string | null> => {
+    if (!userId) return null;
+    try {
+      let convId = conversationId;
+      if (!convId) {
+        const { data, error } = await supabase
+          .from("conversations")
+          .insert({ user_id: userId, title: userText.slice(0, 40) })
+          .select("id")
+          .single();
+        if (error || !data) throw error ?? new Error("no conversation id");
+        convId = data.id;
+        setConversationId(convId);
+      }
+      const { error: msgErr } = await supabase
+        .from("messages")
+        .insert({ conversation_id: convId, role: "user", content: userText });
+      if (msgErr) throw msgErr;
+      return convId;
+    } catch (e) {
+      console.error("Failed to save user message:", e);
+      return null;
+    }
+  };
+
+  // Persist the assistant reply and bump the conversation's updated_at so it
+  // resurfaces as the most recent one on the next visit.
+  const persistAssistantMessage = async (convId: string, assistantText: string) => {
+    try {
+      const { error: msgErr } = await supabase
+        .from("messages")
+        .insert({ conversation_id: convId, role: "assistant", content: assistantText });
+      if (msgErr) throw msgErr;
+      const { error: updErr } = await supabase
+        .from("conversations")
+        .update({ updated_at: new Date().toISOString() })
+        .eq("id", convId);
+      if (updErr) throw updErr;
+    } catch (e) {
+      console.error("Failed to save assistant message:", e);
+    }
+  };
+
+  // Start a fresh conversation. The previous one stays saved in Supabase.
+  const startNewChat = () => {
+    setMessages([{ role: "assistant", content: WELCOME }]);
+    setConversationId(null);
+    setInput("");
+    setRateLimited(false);
+  };
 
   const sendMessage = async (text?: string) => {
     const content = text ?? input;
@@ -39,16 +228,21 @@ export default function Chat() {
     if (textareaRef.current) textareaRef.current.style.height = "auto";
     setLoading(true);
 
+    // Persist the user message for logged-in users (best-effort, no-op otherwise).
+    const convId = await persistUserMessage(content);
+
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
+        // Only send the most recent messages to stay under the API's 40-message
+        // limit; the full history remains saved in Supabase.
+        body: JSON.stringify({ messages: newMessages.slice(-MAX_API_MESSAGES) }),
       });
 
       if (response.status === 429) {
+        // Lifetime free-message cap reached — keep the Premium screen up (no auto-reset).
         setRateLimited(true);
-        setTimeout(() => setRateLimited(false), 60_000); // stesso limite del server: 1 minuto
         return;
       }
 
@@ -57,6 +251,8 @@ export default function Chat() {
         throw new Error(data.error || `Request failed (${response.status})`);
       }
       setMessages([...newMessages, { role: "assistant", content: data.message }]);
+      // Save the assistant reply once we have it (best-effort).
+      if (convId) await persistAssistantMessage(convId, data.message);
     } catch (err) {
       console.error("Chat request failed:", err instanceof Error ? err.message : err);
       setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again!" }]);
@@ -153,6 +349,188 @@ export default function Chat() {
           zIndex: 0,
         }}
       />
+
+      {/* ── Top controls: history + new chat (logged-in only) ── */}
+      {/* Fixed to the viewport so the buttons stay put while the chat scrolls. */}
+      {userId && (
+        <div style={{ position: "fixed", top: 120, right: 20, zIndex: 15, display: "flex", gap: 8 }}>
+          {/* History dropdown */}
+          <div style={{ position: "relative" }}>
+            <button
+              onClick={toggleHistory}
+              style={{
+                padding: "7px 14px",
+                borderRadius: 9,
+                border: "1px solid var(--border-strong)",
+                background: "var(--surface)",
+                color: "var(--text-2)",
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: "pointer",
+                fontFamily: "inherit",
+                transition: "color 0.15s ease, border-color 0.15s ease",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
+              onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+            >
+              History
+            </button>
+
+            {historyOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 8px)",
+                  right: 0,
+                  width: 300,
+                  maxHeight: 380,
+                  overflowY: "auto",
+                  background: "var(--surface)",
+                  border: "1px solid var(--border-strong)",
+                  borderRadius: 12,
+                  boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
+                  padding: 6,
+                }}
+              >
+                {!isPremium && (
+                  <div style={{ padding: "10px 12px 12px", display: "flex", flexDirection: "column", gap: 4, borderBottom: "1px solid var(--border)", marginBottom: 4 }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-1)" }}>✨ Chat history is Premium</span>
+                    <span style={{ fontSize: 11, color: "var(--text-2)", lineHeight: 1.4 }}>
+                      Reopening past chats needs Unimate Premium (coming soon).
+                    </span>
+                  </div>
+                )}
+
+                {conversations.length === 0 ? (
+                  <div style={{ padding: "14px 12px", fontSize: 12, color: "var(--text-3)" }}>No past chats yet.</div>
+                ) : (
+                  conversations.map((c) => (
+                    <div
+                      key={c.id}
+                      className="chat-history-item"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        borderRadius: 8,
+                        background: c.id === conversationId ? "var(--surface-2)" : "transparent",
+                      }}
+                    >
+                      {editingId === c.id ? (
+                        <input
+                          autoFocus
+                          value={editingTitle}
+                          onChange={(e) => setEditingTitle(e.target.value)}
+                          onBlur={() => renameConversation(c.id, editingTitle)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") { e.preventDefault(); renameConversation(c.id, editingTitle); }
+                            if (e.key === "Escape") setEditingId(null);
+                          }}
+                          style={{
+                            flex: 1,
+                            minWidth: 0,
+                            padding: "9px 12px",
+                            borderRadius: 8,
+                            border: "1px solid var(--accent-border)",
+                            background: "var(--bg)",
+                            color: "var(--text-1)",
+                            fontSize: 13,
+                            fontFamily: "inherit",
+                            outline: "none",
+                          }}
+                        />
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => openConversation(c.id)}
+                            disabled={!isPremium}
+                            title={isPremium ? undefined : "Premium feature (coming soon)"}
+                            style={{
+                              flex: 1,
+                              minWidth: 0,
+                              textAlign: "left",
+                              padding: "9px 12px",
+                              borderRadius: 8,
+                              border: "none",
+                              background: "transparent",
+                              color: isPremium ? "var(--text-1)" : "var(--text-3)",
+                              fontSize: 13,
+                              fontFamily: "inherit",
+                              cursor: isPremium ? "pointer" : "not-allowed",
+                              opacity: isPremium ? 1 : 0.6,
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                            }}
+                          >
+                            {!isPremium && <span style={{ flexShrink: 0 }}>🔒</span>}
+                            <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                              {c.title || "Untitled chat"}
+                            </span>
+                            <span style={{ flexShrink: 0, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
+                              {timeAgo(c.updated_at)}
+                            </span>
+                          </button>
+
+                          {isPremium && (
+                            <div className="chat-history-actions" style={{ display: "flex", gap: 2, paddingRight: 6, flexShrink: 0 }}>
+                              <button
+                                onClick={() => { setEditingId(c.id); setEditingTitle(c.title || ""); }}
+                                title="Rename"
+                                aria-label="Rename chat"
+                                style={{ padding: 5, borderRadius: 6, border: "none", background: "transparent", color: "var(--text-3)", cursor: "pointer", display: "flex" }}
+                                onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
+                                onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
+                              >
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                  <path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                                </svg>
+                              </button>
+                              <button
+                                onClick={() => deleteConversation(c.id)}
+                                title="Delete"
+                                aria-label="Delete chat"
+                                style={{ padding: 5, borderRadius: 6, border: "none", background: "transparent", color: "var(--text-3)", cursor: "pointer", display: "flex" }}
+                                onMouseEnter={e => (e.currentTarget.style.color = "#f87171")}
+                                onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
+                              >
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                  <path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                </svg>
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* New chat */}
+          <button
+            onClick={startNewChat}
+            style={{
+              padding: "7px 14px",
+              borderRadius: 9,
+              border: "1px solid var(--border-strong)",
+              background: "var(--surface)",
+              color: "var(--text-2)",
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: "pointer",
+              fontFamily: "inherit",
+              transition: "color 0.15s ease, border-color 0.15s ease",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+          >
+            + New chat
+          </button>
+        </div>
+      )}
 
       {/* ── Messages scroll area ── */}
       <div
@@ -412,10 +790,10 @@ export default function Chat() {
                 <span style={{ fontSize: 18, flexShrink: 0 }}>✨</span>
                 <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
                   <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.1px" }}>
-                    You've hit the free message limit
+                    You&apos;ve used all your free messages
                   </span>
                   <span style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.4 }}>
-                    Unimate Premium (coming soon) will offer unlimited chats. Try again in a minute.
+                    Upgrade to Unimate Premium (coming soon) to keep chatting.
                   </span>
                 </div>
               </div>

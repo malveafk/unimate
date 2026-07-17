@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { getUniversity, type University } from "../../../utils/universities";
+import { trackUniversityView } from "../../../utils/activity";
 
 export default function UniversityDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -13,7 +14,11 @@ export default function UniversityDetail({ params }: { params: Promise<{ id: str
 
   useEffect(() => {
     getUniversity(id)
-      .then((data) => setUni(data))
+      .then((data) => {
+        setUni(data);
+        // Track the visit for logged-in users only (helper no-ops otherwise).
+        if (data) trackUniversityView(data.id, data.name);
+      })
       .catch((error) => {
         console.error("Failed to load university:", error?.message ?? error);
         setError("Impossibile caricare l'università. Riprova più tardi.");

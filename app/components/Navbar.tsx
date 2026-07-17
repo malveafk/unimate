@@ -139,8 +139,13 @@ export default function Navbar() {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
-  // Close when route changes
-  useEffect(() => { setOpen(false); }, [pathname]);
+  // Close when route changes — adjust state during render (React's recommended
+  // pattern) instead of in an effect, which would trigger a cascading render.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
 
   // Escape key
   useEffect(() => {
