@@ -117,7 +117,7 @@ export default function UniversityMap({ universities }: Props) {
         display: "block",
       }}
       title="University Map"
-      sandbox="allow-scripts"
+      sandbox="allow-scripts allow-same-origin"
     />
   );
 }

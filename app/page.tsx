@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { TransitionLink } from "./components/PageTransition";
+import { universities } from "./data/universities";
 
 /* ─── Hero slideshow ──────────────────────────────── */
 const ALL_SLIDES = [
@@ -117,6 +118,16 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Real numbers pulled straight from the data — no more placeholder "X"
+  const totalUniversities = universities.length;
+  const totalCountries = new Set(universities.map((u) => u.country)).size;
+  const totalProgrammes = universities.reduce((sum, u) => sum + (u.bachelors?.length ?? 0), 0);
+  const stats = [
+    { value: `${totalUniversities}+`, label: "Universities" },
+    { value: `${totalCountries}`, label: "Countries" },
+    { value: `${totalProgrammes}+`, label: "Programmes" },
+  ];
+
   return (
     <>
       {/* Fixed background */}
@@ -124,7 +135,7 @@ export default function Home() {
         <HeroSlideshow />
       </div>
 
-      {/* Fixed quick-action bar */}
+      {/* Fixed quick-action bar — Universities / Housing icons, up near the top */}
       <div style={{
         position: "fixed",
         top: 100,
@@ -144,16 +155,36 @@ export default function Home() {
         gap: 4,
       }}>
         {[
-          { label: "Find your university", icon: "🎓", href: "/universities" },
-          { label: "Find your apartment", icon: "🏠", href: "/housing" },
-        ].map(({ label, icon, href }, i) => (
+          {
+            label: "Universities",
+            sub: "Browse 30+ unis across Europe",
+            href: "/universities",
+            icon: (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            ),
+          },
+          {
+            label: "Housing",
+            sub: "Rooms & roommates across Europe",
+            href: "/housing",
+            icon: (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            ),
+          },
+        ].map(({ label, sub, href, icon }, i) => (
           <React.Fragment key={href}>
             {i > 0 && (
               <div style={{
                 width: 1,
-                background: "rgba(255,255,255,0.18)",
+                background: "rgba(255,255,255,0.15)",
                 alignSelf: "stretch",
-                margin: "6px 0",
+                margin: "8px 0",
               }} />
             )}
             <TransitionLink
@@ -161,27 +192,38 @@ export default function Home() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 9,
-                padding: "10px 22px",
+                gap: 14,
+                padding: "12px 24px",
                 borderRadius: 100,
-                color: "rgba(255,255,255,0.88)",
-                fontSize: 13.5,
-                fontWeight: 500,
+                color: "rgba(255,255,255,0.9)",
                 textDecoration: "none",
-                whiteSpace: "nowrap",
                 transition: "background 0.15s ease",
-                letterSpacing: "0.01em",
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.12)";
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.background = "transparent";
               }}
             >
-              <span style={{ fontSize: 16 }}>{icon}</span>
-              {label}
-              <span style={{ opacity: 0.4, fontSize: 12 }}>→</span>
+              <div style={{
+                width: 36, height: 36, borderRadius: "50%",
+                background: "rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0,
+              }}>
+                {icon}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: "-0.2px", whiteSpace: "nowrap" }}>
+                  {label}
+                </span>
+                <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", whiteSpace: "nowrap" }}>
+                  {sub}
+                </span>
+              </div>
+              <span style={{ opacity: 0.35, fontSize: 16, marginLeft: 4 }}>→</span>
             </TransitionLink>
           </React.Fragment>
         ))}
@@ -200,12 +242,28 @@ export default function Home() {
           justifyContent: "center",
           textAlign: "center",
           padding: "80px 32px 40px",
-          gap: 24,
+          gap: 20,
         }}
       >
-        <span className="label" style={{ color: "var(--accent)", opacity: 0, animation: "fadeIn 0.5s ease-out 0.3s forwards" }}>
-          One click away from your future
-        </span>
+        {/* Badge — made by students, for students */}
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "7px 16px 7px 12px",
+          borderRadius: 100,
+          border: "1px solid rgba(255,255,255,0.18)",
+          background: "rgba(255,255,255,0.06)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          opacity: 0,
+          animation: "fadeIn 0.5s ease-out 0.15s forwards",
+        }}>
+          <span style={{ fontSize: 15, lineHeight: 1 }}>🎓</span>
+          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.02em", color: "rgba(255,255,255,0.85)" }}>
+            Made by students, for students
+          </span>
+        </div>
 
         <h1 style={{
           fontSize: "clamp(44px, 7vw, 88px)",
@@ -219,6 +277,22 @@ export default function Home() {
           <AnimatedHeadline text="The Hub for International Students." />
         </h1>
 
+        {/* Motto — the emphasized tagline */}
+        <p style={{
+          fontSize: "clamp(19px, 2.6vw, 28px)",
+          fontWeight: 700,
+          letterSpacing: "-0.5px",
+          margin: 0,
+          background: "linear-gradient(135deg, #ffffff 20%, rgba(167,139,250,0.9) 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          opacity: 0,
+          animation: "fadeUp 0.6s ease-out 0.55s forwards",
+        }}>
+          One click away from your future.
+        </p>
+
         <p style={{
           fontSize: "clamp(15px, 1.8vw, 19px)",
           color: "rgba(237,237,237,0.65)",
@@ -226,24 +300,24 @@ export default function Home() {
           maxWidth: 480,
           margin: 0,
           opacity: 0,
-          animation: "fadeUp 0.6s ease-out 0.7s forwards",
+          animation: "fadeUp 0.6s ease-out 0.8s forwards",
         }}>
           Find your university, compare costs, and make your move — Europe is closer than you think.
         </p>
 
-        {/* Stats */}
+        {/* Stats — real numbers pulled from our data */}
         <div style={{
           display: "flex",
           gap: 48,
           flexWrap: "wrap",
           justifyContent: "center",
           opacity: 0,
-          animation: "fadeUp 0.6s ease-out 1.1s forwards",
-          marginTop: 8,
+          animation: "fadeUp 0.6s ease-out 1.05s forwards",
+          marginTop: 4,
         }}>
-          {["Universities", "Countries", "Faculties"].map((label) => (
+          {stats.map(({ value, label }) => (
             <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-              <span style={{ fontSize: 32, fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>X</span>
+              <span style={{ fontSize: 32, fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>{value}</span>
               <span className="label" style={{ color: "rgba(255,255,255,0.75)" }}>{label}</span>
             </div>
           ))}

@@ -276,6 +276,29 @@ body {
   margin: 0;
 }
 
+/* ─── Resizable panel handle ────────────────────── */
+/*
+ * The visual line and grip dots are rendered inline by ApplyPageLayout.tsx.
+ * This class adds only the base cursor + touch behaviour so the element is
+ * interactable even before JS hydrates (prevents FOUC cursor flicker).
+ */
+.resize-handle {
+  cursor:      col-resize;
+  touch-action: none;
+  flex-shrink:  0;
+  position:     relative;
+  z-index:      10;
+}
+
+/* Prevent iframe / image content inside panels from eating pointer events
+   while a drag is in progress.  Applied to body via JS overlay in component. */
+body.is-resizing * {
+  pointer-events: none !important;
+}
+body.is-resizing .resize-handle {
+  pointer-events: auto !important;
+}
+
 /* ─── Mono label ────────────────────────────────── */
 .label {
   font-size: 10px;

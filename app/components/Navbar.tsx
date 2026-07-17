@@ -38,9 +38,16 @@ const SECTIONS = [
     accentRgb: "251,191,36",
   },
   {
+    href: "/messages",
+    label: "Messages",
+    step: "05",
+    desc: "Chat directly with other students — coordinate roommates, housing, and more.",
+    accentRgb: "52,211,153",
+  },
+  {
     href: "/chat",
     label: "Chat AI",
-    step: "05",
+    step: "06",
     desc: "Your personal AI assistant — ask anything about studying abroad in Europe.",
     accentRgb: "167,139,250",
   },
