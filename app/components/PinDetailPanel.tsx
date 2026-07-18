@@ -394,7 +394,7 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
         <div
           onClick={onClose}
           style={{
-            position: "fixed", inset: 0, zIndex: 200,
+            position: "fixed", inset: 0, zIndex: 1200,
             background: "rgba(0,0,0,0.4)",
             backdropFilter: "blur(2px)",
             animation: "fadeIn 0.2s ease",
@@ -411,7 +411,7 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
           bottom: 0,
           width: 400,
           maxWidth: "92vw",
-          zIndex: 201,
+          zIndex: 1201,
           background: "var(--bg)",
           borderLeft: "1px solid var(--border)",
           display: "flex",
