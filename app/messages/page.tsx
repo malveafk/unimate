@@ -65,7 +65,7 @@ function seedConversations(): Conversation[] {
     messages: [
       {
         from: "them",
-        text: `Hi! I'm ${r.name} 👋 I saw your profile on Unimate. I'm looking for a flatmate in ${r.city} — budget around €${r.budgetMin}–€${r.budgetMax}/mo, moving in ${r.moveIn}. Would love to chat!`,
+        text: `Hi! I'm ${r.name} 👋 I saw your profile on 4UNI. I'm looking for a flatmate in ${r.city} — budget around €${r.budgetMin}–€${r.budgetMax}/mo, moving in ${r.moveIn}. Would love to chat!`,
         time: "09:14",
       },
     ],
@@ -77,7 +77,7 @@ function placeholderProfile(userId: string): RoommatePin {
   return {
     id: userId, userId, name: "Student", initials: "S",
     avatarColor: "167,139,250", city: "", lat: 0, lng: 0,
-    budgetMin: 0, budgetMax: 0, moveIn: "—", university: "Unimate user", flag: "🎓",
+    budgetMin: 0, budgetMax: 0, moveIn: "—", university: "4UNI user", flag: "🎓",
   };
 }
 

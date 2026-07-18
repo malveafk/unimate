@@ -202,7 +202,7 @@ type ChatMsg = { from: "me" | "them"; text: string; time: string };
 function ChatPanel({ profile, onClose }: { profile: RoommatePin; onClose: () => void }) {
   const [messages, setMessages] = useState<ChatMsg[]>([{
     from: "them",
-    text: `Hey! I saw your profile on Unimate 👋 I'm ${profile.name}, looking for a flatmate in ${profile.city}. My budget is around €${profile.budgetMin}–€${profile.budgetMax}/mo and I'm planning to move in ${profile.moveIn}. Feel free to ask me anything!`,
+    text: `Hey! I saw your profile on 4UNI 👋 I'm ${profile.name}, looking for a flatmate in ${profile.city}. My budget is around €${profile.budgetMin}–€${profile.budgetMax}/mo and I'm planning to move in ${profile.moveIn}. Feel free to ask me anything!`,
     time: new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }),
   }]);
   const [input, setInput] = useState("");
@@ -421,7 +421,7 @@ export default function HousingPage() {
       {/* ── Hero ─────────────────────────────────────── */}
       <div style={{ padding: "72px 0 48px", borderBottom: "1px solid var(--border)", maxWidth: 680 }}>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgb(96,165,250)", letterSpacing: "0.2em", textTransform: "uppercase" }}>
-          Housing · Unimate
+          Housing · 4UNI
         </span>
         <h1 style={{
           fontSize: "clamp(36px, 5vw, 60px)",

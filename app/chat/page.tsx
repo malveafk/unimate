@@ -15,7 +15,7 @@ const MAX_API_MESSAGES = 30;
 // Width of the collapsible left sidebar that lists saved conversations.
 const SIDEBAR_WIDTH = 250;
 
-const WELCOME = `Hey! I'm Unimate 👋
+const WELCOME = `Hey! I'm 4UNI 👋
 
 I'm here to help you understand how to study abroad — universities, financial aid, housing, applications, bureaucracy. Everything you wished you'd known earlier.
 
@@ -418,7 +418,7 @@ export default function Chat() {
                   <div style={{ padding: "10px 12px 12px", display: "flex", flexDirection: "column", gap: 4, borderBottom: "1px solid var(--border)", marginBottom: 4 }}>
                     <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-1)" }}>✨ Chat history is Premium</span>
                     <span style={{ fontSize: 11, color: "var(--text-2)", lineHeight: 1.4 }}>
-                      Reopening past chats needs Unimate Premium (coming soon).
+                      Reopening past chats needs 4UNI Premium (coming soon).
                     </span>
                   </div>
                 )}
@@ -623,7 +623,7 @@ export default function Chat() {
                   }}
                 >
                   {isAssistant ? (
-                    /* Unimate icon — small violet square with "U" */
+                    /* 4UNI icon — small violet square with "4" */
                     <div
                       style={{
                         width: 22,
@@ -637,9 +637,7 @@ export default function Chat() {
                         boxShadow: "0 0 12px rgba(167,139,250,0.35)",
                       }}
                     >
-                      <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden>
-                        <path d="M3 3v5.5C3 11.09 5.24 13 8 13s5-1.91 5-4.5V3" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                      </svg>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: "white", lineHeight: 1 }}>4</span>
                     </div>
                   ) : (
                     /* User icon — neutral circle */
@@ -673,7 +671,7 @@ export default function Chat() {
                       color: isAssistant ? "var(--accent)" : "var(--text-3)",
                     }}
                   >
-                    {isAssistant ? "Unimate" : "You"}
+                    {isAssistant ? "4UNI" : "You"}
                   </span>
                 </div>
 
@@ -765,9 +763,7 @@ export default function Chat() {
                     boxShadow: "0 0 12px rgba(167,139,250,0.35)",
                   }}
                 >
-                  <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden>
-                    <path d="M3 3v5.5C3 11.09 5.24 13 8 13s5-1.91 5-4.5V3" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "white", lineHeight: 1 }}>4</span>
                 </div>
                 <span
                   style={{
@@ -779,7 +775,7 @@ export default function Chat() {
                     color: "var(--accent)",
                   }}
                 >
-                  Unimate
+                  4UNI
                 </span>
               </div>
 
@@ -827,7 +823,7 @@ export default function Chat() {
                     You&apos;ve used all your free messages
                   </span>
                   <span style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.4 }}>
-                    Upgrade to Unimate Premium (coming soon) to keep chatting.
+                    Upgrade to 4UNI Premium (coming soon) to keep chatting.
                   </span>
                 </div>
               </div>
@@ -973,7 +969,7 @@ export default function Chat() {
               letterSpacing: "0.04em",
             }}
           >
-            Unimate can make mistakes. Verify important information.
+            4UNI can make mistakes. Verify important information.
           </p>
         </div>
       </div>

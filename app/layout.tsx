@@ -17,7 +17,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Unimate — Study Abroad Assistant",
+  title: "4UNI — Study Abroad Assistant",
   description: "Your personal guide to studying abroad in Europe",
 };
 
@@ -50,12 +50,15 @@ export default function RootLayout({
             gap: 16,
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <div style={{ width: 22, height: 22, borderRadius: 6, background: "var(--text-1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: "var(--bg)" }}>U</div>
-              <span style={{ fontSize: 12, color: "var(--text-3)", fontWeight: 500 }}>© 2026 Unimate</span>
+              <div style={{ width: 22, height: 22, borderRadius: 6, background: "var(--text-1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: "var(--bg)" }}>4</div>
+              <span style={{ fontSize: 12, color: "var(--text-3)", fontWeight: 500 }}>© 2026 4UNI</span>
             </div>
             <div style={{ display: "flex", gap: 24 }}>
-              {["Privacy", "Terms", "Twitter"].map((l) => (
-                <a key={l} href="#" className="footer-link">{l}</a>
+              {[
+                { label: "Privacy", href: "/privacy" },
+                { label: "Terms", href: "/terms" },
+              ].map((l) => (
+                <a key={l.label} href={l.href} className="footer-link">{l.label}</a>
               ))}
             </div>
           </div>

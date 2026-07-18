@@ -103,7 +103,7 @@ function listingToPin(row: ListingRow): ApartmentPin {
     lat: row.lat ?? (cityCoords ? cityCoords.lat + jitter(row.id, 0) : 0),
     lng: row.lng ?? (cityCoords ? cityCoords.lng + jitter(row.id, 1) : 0),
     price: row.price,
-    platform: row.platform ?? "Unimate",
+    platform: row.platform ?? "4UNI",
     furnished: row.furnished,
     link: row.link ?? undefined,
     rooms: row.rooms ?? undefined,
