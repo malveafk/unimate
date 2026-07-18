@@ -350,11 +350,11 @@ export default function Chat() {
         }}
       />
 
-      {/* ── Top controls: history + new chat (logged-in only) ── */}
+      {/* ── Top controls: history (logged-in only) + new chat (everyone) ── */}
       {/* Fixed to the viewport so the buttons stay put while the chat scrolls. */}
-      {userId && (
-        <div style={{ position: "fixed", top: 120, right: 20, zIndex: 15, display: "flex", gap: 8 }}>
-          {/* History dropdown */}
+      <div style={{ position: "fixed", top: 120, right: 20, zIndex: 15, display: "flex", gap: 8 }}>
+          {/* History dropdown — tied to saved conversations, so it needs an account */}
+          {userId && (
           <div style={{ position: "relative" }}>
             <button
               onClick={toggleHistory}
@@ -508,6 +508,7 @@ export default function Chat() {
               </div>
             )}
           </div>
+          )}
 
           {/* New chat */}
           <button
@@ -529,8 +530,7 @@ export default function Chat() {
           >
             + New chat
           </button>
-        </div>
-      )}
+      </div>
 
       {/* ── Messages scroll area ── */}
       <div
