@@ -44,6 +44,13 @@ export default function Chat() {
         body: JSON.stringify({ messages: newMessages }),
       });
       const data = await response.json().catch(() => ({}));
+
+      // Daily limit hit — show the API message directly as an assistant bubble
+      if (response.status === 429 && data.error === "daily_limit") {
+        setMessages([...newMessages, { role: "assistant", content: data.message }]);
+        return;
+      }
+
       if (!response.ok || !data.message) {
         throw new Error(data.error || `Request failed (${response.status})`);
       }
