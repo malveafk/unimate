@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -364,6 +365,15 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
 export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
   const isOpen = !!pin;
 
+  // While the drawer is open, freeze the page behind it so the mouse wheel
+  // scrolls the drawer content instead of the housing page underneath.
+  useEffect(() => {
+    if (!isOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previous; };
+  }, [isOpen]);
+
   // Derive header label
   const headerLabel =
     !pin         ? ""
@@ -445,8 +455,9 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
           </button>
         </div>
 
-        {/* Scrollable content */}
-        <div style={{ flex: 1, overflowY: "auto", minHeight: 0 }}>
+        {/* Scrollable content — overscroll contained so reaching the end of the
+            drawer never hands the wheel over to the page behind it */}
+        <div style={{ flex: 1, overflowY: "auto", minHeight: 0, overscrollBehavior: "contain" }}>
           {pin?.pinType === "roommate" && (
             <RoommateDetail data={pin.data} onMessage={onMessage} />
           )}
