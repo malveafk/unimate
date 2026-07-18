@@ -39,3 +39,23 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local Claude Code settings (per-machine, never share)
+.claude/settings.local.json
+
+# nested repo copy with secrets — must never be committed
+/unimate/
+
+# business documents (keep out of the code repo)
+Unimate_Business_Plan.docx
+Unimate_Modello_Finanziario.xlsx
+*.docx
+*.xlsx
+*.pptx
+
+# database dumps/backups
+*.dump
+*.sql.gz
+credentials.json
+service-account.json
+.claude/launch.json

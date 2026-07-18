@@ -2,12 +2,46 @@
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { use } from "react";
-import { universities } from "../../data/universities";
+import { use, useEffect, useState } from "react";
+import { getUniversity, type University } from "../../../utils/universities";
+import { trackUniversityView } from "../../../utils/activity";
 
 export default function UniversityDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const uni = universities.find((u) => u.id === id);
+  const [uni, setUni] = useState<University | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getUniversity(id)
+      .then((data) => {
+        setUni(data);
+        // Track the visit for logged-in users only (helper no-ops otherwise).
+        if (data) trackUniversityView(data.id, data.name);
+      })
+      .catch((error) => {
+        console.error("Failed to load university:", error?.message ?? error);
+        setError("Impossibile caricare l'università. Riprova più tardi.");
+      })
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-12 text-center text-zinc-500">
+        Loading…
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-12 text-center text-zinc-500">
+        {error}
+      </div>
+    );
+  }
+
   if (!uni) notFound();
 
   return (
@@ -115,13 +149,6 @@ export default function UniversityDetail({ params }: { params: Promise<{ id: str
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                       </svg>
                       {b.language}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                      </svg>
-                      {b.courses.length} courses
                     </span>
                   </div>
                 </div>

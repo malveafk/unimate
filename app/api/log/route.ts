@@ -1,18 +1,15 @@
-import { createClient } from '@supabase/supabase-js'
+import { logAction } from '@/utils/log'
 
 export async function POST(request: Request) {
-    const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    const body = await request.json().catch(() => null)
 
-    const body = await request.json()
+    if (!body || typeof body.action !== 'string' || body.action.length === 0 || body.action.length > 100) {
+        return Response.json({ error: 'Invalid action.' }, { status: 400 })
+    }
 
-    const { data, error } = await supabase
-        .from('logs')
-        .insert([{ action: body.action, ip: body.ip }])
-        .select()
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
 
-    if (error) return Response.json({ error })
-    return Response.json(data)
+    const ok = await logAction(body.action, ip)
+    if (!ok) return Response.json({ error: 'Failed to log action.' }, { status: 500 })
+    return Response.json({ ok: true })
 }

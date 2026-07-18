@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import Navbar from "./components/Navbar";
+import TopBar from "./components/TopBar";
 import { PageTransitionProvider } from "./components/PageTransition";
 import { MainWrapper } from "./components/MainWrapper";
 import "./globals.css";
@@ -27,8 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${mono.variable}`}>
-      <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)", color: "var(--text-1)" }}>
+      <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)", color: "var(--text-1)", paddingTop: 36 }}>
         <PageTransitionProvider>
+          <TopBar />
           <Navbar />
           <MainWrapper>
             {children}

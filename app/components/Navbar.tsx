@@ -1,13 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { TransitionLink } from "./PageTransition";
+import type { User } from "@supabase/supabase-js";
+import { TransitionLink, usePageTransition } from "./PageTransition";
+import { createClient } from "@/utils/supabase/client";
+import AuthModal from "./AuthModal";
 
 const SECTIONS = [
   {
-    href: "/",
+    href: "/news",
     label: "News",
     step: "01",
     desc: "Latest admissions, scholarships and visa news curated for students moving to Europe.",
@@ -21,120 +24,100 @@ const SECTIONS = [
     accentRgb: "52,211,153",
   },
   {
+    href: "/housing",
+    label: "Housing",
+    step: "03",
+    desc: "Find apartments and roommates across Europe — filtered by city, budget and move-in date.",
+    accentRgb: "96,165,250",
+  },
+  {
     href: "/compare",
     label: "Compare",
-    step: "03",
+    step: "04",
     desc: "Place universities side-by-side to compare costs, programmes and living expenses.",
     accentRgb: "251,191,36",
   },
   {
     href: "/chat",
     label: "Chat AI",
-    step: "04",
+    step: "05",
     desc: "Your personal AI assistant — ask anything about studying abroad in Europe.",
-    accentRgb: "96,165,250",
+    accentRgb: "167,139,250",
   },
 ];
 
-// ─── 3D tilt card ──────────────────────────────────────────────────────────
-function NavCard({ section, index }: { section: typeof SECTIONS[0]; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+// ─── Nav row item ───────────────────────────────────────────────────────────
+function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; index: number; onNavigate: (href: string) => void }) {
+  const [hovered, setHovered] = useState(false);
   const rgb = section.accentRgb;
-
-  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
-    const el = cardRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
-    const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
-    el.style.transition = "transform 0.06s ease";
-    el.style.transform = `perspective(900px) rotateX(${-y * 8}deg) rotateY(${x * 12}deg) translateZ(16px)`;
-  }
-
-  function handleLeave() {
-    const el = cardRef.current;
-    if (!el) return;
-    el.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1)";
-    el.style.transform = "";
-  }
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 48, scale: 0.94 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 24, scale: 0.96 }}
-      transition={{ duration: 0.42, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
+      initial={{ opacity: 0, x: -24 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -16 }}
+      transition={{ duration: 0.32, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
     >
-      <TransitionLink href={section.href} style={{ textDecoration: "none", display: "block" }}>
-        <div
-          ref={cardRef}
-          style={{
-            padding: "36px 32px",
-            borderRadius: 22,
-            border: `1px solid rgba(${rgb},0.3)`,
-            background: `rgba(${rgb},0.07)`,
-            display: "flex",
-            flexDirection: "column",
-            gap: 18,
-            minHeight: 230,
-            cursor: "pointer",
-            willChange: "transform",
-            transition: "border-color 0.2s, box-shadow 0.2s",
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = `rgba(${rgb},0.55)`;
-            e.currentTarget.style.boxShadow = `0 0 40px rgba(${rgb},0.12)`;
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.borderColor = `rgba(${rgb},0.3)`;
-            e.currentTarget.style.boxShadow = "none";
-          }}
-        >
-          {/* Header row */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <span style={{
-              fontFamily: "var(--font-mono)", fontSize: 10,
-              color: `rgb(${rgb})`, letterSpacing: "0.12em", opacity: 0.75,
-            }}>
-              {section.step}
-            </span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 13L13 3M13 3H5.5M13 3V10.5"
-                stroke={`rgba(${rgb},0.5)`} strokeWidth="1.5"
-                strokeLinecap="round" strokeLinejoin="round"
-              />
-            </svg>
-          </div>
+      <button
+        onClick={() => onNavigate(section.href)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 28,
+          width: "100%",
+          padding: "22px 0",
+          background: "none",
+          border: "none",
+          borderBottom: "1px solid var(--border)",
+          cursor: "pointer",
+          textAlign: "left",
+          fontFamily: "inherit",
+          transition: "gap 0.2s ease",
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Step number */}
+        <span style={{
+          fontFamily: "var(--font-mono)", fontSize: 11,
+          color: hovered ? `rgb(${rgb})` : "var(--text-3)",
+          letterSpacing: "0.14em", flexShrink: 0, width: 28,
+          transition: "color 0.2s",
+        }}>
+          {section.step}
+        </span>
 
-          {/* Content */}
-          <div style={{ flex: 1 }}>
-            <h2 style={{
-              fontSize: "clamp(28px,3.5vw,42px)", fontWeight: 800,
-              color: "var(--text-1)", margin: "0 0 14px",
-              letterSpacing: "-0.8px", lineHeight: 1,
-            }}>
-              {section.label}
-            </h2>
-            <p style={{
-              fontSize: 13, color: "var(--text-2)",
-              lineHeight: 1.7, margin: 0,
-            }}>
-              {section.desc}
-            </p>
-          </div>
+        {/* Label */}
+        <span style={{
+          fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 800,
+          color: hovered ? `rgb(${rgb})` : "var(--text-1)",
+          letterSpacing: "-1.5px", lineHeight: 1,
+          transition: "color 0.2s",
+          flex: 1,
+        }}>
+          {section.label}
+        </span>
 
-          {/* CTA */}
-          <div style={{
-            fontSize: 12, fontWeight: 600,
-            color: `rgb(${rgb})`, opacity: 0.8,
-            display: "flex", alignItems: "center", gap: 6,
-          }}>
-            Explore <span style={{ fontSize: 15 }}>→</span>
-          </div>
-        </div>
-      </TransitionLink>
+        {/* Description — visible on hover */}
+        <span style={{
+          fontSize: 13, color: "var(--text-2)",
+          lineHeight: 1.6, maxWidth: 260, textAlign: "right",
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? "translateX(0)" : "translateX(12px)",
+          transition: "opacity 0.2s, transform 0.2s",
+        }}>
+          {section.desc}
+        </span>
+
+        {/* Arrow */}
+        <span style={{
+          fontSize: 20,
+          color: hovered ? `rgb(${rgb})` : "var(--text-3)",
+          transform: hovered ? "translateX(4px)" : "translateX(0)",
+          transition: "color 0.2s, transform 0.2s",
+          flexShrink: 0,
+        }}>→</span>
+      </button>
     </motion.div>
   );
 }
@@ -142,10 +125,27 @@ function NavCard({ section, index }: { section: typeof SECTIONS[0]; index: numbe
 // ─── Navbar ────────────────────────────────────────────────────────────────
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [supabase] = useState(() => createClient());
+  const { go } = usePageTransition();
   const pathname = usePathname();
 
-  // Close when route changes
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, [supabase]);
+
+  // Close when route changes — adjust state during render (React's recommended
+  // pattern) instead of in an effect, which would trigger a cascading render.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
 
   // Escape key
   useEffect(() => {
@@ -160,9 +160,6 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const activeSection = SECTIONS.find(s =>
-    s.href === "/" ? pathname === "/" : pathname.startsWith(s.href)
-  );
 
   return (
     <>
@@ -170,7 +167,7 @@ export default function Navbar() {
       <nav
         style={{
           position: "sticky",
-          top: 0,
+          top: 36,
           zIndex: 1000,
           height: 60,
           display: "flex",
@@ -203,36 +200,61 @@ export default function Navbar() {
             onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.1) rotate(-4deg)")}
             onMouseLeave={e => (e.currentTarget.style.transform = "")}
           >
-            U
+            4
           </div>
           <span style={{ fontWeight: 600, fontSize: 15, color: "var(--text-1)", letterSpacing: "-0.3px" }}>
-            Unimate
+            4UNI
           </span>
         </TransitionLink>
 
-        {/* Center step indicator */}
-        <AnimatePresence mode="wait">
-          {!open && activeSection && (
-            <motion.span
-              key={activeSection.step}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 6 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                position: "absolute", left: "50%", transform: "translateX(-50%)",
-                fontFamily: "var(--font-mono)", fontSize: 11,
-                color: "var(--text-3)", letterSpacing: "0.12em",
-                pointerEvents: "none",
-              }}
-            >
-              {activeSection.step} / 04
-            </motion.span>
-          )}
-        </AnimatePresence>
 
-        {/* Menu toggle */}
-        <button
+        {/* Right side: account + menu toggle */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, position: "relative", zIndex: 1001 }}>
+          {/* Account */}
+          {user ? (
+            <button
+              onClick={() => supabase.auth.signOut()}
+              style={{
+                display: "flex", alignItems: "center", gap: 8,
+                background: "transparent",
+                border: "1px solid var(--border)",
+                borderRadius: 8, padding: "7px 14px",
+                cursor: "pointer", color: "var(--text-2)",
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                fontFamily: "inherit", transition: "border-color 0.2s, color 0.2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "var(--text-1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
+            >
+              <div style={{
+                width: 20, height: 20, borderRadius: "50%",
+                background: "var(--accent)", display: "flex", alignItems: "center",
+                justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#fff", flexShrink: 0,
+              }}>
+                {(user.email ?? "?")[0].toUpperCase()}
+              </div>
+              SIGN OUT
+            </button>
+          ) : (
+            <button
+              onClick={() => setAuthOpen(true)}
+              style={{
+                background: "transparent",
+                border: "1px solid var(--border)",
+                borderRadius: 8, padding: "7px 16px",
+                cursor: "pointer", color: "var(--text-2)",
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                fontFamily: "inherit", transition: "border-color 0.2s, color 0.2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "var(--text-1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
+            >
+              SIGN IN
+            </button>
+          )}
+
+          {/* Menu toggle */}
+          <button
           onClick={() => setOpen(v => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           style={{
@@ -296,7 +318,8 @@ export default function Navbar() {
           >
             {open ? "CLOSE" : "MENU"}
           </motion.span>
-        </button>
+          </button>
+        </div>
       </nav>
 
       {/* ── Full-screen navigation overlay ──────────────────────── */}
@@ -307,7 +330,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.22 }}
+            transition={{ duration: 0.2 }}
             style={{
               position: "fixed",
               inset: 0,
@@ -318,57 +341,60 @@ export default function Navbar() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              padding: "80px 48px 48px",
+              padding: "80px 64px 64px",
               overflowY: "auto",
             }}
           >
-            {/* Section label */}
-            <motion.p
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.05 }}
-              style={{
-                fontFamily: "var(--font-mono)", fontSize: 10,
-                color: "var(--text-3)", letterSpacing: "0.18em",
-                textTransform: "uppercase", margin: "0 auto 28px",
-                maxWidth: 1100, width: "100%",
-              }}
-            >
-              Navigate · Unimate
-            </motion.p>
+            <div style={{ maxWidth: 1000, width: "100%", margin: "0 auto" }}>
+              {/* Label */}
+              <motion.p
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.04 }}
+                style={{
+                  fontFamily: "var(--font-mono)", fontSize: 10,
+                  color: "var(--text-3)", letterSpacing: "0.18em",
+                  textTransform: "uppercase", margin: "0 0 8px",
+                }}
+              >
+                Navigate · 4UNI
+              </motion.p>
 
-            {/* 4-card grid */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                gap: 14,
-                maxWidth: 1100,
-                margin: "0 auto",
-                width: "100%",
-              }}
-            >
-              {SECTIONS.map((section, i) => (
-                <NavCard key={section.href} section={section} index={i} />
-              ))}
+              {/* Nav rows */}
+              <div>
+                {SECTIONS.map((section, i) => (
+                  <NavCard
+                    key={section.href}
+                    section={section}
+                    index={i}
+                    onNavigate={(href) => {
+                      setOpen(false);
+                      go(href);
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* ESC hint */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.35, delay: 0.38 }}
+                style={{
+                  marginTop: 32,
+                  fontFamily: "var(--font-mono)", fontSize: 10,
+                  color: "var(--text-3)", letterSpacing: "0.14em",
+                }}
+              >
+                ESC TO CLOSE
+              </motion.p>
             </div>
-
-            {/* ESC hint */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.45 }}
-              style={{
-                textAlign: "center",
-                marginTop: 44,
-                fontFamily: "var(--font-mono)", fontSize: 10,
-                color: "var(--text-3)", letterSpacing: "0.14em",
-              }}
-            >
-              ESC TO CLOSE
-            </motion.p>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       </AnimatePresence>
     </>
   );
