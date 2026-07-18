@@ -397,7 +397,7 @@ export default function Universities() {
                     )}
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                       {topStrengths.slice(0, 3).map(s => (
-                        <span key={s} style={{ padding: "2px 7px", borderRadius: 4, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", fontSize: 10, color: "var(--text-3)" }}>{s}</span>
+                        <span key={s} style={{ padding: "2px 7px", borderRadius: 4, background: "var(--chip)", border: "1px solid var(--border)", fontSize: 10, color: "var(--text-3)" }}>{s}</span>
                       ))}
                     </div>
                   </div>
@@ -534,20 +534,20 @@ export default function Universities() {
 
                     {/* Stats row */}
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 20 }}>
-                      <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 9, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 5 }}>Tuition / yr</div>
+                      <div style={{ background: "var(--panel)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 5 }}>Tuition / yr</div>
                         <div style={{ fontSize: 14, fontWeight: 700, color: "var(--green)", letterSpacing: "-0.2px" }}>
                           {meta ? (meta.tuitionPerYear === 0 ? "Free" : `€${meta.tuitionPerYear.toLocaleString()}`) : uni.tuition}
                         </div>
                       </div>
-                      <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 9, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 5 }}>Living / mo</div>
+                      <div style={{ background: "var(--panel)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 5 }}>Living / mo</div>
                         <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.2px" }}>
                           {meta ? `€${meta.livingCostMin}–€${meta.livingCostMax}` : uni.livingCost}
                         </div>
                       </div>
-                      <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 9, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 5 }}>Deadline</div>
+                      <div style={{ background: "var(--panel)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 5 }}>Deadline</div>
                         <div style={{ fontSize: 12, fontWeight: 700, color: "rgba(251,191,36,0.9)", letterSpacing: "-0.1px", lineHeight: 1.3 }}>
                           {meta ? (meta.applicationDeadlineMonth === null ? "Rolling" : meta.applicationDeadline) : "—"}
                         </div>
@@ -555,14 +555,14 @@ export default function Universities() {
                     </div>
 
                     <div style={{ marginBottom: 20 }}>
-                      <span style={{ display: "inline-block", padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 12, color: "var(--text-2)", background: "rgba(255,255,255,0.03)" }}>
+                      <span style={{ display: "inline-block", padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 12, color: "var(--text-2)", background: "var(--chip)" }}>
                         {uni.teaching}
                       </span>
                     </div>
 
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 24 }}>
                       {uni.strengths.slice(0, 4).map((s) => (
-                        <span key={s} style={{ padding: "3px 10px", borderRadius: 6, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", fontSize: 12, color: "var(--text-3)" }}>{s}</span>
+                        <span key={s} style={{ padding: "3px 10px", borderRadius: 6, background: "var(--chip)", border: "1px solid var(--border)", fontSize: 12, color: "var(--text-3)" }}>{s}</span>
                       ))}
                       {uni.strengths.length > 4 && <span style={{ fontSize: 12, color: "var(--text-3)", alignSelf: "center" }}>+{uni.strengths.length - 4}</span>}
                     </div>
@@ -597,9 +597,9 @@ export default function Universities() {
                       </div>
                       <button
                         onClick={e => { e.stopPropagation(); setExpandedId(null); }}
-                        style={{ background: "rgba(255,255,255,0.07)", border: "1px solid var(--border)", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-2)", flexShrink: 0, transition: "background 0.15s" }}
+                        style={{ background: "var(--chip-strong)", border: "1px solid var(--border)", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-2)", flexShrink: 0, transition: "background 0.15s" }}
                         onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.14)")}
-                        onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.07)")}
+                        onMouseLeave={e => (e.currentTarget.style.background = "var(--chip-strong)")}
                       >
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                       </button>
@@ -613,20 +613,20 @@ export default function Universities() {
 
                     {/* Stats */}
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-                      <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 9, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 6 }}>Tuition / yr</div>
+                      <div style={{ background: "var(--panel)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 6 }}>Tuition / yr</div>
                         <div style={{ fontSize: 16, fontWeight: 800, color: "var(--green)" }}>
                           {meta ? (meta.tuitionPerYear === 0 ? "Free" : `€${meta.tuitionPerYear.toLocaleString()}`) : uni.tuition}
                         </div>
                       </div>
-                      <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 9, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 6 }}>Living / mo</div>
+                      <div style={{ background: "var(--panel)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 6 }}>Living / mo</div>
                         <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-1)" }}>
                           {meta ? `€${meta.livingCostMin}–€${meta.livingCostMax}` : uni.livingCost}
                         </div>
                       </div>
-                      <div style={{ background: "rgba(0,0,0,0.35)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 9, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 6 }}>Deadline</div>
+                      <div style={{ background: "var(--panel)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 6 }}>Deadline</div>
                         <div style={{ fontSize: 12, fontWeight: 800, color: "rgba(251,191,36,0.9)", lineHeight: 1.3 }}>
                           {meta ? (meta.applicationDeadlineMonth === null ? "Rolling" : meta.applicationDeadline) : "—"}
                         </div>
@@ -635,7 +635,7 @@ export default function Universities() {
 
                     {/* Teaching */}
                     <div>
-                      <span style={{ display: "inline-block", padding: "5px 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 12, color: "var(--text-2)", background: "rgba(255,255,255,0.03)" }}>
+                      <span style={{ display: "inline-block", padding: "5px 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 12, color: "var(--text-2)", background: "var(--chip)" }}>
                         {uni.teaching}
                       </span>
                     </div>
@@ -668,7 +668,7 @@ export default function Universities() {
 
                     {/* About */}
                     <div>
-                      <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>About</div>
+                      <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 12 }}>About</div>
                       <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.8, margin: 0 }}>{uni.description}</p>
                       {uni.cityVibe && <p style={{ fontSize: 13, color: "var(--text-3)", lineHeight: 1.7, margin: "10px 0 0", fontStyle: "italic" }}>{uni.cityVibe}</p>}
                     </div>
@@ -676,10 +676,10 @@ export default function Universities() {
                     {/* Best for */}
                     {(() => { const tags = getBestFor(uni, meta); return tags.length > 0 ? (
                       <div>
-                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>Best for</div>
+                        <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 12 }}>Best for</div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                           {tags.map(t => (
-                            <span key={t} style={{ padding: "5px 12px", borderRadius: 8, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.25)", fontSize: 13, color: "var(--accent)", fontWeight: 500 }}>{t}</span>
+                            <span key={t} style={{ padding: "5px 12px", borderRadius: 8, background: "rgba(201,163,92,0.1)", border: "1px solid rgba(201,163,92,0.25)", fontSize: 13, color: "var(--accent)", fontWeight: 500 }}>{t}</span>
                           ))}
                         </div>
                       </div>
@@ -687,8 +687,8 @@ export default function Universities() {
 
                     {/* For parents — cost breakdown */}
                     {meta && (
-                      <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 14, padding: "20px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 16 }}>For parents — annual cost estimate</div>
+                      <div style={{ background: "var(--panel)", borderRadius: 14, padding: "20px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 16 }}>For parents — annual cost estimate</div>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                           <div>
                             <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Tuition / year</div>
@@ -719,10 +719,10 @@ export default function Universities() {
                     {/* Requirements */}
                     {meta && (
                       <div>
-                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>What you need to apply</div>
+                        <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 12 }}>What you need to apply</div>
                         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                           {meta.requirements.map((req) => (
-                            <div key={req} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "var(--text-2)", lineHeight: 1.6, background: "rgba(255,255,255,0.03)", borderRadius: 8, padding: "10px 12px", border: "1px solid var(--border)" }}>
+                            <div key={req} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "var(--text-2)", lineHeight: 1.6, background: "var(--chip)", borderRadius: 8, padding: "10px 12px", border: "1px solid var(--border)" }}>
                               <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 14, marginTop: 1 }}>✓</span>
                               {req}
                             </div>
@@ -734,7 +734,7 @@ export default function Universities() {
                     {/* Available programmes */}
                     {uni.bachelors.length > 0 && (
                       <div>
-                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>
+                        <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 12 }}>
                           Available programmes ({uni.bachelors.length})
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -763,10 +763,10 @@ export default function Universities() {
 
                     {/* Academic strengths */}
                     <div>
-                      <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>Academic strengths</div>
+                      <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 12 }}>Academic strengths</div>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                         {uni.strengths.map((s) => (
-                          <span key={s} style={{ padding: "5px 12px", borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", fontSize: 13, color: "var(--text-2)" }}>{s}</span>
+                          <span key={s} style={{ padding: "5px 12px", borderRadius: 8, background: "var(--chip)", border: "1px solid var(--border)", fontSize: 13, color: "var(--text-2)" }}>{s}</span>
                         ))}
                       </div>
                     </div>
@@ -796,7 +796,11 @@ export default function Universities() {
       {/* Empty state — only in list mode with country selected */}
       {browsingCountry && viewMode === "list" && filtered.length === 0 && (
         <div style={{ padding: "80px 0", textAlign: "center", border: "1px dashed var(--border)", borderRadius: 20, marginTop: 40 }}>
-          <div style={{ fontSize: 32, marginBottom: 16 }}>🔍</div>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 16, color: "var(--text-3)" }}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
           <p style={{ fontSize: 15, color: "var(--text-3)", marginBottom: 20 }}>No universities match your filters.</p>
           <Link href="/chat" className="btn-primary" style={{ fontSize: 13 }}>Ask AI assistant</Link>
         </div>
@@ -812,13 +816,11 @@ export default function Universities() {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        background: "rgba(28, 28, 32, 0.92)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        border: "1px solid rgba(255,255,255,0.12)",
-        borderRadius: 18,
+        background: "var(--surface)",
+        border: "1px solid var(--border)",
+        borderRadius: 14,
         padding: 8,
-        boxShadow: "0 8px 32px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.35)",
       }}>
         {NAV_ITEMS.map(({ label, href, icon }) => {
           const active = pathname === href;
@@ -846,7 +848,7 @@ export default function Universities() {
               }}
               onMouseEnter={e => {
                 if (!active) {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.background = "var(--chip-strong)";
                   e.currentTarget.style.color = "rgba(255,255,255,0.85)";
                 }
               }}

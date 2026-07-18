@@ -37,10 +37,10 @@ export default function UniversityMap({ universities }: Props) {
     .uni-popup { font-family: Arial, sans-serif; min-width: 210px; }
     .uni-popup-name { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 2px; }
     .uni-popup-city { font-size: 11px; color: #777; margin-bottom: 6px; }
-    .uni-popup-tuition { font-size: 12px; font-weight: 600; color: #7C3AED; margin-bottom: 8px; }
+    .uni-popup-tuition { font-size: 12px; font-weight: 600; color: #C9A35C; margin-bottom: 8px; }
     .uni-popup-tags { display: flex; flex-wrap: wrap; gap: 4px; }
     .uni-popup-tag {
-      font-size: 10px; background: #F3F0FF; color: #7C3AED;
+      font-size: 10px; background: #FBF3E4; color: #C9A35C;
       padding: 2px 7px; border-radius: 4px; font-weight: 500;
     }
 
@@ -78,7 +78,7 @@ export default function UniversityMap({ universities }: Props) {
 
     const pinIcon = L.divIcon({
       className: '',
-      html: '<div style="width:14px;height:14px;background:#7C3AED;border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(124,58,237,0.35),0 2px 8px rgba(0,0,0,0.5);cursor:pointer;transition:transform .15s;"></div>',
+      html: '<div style="width:14px;height:14px;background:#C9A35C;border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(201,163,92,0.35),0 2px 8px rgba(0,0,0,0.5);cursor:pointer;transition:transform .15s;"></div>',
       iconSize: [14, 14],
       iconAnchor: [7, 7],
       popupAnchor: [0, -12],

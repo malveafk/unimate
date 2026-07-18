@@ -62,7 +62,7 @@ function ChatTab() {
           {messages.map((msg, i) => (
             <div key={i} style={{ paddingBottom: 28, borderBottom: i < messages.length - 1 ? "1px solid var(--border)" : "none", marginBottom: i < messages.length - 1 ? 28 : 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                <div style={{ width: 22, height: 22, borderRadius: msg.role === "assistant" ? 6 : "50%", background: msg.role === "assistant" ? "linear-gradient(135deg,#a78bfa,#7c3aed)" : "var(--surface-2)", border: msg.role === "user" ? "1px solid var(--border-strong)" : "none", flexShrink: 0 }} />
+                <div style={{ width: 22, height: 22, borderRadius: msg.role === "assistant" ? 6 : "50%", background: msg.role === "assistant" ? "linear-gradient(135deg,#c9a35c,#c9a35c)" : "var(--surface-2)", border: msg.role === "user" ? "1px solid var(--border-strong)" : "none", flexShrink: 0 }} />
                 <span style={{ fontSize: 11, fontFamily: "monospace", fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: msg.role === "assistant" ? "var(--accent)" : "var(--text-3)" }}>
                   {msg.role === "assistant" ? "4UNI AI" : "You"}
                 </span>
@@ -136,7 +136,9 @@ function UniversitiesTab() {
 function CompareTab() {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", flexDirection: "column", gap: 16 }}>
-      <span style={{ fontSize: 40 }}>⚖️</span>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+      </svg>
       <h3 style={{ fontSize: 20, fontWeight: 700, color: "var(--text-1)", margin: 0 }}>Compare universities</h3>
       <p style={{ fontSize: 14, color: "var(--text-2)", margin: 0 }}>Side-by-side comparison of costs, programmes and more.</p>
       <TransitionLink href="/compare" className="btn-primary" style={{ marginTop: 8, fontSize: 13 }}>

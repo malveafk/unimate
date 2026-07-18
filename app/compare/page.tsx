@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef, Children } from "react";
 import { universities } from "../data/universities";
 
 /* ─── Types ─────────────────────────────────────── */
@@ -80,7 +80,7 @@ const MONO: React.CSSProperties = {
 };
 
 /* ─── Section header ─────────────────────────────── */
-function SectionHeader({ icon, title }: { icon: string; title: string }) {
+function SectionHeader({ icon, title }: { icon: React.ReactNode; title: string }) {
   return (
     <div style={{
       display: "flex", alignItems: "center", gap: 10,
@@ -89,24 +89,56 @@ function SectionHeader({ icon, title }: { icon: string; title: string }) {
       borderRadius: 10,
       marginBottom: 2,
     }}>
-      <span style={{ fontSize: 15 }}>{icon}</span>
+      <span style={{ display: "flex", color: "var(--accent)" }}>{icon}</span>
       <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--text-2)", fontWeight: 600 }}>{title}</span>
     </div>
   );
 }
 
-/* ─── Row ─────────────────────────────────────────── */
+// ── Small line icons used in section headers (replacing emoji) ─────
+const CostsIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="9"/><path d="M15 8.5a3.3 3.3 0 0 0-3-1.5c-2 0-3.3 1.7-3.3 5s1.3 5 3.3 5a3.3 3.3 0 0 0 3-1.5M7.5 11h5M7.5 13.5h4"/>
+  </svg>
+);
+const AcademicsIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+  </svg>
+);
+const LifestyleIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/>
+  </svg>
+);
+const ProgrammeIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+  </svg>
+);
+
+/* ─── Row ─────────────────────────────────────────────────────────────
+   Label sits above the row (centered layout), the two university values
+   sit in a true 1fr/1fr split below it — no side gutter pushing things
+   off-center. A single divider line marks the midpoint between the two. */
 function Row({ label, children, last }: { label: string; children: React.ReactNode; last?: boolean }) {
   return (
     <div style={{
-      display: "grid",
-      gridTemplateColumns: "160px 1fr 1fr",
+      padding: "16px 20px",
       borderBottom: last ? "none" : "1px solid var(--border)",
     }}>
-      <div style={{ padding: "16px 12px 16px 20px", display: "flex", alignItems: "flex-start" }}>
-        <span style={MONO}>{label}</span>
+      <div style={{ ...MONO, marginBottom: 10 }}>{label}</div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+        {Children.map(children, (child, i) => (
+          <div style={{
+            paddingRight: i === 0 ? 20 : 0,
+            paddingLeft: i === 1 ? 20 : 0,
+            borderLeft: i === 1 ? "1px solid var(--border)" : "none",
+          }}>
+            {child}
+          </div>
+        ))}
       </div>
-      {children}
     </div>
   );
 }
@@ -115,11 +147,141 @@ function Row({ label, children, last }: { label: string; children: React.ReactNo
 function Cell({ children, highlight }: { children: React.ReactNode; highlight?: boolean }) {
   return (
     <div style={{
-      padding: "16px 20px",
-      borderLeft: "1px solid var(--border)",
-      background: highlight ? "rgba(52,211,153,0.04)" : "transparent",
+      padding: "6px 8px",
+      borderRadius: highlight ? 8 : 0,
+      background: highlight ? "rgba(52,211,153,0.06)" : "transparent",
     }}>
       {children}
+    </div>
+  );
+}
+
+/* ─── University search picker — type-to-filter combobox ───────────────
+   Replaces the plain <select> with an actual search: type a name, city
+   or country and pick from the matching results. ─────────────────────── */
+function UniversitySearchPicker({
+  value,
+  onChange,
+  excludeId,
+  placeholder,
+}: {
+  value: string;
+  onChange: (id: string) => void;
+  excludeId?: string;
+  placeholder: string;
+}) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const selected = universities.find((u) => u.id === value) ?? null;
+
+  const results = useMemo(() => {
+    const pool = universities.filter((u) => u.id !== excludeId);
+    const q = query.trim().toLowerCase();
+    if (!q) return pool.slice(0, 8);
+    return pool
+      .filter((u) =>
+        u.name.toLowerCase().includes(q) ||
+        u.city.toLowerCase().includes(q) ||
+        u.country.toLowerCase().includes(q)
+      )
+      .slice(0, 8);
+  }, [query, excludeId]);
+
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setQuery("");
+      }
+    }
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  function pick(id: string) {
+    onChange(id);
+    setQuery("");
+    setOpen(false);
+  }
+
+  function openForEditing() {
+    setOpen(true);
+    setQuery("");
+    setTimeout(() => inputRef.current?.focus(), 0);
+  }
+
+  return (
+    <div ref={rootRef} style={{ position: "relative" }}>
+      {selected && !open ? (
+        <button
+          onClick={openForEditing}
+          style={{
+            width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
+            gap: 8, padding: "9px 10px 9px 12px", borderRadius: 8,
+            border: "1px solid var(--border)", background: "var(--surface)",
+            textAlign: "left", cursor: "pointer", fontFamily: "inherit", fontSize: 14,
+          }}
+        >
+          <span style={{ display: "flex", alignItems: "center", gap: 8, overflow: "hidden" }}>
+            <span style={{ fontSize: 15, flexShrink: 0 }}>{selected.flag}</span>
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--text-1)" }}>{selected.name}</span>
+          </span>
+          <span
+            onClick={(e) => { e.stopPropagation(); onChange(""); setQuery(""); }}
+            style={{ color: "var(--text-3)", fontSize: 14, padding: "0 2px", flexShrink: 0, lineHeight: 1 }}
+          >
+            ×
+          </span>
+        </button>
+      ) : (
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          placeholder={placeholder}
+          onFocus={() => setOpen(true)}
+          onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+          style={{
+            width: "100%", padding: "9px 12px", borderRadius: 8,
+            border: "1px solid var(--border)", background: "var(--surface)",
+            fontSize: 14, color: "var(--text-1)", outline: "none", fontFamily: "inherit",
+            boxSizing: "border-box",
+          }}
+        />
+      )}
+
+      {open && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
+          background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8,
+          boxShadow: "0 8px 20px rgba(0,0,0,0.3)", maxHeight: 260, overflowY: "auto",
+        }}>
+          {results.length === 0 ? (
+            <div style={{ padding: 12, fontSize: 13, color: "var(--text-3)" }}>No matches for &ldquo;{query}&rdquo;</div>
+          ) : (
+            results.map((u) => (
+              <button
+                key={u.id}
+                onClick={() => pick(u.id)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 8, width: "100%",
+                  padding: "7px 12px", border: "none", textAlign: "left", cursor: "pointer",
+                  fontFamily: "inherit", fontSize: 13, background: u.id === value ? "var(--surface-2)" : "transparent",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = "var(--surface-2)")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = u.id === value ? "var(--surface-2)" : "transparent")}
+              >
+                <span style={{ fontSize: 14, flexShrink: 0 }}>{u.flag}</span>
+                <span style={{ color: "var(--text-1)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{u.name}</span>
+                <span style={{ color: "var(--text-3)", flexShrink: 0 }}>· {u.city}</span>
+              </button>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -199,23 +361,17 @@ export default function Compare() {
       {/* ── Selectors ───────────────────────────── */}
       <div style={{ padding: "32px 0 36px", borderBottom: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: 16 }}>
 
-        {/* University selectors */}
+        {/* University search pickers */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           {([0, 1] as const).map((idx) => (
             <div key={idx} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <span style={MONO}>University {String.fromCharCode(65 + idx)}</span>
-              <select
+              <UniversitySearchPicker
                 value={ids[idx]}
-                onChange={(e) => setId(idx, e.target.value)}
-                style={{ ...SELECT_STYLE, color: ids[idx] ? "var(--text-1)" : "var(--text-3)" }}
-              >
-                <option value="">— Select university —</option>
-                {universities.map((u) => (
-                  <option key={u.id} value={u.id} disabled={ids.includes(u.id) && ids[idx] !== u.id}>
-                    {u.flag} {u.name}
-                  </option>
-                ))}
-              </select>
+                onChange={(id) => setId(idx, id)}
+                excludeId={ids[1 - idx]}
+                placeholder="Search by name, city or country…"
+              />
             </div>
           ))}
         </div>
@@ -255,7 +411,11 @@ export default function Compare() {
       {/* ── Empty state ──────────────────────────── */}
       {colCount === 0 && (
         <div style={{ padding: "100px 0", textAlign: "center" }}>
-          <div style={{ fontSize: 40, marginBottom: 16 }}>⚖️</div>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 16, color: "var(--accent)" }}>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+            </svg>
+          </div>
           <p style={{ fontSize: 16, color: "var(--text-2)", marginBottom: 6 }}>Select two universities to compare them.</p>
           <p style={{ fontSize: 13, color: "var(--text-3)" }}>Costs, academics, lifestyle and programmes — side by side.</p>
         </div>
@@ -266,17 +426,19 @@ export default function Compare() {
         <div style={{ paddingTop: 40, display: "flex", flexDirection: "column", gap: 4 }}>
 
           {/* ── University headers ─────────────────── */}
-          <div style={{ display: "grid", gridTemplateColumns: "160px 1fr 1fr", marginBottom: 20 }}>
-            <div />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
             {unis.map((uni, idx) => {
-              if (!uni) return <div key={idx} style={{ borderLeft: "1px solid var(--border)", padding: "20px" }}><span style={{ ...MONO }}>—</span></div>;
+              if (!uni) return (
+                <div key={idx} style={{ borderRadius: 12, border: "1px solid var(--border)", padding: "20px", display: "flex", alignItems: "center", justifyContent: "center", minHeight: 100 }}>
+                  <span style={MONO}>—</span>
+                </div>
+              );
               const lifestyle = LIFESTYLE[uni.id] ?? FALLBACK_LIFESTYLE;
               return (
                 <div key={uni.id} style={{
-                  borderLeft: "1px solid var(--border)",
                   padding: "20px 20px 16px",
                   background: "var(--surface)",
-                  borderRadius: idx === 0 ? "12px 0 0 12px" : "0 12px 12px 0",
+                  borderRadius: 12,
                   border: "1px solid var(--border)",
                 }}>
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 12 }}>
@@ -312,7 +474,7 @@ export default function Compare() {
           </div>
 
           {/* ── COSTS ──────────────────────────────── */}
-          <SectionHeader icon="💰" title="Costs" />
+          <SectionHeader icon={<CostsIcon />} title="Costs" />
           <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
             <Row label="Tuition / year">
               {unis.map((uni, idx) => {
@@ -349,7 +511,7 @@ export default function Compare() {
           </div>
 
           {/* ── ACADEMICS ──────────────────────────── */}
-          <SectionHeader icon="📚" title="Academics" />
+          <SectionHeader icon={<AcademicsIcon />} title="Academics" />
           <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
             <Row label="Languages">
               {unis.map((uni, idx) => (
@@ -401,7 +563,7 @@ export default function Compare() {
           </div>
 
           {/* ── LIFESTYLE ──────────────────────────── */}
-          <SectionHeader icon="🌆" title="Lifestyle" />
+          <SectionHeader icon={<LifestyleIcon />} title="Lifestyle" />
           <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
             <Row label="Pros">
               {unis.map((uni, idx) => {
@@ -446,7 +608,7 @@ export default function Compare() {
           {/* ── PROGRAMME COMPARISON ─────────────── */}
           {bothProgs && (
             <>
-              <SectionHeader icon="🎓" title="Programme comparison" />
+              <SectionHeader icon={<ProgrammeIcon />} title="Programme comparison" />
               <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
                 <Row label="Programme">
                   {progs.map((prog, idx) => (
@@ -520,7 +682,7 @@ export default function Compare() {
                                     <div key={ci} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
                                       <span style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>{c.name}</span>
                                       {c.credits && (
-                                        <span style={{ fontSize: 10, color: "var(--text-3)", flexShrink: 0, fontFamily: "var(--font-mono)" }}>{c.credits}</span>
+                                        <span style={{ fontWeight: 700, fontSize: 10, color: "var(--text-3)", flexShrink: 0, fontFamily: "var(--font-mono)" }}>{c.credits}</span>
                                       )}
                                     </div>
                                   ))}
@@ -540,10 +702,9 @@ export default function Compare() {
           )}
 
           {/* ── CTA ──────────────────────────────── */}
-          <div style={{ display: "grid", gridTemplateColumns: "160px 1fr 1fr", marginTop: 8 }}>
-            <div />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 8 }}>
             {unis.map((uni, idx) => (
-              <div key={uni?.id ?? idx} style={{ padding: idx === 0 ? "0 8px 0 0" : "0 0 0 8px", display: "flex", flexDirection: "column", gap: 8 }}>
+              <div key={uni?.id ?? idx} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {uni ? (
                   <>
                     <Link href={`/universities/${uni.id}`} className="btn-primary" style={{ justifyContent: "center", fontSize: 13 }}>

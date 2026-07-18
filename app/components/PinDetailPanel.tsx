@@ -20,7 +20,7 @@ type Props = {
 const PLATFORM_COLORS: Record<string, string> = {
   "Kamernet":       "96,165,250",
   "WG-Gesucht":     "52,211,153",
-  "HousingAnywhere": "167,139,250",
+  "HousingAnywhere": "201,163,92",
   "Spotahome":      "251,191,36",
   "Erasmusu":       "248,113,113",
 };
@@ -33,7 +33,7 @@ function platformColor(name: string): string {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10 }}>
+    <div style={{ fontWeight: 700, fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10 }}>
       {children}
     </div>
   );
@@ -137,7 +137,7 @@ function RoommateDetail({ data, onMessage }: { data: RoommatePin; onMessage: (p:
 
       {/* Looking for */}
       {data.lookingFor && (
-        <div style={{ padding: "14px 16px", borderRadius: 12, background: "rgba(167,139,250,0.05)", border: "1px solid rgba(167,139,250,0.15)" }}>
+        <div style={{ padding: "14px 16px", borderRadius: 12, background: "rgba(201,163,92,0.05)", border: "1px solid rgba(201,163,92,0.15)" }}>
           <SectionLabel>Looking for</SectionLabel>
           <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>{data.lookingFor}</p>
         </div>
@@ -227,7 +227,7 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
       {/* Available from */}
       {data.availableFrom && (
         <div style={{ padding: "12px 14px", borderRadius: 12, background: "var(--surface)", border: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: 12, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Available from</span>
+          <span style={{ fontWeight: 700, fontSize: 12, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Available from</span>
           <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>{data.availableFrom}</span>
         </div>
       )}
@@ -319,18 +319,22 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
         <div style={{ padding: "14px", borderRadius: 12, border: "1px solid rgba(107,159,255,0.2)", background: "rgba(107,159,255,0.05)" }}>
           <div style={{ fontSize: 24, fontWeight: 800, color: "#6B9FFF", letterSpacing: "-0.5px" }}>{roommateCount}</div>
-          <div style={{ fontSize: 11, color: "var(--text-3)", marginTop: 3, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Roommates</div>
+          <div style={{ fontWeight: 700, fontSize: 11, color: "var(--text-3)", marginTop: 3, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Roommates</div>
         </div>
         <div style={{ padding: "14px", borderRadius: 12, border: "1px solid rgba(248,113,113,0.2)", background: "rgba(248,113,113,0.05)" }}>
           <div style={{ fontSize: 24, fontWeight: 800, color: "#F87171", letterSpacing: "-0.5px" }}>{apartmentCount}</div>
-          <div style={{ fontSize: 11, color: "var(--text-3)", marginTop: 3, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Apartments</div>
+          <div style={{ fontWeight: 700, fontSize: 11, color: "var(--text-3)", marginTop: 3, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Apartments</div>
         </div>
       </div>
 
       {roommateCount === 0 && apartmentCount === 0 ? (
         <>
           <div style={{ padding: "18px", borderRadius: 14, border: "1px dashed rgba(255,255,255,0.12)", textAlign: "center" }}>
-            <div style={{ fontSize: 28, marginBottom: 10 }}>🏙️</div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 10, color: "var(--text-3)" }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>
+              </svg>
+            </div>
             <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", marginBottom: 6 }}>No listings in {cityName} yet</div>
             <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>
               Be the first student to post a roommate profile or apartment listing here.

@@ -82,21 +82,21 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
       <div style={{ display: "flex", flexDirection: "column", height: "100%", gap: 0 }}>
         {/* Header */}
         <div style={{ padding: "18px 20px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 9, background: "rgba(167,139,250,0.15)", border: "1px solid rgba(167,139,250,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgb(167,139,250)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div style={{ width: 32, height: 32, borderRadius: 9, background: "rgba(201,163,92,0.15)", border: "1px solid rgba(201,163,92,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgb(201,163,92)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
           </div>
           <div>
             <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>Unimate AI</div>
-            <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>PREMIUM FEATURE</div>
+            <div style={{ fontWeight: 700, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>PREMIUM FEATURE</div>
           </div>
         </div>
 
         {/* Locked state */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 24px", textAlign: "center", gap: 20 }}>
-          <div style={{ width: 56, height: 56, borderRadius: 16, background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgb(167,139,250)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <div style={{ width: 56, height: 56, borderRadius: 16, background: "rgba(201,163,92,0.1)", border: "1px solid rgba(201,163,92,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgb(201,163,92)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
           </div>
@@ -118,7 +118,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
           </div>
           <Link
             href="/pricing"
-            style={{ width: "100%", padding: "13px 0", borderRadius: 12, background: "linear-gradient(135deg, rgb(167,139,250), rgb(96,165,250))", color: "#fff", fontSize: 14, fontWeight: 700, textDecoration: "none", textAlign: "center", display: "block", transition: "opacity 0.15s" }}
+            style={{ width: "100%", padding: "13px 0", borderRadius: 12, background: "linear-gradient(135deg, rgb(201,163,92), rgb(96,165,250))", color: "#fff", fontSize: 14, fontWeight: 700, textDecoration: "none", textAlign: "center", display: "block", transition: "opacity 0.15s" }}
             onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.88")}
             onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
           >
@@ -134,8 +134,8 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div style={{ padding: "18px 20px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ width: 32, height: 32, borderRadius: 9, background: "rgba(167,139,250,0.15)", border: "1px solid rgba(167,139,250,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgb(167,139,250)" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div style={{ width: 32, height: 32, borderRadius: 9, background: "rgba(201,163,92,0.15)", border: "1px solid rgba(201,163,92,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgb(201,163,92)" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div>
           <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>Unimate AI</div>
@@ -147,14 +147,14 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
         {msgs.map((m, i) => (
           <div key={i} style={{ display: "flex", flexDirection: m.role === "user" ? "row-reverse" : "row", gap: 8, alignItems: "flex-end" }}>
             {m.role === "assistant" && (
-              <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(167,139,250,0.18)", border: "1px solid rgba(167,139,250,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>U</div>
+              <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(201,163,92,0.18)", border: "1px solid rgba(201,163,92,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>U</div>
             )}
             <div style={{ maxWidth: "80%" }}>
               <div style={{
                 padding: "10px 13px",
                 borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-                background: m.role === "user" ? "rgba(167,139,250,0.18)" : "rgba(255,255,255,0.06)",
-                border: m.role === "user" ? "1px solid rgba(167,139,250,0.3)" : "1px solid rgba(255,255,255,0.08)",
+                background: m.role === "user" ? "rgba(201,163,92,0.18)" : "rgba(255,255,255,0.06)",
+                border: m.role === "user" ? "1px solid rgba(201,163,92,0.3)" : "1px solid rgba(255,255,255,0.08)",
                 fontSize: 13, color: "var(--text-1)", lineHeight: 1.6, whiteSpace: "pre-wrap",
               }}>{m.content}</div>
             </div>
@@ -162,7 +162,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
         ))}
         {loading && (
           <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-            <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(167,139,250,0.18)", border: "1px solid rgba(167,139,250,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>U</div>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(201,163,92,0.18)", border: "1px solid rgba(201,163,92,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>U</div>
             <div style={{ padding: "12px 16px", borderRadius: "16px 16px 16px 4px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", gap: 5, alignItems: "center" }}>
               {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--text-3)", animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />)}
             </div>
@@ -177,10 +177,10 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
           onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
           placeholder="Ask anything about this application…"
           style={{ flex: 1, padding: "10px 14px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", color: "var(--text-1)", fontSize: 13, outline: "none", fontFamily: "inherit", transition: "border-color 0.15s" }}
-          onFocus={e => (e.target.style.borderColor = "rgba(167,139,250,0.5)")}
+          onFocus={e => (e.target.style.borderColor = "rgba(201,163,92,0.5)")}
           onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
         />
-        <button onClick={send} disabled={!input.trim() || loading} style={{ width: 38, height: 38, borderRadius: 10, border: "none", cursor: input.trim() && !loading ? "pointer" : "default", background: input.trim() && !loading ? "rgba(167,139,250,0.9)" : "rgba(255,255,255,0.07)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background 0.15s" }}>
+        <button onClick={send} disabled={!input.trim() || loading} style={{ width: 38, height: 38, borderRadius: 10, border: "none", cursor: input.trim() && !loading ? "pointer" : "default", background: input.trim() && !loading ? "rgba(201,163,92,0.9)" : "rgba(255,255,255,0.07)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background 0.15s" }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
@@ -248,7 +248,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
     eligibility: (
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <div>
-          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 12 }}>Admission requirements</div>
+          <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 12 }}>Admission requirements</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {(meta?.requirements ?? ["Check the university website for requirements"]).map((r: string, i: number) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
@@ -274,7 +274,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
     programme: (
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>Available programmes</div>
+          <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>Available programmes</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {uni.bachelors.map(b => (
               <div
@@ -282,8 +282,8 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
                 onClick={() => setSelectedProgramme(b.id)}
                 style={{
                   padding: "14px 16px", borderRadius: 12, cursor: "pointer",
-                  border: selectedProgramme === b.id ? "1px solid rgba(167,139,250,0.5)" : "1px solid var(--border)",
-                  background: selectedProgramme === b.id ? "rgba(167,139,250,0.07)" : "var(--surface)",
+                  border: selectedProgramme === b.id ? "1px solid rgba(201,163,92,0.5)" : "1px solid var(--border)",
+                  background: selectedProgramme === b.id ? "rgba(201,163,92,0.07)" : "var(--surface)",
                   transition: "all 0.15s",
                 }}
               >
@@ -300,12 +300,12 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
           </div>
         </div>
         {programme && (
-          <div style={{ padding: "18px 20px", borderRadius: 14, border: "1px solid rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.05)" }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "rgb(167,139,250)", marginBottom: 10 }}>Selected: {programme.name}</div>
+          <div style={{ padding: "18px 20px", borderRadius: 14, border: "1px solid rgba(201,163,92,0.3)", background: "rgba(201,163,92,0.05)" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "rgb(201,163,92)", marginBottom: 10 }}>Selected: {programme.name}</div>
             <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.65, margin: "0 0 14px" }}>{programme.description}</p>
             {programme.courses.length > 0 && (
               <>
-                <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Year 1 courses</div>
+                <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Year 1 courses</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {programme.courses.filter(c => c.year === 1).map(c => (
                     <span key={c.name} style={{ padding: "3px 9px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 11, color: "var(--text-3)", background: "rgba(255,255,255,0.02)" }}>{c.name}</span>
@@ -320,7 +320,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
 
     documents: (
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>What to prepare</div>
+        <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>What to prepare</div>
         {[
           { icon: "🎓", title: "Diploma / High school certificate", desc: "Official copy of your secondary school diploma. If not in English, Dutch, French or German — get a certified translation.", required: true },
           { icon: "📊", title: "Official grade transcripts", desc: "Complete academic record from your secondary school, showing all subjects and grades.", required: true },
@@ -352,7 +352,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
 
     language: (
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>
+        <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>
           Language of instruction
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
@@ -366,7 +366,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
             {[
               { test: "IELTS Academic", score: "6.0 overall (no band below 5.5)", color: "52,211,153" },
               { test: "TOEFL iBT",      score: "80 overall",                      color: "96,165,250" },
-              { test: "Cambridge B2",   score: "B2 First (FCE) or above",          color: "167,139,250" },
+              { test: "Cambridge B2",   score: "B2 First (FCE) or above",          color: "201,163,92" },
               { test: "Duolingo",       score: "105+ (check programme page)",      color: "251,191,36" },
             ].map(({ test, score, color }) => (
               <div key={test} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
@@ -395,13 +395,13 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
           display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
         }}>
           <div>
-            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 4 }}>Application deadline</div>
+            <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 4 }}>Application deadline</div>
             <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px" }}>{deadline}</div>
           </div>
           {days !== null && (
             <div style={{ textAlign: "right", flexShrink: 0 }}>
               <div style={{ fontSize: 32, fontWeight: 800, color: days < 30 ? "rgb(248,113,113)" : "rgb(52,211,153)", letterSpacing: "-1px" }}>{days}</div>
-              <div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>DAYS LEFT</div>
+              <div style={{ fontWeight: 700, fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>DAYS LEFT</div>
             </div>
           )}
         </div>
@@ -444,7 +444,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         </div>
         {[
           { icon: "🏫", title: "University housing", desc: `Check ${uni.name}'s official student housing portal first. It's usually cheaper, safer, and easier for first-arrivals.`, color: "52,211,153" },
-          { icon: "🤝", title: "Find a roommate on Unimate", desc: "Browse student profiles looking for a flatmate in the same city and budget range. Verified profiles only.", color: "167,139,250", link: `/housing?city=${uni.city}` },
+          { icon: "🤝", title: "Find a roommate on Unimate", desc: "Browse student profiles looking for a flatmate in the same city and budget range. Verified profiles only.", color: "201,163,92", link: `/housing?city=${uni.city}` },
           { icon: "🏠", title: "Private platforms", desc: "Kamernet, WG-Gesucht, HousingAnywhere and Facebook groups. Never pay a deposit before viewing.", color: "96,165,250" },
         ].map(({ icon, title, desc, color, link }) => (
           <div key={title} style={{ display: "flex", gap: 14, padding: "16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
@@ -465,7 +465,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
 
     response: (
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>What happens next</div>
+        <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>What happens next</div>
         {[
           { icon: "📧", title: "Confirmation email", desc: "You'll receive an automatic confirmation when your application is received. Check your spam folder." },
           { icon: "⏳", title: "Review period (4–10 weeks)", desc: "The admissions team reviews your documents. Some programmes are selective, others are first-come-first-served." },
@@ -540,8 +540,8 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
           {/* Progress */}
           <div style={{ padding: "14px 20px", borderBottom: "1px solid var(--border)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-              <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Progress</span>
-              <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)" }}>{checkedSteps.size}/{STEPS.length}</span>
+              <span style={{ fontWeight: 700, fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Progress</span>
+              <span style={{ fontWeight: 700, fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)" }}>{checkedSteps.size}/{STEPS.length}</span>
             </div>
             <div style={{ height: 3, background: "var(--border)", borderRadius: 2, overflow: "hidden" }}>
               <div style={{ height: "100%", width: `${(checkedSteps.size / STEPS.length) * 100}%`, background: "rgb(52,211,153)", borderRadius: 2, transition: "width 0.4s ease" }} />
@@ -611,7 +611,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
           <div style={{ overflowY: "auto", height: "100%", padding: "32px 40px" }}>
             <div style={{ maxWidth: 680 }}>
               <div style={{ marginBottom: 28 }}>
-                <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10 }}>
+                <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10 }}>
                   Step {activeStep + 1} of {STEPS.length}
                 </div>
                 <h1 style={{ fontSize: 26, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.6px", margin: "0 0 6px" }}>

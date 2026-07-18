@@ -62,7 +62,18 @@ function EmptyList({ tab }: { tab: Tab }) {
         display: "flex", flexDirection: "column", alignItems: "center", gap: 16,
         background: "rgba(255,255,255,0.01)",
       }}>
-        <div style={{ fontSize: 40 }}>{isRoommates ? "🤝" : "🏠"}</div>
+        <div style={{ color: isRoommates ? "#6B9FFF" : "#F87171" }}>
+          {isRoommates ? (
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          ) : (
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          )}
+        </div>
         <div>
           <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-1)", marginBottom: 8, letterSpacing: "-0.3px" }}>
             {isRoommates ? "No roommate posts yet" : "No listings yet"}
@@ -109,14 +120,14 @@ function EmptyList({ tab }: { tab: Tab }) {
 
       {/* How it works */}
       <div style={{ marginTop: 48 }}>
-        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 20 }}>
+        <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 20 }}>
           How it works
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {(isRoommates ? [
-            { num: "01", color: "167,139,250", title: "Create your profile", desc: "Tell others who you are, where you're studying and what kind of flatmate situation you're looking for." },
-            { num: "02", color: "167,139,250", title: "Browse other students", desc: "Filter by city, budget and move-in date. Read through profiles to find someone compatible." },
-            { num: "03", color: "167,139,250", title: "Message directly", desc: "Open the in-app chat and start a conversation. Share contact details only when you feel comfortable." },
+            { num: "01", color: "201,163,92", title: "Create your profile", desc: "Tell others who you are, where you're studying and what kind of flatmate situation you're looking for." },
+            { num: "02", color: "201,163,92", title: "Browse other students", desc: "Filter by city, budget and move-in date. Read through profiles to find someone compatible." },
+            { num: "03", color: "201,163,92", title: "Message directly", desc: "Open the in-app chat and start a conversation. Share contact details only when you feel comfortable." },
           ] : [
             { num: "01", color: "96,165,250", title: "Choose your city", desc: "Select from 20+ European student cities. Filter by rent, furnished status and move-in date." },
             { num: "02", color: "96,165,250", title: "Browse curated listings", desc: "We aggregate trusted platforms like Kamernet, WG-Gesucht and HousingAnywhere into one feed." },
@@ -157,7 +168,11 @@ function SelectFiltersPrompt({ cityFilter, budgetFilter, moveInFilter }: {
         display: "flex", flexDirection: "column", alignItems: "center", gap: 20,
         background: "rgba(255,255,255,0.01)",
       }}>
-        <div style={{ fontSize: 40 }}>🔍</div>
+        <div style={{ color: "var(--text-2)" }}>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
         <div>
           <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-1)", marginBottom: 8, letterSpacing: "-0.3px" }}>
             Tell us what you're looking for
@@ -270,7 +285,7 @@ function ChatPanel({ profile, onClose }: { profile: RoommatePin; onClose: () => 
             )}
             <div style={{ maxWidth: "72%" }}>
               <div style={{ padding: "9px 13px", borderRadius: msg.from === "me" ? "16px 16px 4px 16px" : "16px 16px 16px 4px", background: msg.from === "me" ? `rgba(${profile.avatarColor},0.22)` : "rgba(255,255,255,0.07)", border: msg.from === "me" ? `1px solid rgba(${profile.avatarColor},0.35)` : "1px solid rgba(255,255,255,0.1)", fontSize: 13, color: "var(--text-1)", lineHeight: 1.55 }}>{msg.text}</div>
-              <div style={{ fontSize: 10, color: "var(--text-3)", marginTop: 3, textAlign: msg.from === "me" ? "right" : "left", fontFamily: "var(--font-mono)" }}>{msg.time}</div>
+              <div style={{ fontWeight: 700, fontSize: 10, color: "var(--text-3)", marginTop: 3, textAlign: msg.from === "me" ? "right" : "left", fontFamily: "var(--font-mono)" }}>{msg.time}</div>
             </div>
           </div>
         ))}
@@ -442,7 +457,7 @@ export default function HousingPage() {
           {/* Tabs */}
           <div style={{ display: "flex", gap: 4, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: 3 }}>
             {([
-              { key: "roommates",  label: "Roommates",  color: "167,139,250" },
+              { key: "roommates",  label: "Roommates",  color: "201,163,92" },
               { key: "apartments", label: "Apartments",  color: "96,165,250"  },
             ] as const).map(({ key, label, color }) => (
               <button
@@ -483,12 +498,12 @@ export default function HousingPage() {
                 style={{
                   display: "flex", alignItems: "center", gap: 6,
                   padding: "7px 14px", borderRadius: 8, cursor: "pointer",
-                  background: "rgba(167,139,250,0.12)", border: "1px solid rgba(167,139,250,0.3)",
-                  color: "rgb(167,139,250)", fontSize: 12, fontWeight: 700, fontFamily: "inherit",
+                  background: "rgba(201,163,92,0.12)", border: "1px solid rgba(201,163,92,0.3)",
+                  color: "rgb(201,163,92)", fontSize: 12, fontWeight: 700, fontFamily: "inherit",
                   transition: "background 0.15s",
                 }}
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(167,139,250,0.2)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "rgba(167,139,250,0.12)")}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(201,163,92,0.2)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "rgba(201,163,92,0.12)")}
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Post profile
@@ -614,7 +629,7 @@ export default function HousingPage() {
                       { label: "Move-in", value: r.moveIn },
                     ].map(({ label, value }) => (
                       <div key={label} style={{ flex: 1, background: "rgba(0,0,0,0.3)", borderRadius: 8, padding: "8px 10px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 8, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 3 }}>{label}</div>
+                        <div style={{ fontWeight: 700, fontSize: 8, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 3 }}>{label}</div>
                         <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-1)" }}>{value}</div>
                       </div>
                     ))}
@@ -669,7 +684,7 @@ export default function HousingPage() {
                       { label: "Platform", value: a.platform },
                     ].map(({ label, value }) => (
                       <div key={label} style={{ flex: 1, background: "rgba(0,0,0,0.3)", borderRadius: 8, padding: "8px 10px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontSize: 8, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 3 }}>{label}</div>
+                        <div style={{ fontWeight: 700, fontSize: 8, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 3 }}>{label}</div>
                         <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-1)" }}>{value}</div>
                       </div>
                     ))}

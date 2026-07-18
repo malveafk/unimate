@@ -44,7 +44,7 @@ const GENDERS = [
 
 const STUDY_YEARS = ["1st year", "2nd year", "3rd year", "4th year", "Master's", "PhD", "Exchange"];
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const AVATAR_COLORS = ["167,139,250","96,165,250","52,211,153","251,191,36","248,113,113","251,146,60"];
+const AVATAR_COLORS = ["201,163,92","96,165,250","52,211,153","251,191,36","248,113,113","251,146,60"];
 
 const TOTAL_STEPS = 6;
 const STEP_LABELS = ["ID Verification", "Identity", "University", "Housing", "About you", "Looking for"];
@@ -164,9 +164,9 @@ function TagMultiSelect({ label, options, selected, onChange, emoji = false }: {
             <button key={val} onClick={() => toggle(val)} style={{
               padding: "7px 13px", borderRadius: 8, cursor: "pointer", fontFamily: "inherit",
               fontSize: 12, fontWeight: 600, transition: "all 0.15s",
-              border: active ? "1px solid rgba(167,139,250,0.6)" : "1px solid var(--border)",
-              background: active ? "rgba(167,139,250,0.14)" : "transparent",
-              color: active ? "rgb(167,139,250)" : "var(--text-3)",
+              border: active ? "1px solid rgba(201,163,92,0.6)" : "1px solid var(--border)",
+              background: active ? "rgba(201,163,92,0.14)" : "transparent",
+              color: active ? "rgb(201,163,92)" : "var(--text-3)",
             }}>{display}</button>
           );
         })}
@@ -231,7 +231,15 @@ export default function CreateProfilePage() {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 32 }}>
         <div style={{ textAlign: "center", maxWidth: 480 }}>
-          <div style={{ fontSize: 56, marginBottom: 24 }}>🎉</div>
+          <div style={{
+            width: 64, height: 64, borderRadius: "50%", margin: "0 auto 24px",
+            background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.3)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
           <h1 style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.8px", marginBottom: 16 }}>Profile created!</h1>
           <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.7, marginBottom: 12 }}>
             Your roommate profile is live. Your uploaded ID is being reviewed — once confirmed you'll receive the <strong style={{ color: "rgb(52,211,153)" }}>✓ Verified</strong> badge automatically.
@@ -267,7 +275,7 @@ export default function CreateProfilePage() {
         </button>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-          <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
+          <span style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
             Step {step + 1} of {TOTAL_STEPS} — {STEP_LABELS[step]}
           </span>
           <StepDots current={step} total={TOTAL_STEPS} />
@@ -537,7 +545,7 @@ export default function CreateProfilePage() {
               onMouseEnter={e => { if (canNext[5]) e.currentTarget.style.opacity = "0.85"; }}
               onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
             >
-              Create profile 🎉
+              Create profile →
             </button>
           )}
         </div>

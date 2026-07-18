@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,14 +14,75 @@ I'm here to help you understand how to study abroad — universities, financial 
 
 Where are you from and what would you like to study?`;
 
+const IS_PREMIUM = false; // toggle this when auth/billing is wired up
+
+// ── Mock chat history (sidebar) — replace with real persistence later ──
+type HistoryItem = { id: string; title: string; group: "Today" | "Yesterday" | "Previous 7 days" };
+
+const CHAT_HISTORY: HistoryItem[] = [
+  { id: "h1", title: "Best universities for Computer Science in Germany", group: "Today" },
+  { id: "h2", title: "Housing options near Maastricht University", group: "Today" },
+  { id: "h3", title: "Scholarship opportunities for EU students", group: "Yesterday" },
+  { id: "h4", title: "Visa requirements for non-EU students", group: "Yesterday" },
+  { id: "h5", title: "Comparing tuition: Netherlands vs Germany", group: "Previous 7 days" },
+  { id: "h6", title: "What documents do I need to apply?", group: "Previous 7 days" },
+  { id: "h7", title: "Life in Amsterdam as an international student", group: "Previous 7 days" },
+];
+
+const HISTORY_GROUPS: HistoryItem["group"][] = ["Today", "Yesterday", "Previous 7 days"];
+
+// Canned message threads so switching chats actually shows different content
+const MOCK_THREADS: Record<string, Message[]> = {
+  h1: [
+    { role: "user", content: "Best universities for Computer Science in Germany?" },
+    { role: "assistant", content: "TU Munich and TU Delft-equivalent German programmes (RWTH Aachen, KIT) are the strongest picks — most bachelor CS programmes are taught in German, so check the language requirement first. Want a shortlist with English-taught options?" },
+  ],
+  h2: [
+    { role: "user", content: "What are my housing options near Maastricht University?" },
+    { role: "assistant", content: "Most students go through Guestday (the official student housing office), Kamernet, or find a room via the Unimate Housing board. Waiting lists open ~6 months before term — I'd register now if you're starting in September." },
+  ],
+  h3: [
+    { role: "user", content: "What scholarships are available for EU students?" },
+    { role: "assistant", content: "Since you're an EU student, you're eligible for the same tuition rates as locals plus most merit-based faculty scholarships. A few universities also offer excellence scholarships regardless of nationality — want me to check which ones apply to your target schools?" },
+  ],
+  h4: [
+    { role: "user", content: "Do I need a visa as a non-EU student?" },
+    { role: "assistant", content: "Depends on your nationality and destination country, but generally yes — you'll need a student visa/residence permit, proof of enrolment, financial means, and health insurance. Which country are you applying to? I can give you the exact checklist." },
+  ],
+  h5: [
+    { role: "user", content: "How does tuition compare between the Netherlands and Germany?" },
+    { role: "assistant", content: "Dutch public universities charge EU students around €2,300/year; most German public universities charge €0–€300/semester (just admin fees), but German bachelor programmes are more often taught in German. It's really a cost-vs-language tradeoff." },
+  ],
+  h6: [
+    { role: "user", content: "What documents do I need to apply?" },
+    { role: "assistant", content: "Typically: diploma/transcripts, a motivation letter, language certificate (IELTS/TOEFL), passport copy, and sometimes a CV or reference letter. Requirements vary a bit by university — tell me which one and I'll get you the exact list." },
+  ],
+  h7: [
+    { role: "user", content: "What's life like in Amsterdam as an international student?" },
+    { role: "assistant", content: "Amsterdam is fully international, bike-first, and has an incredible social scene — but housing is competitive and expensive, so start your search early. Most students live in shared flats outside the ring for better prices." },
+  ],
+};
+
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: WELCOME },
   ]);
+  const [activeChatId, setActiveChatId] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  function startNewChat() {
+    setActiveChatId(null);
+    setMessages([{ role: "assistant", content: WELCOME }]);
+  }
+
+  function openHistoryChat(id: string) {
+    if (!IS_PREMIUM) return; // locked for non-premium
+    setActiveChatId(id);
+    setMessages(MOCK_THREADS[id] ?? [{ role: "assistant", content: WELCOME }]);
+  }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -127,26 +189,34 @@ export default function Chat() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "calc(100vh - 60px)",
-        background: "var(--bg)",
-        position: "relative",
-      }}
-    >
+    <div style={{ display: "flex", height: "calc(100vh - 60px)", background: "var(--bg)" }}>
+      <ChatSidebar
+        activeChatId={activeChatId}
+        onNewChat={startNewChat}
+        onSelectChat={openHistoryChat}
+      />
+
+      <div
+        style={{
+          flex: 1,
+          minWidth: 0,
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          position: "relative",
+        }}
+      >
       {/* ── Subtle radial glow behind content ── */}
       <div
         aria-hidden
         style={{
-          position: "fixed",
+          position: "absolute",
           top: "20%",
           left: "50%",
           transform: "translateX(-50%)",
           width: 700,
           height: 400,
-          background: "radial-gradient(ellipse at center, rgba(167,139,250,0.045) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse at center, rgba(201,163,92,0.045) 0%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 0,
         }}
@@ -216,12 +286,12 @@ export default function Chat() {
                         width: 22,
                         height: 22,
                         borderRadius: 6,
-                        background: "linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)",
+                        background: "linear-gradient(135deg, #c9a35c 0%, #c9a35c 100%)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         flexShrink: 0,
-                        boxShadow: "0 0 12px rgba(167,139,250,0.35)",
+                        boxShadow: "0 0 12px rgba(201,163,92,0.35)",
                       }}
                     >
                       <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -344,12 +414,12 @@ export default function Chat() {
                     width: 22,
                     height: 22,
                     borderRadius: 6,
-                    background: "linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)",
+                    background: "linear-gradient(135deg, #c9a35c 0%, #c9a35c 100%)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
-                    boxShadow: "0 0 12px rgba(167,139,250,0.35)",
+                    boxShadow: "0 0 12px rgba(201,163,92,0.35)",
                   }}
                 >
                   <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -380,10 +450,10 @@ export default function Chat() {
         </div>
       </div>
 
-      {/* ── Input bar — fixed bottom ── */}
+      {/* ── Input bar — pinned to bottom of the chat column ── */}
       <div
         style={{
-          position: "fixed",
+          position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
@@ -448,7 +518,7 @@ export default function Chat() {
               }}
             >
               <span
-                style={{
+                style={{ fontWeight: 700,
                   fontSize: 11,
                   fontFamily: "var(--font-mono), ui-monospace, monospace",
                   color: "var(--text-3)",
@@ -505,7 +575,7 @@ export default function Chat() {
 
           {/* Powered-by label */}
           <p
-            style={{
+            style={{ fontWeight: 700,
               textAlign: "center",
               marginTop: 10,
               fontSize: 11,
@@ -517,6 +587,149 @@ export default function Chat() {
             Unimate can make mistakes. Verify important information.
           </p>
         </div>
+      </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Chat history sidebar — full list for Premium, locked teaser otherwise ── */
+function ChatSidebar({
+  activeChatId,
+  onNewChat,
+  onSelectChat,
+}: {
+  activeChatId: string | null;
+  onNewChat: () => void;
+  onSelectChat: (id: string) => void;
+}) {
+  return (
+    <div
+      style={{
+        width: 272,
+        flexShrink: 0,
+        height: "100%",
+        borderRight: "1px solid var(--border)",
+        background: "var(--surface)",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
+    >
+      {/* New chat button */}
+      <div style={{ padding: "16px 14px 10px" }}>
+        <button
+          onClick={onNewChat}
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "10px 12px",
+            borderRadius: 10,
+            border: "1px solid var(--border-strong)",
+            background: "transparent",
+            color: "var(--text-1)",
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: "pointer",
+            fontFamily: "inherit",
+            transition: "background 0.15s, border-color 0.15s",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = "var(--surface-2)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          New chat
+        </button>
+      </div>
+
+      {/* History list */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "6px 10px 16px", position: "relative" }}>
+        <div style={{ filter: IS_PREMIUM ? "none" : "blur(3px)", opacity: IS_PREMIUM ? 1 : 0.55, pointerEvents: IS_PREMIUM ? "auto" : "none", userSelect: IS_PREMIUM ? "auto" : "none" }}>
+          {HISTORY_GROUPS.map(group => {
+            const items = CHAT_HISTORY.filter(h => h.group === group);
+            if (items.length === 0) return null;
+            return (
+              <div key={group} style={{ marginBottom: 18 }}>
+                <div style={{ fontWeight: 700, fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", padding: "0 6px", marginBottom: 6 }}>
+                  {group}
+                </div>
+                {items.map(item => {
+                  const active = activeChatId === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => onSelectChat(item.id)}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "8px 10px",
+                        borderRadius: 8,
+                        border: "none",
+                        background: active ? "var(--surface-2)" : "transparent",
+                        color: active ? "var(--text-1)" : "var(--text-2)",
+                        fontSize: 13,
+                        lineHeight: 1.4,
+                        cursor: IS_PREMIUM ? "pointer" : "default",
+                        fontFamily: "inherit",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        transition: "background 0.15s, color 0.15s",
+                      }}
+                      onMouseEnter={e => { if (IS_PREMIUM && !active) e.currentTarget.style.background = "var(--surface-2)"; }}
+                      onMouseLeave={e => { if (IS_PREMIUM && !active) e.currentTarget.style.background = "transparent"; }}
+                    >
+                      {item.title}
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Lock overlay for non-premium */}
+        {!IS_PREMIUM && (
+          <div style={{
+            position: "absolute", inset: 0,
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+            gap: 14, padding: "24px 20px", textAlign: "center",
+          }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: 12,
+              background: "rgba(201,163,92,0.12)", border: "1px solid rgba(201,163,92,0.25)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgb(201,163,92)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", marginBottom: 6 }}>Chat history</div>
+              <p style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.6, margin: 0 }}>
+                Revisit and resume any past conversation. Premium only.
+              </p>
+            </div>
+            <Link
+              href="/pricing"
+              style={{
+                padding: "9px 18px", borderRadius: 10,
+                background: "rgb(201,163,92)", color: "#fff",
+                fontSize: 12, fontWeight: 700, textDecoration: "none",
+                transition: "opacity 0.15s",
+              }}
+              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.85")}
+              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
+            >
+              Unlock Premium →
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

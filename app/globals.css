@@ -9,14 +9,17 @@
   --border-strong: rgba(255, 255, 255, 0.14);
   --text-1:    #ededed;
   --text-2:    #888888;
-  --text-3:    #444444;
-  --accent:    #a78bfa;
-  --accent-dim: rgba(167, 139, 250, 0.12);
-  --accent-border: rgba(167, 139, 250, 0.25);
+  --text-3:    #959595;
+  --accent:    #c9a35c;
+  --accent-dim: rgba(201, 163, 92, 0.12);
+  --accent-border: rgba(201, 163, 92, 0.25);
   --green:     #34d399;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
+  --panel:       rgba(0, 0, 0, 0.3);
+  --chip:        rgba(255, 255, 255, 0.045);
+  --chip-strong: rgba(255, 255, 255, 0.07);
 }
 
 @theme inline {
@@ -38,7 +41,7 @@ body {
 }
 
 ::selection {
-  background: rgba(167, 139, 250, 0.25);
+  background: rgba(201, 163, 92, 0.25);
   color: var(--text-1);
 }
 
@@ -301,10 +304,10 @@ body.is-resizing .resize-handle {
 
 /* ─── Mono label ────────────────────────────────── */
 .label {
-  font-size: 10px;
+  font-size: 11px;
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
 }

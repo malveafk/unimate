@@ -17,7 +17,7 @@ const FACULTY_LABELS: Record<string, { name: string; icon: string; description: 
 
 const MATCH_LABELS = [
   { min: 85, label: "Perfect match", color: "#34d399" },
-  { min: 70, label: "Strong match", color: "#a78bfa" },
+  { min: 70, label: "Strong match", color: "#c9a35c" },
   { min: 55, label: "Good match", color: "#60a5fa" },
   { min: 0,  label: "Partial match", color: "#888888" },
 ];
@@ -235,7 +235,7 @@ function ResultsContent() {
       {topFaculties.length > 0 && (
         <div style={{ marginBottom: 56 }}>
           <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 8 }}>
+            <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 8 }}>
               Fields of study
             </div>
             <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px" }}>

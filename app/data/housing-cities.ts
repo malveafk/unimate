@@ -29,7 +29,7 @@ export type RoommatePin = {
   id: string;
   name: string;
   initials: string;
-  avatarColor: string;   // RGB string, e.g. "167,139,250"
+  avatarColor: string;   // RGB string, e.g. "201,163,92"
   city: string;
   lat: number;
   lng: number;
@@ -74,7 +74,7 @@ export const roommatePins: RoommatePin[] = [
     id: "demo-r1",
     name: "Sofia Martínez",
     initials: "SM",
-    avatarColor: "167,139,250",
+    avatarColor: "201,163,92",
     city: "Amsterdam",
     lat: 52.370,
     lng: 4.910,

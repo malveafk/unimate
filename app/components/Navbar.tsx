@@ -12,44 +12,38 @@ const SECTIONS = [
   {
     href: "/news",
     label: "News",
-    step: "01",
     desc: "Latest admissions, scholarships and visa news curated for students moving to Europe.",
-    accentRgb: "167,139,250",
+    accentRgb: "201,163,92",
   },
   {
     href: "/universities",
     label: "Universities",
-    step: "02",
     desc: "Browse and filter 24+ universities across 12 European countries by tuition and faculty.",
     accentRgb: "52,211,153",
   },
   {
     href: "/housing",
     label: "Housing",
-    step: "03",
     desc: "Find apartments and roommates across Europe — filtered by city, budget and move-in date.",
     accentRgb: "96,165,250",
   },
   {
     href: "/compare",
     label: "Compare",
-    step: "04",
     desc: "Place universities side-by-side to compare costs, programmes and living expenses.",
     accentRgb: "251,191,36",
   },
   {
     href: "/messages",
     label: "Messages",
-    step: "05",
     desc: "Chat directly with other students — coordinate roommates, housing, and more.",
     accentRgb: "52,211,153",
   },
   {
     href: "/chat",
     label: "Chat AI",
-    step: "06",
     desc: "Your personal AI assistant — ask anything about studying abroad in Europe.",
-    accentRgb: "167,139,250",
+    accentRgb: "201,163,92",
   },
 ];
 
@@ -84,14 +78,13 @@ function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; 
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Step number */}
-        <span style={{
-          fontFamily: "var(--font-mono)", fontSize: 11,
-          color: hovered ? `rgb(${rgb})` : "var(--text-3)",
-          letterSpacing: "0.14em", flexShrink: 0, width: 28,
-          transition: "color 0.2s",
-        }}>
-          {section.step}
+        {/* Accent dot */}
+        <span style={{ flexShrink: 0, width: 28, display: "flex" }}>
+          <span style={{
+            width: 8, height: 8, borderRadius: "50%",
+            background: hovered ? `rgb(${rgb})` : "var(--text-3)",
+            transition: "background 0.2s",
+          }} />
         </span>
 
         {/* Label */}
@@ -219,22 +212,22 @@ export default function Navbar() {
                 display: "flex", alignItems: "center", gap: 8,
                 background: "transparent",
                 border: "1px solid var(--border)",
-                borderRadius: 8, padding: "7px 14px",
+                borderRadius: 9, padding: "7px 14px 7px 7px",
                 cursor: "pointer", color: "var(--text-2)",
-                fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                fontSize: 13, fontWeight: 500,
                 fontFamily: "inherit", transition: "border-color 0.2s, color 0.2s",
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "var(--text-1)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
             >
               <div style={{
-                width: 20, height: 20, borderRadius: "50%",
+                width: 22, height: 22, borderRadius: "50%",
                 background: "var(--accent)", display: "flex", alignItems: "center",
                 justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#fff", flexShrink: 0,
               }}>
                 {(user.email ?? "?")[0].toUpperCase()}
               </div>
-              SIGN OUT
+              Sign out
             </button>
           ) : (
             <button
@@ -242,15 +235,15 @@ export default function Navbar() {
               style={{
                 background: "transparent",
                 border: "1px solid var(--border)",
-                borderRadius: 8, padding: "7px 16px",
+                borderRadius: 9, padding: "7px 16px",
                 cursor: "pointer", color: "var(--text-2)",
-                fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                fontSize: 13, fontWeight: 500,
                 fontFamily: "inherit", transition: "border-color 0.2s, color 0.2s",
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "var(--text-1)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
             >
-              SIGN IN
+              Sign in
             </button>
           )}
 
@@ -263,10 +256,10 @@ export default function Navbar() {
             display: "flex", alignItems: "center", gap: 10,
             background: "transparent",
             border: `1px solid ${open ? "rgba(255,255,255,0.14)" : "var(--border)"}`,
-            borderRadius: 8, padding: "7px 16px",
+            borderRadius: 9, padding: "7px 16px",
             cursor: "pointer",
             color: open ? "var(--text-1)" : "var(--text-2)",
-            fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+            fontSize: 13, fontWeight: 500,
             fontFamily: "inherit",
             transition: "border-color 0.2s, color 0.2s",
           }}
@@ -317,7 +310,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.16 }}
           >
-            {open ? "CLOSE" : "MENU"}
+            {open ? "Close" : "Menu"}
           </motion.span>
           </button>
         </div>
@@ -353,12 +346,11 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: 0.04 }}
                 style={{
-                  fontFamily: "var(--font-mono)", fontSize: 10,
-                  color: "var(--text-3)", letterSpacing: "0.18em",
-                  textTransform: "uppercase", margin: "0 0 8px",
+                  fontSize: 13,
+                  color: "var(--text-3)", margin: "0 0 8px",
                 }}
               >
-                Navigate · 4UNI
+                Where to?
               </motion.p>
 
               {/* Nav rows */}
@@ -383,11 +375,11 @@ export default function Navbar() {
                 transition={{ duration: 0.35, delay: 0.38 }}
                 style={{
                   marginTop: 32,
-                  fontFamily: "var(--font-mono)", fontSize: 10,
-                  color: "var(--text-3)", letterSpacing: "0.14em",
+                  fontSize: 12,
+                  color: "var(--text-3)",
                 }}
               >
-                ESC TO CLOSE
+                Press Esc to close
               </motion.p>
             </div>
           </motion.div>

@@ -119,7 +119,7 @@ export default function AuthModal({ onClose }: Props) {
         {/* Divider */}
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
           <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
-          <span style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>OR</span>
+          <span style={{ fontWeight: 700, fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>OR</span>
           <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
         </div>
 

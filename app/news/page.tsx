@@ -39,7 +39,7 @@ export default function NewsPage() {
             <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, margin: 0, letterSpacing: "-1.5px", color: "var(--text-1)" }}>
               Student News
             </h2>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.12em" }}>
+            <span style={{ fontWeight: 700, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.12em" }}>
               {filtered.length} / {news.length} stories
             </span>
           </div>
@@ -139,7 +139,7 @@ export default function NewsPage() {
 
               <div style={{ display: "flex", alignItems: "center", gap: 16, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
                 {lead.university && <span style={{ fontSize: 12, color: "var(--text-3)", fontWeight: 500 }}>{lead.university}</span>}
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", marginLeft: "auto" }}>{lead.date}</span>
+                <span style={{ fontWeight: 700, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", marginLeft: "auto" }}>{lead.date}</span>
                 <TransitionLink href={`/chat?news=${encodeURIComponent(lead.title)}`} className="btn-primary" style={{ fontSize: 12, padding: "7px 14px" }}>
                   Ask AI →
                 </TransitionLink>
@@ -190,7 +190,7 @@ export default function NewsPage() {
                   onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>
                   {item.tag}
                 </button>
-                <span style={{ marginLeft: "auto", fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", alignSelf: "center" }}>{item.date}</span>
+                <span style={{ fontWeight: 700, marginLeft: "auto", fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", alignSelf: "center" }}>{item.date}</span>
               </div>
 
               <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", lineHeight: 1.4, letterSpacing: "-0.3px", margin: 0, flex: 1 }}>

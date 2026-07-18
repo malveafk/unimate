@@ -220,7 +220,7 @@ export default function MessagesPage() {
           borderBottom: "1px solid var(--border)",
           flexShrink: 0,
         }}>
-          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 8 }}>
+          <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 8 }}>
             Messages
           </div>
           <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px" }}>
@@ -246,9 +246,9 @@ export default function MessagesPage() {
         {/* Demo notice */}
         <div style={{
           padding: "8px 16px",
-          background: "rgba(167,139,250,0.06)",
-          borderBottom: "1px solid rgba(167,139,250,0.12)",
-          fontSize: 10, color: "rgba(167,139,250,0.7)",
+          background: "rgba(201,163,92,0.06)",
+          borderBottom: "1px solid rgba(201,163,92,0.12)",
+          fontSize: 10, color: "rgba(201,163,92,0.7)",
           fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textAlign: "center",
         }}>
           DEMO · messages are not saved or sent
@@ -337,7 +337,7 @@ export default function MessagesPage() {
             }}>
               {/* Date divider */}
               <div style={{ textAlign: "center", marginBottom: 8 }}>
-                <span style={{
+                <span style={{ fontWeight: 700,
                   fontSize: 10, color: "var(--text-3)",
                   fontFamily: "var(--font-mono)", letterSpacing: "0.1em",
                   background: "var(--surface)", padding: "3px 10px",
@@ -375,7 +375,7 @@ export default function MessagesPage() {
                     }}>
                       {msg.text}
                     </div>
-                    <div style={{
+                    <div style={{ fontWeight: 700,
                       fontSize: 10, color: "var(--text-3)", marginTop: 4,
                       textAlign: msg.from === "me" ? "right" : "left",
                       fontFamily: "var(--font-mono)",
@@ -450,7 +450,9 @@ export default function MessagesPage() {
             alignItems: "center", justifyContent: "center", gap: 16,
             color: "var(--text-3)",
           }}>
-            <div style={{ fontSize: 48 }}>💬</div>
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
             <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text-1)" }}>No conversation selected</div>
             <div style={{ fontSize: 14, color: "var(--text-3)" }}>
               Choose a conversation from the sidebar to start chatting

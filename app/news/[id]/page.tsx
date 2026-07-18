@@ -110,7 +110,7 @@ export default function ArticlePage() {
           background: "var(--surface)",
           marginBottom: 40,
         }}>
-          <p style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 8px" }}>
+          <p style={{ fontWeight: 700, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 8px" }}>
             Full article
           </p>
           <p style={{ fontSize: 14, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>

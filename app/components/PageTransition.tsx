@@ -62,7 +62,7 @@ function FlashOverlay({ visible }: { visible: boolean }) {
             zIndex: 99999,
             pointerEvents: "none",
             background:
-              "radial-gradient(ellipse at 50% 50%, rgba(167,139,250,0.18) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,0.92) 100%)",
+              "radial-gradient(ellipse at 50% 50%, rgba(201,163,92,0.18) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,0.92) 100%)",
           }}
         />
       )}

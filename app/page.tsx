@@ -4,6 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { TransitionLink } from "./components/PageTransition";
 import { universities } from "./data/universities";
 
+// Hero-only accent — a warm muted gold, distinct from the site's purple.
+// Scoped to this file only so it doesn't touch Core Features or anywhere else.
+const HERO_ACCENT = "201,163,92";
+
 /* ─── Hero slideshow ──────────────────────────────── */
 const ALL_SLIDES = [
   "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=1920&q=80",
@@ -250,16 +254,19 @@ export default function Home() {
           display: "inline-flex",
           alignItems: "center",
           gap: 8,
-          padding: "7px 16px 7px 12px",
-          borderRadius: 100,
-          border: "1px solid rgba(255,255,255,0.18)",
-          background: "rgba(255,255,255,0.06)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
+          padding: "7px 14px 7px 11px",
+          borderRadius: 8,
+          border: "1px solid rgba(255,255,255,0.16)",
+          background: "rgba(255,255,255,0.04)",
           opacity: 0,
           animation: "fadeIn 0.5s ease-out 0.15s forwards",
         }}>
-          <span style={{ fontSize: 15, lineHeight: 1 }}>🎓</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={`rgb(${HERO_ACCENT})`} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
           <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.02em", color: "rgba(255,255,255,0.85)" }}>
             Made by students, for students
           </span>
@@ -277,20 +284,17 @@ export default function Home() {
           <AnimatedHeadline text="The Hub for International Students." />
         </h1>
 
-        {/* Motto — the emphasized tagline */}
+        {/* Motto — the emphasized tagline (solid color, no gradient-text) */}
         <p style={{
           fontSize: "clamp(19px, 2.6vw, 28px)",
           fontWeight: 700,
           letterSpacing: "-0.5px",
           margin: 0,
-          background: "linear-gradient(135deg, #ffffff 20%, rgba(167,139,250,0.9) 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
+          color: "rgba(255,255,255,0.92)",
           opacity: 0,
           animation: "fadeUp 0.6s ease-out 0.55s forwards",
         }}>
-          One click away from your future.
+          One click away from your <span style={{ color: `rgb(${HERO_ACCENT})` }}>future</span>.
         </p>
 
         <p style={{
@@ -335,73 +339,65 @@ export default function Home() {
         <div style={{ width: 40, height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 2, margin: "16px auto 0" }} />
 
         {/* CORE FEATURES CONTENT — inline below the handle */}
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 32px 80px" }}>
-          <div className="reveal" style={{ marginBottom: 56 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 18 }}>
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--accent)", letterSpacing: "0.2em", textTransform: "uppercase" }}>How it works</span>
-              <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
-            </div>
-            <h2 style={{ fontSize: "clamp(38px, 5vw, 64px)", fontWeight: 800, margin: 0, letterSpacing: "-2px", lineHeight: 1.05, background: "linear-gradient(135deg, #ffffff 30%, rgba(167,139,250,0.85) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Core Features
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px 88px" }}>
+          {/* Header — plain heading, one word per feature highlighted in its own color, no eyebrow tag, no gradient-text */}
+          <div className="reveal" style={{ marginBottom: 64, maxWidth: 620 }}>
+            <h2 style={{ fontSize: "clamp(32px, 4.2vw, 48px)", fontWeight: 800, margin: 0, letterSpacing: "-1.3px", lineHeight: 1.15, color: "var(--text-1)" }}>
+              Two things stand between you and studying abroad: <span style={{ color: "rgb(52,211,153)" }}>the right school</span>, and <span style={{ color: "rgb(96,165,250)" }}>somewhere to live</span>.
             </h2>
-            <p style={{ fontSize: 15, color: "var(--text-2)", margin: "12px 0 0", lineHeight: 1.6, maxWidth: 500 }}>
-              Everything you need to plan your move to Europe — in one place.
+            <p style={{ fontSize: 15, color: "var(--text-2)", margin: "16px 0 0", lineHeight: 1.7, maxWidth: 460 }}>
+              Unimate handles both — real listings, real numbers, no guesswork.
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}>
             {/* Find Your University column */}
-            <div className="reveal" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ borderRadius: 20, border: "1px solid rgba(52,211,153,0.25)", background: "rgba(52,211,153,0.06)", padding: "32px 32px 28px" }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgb(52,211,153)", letterSpacing: "0.18em", textTransform: "uppercase" }}>01</span>
-                <h3 style={{ fontSize: 28, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", margin: "12px 0 10px" }}>Find Your University</h3>
-                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Browse 24+ European universities filtered by country, faculty and language. Each profile includes tuition fees, living costs, entry requirements and available programmes — everything in one place before you apply.</p>
-                <TransitionLink href="/universities" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 20, fontSize: 13, fontWeight: 600, color: "rgb(52,211,153)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Explore universities →</TransitionLink>
+            <div className="reveal">
+              <div style={{ borderLeft: "2px solid rgb(52,211,153)", paddingLeft: 20, marginBottom: 8 }}>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px", margin: "0 0 8px" }}>Find Your University</h3>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Browse 24+ European universities filtered by country, faculty and language. Tuition fees, living costs, entry requirements and available programmes — before you apply.</p>
+                <TransitionLink href="/universities" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontSize: 13, fontWeight: 600, color: "rgb(52,211,153)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Explore universities →</TransitionLink>
               </div>
-              {[
-                { delay: "d1", accent: "rgba(52,211,153,0.3)", iconColor: "rgb(52,211,153)", bg: "rgba(52,211,153,0.1)", title: "Side-by-side Compare", desc: "Put two universities next to each other and compare tuition, living costs, teaching style and strengths at a glance.", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke="rgb(52,211,153)" strokeWidth="2" strokeLinecap="round"/></svg> },
-                { delay: "d2", accent: "rgba(167,139,250,0.3)", iconColor: "rgba(167,139,250,0.9)", bg: "rgba(167,139,250,0.1)", title: "AI Assistant", desc: "Ask anything — deadlines, required documents, language requirements, scholarship eligibility. Get instant, accurate answers.", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="rgba(167,139,250,0.9)"/></svg> },
-                { delay: "d3", accent: "rgba(251,191,36,0.3)", iconColor: "rgba(251,191,36,0.9)", bg: "rgba(251,191,36,0.1)", title: "Costs & Application Requirements", desc: "Every university profile shows tuition fees, monthly living costs, required documents and language certificates — no more digging through official websites.", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="rgba(251,191,36,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-              ].map(({ delay, accent, iconColor: _ic, bg, title, desc, icon }) => (
-                <div key={title} className={`reveal ${delay}`} style={{ borderRadius: 14, border: "1px solid var(--border)", background: "var(--surface)", padding: "22px 24px", display: "flex", gap: 16, alignItems: "flex-start", transition: "border-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = accent)} onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
-                  <div><div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div><div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{desc}</div></div>
-                </div>
-              ))}
+              <div>
+                {[
+                  { title: "Side-by-side Compare", desc: "Put two universities next to each other and compare tuition, living costs, teaching style and strengths at a glance." },
+                  { title: "AI Assistant", desc: "Ask anything — deadlines, required documents, language requirements, scholarship eligibility. Get instant, accurate answers." },
+                  { title: "Costs & Application Requirements", desc: "Every university profile shows tuition fees, monthly living costs, required documents and language certificates — no more digging through official websites." },
+                ].map(({ title, desc }) => (
+                  <div key={title} style={{ padding: "18px 0", borderTop: "1px solid var(--border)" }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>
+                    <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{desc}</div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Find Your Apartment column */}
-            <div className="reveal reveal-d1" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ borderRadius: 20, border: "1px solid rgba(96,165,250,0.25)", background: "rgba(96,165,250,0.06)", padding: "32px 32px 28px" }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgb(96,165,250)", letterSpacing: "0.18em", textTransform: "uppercase" }}>02</span>
-                <h3 style={{ fontSize: 28, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", margin: "12px 0 10px" }}>Find Your Apartment</h3>
-                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Housing is one of the biggest challenges for international students. Our AI guides you through the best platforms, average costs per city, student housing options and tips to avoid the most common scams.</p>
-                <TransitionLink href="/housing" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 20, fontSize: 13, fontWeight: 600, color: "rgb(96,165,250)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Browse housing →</TransitionLink>
+            <div className="reveal reveal-d1">
+              <div style={{ borderLeft: "2px solid rgb(96,165,250)", paddingLeft: 20, marginBottom: 8 }}>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px", margin: "0 0 8px" }}>Find Your Apartment</h3>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Housing is one of the biggest challenges for international students. Best platforms, average costs per city, student housing options and how to avoid the common scams.</p>
+                <TransitionLink href="/housing" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontSize: 13, fontWeight: 600, color: "rgb(96,165,250)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Browse housing →</TransitionLink>
               </div>
-              {[
-                { delay: "d2", filters: null, title: "City Cost Guides", desc: "Average rent, utilities and transport costs for Amsterdam, Berlin, Paris, Barcelona and more — updated and broken down by neighbourhood." },
-                { delay: "d3", filters: null, title: "Best Platforms by Country", desc: "Kamernet, HousingAnywhere, Uniplaces, student halls — we tell you which platforms work best in each country and what to watch out for." },
-                { delay: "d4", filters: null, title: "Waiting Lists & Timelines", desc: "Student housing waiting lists can be 6–12 months. We tell you exactly when to register and how to maximise your chances of getting a room in time." },
-                { delay: "d5", filters: ["City", "Budget", "Size", "Furnished", "Distance to uni"], title: "Find an Apartment — with Filters", desc: "Filter by city, budget, size, furnished/unfurnished and distance to university. We surface the right listings from trusted platforms." },
-                { delay: "d6", filters: ["University", "Nationality", "Budget", "Lifestyle", "Language"], title: "Find a Roommate — with Filters", desc: "Splitting rent makes everything more affordable. Filter potential roommates by university, nationality, lifestyle habits and budget to find someone truly compatible." },
-              ].map(({ delay, filters, title, desc }) => (
-                <div key={title} className={`reveal ${delay}`} style={{ borderRadius: 14, border: "1px solid var(--border)", background: "var(--surface)", padding: "22px 24px", display: "flex", gap: 16, alignItems: "flex-start", transition: "border-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(96,165,250,0.3)")} onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(96,165,250,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="rgb(96,165,250)" strokeWidth="2"/></svg>
-                  </div>
-                  <div>
+              <div>
+                {[
+                  { filters: null, title: "City Cost Guides", desc: "Average rent, utilities and transport costs for Amsterdam, Berlin, Paris, Barcelona and more — updated and broken down by neighbourhood." },
+                  { filters: null, title: "Best Platforms by Country", desc: "Kamernet, HousingAnywhere, Uniplaces, student halls — we tell you which platforms work best in each country and what to watch out for." },
+                  { filters: null, title: "Waiting Lists & Timelines", desc: "Student housing waiting lists can be 6–12 months. We tell you exactly when to register and how to maximise your chances of getting a room in time." },
+                  { filters: ["City", "Budget", "Size", "Furnished", "Distance to uni"], title: "Find an Apartment — with Filters", desc: "Filter by city, budget, size, furnished/unfurnished and distance to university. We surface the right listings from trusted platforms." },
+                  { filters: ["University", "Nationality", "Budget", "Lifestyle", "Language"], title: "Find a Roommate — with Filters", desc: "Splitting rent makes everything more affordable. Filter potential roommates by university, nationality, lifestyle habits and budget to find someone truly compatible." },
+                ].map(({ filters, title, desc }) => (
+                  <div key={title} style={{ padding: "18px 0", borderTop: "1px solid var(--border)" }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>
                     <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{desc}</div>
                     {filters && (
-                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
-                        {filters.map(f => <span key={f} style={{ fontSize: 10, padding: "3px 9px", borderRadius: 99, border: "1px solid rgba(96,165,250,0.25)", color: "rgb(96,165,250)", fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}>{f}</span>)}
+                      <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 8 }}>
+                        {filters.join(" · ")}
                       </div>
                     )}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
