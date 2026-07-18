@@ -12,6 +12,9 @@ interface Message {
 // conversations longer than 40. The full history is still saved to Supabase.
 const MAX_API_MESSAGES = 30;
 
+// Width of the collapsible left sidebar that lists saved conversations.
+const SIDEBAR_WIDTH = 250;
+
 const WELCOME = `Hey! I'm Unimate 👋
 
 I'm here to help you understand how to study abroad — universities, financial aid, housing, applications, bureaucracy. Everything you wished you'd known earlier.
@@ -45,7 +48,7 @@ export default function Chat() {
   const [userId, setUserId] = useState<string | null>(null);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [isPremium, setIsPremium] = useState(false);
-  const [historyOpen, setHistoryOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [conversations, setConversations] = useState<{ id: string; title: string | null; updated_at: string }[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
@@ -137,13 +140,11 @@ export default function Chat() {
     }
   };
 
-  // Toggle the history dropdown, refreshing the list each time it opens.
-  const toggleHistory = () => {
-    setHistoryOpen((open) => {
-      if (!open) loadConversations();
-      return !open;
-    });
-  };
+  // Keep the sidebar list in sync: load it as soon as we know who the user is.
+  useEffect(() => {
+    if (userId) loadConversations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   // Reopen a past conversation. Premium-only: non-premium users see the list
   // but cannot load a chat (the button no-ops for them).
@@ -157,7 +158,6 @@ export default function Chat() {
         .order("created_at", { ascending: true });
       setConversationId(id);
       setMessages(msgs && msgs.length > 0 ? (msgs as Message[]) : [{ role: "assistant", content: WELCOME }]);
-      setHistoryOpen(false);
       setRateLimited(false);
     } catch (e) {
       console.error("Failed to open conversation:", e);
@@ -251,8 +251,12 @@ export default function Chat() {
         throw new Error(data.error || `Request failed (${response.status})`);
       }
       setMessages([...newMessages, { role: "assistant", content: data.message }]);
-      // Save the assistant reply once we have it (best-effort).
-      if (convId) await persistAssistantMessage(convId, data.message);
+      // Save the assistant reply once we have it (best-effort), then refresh
+      // the sidebar so new conversations and timestamps show up right away.
+      if (convId) {
+        await persistAssistantMessage(convId, data.message);
+        loadConversations();
+      }
     } catch (err) {
       console.error("Chat request failed:", err instanceof Error ? err.message : err);
       setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again!" }]);
@@ -350,48 +354,66 @@ export default function Chat() {
         }}
       />
 
-      {/* ── Top controls: history (logged-in only) + new chat (everyone) ── */}
-      {/* Fixed to the viewport so the buttons stay put while the chat scrolls. */}
-      <div style={{ position: "fixed", top: 120, right: 20, zIndex: 15, display: "flex", gap: 8 }}>
-          {/* History dropdown — tied to saved conversations, so it needs an account */}
-          {userId && (
-          <div style={{ position: "relative" }}>
+      {/* ── Left sidebar: new chat + saved conversations (collapsible) ── */}
+      {sidebarOpen ? (
+        <aside
+          style={{
+            position: "fixed",
+            top: 96,
+            left: 0,
+            bottom: 0,
+            width: SIDEBAR_WIDTH,
+            zIndex: 15,
+            display: "flex",
+            flexDirection: "column",
+            background: "var(--bg)",
+            borderRight: "1px solid var(--border-strong)",
+            padding: "14px 10px 16px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 6px 10px" }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", color: "var(--text-3)" }}>CHATS</span>
             <button
-              onClick={toggleHistory}
-              style={{
-                padding: "7px 14px",
-                borderRadius: 9,
-                border: "1px solid var(--border-strong)",
-                background: "var(--surface)",
-                color: "var(--text-2)",
-                fontSize: 12,
-                fontWeight: 600,
-                cursor: "pointer",
-                fontFamily: "inherit",
-                transition: "color 0.15s ease, border-color 0.15s ease",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
-              onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+              onClick={() => setSidebarOpen(false)}
+              title="Hide sidebar"
+              aria-label="Hide sidebar"
+              style={{ padding: "3px 8px", borderRadius: 6, border: "none", background: "transparent", color: "var(--text-3)", cursor: "pointer", fontSize: 14, fontFamily: "inherit" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
             >
-              History
+              «
             </button>
+          </div>
 
-            {historyOpen && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "calc(100% + 8px)",
-                  right: 0,
-                  width: 300,
-                  maxHeight: 380,
-                  overflowY: "auto",
-                  background: "var(--surface)",
-                  border: "1px solid var(--border-strong)",
-                  borderRadius: 12,
-                  boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
-                  padding: 6,
-                }}
-              >
+          {/* New chat — available to everyone */}
+          <button
+            onClick={startNewChat}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              width: "100%",
+              padding: "9px 12px",
+              borderRadius: 9,
+              border: "1px solid var(--border-strong)",
+              background: "var(--surface)",
+              color: "var(--text-2)",
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: "pointer",
+              fontFamily: "inherit",
+              transition: "color 0.15s ease, border-color 0.15s ease",
+              marginBottom: 12,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+          >
+            <span style={{ fontSize: 15, lineHeight: 1 }}>+</span> New chat
+          </button>
+
+          {userId ? (
+            <>
+              <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 2 }}>
                 {!isPremium && (
                   <div style={{ padding: "10px 12px 12px", display: "flex", flexDirection: "column", gap: 4, borderBottom: "1px solid var(--border)", marginBottom: 4 }}>
                     <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-1)" }}>✨ Chat history is Premium</span>
@@ -506,39 +528,50 @@ export default function Chat() {
                   ))
                 )}
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <div style={{ padding: "10px 6px", fontSize: 12, color: "var(--text-3)", lineHeight: 1.5 }}>
+              Sign in to save your conversations and reopen them here.
+            </div>
           )}
+        </aside>
+      ) : (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          title="Show chats"
+          aria-label="Show chats"
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 16,
+            zIndex: 15,
+            padding: "7px 14px",
+            borderRadius: 9,
+            border: "1px solid var(--border-strong)",
+            background: "var(--surface)",
+            color: "var(--text-2)",
+            fontSize: 12,
+            fontWeight: 600,
+            cursor: "pointer",
+            fontFamily: "inherit",
+            transition: "color 0.15s ease, border-color 0.15s ease",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
+          onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+        >
+          ☰ Chats
+        </button>
+      )}
 
-          {/* New chat */}
-          <button
-            onClick={startNewChat}
-            style={{
-              padding: "7px 14px",
-              borderRadius: 9,
-              border: "1px solid var(--border-strong)",
-              background: "var(--surface)",
-              color: "var(--text-2)",
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: "pointer",
-              fontFamily: "inherit",
-              transition: "color 0.15s ease, border-color 0.15s ease",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
-            onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
-          >
-            + New chat
-          </button>
-      </div>
-
-      {/* ── Messages scroll area ── */}
+      {/* ── Messages scroll area (shifted right when the sidebar is open) ── */}
       <div
         style={{
           flex: 1,
           overflowY: "auto",
           position: "relative",
           zIndex: 1,
+          marginLeft: sidebarOpen ? SIDEBAR_WIDTH : 0,
+          transition: "margin-left 0.2s ease",
         }}
       >
         <div
@@ -760,16 +793,17 @@ export default function Chat() {
         </div>
       </div>
 
-      {/* ── Input bar — fixed bottom ── */}
+      {/* ── Input bar — fixed bottom (shifted right when the sidebar is open) ── */}
       <div
         style={{
           position: "fixed",
           bottom: 0,
-          left: 0,
+          left: sidebarOpen ? SIDEBAR_WIDTH : 0,
           right: 0,
           zIndex: 20,
           padding: "16px 20px 20px",
           background: "linear-gradient(to top, var(--bg) 70%, transparent)",
+          transition: "left 0.2s ease",
         }}
       >
         <div style={{ maxWidth: 680, margin: "0 auto", width: "100%" }}>
