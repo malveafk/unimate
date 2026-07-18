@@ -458,7 +458,7 @@ export default function CreateProfilePage() {
               <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0 }}>Where you're looking and what your budget is</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-              <FieldLabel>City</FieldLabel>
+              <FieldLabel>City where you&apos;re searching</FieldLabel>
               <select value={form.city} onChange={e => set("city", e.target.value)} style={{ padding: "13px 16px", borderRadius: 10, border: "1px solid var(--border)", background: "var(--surface)", color: form.city ? "var(--text-1)" : "var(--text-3)", fontSize: 15, outline: "none", fontFamily: "inherit", cursor: "pointer" }}>
                 <option value="">Select a city…</option>
                 {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
