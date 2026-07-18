@@ -1,7 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { roommatePins, type RoommatePin } from "../data/housing-cities";
+import {
+  getCurrentUserId,
+  getOrCreateConversation,
+  listConversations,
+  sendHousingMessage,
+  markConversationRead,
+} from "@/utils/housingChat";
 
 /* ── Types ─────────────────────────────────────────────────────────────────── */
 
@@ -65,6 +72,15 @@ function seedConversations(): Conversation[] {
   }));
 }
 
+// Shown when the other participant hasn't created a roommate profile yet.
+function placeholderProfile(userId: string): RoommatePin {
+  return {
+    id: userId, userId, name: "Student", initials: "S",
+    avatarColor: "167,139,250", city: "", lat: 0, lng: 0,
+    budgetMin: 0, budgetMax: 0, moveIn: "—", university: "Unimate user", flag: "🎓",
+  };
+}
+
 /* ── Avatar ─────────────────────────────────────────────────────────────────── */
 
 function Avatar({ profile, size = 40 }: { profile: RoommatePin; size?: number }) {
@@ -93,7 +109,7 @@ function ConvItem({
   conv: Conversation; active: boolean; onClick: () => void;
 }) {
   const last = conv.messages[conv.messages.length - 1];
-  const preview = last.from === "me" ? `You: ${last.text}` : last.text;
+  const preview = !last ? "Say hi 👋" : last.from === "me" ? `You: ${last.text}` : last.text;
 
   return (
     <button
@@ -134,7 +150,7 @@ function ConvItem({
             {conv.profile.flag} {conv.profile.name}
           </span>
           <span style={{ fontSize: 10, color: "var(--text-3)", flexShrink: 0, marginLeft: 8 }}>
-            {last.time}
+            {last?.time ?? ""}
           </span>
         </div>
         <div style={{
@@ -155,15 +171,68 @@ function ConvItem({
 /* ── Main page ─────────────────────────────────────────────────────────────── */
 
 export default function MessagesPage() {
-  const [convs, setConvs] = useState<Conversation[]>(() => seedConversations());
-  const [activeId, setActiveId] = useState<string>(convs[0]?.id ?? "");
+  // undefined = still checking auth, null = guest (demo mode), string = user id.
+  const [userId, setUserId] = useState<string | null | undefined>(undefined);
+  const [convs, setConvs] = useState<Conversation[]>([]);
+  const [activeId, setActiveId] = useState<string>("");
   const [input, setInput] = useState("");
   const [mobileShowChat, setMobileShowChat] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef  = useRef<HTMLTextAreaElement>(null);
 
+  const realMode = typeof userId === "string";
   const activeConv = convs.find(c => c.id === activeId) ?? null;
   const replyPool = REPLIES[activeId] ?? REPLIES["demo-r1"];
+
+  // Load my real conversations, preserving the demo UI shape.
+  const loadReal = useCallback(async () => {
+    try {
+      const real = await listConversations();
+      setConvs(real.map(r => ({
+        id: r.id,
+        profile: r.profile ?? placeholderProfile(r.otherUserId),
+        messages: r.messages,
+        unread: r.unread,
+      })));
+    } catch (e) {
+      console.error("Failed to load conversations:", e);
+    }
+  }, []);
+
+  // Auth check → demo threads for guests, real inbox for users.
+  // ?to=<userId> (from a "Message" button) opens/creates that conversation.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const id = await getCurrentUserId();
+      if (cancelled) return;
+      setUserId(id);
+      if (!id) {
+        const demo = seedConversations();
+        setConvs(demo);
+        setActiveId(demo[0]?.id ?? "");
+        return;
+      }
+      const to = new URLSearchParams(window.location.search).get("to");
+      if (to && to !== id) {
+        try {
+          const convId = await getOrCreateConversation(to);
+          if (!cancelled) setActiveId(convId);
+        } catch (e) {
+          console.error("Failed to open conversation:", e);
+        }
+      }
+      await loadReal();
+    })();
+    return () => { cancelled = true; };
+  }, [loadReal]);
+
+  // Light polling keeps the inbox fresh without a realtime subscription.
+  useEffect(() => {
+    if (!realMode) return;
+    const t = setInterval(loadReal, 5000);
+    return () => clearInterval(t);
+  }, [realMode, loadReal]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -172,8 +241,9 @@ export default function MessagesPage() {
   function selectConv(id: string) {
     setActiveId(id);
     setMobileShowChat(true);
-    // Clear unread
+    // Clear unread locally; in real mode also persist the read receipts.
     setConvs(cs => cs.map(c => c.id === id ? { ...c, unread: 0 } : c));
+    if (realMode) markConversationRead(id).catch(() => {});
   }
 
   function sendMsg() {
@@ -188,7 +258,15 @@ export default function MessagesPage() {
     setInput("");
     if (inputRef.current) inputRef.current.style.height = "auto";
 
-    // Auto-reply after short delay
+    if (realMode) {
+      // Optimistic append above; persist and re-sync (rolls in the DB copy).
+      sendHousingMessage(activeId, text)
+        .then(loadReal)
+        .catch(e => console.error("Failed to send message:", e));
+      return;
+    }
+
+    // Demo mode: auto-reply after short delay
     setTimeout(() => {
       const reply = replyPool[Math.floor(Math.random() * replyPool.length)];
       setConvs(cs => cs.map(c =>
@@ -243,19 +321,27 @@ export default function MessagesPage() {
           </div>
         </div>
 
-        {/* Demo notice */}
-        <div style={{
-          padding: "8px 16px",
-          background: "rgba(167,139,250,0.06)",
-          borderBottom: "1px solid rgba(167,139,250,0.12)",
-          fontSize: 10, color: "rgba(167,139,250,0.7)",
-          fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textAlign: "center",
-        }}>
-          DEMO · messages are not saved or sent
-        </div>
+        {/* Demo notice — guests only; signed-in users see their real inbox */}
+        {!realMode && (
+          <div style={{
+            padding: "8px 16px",
+            background: "rgba(167,139,250,0.06)",
+            borderBottom: "1px solid rgba(167,139,250,0.12)",
+            fontSize: 10, color: "rgba(167,139,250,0.7)",
+            fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textAlign: "center",
+          }}>
+            DEMO · sign in to send real messages
+          </div>
+        )}
 
         {/* Conversations */}
         <div style={{ flex: 1, overflowY: "auto" }}>
+          {realMode && convs.length === 0 && (
+            <div style={{ padding: "22px 16px", fontSize: 13, color: "var(--text-3)", lineHeight: 1.6 }}>
+              No conversations yet. Find a roommate on the Housing map and hit
+              &ldquo;Message&rdquo; to start one.
+            </div>
+          )}
           {convs.map(conv => (
             <ConvItem
               key={conv.id}
@@ -309,25 +395,27 @@ export default function MessagesPage() {
                 </div>
               </div>
 
-              {/* Profile chip */}
-              <div style={{ flexShrink: 0, display: "flex", gap: 8 }}>
-                <div style={{
-                  padding: "6px 12px", borderRadius: 8,
-                  background: `rgba(${activeConv.profile.avatarColor},0.1)`,
-                  border: `1px solid rgba(${activeConv.profile.avatarColor},0.25)`,
-                  fontSize: 11, fontWeight: 600,
-                  color: `rgb(${activeConv.profile.avatarColor})`,
-                }}>
-                  €{activeConv.profile.budgetMin}–€{activeConv.profile.budgetMax}/mo
+              {/* Profile chip — hidden for users without a roommate profile */}
+              {activeConv.profile.budgetMax > 0 && (
+                <div style={{ flexShrink: 0, display: "flex", gap: 8 }}>
+                  <div style={{
+                    padding: "6px 12px", borderRadius: 8,
+                    background: `rgba(${activeConv.profile.avatarColor},0.1)`,
+                    border: `1px solid rgba(${activeConv.profile.avatarColor},0.25)`,
+                    fontSize: 11, fontWeight: 600,
+                    color: `rgb(${activeConv.profile.avatarColor})`,
+                  }}>
+                    €{activeConv.profile.budgetMin}–€{activeConv.profile.budgetMax}/mo
+                  </div>
+                  <div style={{
+                    padding: "6px 12px", borderRadius: 8,
+                    background: "var(--surface)", border: "1px solid var(--border)",
+                    fontSize: 11, fontWeight: 600, color: "var(--text-3)",
+                  }}>
+                    Moves {activeConv.profile.moveIn.split(" ")[0]}
+                  </div>
                 </div>
-                <div style={{
-                  padding: "6px 12px", borderRadius: 8,
-                  background: "var(--surface)", border: "1px solid var(--border)",
-                  fontSize: 11, fontWeight: 600, color: "var(--text-3)",
-                }}>
-                  Moves {activeConv.profile.moveIn.split(" ")[0]}
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Messages feed */}

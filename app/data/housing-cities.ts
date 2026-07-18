@@ -27,6 +27,8 @@ export const housingCityCoords: Record<string, { lat: number; lng: number; count
 
 export type RoommatePin = {
   id: string;
+  // Set for real profiles loaded from Supabase; demo pins have no account.
+  userId?: string;
   name: string;
   initials: string;
   avatarColor: string;   // RGB string, e.g. "167,139,250"
