@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
 
-// Lifetime free-message cap per identifier (user id, or IP for anonymous).
+// Daily free-message cap per identifier (user id, or IP for anonymous).
+// The counter resets each day inside consume_message_quota (see
+// supabase/message_quota.sql).
 const FREE_MESSAGE_LIMIT = 10;
 
 const client = new Anthropic({
@@ -136,7 +138,7 @@ export async function POST(req: NextRequest) {
     if (error) throw error;
     if (!allowed) {
       return NextResponse.json(
-        { error: "You've used all your free messages. Upgrade to Premium to keep chatting." },
+        { error: "You've used your free messages for today. Come back tomorrow or upgrade to Premium to keep chatting." },
         { status: 429 }
       );
     }
@@ -146,7 +148,7 @@ export async function POST(req: NextRequest) {
     // never expose it to the client.
     console.error("Chat quota check failed:", error);
     return NextResponse.json(
-      { error: "You've used all your free messages. Upgrade to Premium to keep chatting." },
+      { error: "You've used your free messages for today. Come back tomorrow or upgrade to Premium to keep chatting." },
       { status: 429 }
     );
   }
@@ -172,7 +174,18 @@ export async function POST(req: NextRequest) {
     const response = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 1024,
-      system: `${SYSTEM_PROMPT}\n\nData di oggi: ${today}.`,
+      system: [
+        {
+          type: "text",
+          text: SYSTEM_PROMPT,
+          // Cache the large static system prompt — saves ~90% cost on repeat calls
+          cache_control: { type: "ephemeral" },
+        },
+        {
+          type: "text",
+          text: `Data di oggi: ${today}.`,
+        },
+      ],
       messages: apiMessages,
     });
 

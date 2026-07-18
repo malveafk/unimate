@@ -3,9 +3,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { countries, faculties } from "../data/universities";
+import { faculties } from "../data/universities";
 import { universityMeta } from "../data/universityMeta";
 import { getUniversities, type University } from "../../utils/universities";
+import dynamic from "next/dynamic";
+
+const UniversityMap = dynamic(() => import("../components/UniversityMap"), { ssr: false });
 
 const NAV_ITEMS = [
   {
@@ -62,10 +65,10 @@ const DEADLINE_BRACKETS = [
 ];
 
 export default function Universities() {
+  // Universities come from Supabase (with a static fallback inside
+  // getUniversities) so content can be updated without code changes.
   const [universities, setUniversities] = useState<University[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selected, setSelected] = useState("all");
+  const [browsingCountry, setBrowsingCountry] = useState<string | null>(null);
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [search, setSearch] = useState("");
   const [tuitionFilter, setTuitionFilter] = useState("any");
@@ -73,6 +76,7 @@ export default function Universities() {
   const [deadlineFilter, setDeadlineFilter] = useState("any");
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const pathname = usePathname();
 
   useEffect(() => {
@@ -80,15 +84,13 @@ export default function Universities() {
       .then((data) => setUniversities(data))
       .catch((error) => {
         console.error("Failed to load universities:", error?.message ?? error);
-        setError("Impossibile caricare le università. Riprova più tardi.");
-      })
-      .finally(() => setLoading(false));
+      });
   }, []);
 
   const filtered = universities.filter((u) => {
     const meta = universityMeta[u.id];
 
-    const matchCountry = selected === "all" || u.country === selected;
+    const matchCountry = !browsingCountry || u.country === browsingCountry;
     const matchSearch =
       search === "" ||
       u.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -133,17 +135,45 @@ export default function Universities() {
     return matchCountry && matchSearch && matchFaculty && matchTuition && matchLiving && matchDeadline;
   });
 
-  if (loading) return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", color: "var(--text-3)", fontSize: 15 }}>
-      Loading universities…
-    </div>
-  );
+  // Build country summary cards from static data
+  const countryGroups = universities.reduce((acc, u) => {
+    if (!acc[u.country]) acc[u.country] = { flag: u.flag, country: u.country, unis: [] };
+    acc[u.country].unis.push(u);
+    return acc;
+  }, {} as Record<string, { flag: string; country: string; unis: typeof universities }>);
 
-  if (error) return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", color: "var(--text-2)", fontSize: 15 }}>
-      {error}
-    </div>
-  );
+  const countryList = Object.values(countryGroups).sort((a, b) => a.country.localeCompare(b.country));
+
+  function getAvgTuition(unis: typeof universities) {
+    const withMeta = unis.filter(u => universityMeta[u.id]);
+    if (!withMeta.length) return null;
+    return Math.round(withMeta.reduce((s, u) => s + universityMeta[u.id].tuitionPerYear, 0) / withMeta.length);
+  }
+
+  function getTopStrengths(unis: typeof universities) {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const u of unis) {
+      for (const s of u.strengths) {
+        if (!seen.has(s) && out.length < 4) { seen.add(s); out.push(s); }
+      }
+    }
+    return out;
+  }
+
+  function getBestFor(u: typeof universities[0], meta: typeof universityMeta[string] | undefined): string[] {
+    const tags: string[] = [];
+    if (u.teaching.includes("PBL")) tags.push("Collaborative learners");
+    if (meta && meta.tuitionPerYear === 0) tags.push("Zero tuition");
+    if (meta && meta.tuitionPerYear > 0 && meta.tuitionPerYear < 1500) tags.push("Budget-conscious");
+    if (u.languages.includes("English")) tags.push("English-language programmes");
+    if (u.strengths.some(s => s.toLowerCase().includes("research"))) tags.push("Research-focused students");
+    if (u.ranking) tags.push("Rankings-aware students");
+    if (u.strengths.some(s => s.toLowerCase().includes("business") || s.toLowerCase().includes("economics"))) tags.push("Business & Economics");
+    if (u.strengths.some(s => s.toLowerCase().includes("engineering") || s.toLowerCase().includes("tech"))) tags.push("Engineering & Tech");
+    if (meta && meta.scholarships) tags.push("Scholarship seekers");
+    return tags.slice(0, 4);
+  }
 
   return (
     <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px 80px" }}>
@@ -195,34 +225,82 @@ export default function Universities() {
         </div>
       </div>
 
-      {/* ── Filters ───────────────────────────────── */}
+      {/* ── Filters (always shown, at top) ── */}
       <div style={{ borderBottom: "1px solid var(--border)" }}>
         {/* Filter header row with toggle */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 0 0" }}>
           <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
             Filters
           </span>
-          <button
-            onClick={() => setFiltersVisible(v => !v)}
-            style={{
-              display: "flex", alignItems: "center", gap: 6,
-              background: "transparent", border: "1px solid var(--border)",
-              borderRadius: 8, padding: "5px 12px", cursor: "pointer",
-              color: "var(--text-3)", fontSize: 11, fontWeight: 600,
-              letterSpacing: "0.08em", fontFamily: "inherit",
-              transition: "border-color 0.15s, color 0.15s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.color = "var(--text-1)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-3)"; }}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              {filtersVisible
-                ? <><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="18" x2="12" y2="18"/></>
-                : <><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></>
-              }
-            </svg>
-            {filtersVisible ? "Hide filters" : "Show filters"}
-          </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            {/* List / Map toggle — only when inside a country */}
+            {browsingCountry && <div style={{
+              display: "flex",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              overflow: "hidden",
+            }}>
+              <button
+                onClick={() => setViewMode("list")}
+                style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  background: viewMode === "list" ? "var(--border)" : "transparent",
+                  border: "none", borderRight: "1px solid var(--border)",
+                  padding: "5px 12px", cursor: "pointer",
+                  color: viewMode === "list" ? "var(--text-1)" : "var(--text-3)",
+                  fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", fontFamily: "inherit",
+                  transition: "background 0.15s, color 0.15s",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+                List
+              </button>
+              <button
+                onClick={() => setViewMode("map")}
+                style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  background: viewMode === "map" ? "var(--border)" : "transparent",
+                  border: "none",
+                  padding: "5px 12px", cursor: "pointer",
+                  color: viewMode === "map" ? "var(--text-1)" : "var(--text-3)",
+                  fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", fontFamily: "inherit",
+                  transition: "background 0.15s, color 0.15s",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                  <line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+                </svg>
+                Map
+              </button>
+            </div>}
+
+            {/* Hide/show filters */}
+            <button
+              onClick={() => setFiltersVisible(v => !v)}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                background: "transparent", border: "1px solid var(--border)",
+                borderRadius: 8, padding: "5px 12px", cursor: "pointer",
+                color: "var(--text-3)", fontSize: 11, fontWeight: 600,
+                letterSpacing: "0.08em", fontFamily: "inherit",
+                transition: "border-color 0.15s, color 0.15s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.color = "var(--text-1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-3)"; }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {filtersVisible
+                  ? <><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="18" x2="12" y2="18"/></>
+                  : <><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></>
+                }
+              </svg>
+              {filtersVisible ? "Hide filters" : "Show filters"}
+            </button>
+          </div>
         </div>
 
         {/* Collapsible filter body */}
@@ -233,14 +311,8 @@ export default function Universities() {
           transition: "max-height 0.3s ease, opacity 0.25s ease",
         }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 16, padding: "20px 0 28px" }}>
-            {/* Row 1: Country + Faculty */}
+            {/* Faculty row */}
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-                <span className="label" style={{ marginRight: 6, flexShrink: 0 }}>Country</span>
-                {countries.map((c) => (
-                  <button key={c.code} onClick={() => setSelected(c.code)} className={`pill${selected === c.code ? " active" : ""}`}>{c.name}</button>
-                ))}
-              </div>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
                 <span className="label" style={{ marginRight: 6, flexShrink: 0 }}>Faculty</span>
                 {faculties.map((f) => (
@@ -277,25 +349,130 @@ export default function Universities() {
         </div>
       </div>
 
-      {/* ── Results count ─────────────────────────── */}
-      {(selected !== "all" || selectedFaculty !== "all" || search !== "" || tuitionFilter !== "any" || livingFilter !== "any" || deadlineFilter !== "any") && (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 0 4px" }}>
-          <span style={{ fontSize: 13, color: "var(--text-3)" }}>
-            <span style={{ color: "var(--text-1)", fontWeight: 600 }}>{filtered.length}</span> universities found
-          </span>
+      {/* ── Country grid (shown when no country selected) ── */}
+      {!browsingCountry && (
+        <div style={{ paddingTop: 40, paddingBottom: 24 }}>
+          <div style={{ marginBottom: 28 }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px", margin: "0 0 6px" }}>
+              Select a country
+            </h2>
+            <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0 }}>
+              Click a country to browse its universities
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+            {countryList.map(({ country, flag, unis }) => {
+              const avgTuition = getAvgTuition(unis);
+              const topStrengths = getTopStrengths(unis);
+              return (
+                <div
+                  key={country}
+                  onClick={() => setBrowsingCountry(country)}
+                  style={{
+                    background: "var(--surface)",
+                    borderRadius: 14,
+                    border: "1px solid var(--border)",
+                    padding: "18px 20px",
+                    cursor: "pointer",
+                    transition: "border-color 0.2s, transform 0.15s, box-shadow 0.2s",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 18,
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = "var(--border-strong)";
+                    el.style.transform = "translateY(-2px)";
+                    el.style.boxShadow = "0 12px 40px rgba(0,0,0,0.4)";
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = "var(--border)";
+                    el.style.transform = "translateY(0)";
+                    el.style.boxShadow = "none";
+                  }}
+                >
+                  {/* Flag */}
+                  <div style={{ fontSize: 38, lineHeight: 1, flexShrink: 0 }}>{flag}</div>
+
+                  {/* Info */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
+                      <span style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.2px" }}>{country}</span>
+                      <span style={{ fontSize: 12, color: "var(--text-3)" }}>{unis.length} {unis.length === 1 ? "uni" : "unis"}</span>
+                    </div>
+                    {avgTuition !== null && (
+                      <div style={{ fontSize: 12, fontWeight: 600, color: "var(--green)", marginBottom: 8 }}>
+                        {avgTuition === 0 ? "Free tuition" : `Avg €${avgTuition.toLocaleString()}/yr`}
+                      </div>
+                    )}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                      {topStrengths.slice(0, 3).map(s => (
+                        <span key={s} style={{ padding: "2px 7px", borderRadius: 4, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", fontSize: 10, color: "var(--text-3)" }}>{s}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <span style={{ fontSize: 18, color: "var(--text-3)", flexShrink: 0 }}>→</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── Breadcrumb + results count (when country selected) ── */}
+      {browsingCountry && (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "24px 0 4px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            {/* Bold back arrow button */}
+            <button
+              onClick={() => { setBrowsingCountry(null); setExpandedId(null); setSelectedFaculty("all"); setSearch(""); setTuitionFilter("any"); setLivingFilter("any"); setDeadlineFilter("any"); }}
+              style={{
+                display: "flex", alignItems: "center", gap: 8,
+                background: "var(--surface)", border: "1px solid var(--border)",
+                borderRadius: 10, padding: "8px 16px", cursor: "pointer",
+                color: "var(--text-1)", fontSize: 13, fontWeight: 700,
+                fontFamily: "inherit", transition: "border-color 0.15s, box-shadow 0.15s",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.35)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.2)"; }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+              </svg>
+              All countries
+            </button>
+            <span style={{ color: "var(--text-3)", fontSize: 14 }}>/</span>
+            <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.2px" }}>
+              {countryGroups[browsingCountry]?.flag} {browsingCountry}
+            </span>
+            <span style={{ fontSize: 12, color: "var(--text-3)" }}>— {filtered.length} {filtered.length === 1 ? "university" : "universities"}</span>
+          </div>
           <button
-            onClick={() => { setSelected("all"); setSelectedFaculty("all"); setSearch(""); setTuitionFilter("any"); setLivingFilter("any"); setDeadlineFilter("any"); }}
+            onClick={() => { setSelectedFaculty("all"); setSearch(""); setTuitionFilter("any"); setLivingFilter("any"); setDeadlineFilter("any"); }}
             style={{ fontSize: 12, color: "var(--text-3)", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontFamily: "inherit", transition: "color 0.15s" }}
             onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
             onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
           >
-            Clear all
+            Clear filters
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
         </div>
       )}
 
-      {/* ── Grid ──────────────────────────────────── */}
+      {/* ── Map view (only when country selected) ── */}
+      {browsingCountry && viewMode === "map" && (
+        <div style={{ paddingTop: 32 }}>
+          <UniversityMap universities={filtered} />
+        </div>
+      )}
+
+      {/* ── Grid / List view (only when country selected) ── */}
+      {browsingCountry && viewMode === "list" && (
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
@@ -489,25 +666,114 @@ export default function Universities() {
                         onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--border-strong)"; (e.currentTarget as HTMLAnchorElement).style.color = "var(--text-1)"; }}
                         onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLAnchorElement).style.color = "var(--text-2)"; }}
                       >Official site</a>
-                      {meta?.applicationLink && (
-                        <a href={meta.applicationLink} target="_blank" rel="noopener noreferrer"
-                          style={{ flex: 1, padding: "11px 18px", borderRadius: 10, background: "var(--accent-dim)", color: "var(--accent)", fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1px solid var(--accent-border)", textAlign: "center", transition: "opacity 0.15s" }}
-                          onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.75")}
-                          onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-                        >Apply →</a>
-                      )}
+                      <Link href={`/universities/${uni.id}/apply`}
+                        onClick={e => e.stopPropagation()}
+                        style={{ flex: 1, padding: "11px 18px", borderRadius: 10, background: "var(--text-1)", color: "var(--bg)", fontSize: 13, fontWeight: 700, textDecoration: "none", textAlign: "center", transition: "opacity 0.15s", display: "block" }}
+                        onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.85")}
+                        onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
+                      >Apply guide →</Link>
                     </div>
                   </div>
 
                   {/* Right column */}
-                  <div style={{ flex: 1, padding: "36px 36px", display: "flex", flexDirection: "column", gap: 28, overflowY: "auto", maxHeight: 600 }}>
-                    {/* Full description */}
+                  <div style={{ flex: 1, padding: "36px 36px", display: "flex", flexDirection: "column", gap: 28, overflowY: "auto", maxHeight: 660 }}>
+
+                    {/* About */}
                     <div>
                       <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>About</div>
                       <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.8, margin: 0 }}>{uni.description}</p>
+                      {uni.cityVibe && <p style={{ fontSize: 13, color: "var(--text-3)", lineHeight: 1.7, margin: "10px 0 0", fontStyle: "italic" }}>{uni.cityVibe}</p>}
                     </div>
 
-                    {/* All strengths */}
+                    {/* Best for */}
+                    {(() => { const tags = getBestFor(uni, meta); return tags.length > 0 ? (
+                      <div>
+                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>Best for</div>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                          {tags.map(t => (
+                            <span key={t} style={{ padding: "5px 12px", borderRadius: 8, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.25)", fontSize: 13, color: "var(--accent)", fontWeight: 500 }}>{t}</span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null; })()}
+
+                    {/* For parents — cost breakdown */}
+                    {meta && (
+                      <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 14, padding: "20px", border: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 16 }}>For parents — annual cost estimate</div>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                          <div>
+                            <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Tuition / year</div>
+                            <div style={{ fontSize: 16, fontWeight: 700, color: "var(--green)" }}>
+                              {meta.tuitionPerYear === 0 ? "Free" : `€${meta.tuitionPerYear.toLocaleString()}`}
+                            </div>
+                          </div>
+                          <div>
+                            <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Living / month</div>
+                            <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>€{meta.livingCostMin}–€{meta.livingCostMax}</div>
+                          </div>
+                          <div>
+                            <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Est. total / year</div>
+                            <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>
+                              €{(meta.tuitionPerYear + meta.livingCostMin * 12).toLocaleString()}–€{(meta.tuitionPerYear + meta.livingCostMax * 12).toLocaleString()}
+                            </div>
+                          </div>
+                          <div>
+                            <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Scholarships</div>
+                            <div style={{ fontSize: 14, fontWeight: 600, color: meta.scholarships ? "var(--green)" : "var(--text-3)" }}>
+                              {meta.scholarships ? "Available" : "None listed"}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Requirements */}
+                    {meta && (
+                      <div>
+                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>What you need to apply</div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                          {meta.requirements.map((req) => (
+                            <div key={req} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "var(--text-2)", lineHeight: 1.6, background: "rgba(255,255,255,0.03)", borderRadius: 8, padding: "10px 12px", border: "1px solid var(--border)" }}>
+                              <span style={{ color: "var(--green)", flexShrink: 0, fontSize: 14, marginTop: 1 }}>✓</span>
+                              {req}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Available programmes */}
+                    {uni.bachelors.length > 0 && (
+                      <div>
+                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>
+                          Available programmes ({uni.bachelors.length})
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                          {uni.bachelors.map(b => (
+                            <div key={b.id} style={{ borderRadius: 10, border: "1px solid var(--border)", padding: "14px 16px", background: "rgba(255,255,255,0.02)" }}>
+                              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+                                <div>
+                                  <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)", marginBottom: 4 }}>{b.name}</div>
+                                  <div style={{ display: "flex", gap: 8 }}>
+                                    <span style={{ fontSize: 11, color: "var(--text-3)" }}>{b.duration}</span>
+                                    <span style={{ fontSize: 11, color: "var(--text-3)" }}>·</span>
+                                    <span style={{ fontSize: 11, color: "var(--accent)" }}>{b.language}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              {b.description && (
+                                <p style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.6, margin: "10px 0 0" }}>
+                                  {b.description.length > 180 ? b.description.slice(0, 180) + "…" : b.description}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Academic strengths */}
                     <div>
                       <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>Academic strengths</div>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -517,25 +783,10 @@ export default function Universities() {
                       </div>
                     </div>
 
-                    {/* Requirements */}
-                    {meta && (
-                      <div>
-                        <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--text-3)", marginBottom: 12 }}>What you need to apply</div>
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                          {meta.requirements.map((req) => (
-                            <div key={req} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>
-                              <span style={{ color: "var(--accent)", flexShrink: 0, marginTop: 1, fontSize: 14 }}>✓</span>
-                              {req}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     {/* Ask AI */}
                     <div style={{ marginTop: "auto", paddingTop: 8 }}>
                       <Link
-                        href={`/chat?q=Tell me more about ${encodeURIComponent(uni.name)}`}
+                        href={`/chat?q=Tell me more about ${encodeURIComponent(uni.name)}, including what it's like to study there, the application process, and living costs`}
                         onClick={e => e.stopPropagation()}
                         style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 20px", borderRadius: 12, background: "var(--text-1)", color: "var(--bg)", fontSize: 13, fontWeight: 700, textDecoration: "none", transition: "opacity 0.15s" }}
                         onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.85")}
@@ -552,9 +803,10 @@ export default function Universities() {
           );
         })}
       </div>
+      )}
 
-      {/* Empty state */}
-      {filtered.length === 0 && (
+      {/* Empty state — only in list mode with country selected */}
+      {browsingCountry && viewMode === "list" && filtered.length === 0 && (
         <div style={{ padding: "80px 0", textAlign: "center", border: "1px dashed var(--border)", borderRadius: 20, marginTop: 40 }}>
           <div style={{ fontSize: 32, marginBottom: 16 }}>🔍</div>
           <p style={{ fontSize: 15, color: "var(--text-3)", marginBottom: 20 }}>No universities match your filters.</p>

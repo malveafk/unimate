@@ -1,4 +1,6 @@
--- Run this once in the Supabase SQL Editor to enable the free-message cap.
+-- Run this once in the Supabase SQL Editor to enable the DAILY free-message cap.
+-- The counter automatically resets at midnight (UTC): rows carry the date of
+-- their last update, and the first message of a new day restarts the count at 1.
 -- Only the service role (used server-side in /api/chat via consume_message_quota)
 -- can read or write; RLS blocks anon/authenticated client access entirely.
 
@@ -32,7 +34,11 @@ begin
   insert into public.message_quota as q (identifier, messages_used, updated_at)
     values (p_identifier, 1, now())
   on conflict (identifier) do update
-    set messages_used = q.messages_used + 1,
+    -- New day → restart the count at 1; same day → increment.
+    set messages_used = case
+          when q.updated_at::date < current_date then 1
+          else q.messages_used + 1
+        end,
         updated_at = now()
   returning q.messages_used, q.is_premium into new_count, premium;
 

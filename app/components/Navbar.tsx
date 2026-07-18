@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import type { User } from "@supabase/supabase-js";
 import { TransitionLink, usePageTransition } from "./PageTransition";
 import { createClient } from "@/utils/supabase/client";
 import AuthModal from "./AuthModal";
+import type { User } from "@supabase/supabase-js";
 
 const SECTIONS = [
   {
@@ -38,9 +38,16 @@ const SECTIONS = [
     accentRgb: "251,191,36",
   },
   {
+    href: "/messages",
+    label: "Messages",
+    step: "05",
+    desc: "Chat directly with other students — coordinate roommates, housing, and more.",
+    accentRgb: "52,211,153",
+  },
+  {
     href: "/chat",
     label: "Chat AI",
-    step: "05",
+    step: "06",
     desc: "Your personal AI assistant — ask anything about studying abroad in Europe.",
     accentRgb: "167,139,250",
   },
@@ -125,10 +132,10 @@ function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; 
 // ─── Navbar ────────────────────────────────────────────────────────────────
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { go } = usePageTransition();
   const [authOpen, setAuthOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [supabase] = useState(() => createClient());
-  const { go } = usePageTransition();
+  const supabase = createClient();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -139,13 +146,8 @@ export default function Navbar() {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
-  // Close when route changes — adjust state during render (React's recommended
-  // pattern) instead of in an effect, which would trigger a cascading render.
-  const [prevPathname, setPrevPathname] = useState(pathname);
-  if (pathname !== prevPathname) {
-    setPrevPathname(pathname);
-    setOpen(false);
-  }
+  // Close when route changes
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   // Escape key
   useEffect(() => {
@@ -208,9 +210,8 @@ export default function Navbar() {
         </TransitionLink>
 
 
-        {/* Right side: account + menu toggle */}
+        {/* Right side: account + menu */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, position: "relative", zIndex: 1001 }}>
-          {/* Account */}
           {user ? (
             <button
               onClick={() => supabase.auth.signOut()}
@@ -392,7 +393,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-
       <AnimatePresence>
         {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       </AnimatePresence>
