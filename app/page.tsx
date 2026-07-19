@@ -108,6 +108,7 @@ function onTiltLeave(e: React.MouseEvent<HTMLDivElement>) {
 /* ─── Main page ───────────────────────────────────── */
 export default function Home() {
   const heroContentRef = useRef<HTMLDivElement>(null);
+  const heroBgRef = useRef<HTMLDivElement>(null);
   useReveal();
 
   useEffect(() => {
@@ -116,6 +117,11 @@ export default function Home() {
         const progress = Math.min(window.scrollY / window.innerHeight, 1);
         heroContentRef.current.style.opacity = String(Math.max(0, 1 - progress * 2.2));
         heroContentRef.current.style.transform = `translateY(${-progress * 55}px)`;
+      }
+      if (heroBgRef.current) {
+        // Past the hero the photo is fully covered by the content — hide it so it
+        // can't peek out below the footer during rubber-band overscroll.
+        heroBgRef.current.style.visibility = window.scrollY >= window.innerHeight ? "hidden" : "visible";
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -135,7 +141,7 @@ export default function Home() {
   return (
     <>
       {/* Fixed background */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden" }}>
+      <div ref={heroBgRef} style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden" }}>
         <HeroSlideshow />
       </div>
 
