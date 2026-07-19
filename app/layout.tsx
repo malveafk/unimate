@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import Link from "next/link";
 import Navbar from "./components/Navbar";
 import TopBar from "./components/TopBar";
 import { PageTransitionProvider } from "./components/PageTransition";
@@ -17,7 +18,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Unimate — Study Abroad Assistant",
+  title: "4UNI — Study Abroad Assistant",
   description: "Your personal guide to studying abroad in Europe",
 };
 
@@ -51,9 +52,11 @@ export default function RootLayout({
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 22, height: 22, borderRadius: 6, background: "var(--text-1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: "var(--bg)" }}>U</div>
-              <span style={{ fontSize: 12, color: "var(--text-3)", fontWeight: 500 }}>© 2026 Unimate</span>
+              <span style={{ fontSize: 12, color: "var(--text-3)", fontWeight: 500 }}>© 2026 4UNI</span>
             </div>
             <div style={{ display: "flex", gap: 24 }}>
+              <Link href="/about" className="footer-link">About us</Link>
+              <Link href="/contact" className="footer-link">Contact</Link>
               {["Privacy", "Terms", "Twitter"].map((l) => (
                 <a key={l} href="#" className="footer-link">{l}</a>
               ))}

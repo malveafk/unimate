@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { universities, faculties } from "../data/universities";
+import { faculties } from "../data/universities";
 import { universityMeta } from "../data/universityMeta";
+import { getUniversities, type University } from "../../utils/universities";
 import dynamic from "next/dynamic";
 
 const UniversityMap = dynamic(() => import("../components/UniversityMap"), { ssr: false });
@@ -64,6 +65,9 @@ const DEADLINE_BRACKETS = [
 ];
 
 export default function Universities() {
+  // Universities come from Supabase (with a static fallback inside
+  // getUniversities) so content can be updated without code changes.
+  const [universities, setUniversities] = useState<University[]>([]);
   const [browsingCountry, setBrowsingCountry] = useState<string | null>(null);
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [search, setSearch] = useState("");
@@ -74,6 +78,14 @@ export default function Universities() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const pathname = usePathname();
+
+  useEffect(() => {
+    getUniversities()
+      .then((data) => setUniversities(data))
+      .catch((error) => {
+        console.error("Failed to load universities:", error?.message ?? error);
+      });
+  }, []);
 
   const filtered = universities.filter((u) => {
     const meta = universityMeta[u.id];

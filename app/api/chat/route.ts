@@ -1,15 +1,18 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
+
+// Daily free-message cap per identifier (user id, or IP for anonymous).
+// The counter resets each day inside consume_message_quota (see
+// supabase/message_quota.sql).
+const FREE_MESSAGE_LIMIT = 10;
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-const FREE_LIMIT = 20;   // logged-in users per day
-const GUEST_LIMIT = 5;   // guests per day
-
-const SYSTEM_PROMPT = `You are Unimate, a friendly and knowledgeable assistant that helps students move abroad for university. You are like a smart friend who has been through the process themselves — warm, direct, and practical. Think of yourself as a chat on WhatsApp with someone who has done it all before.
+const SYSTEM_PROMPT = `You are 4UNI, a friendly and knowledgeable assistant that helps students move abroad for university. You are like a smart friend who has been through the process themselves — warm, direct, and practical. Think of yourself as a chat on WhatsApp with someone who has done it all before.
 
 You help students with:
 - Choosing the right university and country based on their interests and situation
@@ -90,57 +93,84 @@ Always:
 - Be encouraging and direct
 - Remember everything from earlier in the conversation`;
 
+// Simple in-memory rate limiter: max 20 requests per minute per IP
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
+    return false;
+  }
+  if (entry.count >= 20) return true;
+  entry.count++;
+  return false;
+}
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: "Troppe richieste. Aspetta un minuto." }, { status: 429 });
+  }
+
+  // Quota key: the logged-in user's id when available, otherwise the IP.
+  let quotaKey = ip;
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) quotaKey = user.id;
+  } catch (error) {
+    // Reading the session failed — fall back to the IP so the cap still applies.
+    console.error("Chat quota: failed to resolve user, using IP", error);
+  }
+
+  // Persistent, cross-instance counter in Supabase (shared across serverless
+  // instances). Each POST consumes one message; the first FREE_MESSAGE_LIMIT
+  // are allowed, from then on we return 429.
+  try {
+    const admin = createAdminClient();
+    const { data: allowed, error } = await admin.rpc("consume_message_quota", {
+      p_identifier: quotaKey,
+      p_max_messages: FREE_MESSAGE_LIMIT,
+    });
+    if (error) throw error;
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "You've used your free messages for today. Come back tomorrow or upgrade to Premium to keep chatting." },
+        { status: 429 }
+      );
+    }
+  } catch (error) {
+    // Fail-safe: if the quota check fails (network/DB), block with 429 instead
+    // of giving away unlimited messages. We log the real error server-side and
+    // never expose it to the client.
+    console.error("Chat quota check failed:", error);
+    return NextResponse.json(
+      { error: "You've used your free messages for today. Come back tomorrow or upgrade to Premium to keep chatting." },
+      { status: 429 }
+    );
+  }
+
   try {
     const { messages } = await req.json();
 
-    // ── Rate limiting ────────────────────────────────────────────
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-
-    if (user) {
-      // Logged-in user: check daily count in Supabase
-      const { data: usage } = await supabase
-        .from("message_usage")
-        .select("count")
-        .eq("user_id", user.id)
-        .eq("date", today)
-        .single();
-
-      const count = usage?.count ?? 0;
-
-      if (count >= FREE_LIMIT) {
-        return NextResponse.json(
-          { error: "daily_limit", message: `You've used all ${FREE_LIMIT} free messages for today. Come back tomorrow! 🌙` },
-          { status: 429 }
-        );
-      }
-
-      // Increment count (upsert handles first message of the day too)
-      await supabase.from("message_usage").upsert(
-        { user_id: user.id, date: today, count: count + 1 },
-        { onConflict: "user_id,date" }
-      );
-    } else {
-      // Guest: use a cookie-based counter
-      const cookieCount = parseInt(req.cookies.get(`msg_${today}`)?.value ?? "0");
-
-      if (cookieCount >= GUEST_LIMIT) {
-        return NextResponse.json(
-          { error: "daily_limit", message: `Sign in to get ${FREE_LIMIT} free messages/day. Guests get ${GUEST_LIMIT}.` },
-          { status: 429 }
-        );
-      }
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: "Richiesta non valida." }, { status: 400 });
     }
 
-    // ── Strip assistant welcome bubble (Anthropic needs user first) ──
+    if (messages.length > 40) {
+      return NextResponse.json({ error: "Conversazione troppo lunga. Inizia una nuova chat." }, { status: 400 });
+    }
+
+    // Anthropic requires the first message to be from the user.
+    // The UI initializes with an assistant welcome bubble — strip it before sending.
     const firstUserIndex = messages.findIndex((m: { role: string }) => m.role === "user");
     const apiMessages = firstUserIndex >= 0 ? messages.slice(firstUserIndex) : messages;
 
-    const todayFormatted = new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+    const today = new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
 
-    // ── Call Claude with prompt caching on the system prompt ─────
     const response = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 1024,
@@ -153,7 +183,7 @@ export async function POST(req: NextRequest) {
         },
         {
           type: "text",
-          text: `Data di oggi: ${todayFormatted}.`,
+          text: `Data di oggi: ${today}.`,
         },
       ],
       messages: apiMessages,
@@ -164,22 +194,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unexpected response type" }, { status: 500 });
     }
 
-    // ── Set guest cookie if not logged in ────────────────────────
-    const res = NextResponse.json({ message: content.text });
-    if (!user) {
-      const cookieCount = parseInt(req.cookies.get(`msg_${today}`)?.value ?? "0");
-      res.cookies.set(`msg_${today}`, String(cookieCount + 1), {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 2, // 2 days
-        path: "/",
-        sameSite: "lax",
-      });
-    }
-
-    return res;
+    return NextResponse.json({ message: content.text });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error("Anthropic error:", message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    // Log the full error (with stack) server-side; never leak it to the client.
+    console.error("Anthropic error:", error instanceof Error ? error.stack ?? error.message : error);
+    return NextResponse.json(
+      { error: "Si è verificato un errore. Riprova tra poco." },
+      { status: 500 }
+    );
   }
 }

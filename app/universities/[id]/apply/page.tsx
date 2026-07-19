@@ -36,7 +36,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
   const [msgs, setMsgs] = useState<Msg[]>([
     {
       role: "assistant",
-      content: `Hi! I'm your Unimate assistant 👋\n\nI can help you with your application to **${uniName}**. Ask me anything — documents needed, motivation letter tips, deadlines, housing, or what student life is like there.`,
+      content: `Hi! I'm your 4UNI assistant 👋\n\nI can help you with your application to **${uniName}**. Ask me anything — documents needed, motivation letter tips, deadlines, housing, or what student life is like there.`,
     },
   ]);
   const [input, setInput] = useState("");
@@ -88,7 +88,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
             </svg>
           </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>Unimate AI</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>4UNI AI</div>
             <div style={{ fontWeight: 700, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>PREMIUM FEATURE</div>
           </div>
         </div>
@@ -138,7 +138,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgb(201,163,92)" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>Unimate AI</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>4UNI AI</div>
           <div style={{ fontSize: 10, color: "rgb(52,211,153)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>● ONLINE</div>
         </div>
       </div>
@@ -444,7 +444,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         </div>
         {[
           { icon: "🏫", title: "University housing", desc: `Check ${uni.name}'s official student housing portal first. It's usually cheaper, safer, and easier for first-arrivals.`, color: "52,211,153" },
-          { icon: "🤝", title: "Find a roommate on Unimate", desc: "Browse student profiles looking for a flatmate in the same city and budget range. Verified profiles only.", color: "201,163,92", link: `/housing?city=${uni.city}` },
+          { icon: "🤝", title: "Find a roommate on 4UNI", desc: "Browse student profiles looking for a flatmate in the same city and budget range. Verified profiles only.", color: "201,163,92", link: `/housing?city=${uni.city}` },
           { icon: "🏠", title: "Private platforms", desc: "Kamernet, WG-Gesucht, HousingAnywhere and Facebook groups. Never pay a deposit before viewing.", color: "96,165,250" },
         ].map(({ icon, title, desc, color, link }) => (
           <div key={title} style={{ display: "flex", gap: 14, padding: "16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>

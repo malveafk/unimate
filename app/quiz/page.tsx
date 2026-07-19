@@ -322,7 +322,7 @@ export default function QuizPage() {
 
       // Save to localStorage
       try {
-        localStorage.setItem("unimate.profile", JSON.stringify({ answers: newAnswers, top5, top3fac, date: Date.now() }));
+        localStorage.setItem("4uni.profile", JSON.stringify({ answers: newAnswers, top5, top3fac, date: Date.now() }));
       } catch {}
 
       router.push(`/quiz/result?top=${top5}&fac=${top3fac}`);

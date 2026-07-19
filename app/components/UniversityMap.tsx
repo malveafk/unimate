@@ -1,10 +1,21 @@
 "use client";
 
-import type { University } from "../data/universities";
 import { universityCoords } from "../data/university-coords";
 
+// Only the fields the map actually renders — keeps the component compatible
+// with both the static data module and the Supabase-backed loader.
+type MapUniversity = {
+  id: string;
+  name: string;
+  city: string;
+  country: string;
+  flag: string;
+  tuition: string;
+  strengths: string[];
+};
+
 type Props = {
-  universities: University[];
+  universities: MapUniversity[];
 };
 
 export default function UniversityMap({ universities }: Props) {
@@ -65,9 +76,10 @@ export default function UniversityMap({ universities }: Props) {
     const map = L.map('map', {
       center: [51.5, 10],
       zoom: 4,
-      zoomControl: true,
+      zoomControl: false,
       scrollWheelZoom: true,
     });
+    L.control.zoom({ position: 'topright' }).addTo(map);
 
     // Dark tile from CartoDB — fits the site's dark theme
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {

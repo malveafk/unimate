@@ -2,6 +2,8 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { saveRoommateProfile } from "@/utils/housing";
+import AuthModal from "../../components/AuthModal";
 
 const CITIES = [
   "Amsterdam", "Barcelona", "Berlin", "Bologna", "Brussels",
@@ -191,6 +193,11 @@ export default function CreateProfilePage() {
   const [form, setForm] = useState<FormData>(EMPTY);
   const [submitted, setSubmitted] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  // The actual File selected in step 0; uploaded to Supabase Storage on submit.
+  const idFileRef = useRef<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const set = (key: keyof FormData, value: any) => setForm(f => ({ ...f, [key]: value }));
@@ -200,6 +207,7 @@ export default function CreateProfilePage() {
     const allowed = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
     if (!allowed.includes(file.type)) { alert("Please upload a JPG, PNG, WEBP or PDF file."); return; }
     if (file.size > 10 * 1024 * 1024) { alert("File must be under 10 MB."); return; }
+    idFileRef.current = file;
     set("idFileName", file.name);
     set("idVerified", true);
   }
@@ -213,17 +221,25 @@ export default function CreateProfilePage() {
     5: form.lookingFor.length >= 20,
   };
 
-  function handleSubmit() {
-    const profile = {
-      ...form,
-      id: crypto.randomUUID(),
-      initials: form.firstName[0].toUpperCase(),
-      verified: false, // becomes true after admin/Stripe review
-      createdAt: new Date().toISOString(),
-    };
-    const existing = JSON.parse(localStorage.getItem("housing_profiles") ?? "[]");
-    localStorage.setItem("housing_profiles", JSON.stringify([...existing, profile]));
-    setSubmitted(true);
+  async function handleSubmit() {
+    if (saving) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      await saveRoommateProfile(form, idFileRef.current);
+      setSubmitted(true);
+    } catch (e) {
+      if (e instanceof Error && e.message === "not-signed-in") {
+        // Profiles belong to an account: ask to sign in, then the user
+        // resubmits (the form state is untouched).
+        setAuthOpen(true);
+      } else {
+        console.error("Failed to save housing profile:", e);
+        setSaveError("Something went wrong while saving. Please try again.");
+      }
+    } finally {
+      setSaving(false);
+    }
   }
 
   // ── Success screen ──
@@ -450,7 +466,7 @@ export default function CreateProfilePage() {
               <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0 }}>Where you're looking and what your budget is</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-              <FieldLabel>City</FieldLabel>
+              <FieldLabel>City where you&apos;re searching</FieldLabel>
               <select value={form.city} onChange={e => set("city", e.target.value)} style={{ padding: "13px 16px", borderRadius: 10, border: "1px solid var(--border)", background: "var(--surface)", color: form.city ? "var(--text-1)" : "var(--text-3)", fontSize: 15, outline: "none", fontFamily: "inherit", cursor: "pointer" }}>
                 <option value="">Select a city…</option>
                 {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -540,16 +556,24 @@ export default function CreateProfilePage() {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={!canNext[5]}
-              style={{ padding: "13px 32px", borderRadius: 12, background: canNext[5] ? "var(--text-1)" : "var(--border)", color: canNext[5] ? "var(--bg)" : "var(--text-3)", border: "none", fontSize: 14, fontWeight: 700, cursor: canNext[5] ? "pointer" : "default", fontFamily: "inherit", transition: "opacity 0.15s" }}
-              onMouseEnter={e => { if (canNext[5]) e.currentTarget.style.opacity = "0.85"; }}
+              disabled={!canNext[5] || saving}
+              style={{ padding: "13px 32px", borderRadius: 12, background: canNext[5] && !saving ? "var(--text-1)" : "var(--border)", color: canNext[5] && !saving ? "var(--bg)" : "var(--text-3)", border: "none", fontSize: 14, fontWeight: 700, cursor: canNext[5] && !saving ? "pointer" : "default", fontFamily: "inherit", transition: "opacity 0.15s" }}
+              onMouseEnter={e => { if (canNext[5] && !saving) e.currentTarget.style.opacity = "0.85"; }}
               onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
             >
-              Create profile →
+              {saving ? "Saving…" : "Create profile →"}
             </button>
           )}
         </div>
+
+        {saveError && (
+          <div style={{ marginTop: 14, padding: "10px 14px", borderRadius: 10, background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.3)", color: "#f87171", fontSize: 13 }}>
+            {saveError}
+          </div>
+        )}
       </div>
+
+      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
     </div>
   );
 }

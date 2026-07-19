@@ -346,7 +346,7 @@ export default function Home() {
               Two things stand between you and studying abroad: <span style={{ color: "rgb(52,211,153)" }}>the right school</span>, and <span style={{ color: "rgb(96,165,250)" }}>somewhere to live</span>.
             </h2>
             <p style={{ fontSize: 15, color: "var(--text-2)", margin: "16px 0 0", lineHeight: 1.7, maxWidth: 460 }}>
-              Unimate handles both — real listings, real numbers, no guesswork.
+              4UNI handles both — real listings, real numbers, no guesswork.
             </p>
           </div>
 
@@ -397,6 +397,33 @@ export default function Home() {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── About / Contact teaser ─────────────────── */}
+        <div style={{ borderTop: "1px solid var(--border)" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 32px 72px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}>
+            <div className="reveal">
+              <div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: 20 }}>
+                <h3 style={{ fontSize: 20, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.3px", margin: "0 0 8px" }}>About 4UNI</h3>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>
+                  Made by students, for students. We built 4UNI because comparing universities
+                  and finding housing abroad shouldn&rsquo;t take ten browser tabs and three group chats.
+                </p>
+                <TransitionLink href="/about" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontSize: 13, fontWeight: 600, color: "var(--accent)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Read our story →</TransitionLink>
+              </div>
+            </div>
+
+            <div className="reveal reveal-d1">
+              <div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: 20 }}>
+                <h3 style={{ fontSize: 20, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.3px", margin: "0 0 8px" }}>Get in touch</h3>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>
+                  Questions, feedback, or something not working right — we read everything
+                  that comes through.
+                </p>
+                <TransitionLink href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontSize: 13, fontWeight: 600, color: "var(--accent)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Contact us →</TransitionLink>
               </div>
             </div>
           </div>

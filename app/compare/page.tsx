@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState, useEffect, useRef, Children } from "react";
-import { universities } from "../data/universities";
+import { getUniversities, type University } from "../../utils/universities";
+import { trackComparison } from "../../utils/activity";
 
 /* ─── Types ─────────────────────────────────────── */
 type LifestyleData = { pros: string[]; cons: string[]; summary: string };
@@ -53,6 +54,7 @@ function parseCost(s: string): number {
   if (!m) return 0;
   return parseInt(m[1].replace(/[.,]/g, ""), 10);
 }
+
 
 const SELECT_STYLE: React.CSSProperties = {
   background: "var(--surface)",
@@ -160,11 +162,13 @@ function Cell({ children, highlight }: { children: React.ReactNode; highlight?: 
    Replaces the plain <select> with an actual search: type a name, city
    or country and pick from the matching results. ─────────────────────── */
 function UniversitySearchPicker({
+  universities,
   value,
   onChange,
   excludeId,
   placeholder,
 }: {
+  universities: University[];
   value: string;
   onChange: (id: string) => void;
   excludeId?: string;
@@ -298,19 +302,35 @@ function CostBar({ value, max, best }: { value: number; max: number; best: boole
 
 /* ─── Main ──────────────────────────────────────── */
 export default function Compare() {
+  const [universities, setUniversities] = useState<University[]>([]);
+  const [loading, setLoading] = useState(true);
   const [ids, setIds] = useState<[string, string]>(["", ""]);
   const [progIds, setProgIds] = useState<[string, string]>(["", ""]);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
 
+  useEffect(() => {
+    getUniversities()
+      .then(setUniversities)
+      .finally(() => setLoading(false));
+  }, []);
+
   const unis = useMemo(
     () => ids.map((id) => (id ? universities.find((u) => u.id === id) ?? null : null)),
-    [ids]
+    [ids, universities]
   );
 
   const progs = useMemo(
     () => unis.map((uni, i) => uni?.bachelors.find((b) => b.id === progIds[i]) ?? null),
     [unis, progIds]
   );
+
+  // Track the comparison for logged-in users once both universities are chosen.
+  // `unis` is memoized, so this only re-fires when the selected pair changes —
+  // not on unrelated re-renders. The helper no-ops for anonymous visitors.
+  useEffect(() => {
+    const [a, b] = unis;
+    if (a && b) trackComparison([a, b]);
+  }, [unis]);
 
   const colCount = unis.filter(Boolean).length;
   const bothProgs = progs[0] !== null && progs[1] !== null;
@@ -345,6 +365,12 @@ export default function Compare() {
   // Years to display (filtered or all)
   const yearsToShow = selectedYear !== null ? [selectedYear] : availableYears;
 
+  if (loading) return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", color: "var(--text-3)", fontSize: 15 }}>
+      Loading universities…
+    </div>
+  );
+
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px 80px" }}>
 
@@ -367,6 +393,7 @@ export default function Compare() {
             <div key={idx} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <span style={MONO}>University {String.fromCharCode(65 + idx)}</span>
               <UniversitySearchPicker
+                universities={universities}
                 value={ids[idx]}
                 onChange={(id) => setId(idx, id)}
                 excludeId={ids[1 - idx]}
@@ -612,21 +639,21 @@ export default function Compare() {
               <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
                 <Row label="Programme">
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", lineHeight: 1.3 }}>{prog?.name ?? "—"}</span>
                     </Cell>
                   ))}
                 </Row>
                 <Row label="Duration">
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>{prog?.duration ?? "—"}</span>
                     </Cell>
                   ))}
                 </Row>
                 <Row label="Taught in">
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       {prog ? (
                         <span style={{ padding: "3px 9px", borderRadius: 6, background: "var(--accent-dim)", border: "1px solid var(--accent-border)", fontSize: 12, color: "var(--accent)", fontWeight: 500 }}>
                           {prog.language}
@@ -637,7 +664,7 @@ export default function Compare() {
                 </Row>
                 <Row label="Overview" last>
                   {progs.map((prog, idx) => (
-                    <Cell key={prog?.id ?? idx}>
+                    <Cell key={idx}>
                       <p style={{ margin: 0, fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>{prog?.description ?? "—"}</p>
                     </Cell>
                   ))}
@@ -675,7 +702,7 @@ export default function Compare() {
                         {progs.map((prog, idx) => {
                           const courses = prog?.courses.filter((c) => c.year === year) ?? [];
                           return (
-                            <Cell key={prog?.id ?? idx}>
+                            <Cell key={idx}>
                               {courses.length > 0 ? (
                                 <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                                   {courses.map((c, ci) => (

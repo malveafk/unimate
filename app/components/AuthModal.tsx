@@ -1,13 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 
 type Mode = "login" | "signup";
 
 interface Props {
   onClose: () => void;
+}
+
+function logEvent(action: string) {
+  fetch("/api/log", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action }),
+  }).catch(() => {});
 }
 
 export default function AuthModal({ onClose }: Props) {
@@ -28,11 +36,21 @@ export default function AuthModal({ onClose }: Props) {
     if (mode === "login") {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) setError(error.message);
-      else onClose();
+      else {
+        logEvent("login");
+        onClose();
+      }
     } else {
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      });
       if (error) setError(error.message);
-      else setSuccess("Check your email to confirm your account.");
+      else {
+        logEvent("signup");
+        setSuccess("Check your email to confirm your account.");
+      }
     }
     setLoading(false);
   }
@@ -40,7 +58,7 @@ export default function AuthModal({ onClose }: Props) {
   async function handleGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/` },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
   }
 

@@ -1,92 +1,221 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const WELCOME = `Hey! I'm Unimate 👋
+// Send at most this many recent messages to /api/chat, which rejects
+// conversations longer than 40. The full history is still saved to Supabase.
+const MAX_API_MESSAGES = 30;
+
+// Width of the collapsible left sidebar that lists saved conversations.
+const SIDEBAR_WIDTH = 250;
+
+const WELCOME = `Hey! I'm 4UNI 👋
 
 I'm here to help you understand how to study abroad — universities, financial aid, housing, applications, bureaucracy. Everything you wished you'd known earlier.
 
 Where are you from and what would you like to study?`;
 
-const IS_PREMIUM = false; // toggle this when auth/billing is wired up
-
-// ── Mock chat history (sidebar) — replace with real persistence later ──
-type HistoryItem = { id: string; title: string; group: "Today" | "Yesterday" | "Previous 7 days" };
-
-const CHAT_HISTORY: HistoryItem[] = [
-  { id: "h1", title: "Best universities for Computer Science in Germany", group: "Today" },
-  { id: "h2", title: "Housing options near Maastricht University", group: "Today" },
-  { id: "h3", title: "Scholarship opportunities for EU students", group: "Yesterday" },
-  { id: "h4", title: "Visa requirements for non-EU students", group: "Yesterday" },
-  { id: "h5", title: "Comparing tuition: Netherlands vs Germany", group: "Previous 7 days" },
-  { id: "h6", title: "What documents do I need to apply?", group: "Previous 7 days" },
-  { id: "h7", title: "Life in Amsterdam as an international student", group: "Previous 7 days" },
-];
-
-const HISTORY_GROUPS: HistoryItem["group"][] = ["Today", "Yesterday", "Previous 7 days"];
-
-// Canned message threads so switching chats actually shows different content
-const MOCK_THREADS: Record<string, Message[]> = {
-  h1: [
-    { role: "user", content: "Best universities for Computer Science in Germany?" },
-    { role: "assistant", content: "TU Munich and TU Delft-equivalent German programmes (RWTH Aachen, KIT) are the strongest picks — most bachelor CS programmes are taught in German, so check the language requirement first. Want a shortlist with English-taught options?" },
-  ],
-  h2: [
-    { role: "user", content: "What are my housing options near Maastricht University?" },
-    { role: "assistant", content: "Most students go through Guestday (the official student housing office), Kamernet, or find a room via the Unimate Housing board. Waiting lists open ~6 months before term — I'd register now if you're starting in September." },
-  ],
-  h3: [
-    { role: "user", content: "What scholarships are available for EU students?" },
-    { role: "assistant", content: "Since you're an EU student, you're eligible for the same tuition rates as locals plus most merit-based faculty scholarships. A few universities also offer excellence scholarships regardless of nationality — want me to check which ones apply to your target schools?" },
-  ],
-  h4: [
-    { role: "user", content: "Do I need a visa as a non-EU student?" },
-    { role: "assistant", content: "Depends on your nationality and destination country, but generally yes — you'll need a student visa/residence permit, proof of enrolment, financial means, and health insurance. Which country are you applying to? I can give you the exact checklist." },
-  ],
-  h5: [
-    { role: "user", content: "How does tuition compare between the Netherlands and Germany?" },
-    { role: "assistant", content: "Dutch public universities charge EU students around €2,300/year; most German public universities charge €0–€300/semester (just admin fees), but German bachelor programmes are more often taught in German. It's really a cost-vs-language tradeoff." },
-  ],
-  h6: [
-    { role: "user", content: "What documents do I need to apply?" },
-    { role: "assistant", content: "Typically: diploma/transcripts, a motivation letter, language certificate (IELTS/TOEFL), passport copy, and sometimes a CV or reference letter. Requirements vary a bit by university — tell me which one and I'll get you the exact list." },
-  ],
-  h7: [
-    { role: "user", content: "What's life like in Amsterdam as an international student?" },
-    { role: "assistant", content: "Amsterdam is fully international, bike-first, and has an incredible social scene — but housing is competitive and expensive, so start your search early. Most students live in shared flats outside the ring for better prices." },
-  ],
-};
+// Compact relative time for the chat-history list (e.g. "3h ago").
+function timeAgo(iso: string): string {
+  const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (m < 1) return "just now";
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24);
+  if (d < 7) return `${d}d ago`;
+  const w = Math.floor(d / 7);
+  if (w < 5) return `${w}w ago`;
+  const mo = Math.floor(d / 30);
+  if (mo < 12) return `${mo}mo ago`;
+  return `${Math.floor(d / 365)}y ago`;
+}
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: WELCOME },
   ]);
-  const [activeChatId, setActiveChatId] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rateLimited, setRateLimited] = useState(false);
+  const [notifyClicked, setNotifyClicked] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [isPremium, setIsPremium] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [conversations, setConversations] = useState<{ id: string; title: string | null; updated_at: string }[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingTitle, setEditingTitle] = useState("");
+  const [supabase] = useState(() => createClient());
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  function startNewChat() {
-    setActiveChatId(null);
-    setMessages([{ role: "assistant", content: WELCOME }]);
-  }
-
-  function openHistoryChat(id: string) {
-    if (!IS_PREMIUM) return; // locked for non-premium
-    setActiveChatId(id);
-    setMessages(MOCK_THREADS[id] ?? [{ role: "assistant", content: WELCOME }]);
-  }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // On mount, for logged-in users, resume the most recent conversation so the
+  // assistant remembers the previous exchange. Anonymous users keep the
+  // ephemeral welcome screen. Best-effort: failures only log to the console.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || cancelled) return;
+      setUserId(user.id);
+
+      // Premium status gates the chat-history dropdown (read server-side).
+      fetch("/api/me")
+        .then((r) => r.json())
+        .then((d) => { if (!cancelled) setIsPremium(Boolean(d?.premium)); })
+        .catch((e) => console.error("Failed to load premium status:", e));
+
+      // RLS scopes both queries to the current user's rows.
+      const { data: convs } = await supabase
+        .from("conversations")
+        .select("id")
+        .order("updated_at", { ascending: false })
+        .limit(1);
+      const conv = convs?.[0];
+      if (!conv || cancelled) return;
+
+      const { data: msgs } = await supabase
+        .from("messages")
+        .select("role, content")
+        .eq("conversation_id", conv.id)
+        .order("created_at", { ascending: true });
+      if (!msgs || msgs.length === 0 || cancelled) return;
+
+      setConversationId(conv.id);
+      setMessages(msgs as Message[]);
+    })().catch((e) => console.error("Failed to load conversation:", e));
+    return () => { cancelled = true; };
+  }, [supabase]);
+
+  // Load the list of past conversations for the history dropdown (RLS-scoped).
+  const loadConversations = async () => {
+    if (!userId) return;
+    try {
+      const { data } = await supabase
+        .from("conversations")
+        .select("id, title, updated_at")
+        .order("updated_at", { ascending: false });
+      setConversations(data ?? []);
+    } catch (e) {
+      console.error("Failed to load conversations:", e);
+    }
+  };
+
+  // Rename a conversation (premium-only). Title is capped like on creation.
+  const renameConversation = async (id: string, title: string) => {
+    if (!isPremium) return;
+    const finalTitle = title.trim().slice(0, 60) || "Untitled chat";
+    setConversations((prev) => prev.map((c) => (c.id === id ? { ...c, title: finalTitle } : c)));
+    setEditingId(null);
+    try {
+      const { error } = await supabase.from("conversations").update({ title: finalTitle }).eq("id", id);
+      if (error) throw error;
+    } catch (e) {
+      console.error("Failed to rename conversation:", e);
+    }
+  };
+
+  // Delete a conversation and its messages (cascade). Premium-only.
+  const deleteConversation = async (id: string) => {
+    if (!isPremium) return;
+    if (!window.confirm("Delete this chat? This cannot be undone.")) return;
+    setConversations((prev) => prev.filter((c) => c.id !== id));
+    if (id === conversationId) startNewChat();
+    try {
+      const { error } = await supabase.from("conversations").delete().eq("id", id);
+      if (error) throw error;
+    } catch (e) {
+      console.error("Failed to delete conversation:", e);
+    }
+  };
+
+  // Keep the sidebar list in sync: load it as soon as we know who the user is.
+  useEffect(() => {
+    if (userId) loadConversations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
+
+  // Reopen a past conversation. Premium-only: non-premium users see the list
+  // but cannot load a chat (the button no-ops for them).
+  const openConversation = async (id: string) => {
+    if (!isPremium) return;
+    try {
+      const { data: msgs } = await supabase
+        .from("messages")
+        .select("role, content")
+        .eq("conversation_id", id)
+        .order("created_at", { ascending: true });
+      setConversationId(id);
+      setMessages(msgs && msgs.length > 0 ? (msgs as Message[]) : [{ role: "assistant", content: WELCOME }]);
+      setRateLimited(false);
+    } catch (e) {
+      console.error("Failed to open conversation:", e);
+    }
+  };
+
+  // Persist the user message (creating the conversation on first send) and
+  // return the conversation id, or null if not logged in / the save failed.
+  const persistUserMessage = async (userText: string): Promise<string | null> => {
+    if (!userId) return null;
+    try {
+      let convId = conversationId;
+      if (!convId) {
+        const { data, error } = await supabase
+          .from("conversations")
+          .insert({ user_id: userId, title: userText.slice(0, 40) })
+          .select("id")
+          .single();
+        if (error || !data) throw error ?? new Error("no conversation id");
+        convId = data.id;
+        setConversationId(convId);
+      }
+      const { error: msgErr } = await supabase
+        .from("messages")
+        .insert({ conversation_id: convId, role: "user", content: userText });
+      if (msgErr) throw msgErr;
+      return convId;
+    } catch (e) {
+      console.error("Failed to save user message:", e);
+      return null;
+    }
+  };
+
+  // Persist the assistant reply and bump the conversation's updated_at so it
+  // resurfaces as the most recent one on the next visit.
+  const persistAssistantMessage = async (convId: string, assistantText: string) => {
+    try {
+      const { error: msgErr } = await supabase
+        .from("messages")
+        .insert({ conversation_id: convId, role: "assistant", content: assistantText });
+      if (msgErr) throw msgErr;
+      const { error: updErr } = await supabase
+        .from("conversations")
+        .update({ updated_at: new Date().toISOString() })
+        .eq("id", convId);
+      if (updErr) throw updErr;
+    } catch (e) {
+      console.error("Failed to save assistant message:", e);
+    }
+  };
+
+  // Start a fresh conversation. The previous one stays saved in Supabase.
+  const startNewChat = () => {
+    setMessages([{ role: "assistant", content: WELCOME }]);
+    setConversationId(null);
+    setInput("");
+    setRateLimited(false);
+  };
 
   const sendMessage = async (text?: string) => {
     const content = text ?? input;
@@ -99,26 +228,37 @@ export default function Chat() {
     if (textareaRef.current) textareaRef.current.style.height = "auto";
     setLoading(true);
 
+    // Persist the user message for logged-in users (best-effort, no-op otherwise).
+    const convId = await persistUserMessage(content);
+
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
+        // Only send the most recent messages to stay under the API's 40-message
+        // limit; the full history remains saved in Supabase.
+        body: JSON.stringify({ messages: newMessages.slice(-MAX_API_MESSAGES) }),
       });
-      const data = await response.json().catch(() => ({}));
 
-      // Daily limit hit — show the API message directly as an assistant bubble
-      if (response.status === 429 && data.error === "daily_limit") {
-        setMessages([...newMessages, { role: "assistant", content: data.message }]);
+      if (response.status === 429) {
+        // Lifetime free-message cap reached — keep the Premium screen up (no auto-reset).
+        setRateLimited(true);
         return;
       }
 
+      const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.message) {
         throw new Error(data.error || `Request failed (${response.status})`);
       }
       setMessages([...newMessages, { role: "assistant", content: data.message }]);
+      // Save the assistant reply once we have it (best-effort), then refresh
+      // the sidebar so new conversations and timestamps show up right away.
+      if (convId) {
+        await persistAssistantMessage(convId, data.message);
+        loadConversations();
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Chat request failed:", err instanceof Error ? err.message : err);
       setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again!" }]);
     } finally {
       setLoading(false);
@@ -190,12 +330,6 @@ export default function Chat() {
 
   return (
     <div style={{ display: "flex", height: "calc(100vh - 60px)", background: "var(--bg)" }}>
-      <ChatSidebar
-        activeChatId={activeChatId}
-        onNewChat={startNewChat}
-        onSelectChat={openHistoryChat}
-      />
-
       <div
         style={{
           flex: 1,
@@ -222,13 +356,224 @@ export default function Chat() {
         }}
       />
 
-      {/* ── Messages scroll area ── */}
+      {/* ── Left sidebar: new chat + saved conversations (collapsible) ── */}
+      {sidebarOpen ? (
+        <aside
+          style={{
+            position: "fixed",
+            top: 96,
+            left: 0,
+            bottom: 0,
+            width: SIDEBAR_WIDTH,
+            zIndex: 15,
+            display: "flex",
+            flexDirection: "column",
+            background: "var(--bg)",
+            borderRight: "1px solid var(--border-strong)",
+            padding: "14px 10px 16px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 6px 10px" }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", color: "var(--text-3)" }}>CHATS</span>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              title="Hide sidebar"
+              aria-label="Hide sidebar"
+              style={{ padding: "3px 8px", borderRadius: 6, border: "none", background: "transparent", color: "var(--text-3)", cursor: "pointer", fontSize: 14, fontFamily: "inherit" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
+            >
+              «
+            </button>
+          </div>
+
+          {/* New chat — available to everyone */}
+          <button
+            onClick={startNewChat}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              width: "100%",
+              padding: "9px 12px",
+              borderRadius: 9,
+              border: "1px solid var(--border-strong)",
+              background: "var(--surface)",
+              color: "var(--text-2)",
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: "pointer",
+              fontFamily: "inherit",
+              transition: "color 0.15s ease, border-color 0.15s ease",
+              marginBottom: 12,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+          >
+            <span style={{ fontSize: 15, lineHeight: 1 }}>+</span> New chat
+          </button>
+
+          {userId ? (
+            <>
+              <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 2 }}>
+                {!isPremium && (
+                  <div style={{ padding: "10px 12px 12px", display: "flex", flexDirection: "column", gap: 4, borderBottom: "1px solid var(--border)", marginBottom: 4 }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-1)" }}>✨ Chat history is Premium</span>
+                    <span style={{ fontSize: 11, color: "var(--text-2)", lineHeight: 1.4 }}>
+                      Reopening past chats needs 4UNI Premium (coming soon).
+                    </span>
+                  </div>
+                )}
+
+                {conversations.length === 0 ? (
+                  <div style={{ padding: "14px 12px", fontSize: 12, color: "var(--text-3)" }}>No past chats yet.</div>
+                ) : (
+                  conversations.map((c) => (
+                    <div
+                      key={c.id}
+                      className="chat-history-item"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        borderRadius: 8,
+                        background: c.id === conversationId ? "var(--surface-2)" : "transparent",
+                      }}
+                    >
+                      {editingId === c.id ? (
+                        <input
+                          autoFocus
+                          value={editingTitle}
+                          onChange={(e) => setEditingTitle(e.target.value)}
+                          onBlur={() => renameConversation(c.id, editingTitle)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") { e.preventDefault(); renameConversation(c.id, editingTitle); }
+                            if (e.key === "Escape") setEditingId(null);
+                          }}
+                          style={{
+                            flex: 1,
+                            minWidth: 0,
+                            padding: "9px 12px",
+                            borderRadius: 8,
+                            border: "1px solid var(--accent-border)",
+                            background: "var(--bg)",
+                            color: "var(--text-1)",
+                            fontSize: 13,
+                            fontFamily: "inherit",
+                            outline: "none",
+                          }}
+                        />
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => openConversation(c.id)}
+                            disabled={!isPremium}
+                            title={isPremium ? undefined : "Premium feature (coming soon)"}
+                            style={{
+                              flex: 1,
+                              minWidth: 0,
+                              textAlign: "left",
+                              padding: "9px 12px",
+                              borderRadius: 8,
+                              border: "none",
+                              background: "transparent",
+                              color: isPremium ? "var(--text-1)" : "var(--text-3)",
+                              fontSize: 13,
+                              fontFamily: "inherit",
+                              cursor: isPremium ? "pointer" : "not-allowed",
+                              opacity: isPremium ? 1 : 0.6,
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                            }}
+                          >
+                            {!isPremium && <span style={{ flexShrink: 0 }}>🔒</span>}
+                            <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                              {c.title || "Untitled chat"}
+                            </span>
+                            <span style={{ flexShrink: 0, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
+                              {timeAgo(c.updated_at)}
+                            </span>
+                          </button>
+
+                          {isPremium && (
+                            <div className="chat-history-actions" style={{ display: "flex", gap: 2, paddingRight: 6, flexShrink: 0 }}>
+                              <button
+                                onClick={() => { setEditingId(c.id); setEditingTitle(c.title || ""); }}
+                                title="Rename"
+                                aria-label="Rename chat"
+                                style={{ padding: 5, borderRadius: 6, border: "none", background: "transparent", color: "var(--text-3)", cursor: "pointer", display: "flex" }}
+                                onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
+                                onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
+                              >
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                  <path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                                </svg>
+                              </button>
+                              <button
+                                onClick={() => deleteConversation(c.id)}
+                                title="Delete"
+                                aria-label="Delete chat"
+                                style={{ padding: 5, borderRadius: 6, border: "none", background: "transparent", color: "var(--text-3)", cursor: "pointer", display: "flex" }}
+                                onMouseEnter={e => (e.currentTarget.style.color = "#f87171")}
+                                onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
+                              >
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                  <path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                </svg>
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            </>
+          ) : (
+            <div style={{ padding: "10px 6px", fontSize: 12, color: "var(--text-3)", lineHeight: 1.5 }}>
+              Sign in to save your conversations and reopen them here.
+            </div>
+          )}
+        </aside>
+      ) : (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          title="Show chats"
+          aria-label="Show chats"
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 16,
+            zIndex: 15,
+            padding: "7px 14px",
+            borderRadius: 9,
+            border: "1px solid var(--border-strong)",
+            background: "var(--surface)",
+            color: "var(--text-2)",
+            fontSize: 12,
+            fontWeight: 600,
+            cursor: "pointer",
+            fontFamily: "inherit",
+            transition: "color 0.15s ease, border-color 0.15s ease",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = "var(--text-1)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
+          onMouseLeave={e => { e.currentTarget.style.color = "var(--text-2)"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+        >
+          ☰ Chats
+        </button>
+      )}
+
+      {/* ── Messages scroll area (shifted right when the sidebar is open) ── */}
       <div
         style={{
           flex: 1,
           overflowY: "auto",
           position: "relative",
           zIndex: 1,
+          marginLeft: sidebarOpen ? SIDEBAR_WIDTH : 0,
+          transition: "margin-left 0.2s ease",
         }}
       >
         <div
@@ -280,7 +625,7 @@ export default function Chat() {
                   }}
                 >
                   {isAssistant ? (
-                    /* Unimate icon — small violet square with "U" */
+                    /* 4UNI icon — small violet square with "U" */
                     <div
                       style={{
                         width: 22,
@@ -330,7 +675,7 @@ export default function Chat() {
                       color: isAssistant ? "var(--accent)" : "var(--text-3)",
                     }}
                   >
-                    {isAssistant ? "Unimate" : "You"}
+                    {isAssistant ? "4UNI" : "You"}
                   </span>
                 </div>
 
@@ -436,7 +781,7 @@ export default function Chat() {
                     color: "var(--accent)",
                   }}
                 >
-                  Unimate
+                  4UNI
                 </span>
               </div>
 
@@ -450,19 +795,64 @@ export default function Chat() {
         </div>
       </div>
 
-      {/* ── Input bar — pinned to bottom of the chat column ── */}
+      {/* ── Input bar — fixed bottom (shifted right when the sidebar is open) ── */}
       <div
         style={{
           position: "absolute",
           bottom: 0,
-          left: 0,
+          left: sidebarOpen ? SIDEBAR_WIDTH : 0,
           right: 0,
           zIndex: 20,
           padding: "16px 20px 20px",
           background: "linear-gradient(to top, var(--bg) 70%, transparent)",
+          transition: "left 0.2s ease",
         }}
       >
         <div style={{ maxWidth: 680, margin: "0 auto", width: "100%" }}>
+          {rateLimited ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 16,
+                padding: "14px 16px",
+                borderRadius: 14,
+                background: "var(--accent-dim)",
+                border: "1px solid var(--accent-border)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                <span style={{ fontSize: 18, flexShrink: 0 }}>✨</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.1px" }}>
+                    You&apos;ve used all your free messages
+                  </span>
+                  <span style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.4 }}>
+                    Upgrade to 4UNI Premium (coming soon) to keep chatting.
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setNotifyClicked(true)}
+                disabled={notifyClicked}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: "1px solid var(--accent-border)",
+                  background: notifyClicked ? "transparent" : "var(--accent)",
+                  color: notifyClicked ? "var(--text-2)" : "white",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: notifyClicked ? "default" : "pointer",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
+                }}
+              >
+                {notifyClicked ? "We'll let you know 🎉" : "Notify me"}
+              </button>
+            </div>
+          ) : (
           <div
             style={{
               background: "var(--surface)",
@@ -572,6 +962,7 @@ export default function Chat() {
               </button>
             </div>
           </div>
+          )}
 
           {/* Powered-by label */}
           <p
@@ -584,152 +975,10 @@ export default function Chat() {
               letterSpacing: "0.04em",
             }}
           >
-            Unimate can make mistakes. Verify important information.
+            4UNI can make mistakes. Verify important information.
           </p>
         </div>
       </div>
-      </div>
-    </div>
-  );
-}
-
-/* ── Chat history sidebar — full list for Premium, locked teaser otherwise ── */
-function ChatSidebar({
-  activeChatId,
-  onNewChat,
-  onSelectChat,
-}: {
-  activeChatId: string | null;
-  onNewChat: () => void;
-  onSelectChat: (id: string) => void;
-}) {
-  return (
-    <div
-      style={{
-        width: 272,
-        flexShrink: 0,
-        height: "100%",
-        borderRight: "1px solid var(--border)",
-        background: "var(--surface)",
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-      }}
-    >
-      {/* New chat button */}
-      <div style={{ padding: "16px 14px 10px" }}>
-        <button
-          onClick={onNewChat}
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "10px 12px",
-            borderRadius: 10,
-            border: "1px solid var(--border-strong)",
-            background: "transparent",
-            color: "var(--text-1)",
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: "pointer",
-            fontFamily: "inherit",
-            transition: "background 0.15s, border-color 0.15s",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = "var(--surface-2)"; e.currentTarget.style.borderColor = "var(--accent-border)"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-          New chat
-        </button>
-      </div>
-
-      {/* History list */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "6px 10px 16px", position: "relative" }}>
-        <div style={{ filter: IS_PREMIUM ? "none" : "blur(3px)", opacity: IS_PREMIUM ? 1 : 0.55, pointerEvents: IS_PREMIUM ? "auto" : "none", userSelect: IS_PREMIUM ? "auto" : "none" }}>
-          {HISTORY_GROUPS.map(group => {
-            const items = CHAT_HISTORY.filter(h => h.group === group);
-            if (items.length === 0) return null;
-            return (
-              <div key={group} style={{ marginBottom: 18 }}>
-                <div style={{ fontWeight: 700, fontSize: 10, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", padding: "0 6px", marginBottom: 6 }}>
-                  {group}
-                </div>
-                {items.map(item => {
-                  const active = activeChatId === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => onSelectChat(item.id)}
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        textAlign: "left",
-                        padding: "8px 10px",
-                        borderRadius: 8,
-                        border: "none",
-                        background: active ? "var(--surface-2)" : "transparent",
-                        color: active ? "var(--text-1)" : "var(--text-2)",
-                        fontSize: 13,
-                        lineHeight: 1.4,
-                        cursor: IS_PREMIUM ? "pointer" : "default",
-                        fontFamily: "inherit",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        transition: "background 0.15s, color 0.15s",
-                      }}
-                      onMouseEnter={e => { if (IS_PREMIUM && !active) e.currentTarget.style.background = "var(--surface-2)"; }}
-                      onMouseLeave={e => { if (IS_PREMIUM && !active) e.currentTarget.style.background = "transparent"; }}
-                    >
-                      {item.title}
-                    </button>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Lock overlay for non-premium */}
-        {!IS_PREMIUM && (
-          <div style={{
-            position: "absolute", inset: 0,
-            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-            gap: 14, padding: "24px 20px", textAlign: "center",
-          }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 12,
-              background: "rgba(201,163,92,0.12)", border: "1px solid rgba(201,163,92,0.25)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgb(201,163,92)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-            </div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", marginBottom: 6 }}>Chat history</div>
-              <p style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.6, margin: 0 }}>
-                Revisit and resume any past conversation. Premium only.
-              </p>
-            </div>
-            <Link
-              href="/pricing"
-              style={{
-                padding: "9px 18px", borderRadius: 10,
-                background: "rgb(201,163,92)", color: "#fff",
-                fontSize: 12, fontWeight: 700, textDecoration: "none",
-                transition: "opacity 0.15s",
-              }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.85")}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-            >
-              Unlock Premium →
-            </Link>
-          </div>
-        )}
       </div>
     </div>
   );

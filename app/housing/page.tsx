@@ -4,8 +4,9 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { roommatePins, apartmentPins, type RoommatePin } from "../data/housing-cities";
+import { roommatePins, apartmentPins, type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 import PinDetailPanel, { type ActivePin } from "../components/PinDetailPanel";
+import { fetchRoommatePins, fetchApartmentPins } from "@/utils/housing";
 
 const HousingMap = dynamic(() => import("../components/HousingMap"), { ssr: false });
 
@@ -216,7 +217,7 @@ type ChatMsg = { from: "me" | "them"; text: string; time: string };
 function ChatPanel({ profile, onClose }: { profile: RoommatePin; onClose: () => void }) {
   const [messages, setMessages] = useState<ChatMsg[]>([{
     from: "them",
-    text: `Hey! I saw your profile on Unimate 👋 I'm ${profile.name}, looking for a flatmate in ${profile.city}. My budget is around €${profile.budgetMin}–€${profile.budgetMax}/mo and I'm planning to move in ${profile.moveIn}. Feel free to ask me anything!`,
+    text: `Hey! I saw your profile on 4UNI 👋 I'm ${profile.name}, looking for a flatmate in ${profile.city}. My budget is around €${profile.budgetMin}–€${profile.budgetMax}/mo and I'm planning to move in ${profile.moveIn}. Feel free to ask me anything!`,
     time: new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }),
   }]);
   const [input, setInput] = useState("");
@@ -326,6 +327,27 @@ export default function HousingPage() {
   const [activeChat, setActiveChat] = useState<RoommatePin | null>(null);
   const [activePin, setActivePin]   = useState<ActivePin | null>(null);
 
+  // Real profiles/listings from Supabase, shown alongside the demo pins.
+  // Best-effort: if the fetch fails the page still works with demo data.
+  const [dbRoommates, setDbRoommates]   = useState<RoommatePin[]>([]);
+  const [dbApartments, setDbApartments] = useState<ApartmentPin[]>([]);
+  useEffect(() => {
+    fetchRoommatePins().then(setDbRoommates).catch(e => console.error("Failed to load roommate profiles:", e));
+    fetchApartmentPins().then(setDbApartments).catch(e => console.error("Failed to load listings:", e));
+  }, []);
+  const allRoommates  = [...dbRoommates, ...roommatePins];
+  const allApartments = [...dbApartments, ...apartmentPins];
+
+  // Real profiles get the real inbox (/messages); demo pins keep the local
+  // demo chat panel with canned replies.
+  const openChat = (profile: RoommatePin) => {
+    if (profile.userId) {
+      router.push(`/messages?to=${profile.userId}`);
+    } else {
+      setActiveChat(activeChat?.id === profile.id ? null : profile);
+    }
+  };
+
   // ── Listen for postMessage from the Leaflet iframe ──────────────
   const handleMapMessage = useCallback((e: MessageEvent) => {
     try {
@@ -333,11 +355,11 @@ export default function HousingPage() {
       if (data?.type !== "pin-click") return;
 
       if (data.pinType === "roommate") {
-        const pin = roommatePins.find(p => p.id === data.id);
+        const pin = [...dbRoommates, ...roommatePins].find(p => p.id === data.id);
         if (pin) setActivePin({ pinType: "roommate", data: pin });
 
       } else if (data.pinType === "apartment") {
-        const pin = apartmentPins.find(p => p.id === data.id);
+        const pin = [...dbApartments, ...apartmentPins].find(p => p.id === data.id);
         if (pin) setActivePin({ pinType: "apartment", data: pin });
 
       } else if (data.pinType === "city") {
@@ -351,7 +373,7 @@ export default function HousingPage() {
         });
       }
     } catch { /* ignore non-JSON messages */ }
-  }, []);
+  }, [dbRoommates, dbApartments]);
 
   useEffect(() => {
     window.addEventListener("message", handleMapMessage);
@@ -385,7 +407,7 @@ export default function HousingPage() {
     return dateToQuarter(dateStr) === moveInFilter;
   }
 
-  const filteredRoommates = roommatePins.filter(r => {
+  const filteredRoommates = allRoommates.filter(r => {
     if (cityFilter !== "All cities" && r.city !== cityFilter) return false;
     if (!matchesBudget(r.budgetMin, r.budgetMax)) return false;
     if (!matchesMoveIn(r.moveIn)) return false;
@@ -393,7 +415,7 @@ export default function HousingPage() {
     return true;
   });
 
-  const filteredApartments = apartmentPins.filter(a => {
+  const filteredApartments = allApartments.filter(a => {
     if (cityFilter !== "All cities" && a.city !== cityFilter) return false;
     if (!matchesBudget(a.price, a.price)) return false;
     if (!matchesMoveIn(a.availableFrom ?? "")) return false;
@@ -414,7 +436,7 @@ export default function HousingPage() {
       {/* ── Hero ─────────────────────────────────────── */}
       <div style={{ padding: "72px 0 48px", borderBottom: "1px solid var(--border)", maxWidth: 680 }}>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgb(96,165,250)", letterSpacing: "0.2em", textTransform: "uppercase" }}>
-          Housing · Unimate
+          Housing · 4UNI
         </span>
         <h1 style={{
           fontSize: "clamp(36px, 5vw, 60px)",
@@ -635,7 +657,7 @@ export default function HousingPage() {
                     ))}
                   </div>
                   <button
-                    onClick={() => setActiveChat(activeChat?.id === r.id ? null : r)}
+                    onClick={() => openChat(r)}
                     style={{
                       width: "100%", padding: "10px 16px", borderRadius: 10,
                       background: activeChat?.id === r.id ? `rgba(${r.avatarColor},0.25)` : `rgba(${r.avatarColor},0.13)`,
@@ -726,7 +748,7 @@ export default function HousingPage() {
         onClose={() => setActivePin(null)}
         onMessage={(profile) => {
           setActivePin(null);           // close the detail drawer first
-          setActiveChat(profile);       // then open the chat panel
+          openChat(profile);            // real inbox or demo chat panel
         }}
       />
 

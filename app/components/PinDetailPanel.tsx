@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -368,6 +369,15 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
 export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
   const isOpen = !!pin;
 
+  // While the drawer is open, freeze the page behind it so the mouse wheel
+  // scrolls the drawer content instead of the housing page underneath.
+  useEffect(() => {
+    if (!isOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previous; };
+  }, [isOpen]);
+
   // Derive header label
   const headerLabel =
     !pin         ? ""
@@ -388,7 +398,7 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
         <div
           onClick={onClose}
           style={{
-            position: "fixed", inset: 0, zIndex: 200,
+            position: "fixed", inset: 0, zIndex: 1200,
             background: "rgba(0,0,0,0.4)",
             backdropFilter: "blur(2px)",
             animation: "fadeIn 0.2s ease",
@@ -405,7 +415,7 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
           bottom: 0,
           width: 400,
           maxWidth: "92vw",
-          zIndex: 201,
+          zIndex: 1201,
           background: "var(--bg)",
           borderLeft: "1px solid var(--border)",
           display: "flex",
@@ -449,8 +459,9 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
           </button>
         </div>
 
-        {/* Scrollable content */}
-        <div style={{ flex: 1, overflowY: "auto", minHeight: 0 }}>
+        {/* Scrollable content — overscroll contained so reaching the end of the
+            drawer never hands the wheel over to the page behind it */}
+        <div style={{ flex: 1, overflowY: "auto", minHeight: 0, overscrollBehavior: "contain" }}>
           {pin?.pinType === "roommate" && (
             <RoommateDetail data={pin.data} onMessage={onMessage} />
           )}
