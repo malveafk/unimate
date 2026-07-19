@@ -72,14 +72,24 @@
         mapInstance = L.map('map', {
           center: [51.0, 9.0], zoom: 4,
           zoomControl: true,
-          scrollWheelZoom: false,   // plain scroll = page scroll, never zoom
+          scrollWheelZoom: false,     // plain scroll = page scroll; pinch handled manually below
           doubleClickZoom: true,
-          touchZoom: true,          // two-finger pinch on touchscreens
-          zoomSnap: 0,              // smooth fractional zoom for trackpad pinch
+          touchZoom: true,            // two-finger pinch on touchscreens
+          zoomSnap: 0,                // smooth fractional zoom for trackpad pinch
+          zoomDelta: 0.5,             // gentler steps for the +/- buttons
+          /* Smoother pan & glide */
+          inertia: true,
+          inertiaDeceleration: 2200,  // lower = longer, softer glide
+          easeLinearity: 0.18,        // more easing on pan/zoom
+          zoomAnimation: true,
+          fadeAnimation: true,
         });
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
           attribution: '&copy; <a href="https://openstreetmap.org">OSM</a> &copy; <a href="https://carto.com">CARTO</a>',
           subdomains: 'abcd', maxZoom: 19,
+          keepBuffer: 6,             // preload a wide ring of tiles → less blanking when panning fast
+          updateWhenZooming: false,  // keep old tiles scaled during zoom, reload only at the end
+          updateWhenIdle: false,     // keep loading while panning
         }).addTo(mapInstance);
         markerGroup = L.layerGroup().addTo(mapInstance);
 
@@ -88,13 +98,23 @@
 
         /* Trackpad pinch-to-zoom (fingers together/apart) and ctrl+scroll.
            Browsers deliver a trackpad pinch as a wheel event with ctrlKey set,
-           so we only zoom then — a normal scroll bubbles up and scrolls the page. */
+           so we only zoom then — a normal scroll bubbles up and scrolls the page.
+           Deltas are accumulated and applied once per animation frame so the
+           zoom stays smooth even when the trackpad fires many events at once. */
+        var pinchDelta = 0, pinchPoint = null, pinchQueued = false;
+        function applyPinch() {
+          pinchQueued = false;
+          if (!pinchDelta) return;
+          var newZoom = mapInstance.getZoom() - pinchDelta * 0.01;
+          pinchDelta = 0;
+          mapInstance.setZoomAround(pinchPoint, newZoom, { animate: false });
+        }
         mapInstance.getContainer().addEventListener('wheel', function(e) {
           if (!e.ctrlKey) return;
           e.preventDefault();
-          var point = mapInstance.mouseEventToContainerPoint(e);
-          var newZoom = mapInstance.getZoom() - e.deltaY * 0.01;
-          mapInstance.setZoomAround(point, newZoom, { animate: false });
+          pinchDelta += e.deltaY;
+          pinchPoint = mapInstance.mouseEventToContainerPoint(e);
+          if (!pinchQueued) { pinchQueued = true; requestAnimationFrame(applyPinch); }
         }, { passive: false });
       } else {
         markerGroup.clearLayers();
