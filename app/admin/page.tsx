@@ -1,17 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
+import { isAdminEmail } from "@/utils/adminEmails";
 
 export default async function AdminPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const adminEmails = (process.env.ADMIN_EMAILS ?? "")
-    .split(",")
-    .map(e => e.trim().toLowerCase())
-    .filter(Boolean);
-
-  if (!user || !adminEmails.includes((user.email ?? "").toLowerCase())) {
+  if (!user || !isAdminEmail(user.email)) {
     redirect("/");
   }
 
