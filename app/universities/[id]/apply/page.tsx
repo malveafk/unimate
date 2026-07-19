@@ -147,7 +147,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
         {msgs.map((m, i) => (
           <div key={i} style={{ display: "flex", flexDirection: m.role === "user" ? "row-reverse" : "row", gap: 8, alignItems: "flex-end" }}>
             {m.role === "assistant" && (
-              <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(201,163,92,0.18)", border: "1px solid rgba(201,163,92,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>U</div>
+              <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(201,163,92,0.18)", border: "1px solid rgba(201,163,92,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>4</div>
             )}
             <div style={{ maxWidth: "80%" }}>
               <div style={{
@@ -162,7 +162,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
         ))}
         {loading && (
           <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-            <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(201,163,92,0.18)", border: "1px solid rgba(201,163,92,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>U</div>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(201,163,92,0.18)", border: "1px solid rgba(201,163,92,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>4</div>
             <div style={{ padding: "12px 16px", borderRadius: "16px 16px 16px 4px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", gap: 5, alignItems: "center" }}>
               {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--text-3)", animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />)}
             </div>

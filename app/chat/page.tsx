@@ -625,7 +625,7 @@ export default function Chat() {
                   }}
                 >
                   {isAssistant ? (
-                    /* 4UNI icon — small violet square with "U" */
+                    /* 4UNI icon — small violet square with "4" */
                     <div
                       style={{
                         width: 22,
@@ -639,9 +639,7 @@ export default function Chat() {
                         boxShadow: "0 0 12px rgba(201,163,92,0.35)",
                       }}
                     >
-                      <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden>
-                        <path d="M3 3v5.5C3 11.09 5.24 13 8 13s5-1.91 5-4.5V3" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                      </svg>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: "white", lineHeight: 1 }}>4</span>
                     </div>
                   ) : (
                     /* User icon — neutral circle */
@@ -767,9 +765,7 @@ export default function Chat() {
                     boxShadow: "0 0 12px rgba(201,163,92,0.35)",
                   }}
                 >
-                  <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden>
-                    <path d="M3 3v5.5C3 11.09 5.24 13 8 13s5-1.91 5-4.5V3" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "white", lineHeight: 1 }}>4</span>
                 </div>
                 <span
                   style={{

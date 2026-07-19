@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
+import { isAdminEmail } from "@/utils/adminEmails";
 
 // Daily free-message cap per identifier (user id, or IP for anonymous).
 // The counter resets each day inside consume_message_quota (see
@@ -117,10 +118,15 @@ export async function POST(req: NextRequest) {
 
   // Quota key: the logged-in user's id when available, otherwise the IP.
   let quotaKey = ip;
+  let skipQuota = false;
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (user) quotaKey = user.id;
+    if (user) {
+      quotaKey = user.id;
+      // Admin emails are premium: no daily cap.
+      skipQuota = isAdminEmail(user.email);
+    }
   } catch (error) {
     // Reading the session failed — fall back to the IP so the cap still applies.
     console.error("Chat quota: failed to resolve user, using IP", error);
@@ -129,7 +135,7 @@ export async function POST(req: NextRequest) {
   // Persistent, cross-instance counter in Supabase (shared across serverless
   // instances). Each POST consumes one message; the first FREE_MESSAGE_LIMIT
   // are allowed, from then on we return 429.
-  try {
+  if (!skipQuota) try {
     const admin = createAdminClient();
     const { data: allowed, error } = await admin.rpc("consume_message_quota", {
       p_identifier: quotaKey,
