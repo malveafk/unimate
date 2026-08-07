@@ -12,9 +12,7 @@
 - **ku-leuven**: tuition confermata, invariata — €1,181/anno (EEA, 60 crediti, 2025-2026). Fonte: kuleuven.be/english/education/student/fees.
 - **oxford**: Home fee aggiornata da **£9,535 → £9,790/anno** (2026 entry, tetto nazionale UK 2026/27). Range international invariato. Fonte: ox.ac.uk/admissions/undergraduate/fees-and-funding/course-fees.
 - **ucl**: Home fee aggiornata da **£9,535 → £9,790/anno** (stesso tetto nazionale UK 2026/27). Range international invariato. Fonte: gov.uk / ox.ac.uk (tetto nazionale).
-
-### Da controllare a mano
-- **eth-zurich**: la struttura two-tier (autunno 2025) nel file è corretta, ma la cifra del Gruppo 1 (residenti/scolarizzati in Svizzera) potrebbe essere salita da **CHF 730 → ~CHF 804/semestre** (indicizzata al CPI). Non aggiornata questo giro: da confermare sulla pagina ufficiale ethz.ch/students/en/studies/financial/tuition-fees prima di modificare.
+- **VERIFY - ETH Zurich tuition group 1** — confermato **CHF 730/sem invariato**; la segnalazione di un possibile aumento a CHF 804 NON è confermata dalla fonte ufficiale (Group 1 = CHF 730/sem, Group 2 = CHF 2.190/sem, entrambi invariati). Campo `tuition` del record eth-zurich già corretto, nessuna modifica a universities.ts. Fonte: ethz.ch/students/en/studies/financial/tuition-fees.html (agg. 19.11.2025). **Flag chiuso.**
 
 ## 2026-08-07
 
