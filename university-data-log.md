@@ -1,5 +1,10 @@
 # University data log
 
+## 2026-08-07
+
+### Verifiche
+- **VERIFY - Utrecht tuition update** — **utrecht** (Utrecht University): campo `tuition` aggiornato per l'a.a. 2026-2027. Vecchio valore: `"€2,314/anno (EU) / €12,068–€28,416/anno (non-EU)"` → nuovo valore: `"€2,694/anno (EU) / €12,068–€28,416/anno (non-EU)"`. La parte EU/EEA passa da €2.314 a €2.694 (statutory fee nazionale 2026-2027); la parte non-EU (institutional fee) resta invariata come range €12.068–€28.416 perché varia per singolo programma. Chiude la voce "da controllare a mano" del giro precedente. Fonte: students.uu.nl/en/practical-matters/financial-matters/tuition-fees.
+
 ## 2026-07-19
 
 ### Aggiunte

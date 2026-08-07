@@ -1766,7 +1766,7 @@ export const universities: University[] = [
     city: "Utrecht",
     country: "Netherlands",
     flag: "🇳🇱",
-    tuition: "€2,314/anno (EU) / €12,068–€28,416/anno (non-EU)",
+    tuition: "€2,694/anno (EU) / €12,068–€28,416/anno (non-EU)",
     livingCost: "€1,000–€1,300/mese",
     teaching: "Lectures + small-group seminars",
     languages: ["Dutch", "English"],
