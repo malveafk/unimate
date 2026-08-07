@@ -1,5 +1,21 @@
 # University data log
 
+## 2026-08-07 — ADD + VERIFY (giro routine)
+
+### Aggiunte
+- **padua** (University of Padua, 🇮🇹 Padova) — 2 bachelor in inglese: Psychological Science, Information Engineering. Tuition €0–€2,900/anno (ISEE-based); living cost €700–€1,000/mese; ranking Top 250 QS (#233, 2026). Corsi 1° anno verificati (apply.unipd.it: Psychological Science, Information Engineering). Fonti: apply.unipd.it/courses, topuniversities.com.
+- **aalto** (Aalto University, 🇫🇮 Espoo) — 2 bachelor in inglese: International Business, Science and Technology. Gratis per EU/EEA, €12,000/anno non-EU; living cost €800–€1,200/mese; ranking Top 150 QS (#126, 2027, #1 in Finlandia). Corsi 1° anno IB verificati (curriculum ufficiale 2024–2026); Science & Technology su base math/programming/physics. NB: da autunno 2026 l'IB si sposta dal campus di Mikkeli a Otaniemi (Espoo). Fonti: aalto.fi, topuniversities.com.
+- **tartu** (University of Tartu, 🇪🇪 Tartu) — **NUOVO PAESE: Estonia** (aggiunta anche all'array `countries`). 2 bachelor in inglese: Business Administration, Science and Technology. Tuition €3,800/anno (i bachelor in inglese sono a pagamento anche per EU/EEA, nessun waiver); living cost €500–€800/mese (tra i più bassi UE); ranking Top 400 QS (#362, 2026). Nomi corsi 1° anno ricostruiti dai topic ufficiali del curriculum (ECTS per-corso solo nel Study Information System, non nella pagina pubblica). Fonti: ut.ee/en/curriculum, topuniversities.com.
+
+### Verifiche
+- **bocconi**: tuition confermata, invariata — €0–€17,000/anno (max €17,000 anche per a.a. 2026-27). Fonte: unibocconi.it / bit.unibocconi.it.
+- **ku-leuven**: tuition confermata, invariata — €1,181/anno (EEA, 60 crediti, 2025-2026). Fonte: kuleuven.be/english/education/student/fees.
+- **oxford**: Home fee aggiornata da **£9,535 → £9,790/anno** (2026 entry, tetto nazionale UK 2026/27). Range international invariato. Fonte: ox.ac.uk/admissions/undergraduate/fees-and-funding/course-fees.
+- **ucl**: Home fee aggiornata da **£9,535 → £9,790/anno** (stesso tetto nazionale UK 2026/27). Range international invariato. Fonte: gov.uk / ox.ac.uk (tetto nazionale).
+
+### Da controllare a mano
+- **eth-zurich**: la struttura two-tier (autunno 2025) nel file è corretta, ma la cifra del Gruppo 1 (residenti/scolarizzati in Svizzera) potrebbe essere salita da **CHF 730 → ~CHF 804/semestre** (indicizzata al CPI). Non aggiornata questo giro: da confermare sulla pagina ufficiale ethz.ch/students/en/studies/financial/tuition-fees prima di modificare.
+
 ## 2026-08-07
 
 ### Verifiche
