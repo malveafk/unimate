@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState, useEffect, useRef, Children } from "react";
 import { getUniversities, type University } from "../../utils/universities";
+import { universityMeta, type UniversityMeta } from "../data/universityMeta";
 import { trackComparison } from "../../utils/activity";
 
 /* ─── Types ─────────────────────────────────────── */
@@ -53,6 +54,34 @@ function parseCost(s: string): number {
   const m = s.match(/(\d[\d.,]*)/);
   if (!m) return 0;
   return parseInt(m[1].replace(/[.,]/g, ""), 10);
+}
+
+// Living-cost strings are ranges like "€900–€1,100/mese". Pull out the lower
+// and upper monthly figures so we can derive an annual total-cost estimate the
+// same way the Uni Page does — without relying on universityMeta (which only
+// covers ~half the catalogue and lags behind universities.ts).
+function parseLivingRange(s: string): [number, number] {
+  const parts = s.split("–");
+  const lo = parseCost(parts[0] ?? "");
+  const hi = parseCost(parts[1] ?? parts[0] ?? "");
+  return [lo || hi, hi || lo];
+}
+
+// Mirror of the Uni Page's "Best for" derivation so the two stay in sync.
+// Works off the live university fields (+ optional meta) and degrades
+// gracefully when a university has no meta entry.
+function getBestFor(u: University, meta: UniversityMeta | undefined): string[] {
+  const tags: string[] = [];
+  if (u.teaching.includes("PBL")) tags.push("Collaborative learners");
+  if (meta && meta.tuitionPerYear === 0) tags.push("Zero tuition");
+  if (meta && meta.tuitionPerYear > 0 && meta.tuitionPerYear < 1500) tags.push("Budget-conscious");
+  if (u.languages.includes("English")) tags.push("English-language programmes");
+  if (u.strengths.some((s) => s.toLowerCase().includes("research"))) tags.push("Research-focused students");
+  if (u.ranking) tags.push("Rankings-aware students");
+  if (u.strengths.some((s) => s.toLowerCase().includes("business") || s.toLowerCase().includes("economics"))) tags.push("Business & Economics");
+  if (u.strengths.some((s) => s.toLowerCase().includes("engineering") || s.toLowerCase().includes("tech"))) tags.push("Engineering & Tech");
+  if (meta && meta.scholarships) tags.push("Scholarship seekers");
+  return tags.slice(0, 4);
 }
 
 
@@ -116,6 +145,16 @@ const LifestyleIcon = () => (
 const ProgrammeIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+  </svg>
+);
+const AboutIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/>
+  </svg>
+);
+const AdmissionsIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/>
   </svg>
 );
 
@@ -362,6 +401,22 @@ export default function Compare() {
   const minTuition = Math.min(...tuitions.filter(Boolean));
   const minLiving  = Math.min(...livings.filter(Boolean));
 
+  // Per-university enrichment data (deadlines, scholarships, requirements).
+  // Only ~half the catalogue has a meta entry, so every consumer below must
+  // treat `undefined` as "not available" rather than assume it exists.
+  const metas = unis.map((u) => (u ? universityMeta[u.id] : undefined));
+
+  // Annual total-cost estimate derived straight from the live tuition/living
+  // strings (the freshest source), so it covers every university and never
+  // contradicts the figures shown in the Costs rows above.
+  const totals = unis.map((u) => {
+    if (!u) return null;
+    const t = parseCost(u.tuition);
+    const [lmin, lmax] = parseLivingRange(u.livingCost);
+    if (lmax <= 0) return null; // no parseable living figure → can't estimate
+    return { min: t + lmin * 12, max: t + lmax * 12 };
+  });
+
   // Years to display (filtered or all)
   const yearsToShow = selectedYear !== null ? [selectedYear] : availableYears;
 
@@ -500,6 +555,25 @@ export default function Compare() {
             })}
           </div>
 
+          {/* ── ABOUT ──────────────────────────────── */}
+          <SectionHeader icon={<AboutIcon />} title="About" />
+          <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
+            <Row label="Overview" last>
+              {unis.map((uni, idx) => (
+                <Cell key={uni?.id ?? idx}>
+                  {uni ? (
+                    <>
+                      <p style={{ margin: 0, fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>{uni.description}</p>
+                      {uni.cityVibe && (
+                        <p style={{ margin: "8px 0 0", fontSize: 12, color: "var(--text-3)", lineHeight: 1.6, fontStyle: "italic" }}>{uni.cityVibe}</p>
+                      )}
+                    </>
+                  ) : <span style={{ color: "var(--text-3)" }}>—</span>}
+                </Cell>
+              ))}
+            </Row>
+          </div>
+
           {/* ── COSTS ──────────────────────────────── */}
           <SectionHeader icon={<CostsIcon />} title="Costs" />
           <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
@@ -519,7 +593,7 @@ export default function Compare() {
                 );
               })}
             </Row>
-            <Row label="Living / month" last>
+            <Row label="Living / month">
               {unis.map((uni, idx) => {
                 if (!uni) return <Cell key={idx}><span style={{ color: "var(--text-3)" }}>—</span></Cell>;
                 const val = livings[idx];
@@ -531,6 +605,24 @@ export default function Compare() {
                       {isBest && colCount > 1 && <span style={{ fontSize: 9, fontWeight: 700, color: "var(--green)", background: "rgba(52,211,153,0.15)", padding: "2px 6px", borderRadius: 4 }}>CHEAPER</span>}
                     </div>
                     <CostBar value={val} max={maxLiving} best={isBest} />
+                  </Cell>
+                );
+              })}
+            </Row>
+            <Row label="Est. total / year" last>
+              {unis.map((uni, idx) => {
+                if (!uni) return <Cell key={idx}><span style={{ color: "var(--text-3)" }}>—</span></Cell>;
+                const total = totals[idx];
+                return (
+                  <Cell key={uni.id}>
+                    {total ? (
+                      <>
+                        <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.3px" }}>
+                          €{total.min.toLocaleString()}–€{total.max.toLocaleString()}
+                        </span>
+                        <span style={{ display: "block", fontSize: 10, color: "var(--text-3)", marginTop: 3 }}>tuition + 12 months living</span>
+                      </>
+                    ) : <span style={{ color: "var(--text-3)" }}>—</span>}
                   </Cell>
                 );
               })}
@@ -574,6 +666,22 @@ export default function Compare() {
                   ) : <span style={{ color: "var(--text-3)" }}>—</span>}
                 </Cell>
               ))}
+            </Row>
+            <Row label="Best for">
+              {unis.map((uni, idx) => {
+                const tags = uni ? getBestFor(uni, metas[idx]) : [];
+                return (
+                  <Cell key={uni?.id ?? idx}>
+                    {uni && tags.length > 0 ? (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                        {tags.map((t) => (
+                          <span key={t} style={{ padding: "3px 9px", borderRadius: 6, background: "rgba(201,163,92,0.1)", border: "1px solid rgba(201,163,92,0.25)", fontSize: 12, color: "var(--accent)", fontWeight: 500 }}>{t}</span>
+                        ))}
+                      </div>
+                    ) : <span style={{ color: "var(--text-3)" }}>—</span>}
+                  </Cell>
+                );
+              })}
             </Row>
             <Row label="Programmes" last>
               {unis.map((uni, idx) => (
@@ -622,6 +730,58 @@ export default function Compare() {
                           <div key={i} style={{ display: "flex", gap: 8 }}>
                             <span style={{ color: "#f87171", fontWeight: 700, flexShrink: 0, lineHeight: 1.6 }}>−</span>
                             <span style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{c}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : <span style={{ color: "var(--text-3)" }}>—</span>}
+                  </Cell>
+                );
+              })}
+            </Row>
+          </div>
+
+          {/* ── ADMISSIONS ─────────────────────────── */}
+          <SectionHeader icon={<AdmissionsIcon />} title="Admissions" />
+          <div style={{ background: "var(--surface)", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden", marginBottom: 12 }}>
+            <Row label="Application deadline">
+              {unis.map((uni, idx) => {
+                const meta = metas[idx];
+                return (
+                  <Cell key={uni?.id ?? idx}>
+                    {uni && meta ? (
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-1)" }}>
+                        {meta.applicationDeadlineMonth === null ? "Rolling admissions" : meta.applicationDeadline}
+                      </span>
+                    ) : <span style={{ color: "var(--text-3)" }}>—</span>}
+                  </Cell>
+                );
+              })}
+            </Row>
+            <Row label="Scholarships">
+              {unis.map((uni, idx) => {
+                const meta = metas[idx];
+                return (
+                  <Cell key={uni?.id ?? idx}>
+                    {uni && meta ? (
+                      <span style={{ fontSize: 13, fontWeight: 600, color: meta.scholarships ? "var(--green)" : "var(--text-3)" }}>
+                        {meta.scholarships ? "Available" : "None listed"}
+                      </span>
+                    ) : <span style={{ color: "var(--text-3)" }}>—</span>}
+                  </Cell>
+                );
+              })}
+            </Row>
+            <Row label="What you need to apply" last>
+              {unis.map((uni, idx) => {
+                const meta = metas[idx];
+                return (
+                  <Cell key={uni?.id ?? idx}>
+                    {uni && meta && meta.requirements.length > 0 ? (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                        {meta.requirements.map((req, i) => (
+                          <div key={i} style={{ display: "flex", gap: 8 }}>
+                            <span style={{ color: "var(--green)", flexShrink: 0, lineHeight: 1.6 }}>✓</span>
+                            <span style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{req}</span>
                           </div>
                         ))}
                       </div>
@@ -737,6 +897,11 @@ export default function Compare() {
                     <Link href={`/universities/${uni.id}`} className="btn-primary" style={{ justifyContent: "center", fontSize: 13 }}>
                       View {uni.name.split(" ")[0]} →
                     </Link>
+                    {uni.website && (
+                      <a href={uni.website} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ justifyContent: "center", fontSize: 12 }}>
+                        Official site ↗
+                      </a>
+                    )}
                     <Link href={`/chat`} className="btn-ghost" style={{ justifyContent: "center", fontSize: 12 }}>
                       Ask AI about this
                     </Link>
