@@ -1,5 +1,24 @@
 # University data log
 
+## 2026-08-07 — ADD + VERIFY (giro routine)
+
+### Aggiunte
+- **padua** (University of Padua, 🇮🇹 Padova) — 2 bachelor in inglese: Psychological Science, Information Engineering. Tuition €0–€2,900/anno (ISEE-based); living cost €700–€1,000/mese; ranking Top 250 QS (#233, 2026). Corsi 1° anno verificati (apply.unipd.it: Psychological Science, Information Engineering). Fonti: apply.unipd.it/courses, topuniversities.com.
+- **aalto** (Aalto University, 🇫🇮 Espoo) — 2 bachelor in inglese: International Business, Science and Technology. Gratis per EU/EEA, €12,000/anno non-EU; living cost €800–€1,200/mese; ranking Top 150 QS (#126, 2027, #1 in Finlandia). Corsi 1° anno IB verificati (curriculum ufficiale 2024–2026); Science & Technology su base math/programming/physics. NB: da autunno 2026 l'IB si sposta dal campus di Mikkeli a Otaniemi (Espoo). Fonti: aalto.fi, topuniversities.com.
+- **tartu** (University of Tartu, 🇪🇪 Tartu) — **NUOVO PAESE: Estonia** (aggiunta anche all'array `countries`). 2 bachelor in inglese: Business Administration, Science and Technology. Tuition €3,800/anno (i bachelor in inglese sono a pagamento anche per EU/EEA, nessun waiver); living cost €500–€800/mese (tra i più bassi UE); ranking Top 400 QS (#362, 2026). Nomi corsi 1° anno ricostruiti dai topic ufficiali del curriculum (ECTS per-corso solo nel Study Information System, non nella pagina pubblica). Fonti: ut.ee/en/curriculum, topuniversities.com.
+
+### Verifiche
+- **bocconi**: tuition confermata, invariata — €0–€17,000/anno (max €17,000 anche per a.a. 2026-27). Fonte: unibocconi.it / bit.unibocconi.it.
+- **ku-leuven**: tuition confermata, invariata — €1,181/anno (EEA, 60 crediti, 2025-2026). Fonte: kuleuven.be/english/education/student/fees.
+- **oxford**: Home fee aggiornata da **£9,535 → £9,790/anno** (2026 entry, tetto nazionale UK 2026/27). Range international invariato. Fonte: ox.ac.uk/admissions/undergraduate/fees-and-funding/course-fees.
+- **ucl**: Home fee aggiornata da **£9,535 → £9,790/anno** (stesso tetto nazionale UK 2026/27). Range international invariato. Fonte: gov.uk / ox.ac.uk (tetto nazionale).
+- **VERIFY - ETH Zurich tuition group 1** — confermato **CHF 730/sem invariato**; la segnalazione di un possibile aumento a CHF 804 NON è confermata dalla fonte ufficiale (Group 1 = CHF 730/sem, Group 2 = CHF 2.190/sem, entrambi invariati). Campo `tuition` del record eth-zurich già corretto, nessuna modifica a universities.ts. Fonte: ethz.ch/students/en/studies/financial/tuition-fees.html (agg. 19.11.2025). **Flag chiuso.**
+
+## 2026-08-07
+
+### Verifiche
+- **VERIFY - Utrecht tuition update** — **utrecht** (Utrecht University): campo `tuition` aggiornato per l'a.a. 2026-2027. Vecchio valore: `"€2,314/anno (EU) / €12,068–€28,416/anno (non-EU)"` → nuovo valore: `"€2,694/anno (EU) / €12,068–€28,416/anno (non-EU)"`. La parte EU/EEA passa da €2.314 a €2.694 (statutory fee nazionale 2026-2027); la parte non-EU (institutional fee) resta invariata come range €12.068–€28.416 perché varia per singolo programma. Chiude la voce "da controllare a mano" del giro precedente. Fonte: students.uu.nl/en/practical-matters/financial-matters/tuition-fees.
+
 ## 2026-07-19
 
 ### Aggiunte

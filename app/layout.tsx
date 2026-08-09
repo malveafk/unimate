@@ -37,6 +37,8 @@ export default function RootLayout({
             {children}
           </MainWrapper>
           <footer style={{
+          position: "relative",
+          zIndex: 10,
           borderTop: "1px solid var(--border)",
           padding: "28px 32px",
           background: "var(--bg)",
