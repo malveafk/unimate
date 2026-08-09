@@ -322,6 +322,7 @@ export default function CreateProfilePage() {
                 </h2>
                 <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>
                   To keep the housing community safe, we require all users to verify their identity before creating a roommate profile.
+                  {" "}You must be 16 or older to use this feature. If you&rsquo;re under 18 and don&rsquo;t have your own ID document, you can upload a parent or guardian&rsquo;s ID instead, along with their consent.
                 </p>
               </div>
             </div>

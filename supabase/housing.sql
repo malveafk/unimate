@@ -254,3 +254,33 @@ drop policy if exists "Users delete own housing ID" on storage.objects;
 create policy "Users delete own housing ID"
   on storage.objects for delete
   using (bucket_id = 'housing-ids' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- ── Listing photo (added for the "post an apartment" form) ──────────────────
+-- One photo per listing, stored publicly (unlike ID documents — a photo of a
+-- room is meant to be seen by everyone browsing the map).
+
+alter table housing_listings add column if not exists photo_path text;
+
+insert into storage.buckets (id, name, public)
+  values ('housing-photos', 'housing-photos', true)
+  on conflict (id) do nothing;
+
+drop policy if exists "Listing photos are public" on storage.objects;
+create policy "Listing photos are public"
+  on storage.objects for select
+  using (bucket_id = 'housing-photos');
+
+drop policy if exists "Users upload own listing photos" on storage.objects;
+create policy "Users upload own listing photos"
+  on storage.objects for insert
+  with check (bucket_id = 'housing-photos' and (storage.foldername(name))[1] = auth.uid()::text);
+
+drop policy if exists "Users replace own listing photos" on storage.objects;
+create policy "Users replace own listing photos"
+  on storage.objects for update
+  using (bucket_id = 'housing-photos' and (storage.foldername(name))[1] = auth.uid()::text);
+
+drop policy if exists "Users delete own listing photos" on storage.objects;
+create policy "Users delete own listing photos"
+  on storage.objects for delete
+  using (bucket_id = 'housing-photos' and (storage.foldername(name))[1] = auth.uid()::text);

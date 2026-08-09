@@ -82,7 +82,7 @@ function EmptyList({ tab }: { tab: Tab }) {
           <p style={{ fontSize: 14, color: "var(--text-3)", lineHeight: 1.7, maxWidth: 360, margin: "0 auto" }}>
             {isRoommates
               ? "Be the first to post your roommate profile. Share your city, budget and move-in date so other students can find you."
-              : "Apartment listings are coming soon. We'll aggregate rooms from Kamernet, WG-Gesucht, HousingAnywhere and more."}
+              : "Be the first to post a listing. Share a photo, price and city so students searching can find your place."}
           </p>
         </div>
         {isRoommates ? (
@@ -101,10 +101,11 @@ function EmptyList({ tab }: { tab: Tab }) {
             Post your profile →
           </Link>
         ) : (
-          <button
-            onClick={() => alert("Notify me coming soon!")}
+          <Link
+            href="/housing/post-listing"
             style={{
               marginTop: 4, padding: "12px 28px", borderRadius: 12,
+              textDecoration: "none", display: "inline-block",
               background: "rgba(96,165,250,0.12)",
               border: "1px solid rgba(96,165,250,0.3)",
               color: "rgb(96,165,250)",
@@ -114,8 +115,8 @@ function EmptyList({ tab }: { tab: Tab }) {
             onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
             onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
           >
-            Notify me when listings go live →
-          </button>
+            Post a listing →
+          </Link>
         )}
       </div>
 
@@ -514,7 +515,7 @@ export default function HousingPage() {
 
           {/* Right controls */}
           <div style={{ display: "flex", gap: 8 }}>
-            {tab === "roommates" && (
+            {tab === "roommates" ? (
               <button
                 onClick={() => router.push("/housing/create-profile")}
                 style={{
@@ -529,6 +530,22 @@ export default function HousingPage() {
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Post profile
+              </button>
+            ) : (
+              <button
+                onClick={() => router.push("/housing/post-listing")}
+                style={{
+                  display: "flex", alignItems: "center", gap: 6,
+                  padding: "7px 14px", borderRadius: 8, cursor: "pointer",
+                  background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
+                  color: "rgb(96,165,250)", fontSize: 12, fontWeight: 700, fontFamily: "inherit",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Post listing
               </button>
             )}
             <button
@@ -695,6 +712,10 @@ export default function HousingPage() {
                   onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.4)"; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
                 >
+                  {a.photo && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={a.photo} alt={a.title} style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 12, border: "1px solid var(--border)" }} />
+                  )}
                   <div>
                     <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>{a.title}</h3>
                     <div style={{ fontSize: 12, color: "var(--text-3)" }}>{a.city} · {a.platform}</div>
@@ -711,28 +732,46 @@ export default function HousingPage() {
                       </div>
                     ))}
                   </div>
-                  <a
-                    href={a.link ?? "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      width: "100%", padding: "10px 16px", borderRadius: 10,
-                      background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
-                      color: "rgb(96,165,250)",
-                      fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
-                      display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                      transition: "background 0.15s", textDecoration: "none",
-                      boxSizing: "border-box",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
-                    onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                      <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-                    </svg>
-                    View on {a.platform} →
-                  </a>
+                  {a.link ? (
+                    <a
+                      href={a.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        width: "100%", padding: "10px 16px", borderRadius: 10,
+                        background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
+                        color: "rgb(96,165,250)",
+                        fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
+                        display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                        transition: "background 0.15s", textDecoration: "none",
+                        boxSizing: "border-box",
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
+                      onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                      </svg>
+                      View on {a.platform} →
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => setActivePin({ pinType: "apartment", data: a })}
+                      style={{
+                        width: "100%", padding: "10px 16px", borderRadius: 10,
+                        background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
+                        color: "rgb(96,165,250)",
+                        fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
+                        display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                        transition: "background 0.15s",
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
+                      onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
+                    >
+                      View details →
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

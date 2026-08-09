@@ -43,7 +43,15 @@ export default function TermsPage() {
         future, in which case pricing will be clearly communicated before you are charged.
       </p>
 
-      <h2 style={sectionTitle}>2. Information accuracy — no guarantees</h2>
+      <h2 style={sectionTitle}>2. Eligibility</h2>
+      <p style={body}>
+        You must be at least 16 years old to use 4UNI. If you are under 18 and cannot provide
+        your own photo ID for housing verification, we accept a photo ID from a parent or legal
+        guardian along with their confirmation that they consent to your use of the housing
+        features. We may suspend accounts where we cannot confirm eligibility.
+      </p>
+
+      <h2 style={sectionTitle}>3. Information accuracy — no guarantees</h2>
       <p style={body}>
         University data (tuition fees, deadlines, programs, subsidies) changes frequently and may
         be incomplete or out of date. The AI assistant can make mistakes. 4UNI is an
@@ -52,7 +60,7 @@ export default function TermsPage() {
         competent authority before making decisions.
       </p>
 
-      <h2 style={sectionTitle}>3. Housing and interactions between users</h2>
+      <h2 style={sectionTitle}>4. Housing and interactions between users</h2>
       <p style={body}>
         Housing profiles and listings are published by users. 4UNI does not verify identities,
         listings, or the accuracy of what users publish, and is not a party to any agreement you
@@ -60,7 +68,7 @@ export default function TermsPage() {
         a room or apartment (in person or by live video) before paying anything.
       </p>
 
-      <h2 style={sectionTitle}>4. Your account and conduct</h2>
+      <h2 style={sectionTitle}>5. Your account and conduct</h2>
       <p style={body}>
         You must provide accurate information and keep your credentials secure. You may not use
         4UNI to harass others, publish false listings, send spam, scrape the platform, or
@@ -68,13 +76,13 @@ export default function TermsPage() {
         rules.
       </p>
 
-      <h2 style={sectionTitle}>5. Fair use of the AI assistant</h2>
+      <h2 style={sectionTitle}>6. Fair use of the AI assistant</h2>
       <p style={body}>
         The AI assistant has a daily free message limit per user. Automated or abusive use (bots,
         bulk requests) is not allowed.
       </p>
 
-      <h2 style={sectionTitle}>6. Liability</h2>
+      <h2 style={sectionTitle}>7. Liability</h2>
       <p style={body}>
         To the maximum extent permitted by law, 4UNI is provided &quot;as is&quot; and we are
         not liable for decisions made based on information found on the platform, for
@@ -82,17 +90,25 @@ export default function TermsPage() {
         Nothing in these terms limits liability that cannot be limited under applicable law.
       </p>
 
-      <h2 style={sectionTitle}>7. Changes</h2>
+      <h2 style={sectionTitle}>8. Governing law</h2>
+      <p style={body}>
+        These terms are governed by Italian law. Any dispute not resolved amicably will be subject
+        to the exclusive jurisdiction of the competent Italian courts, without prejudice to any
+        mandatory consumer-protection rights you may have under the law of your country of
+        residence.
+      </p>
+
+      <h2 style={sectionTitle}>9. Changes</h2>
       <p style={body}>
         We may update these terms as the product evolves. Material changes will be announced on
         the site. Continuing to use 4UNI after a change means you accept the updated terms.
       </p>
 
-      <h2 style={sectionTitle}>8. Contact</h2>
+      <h2 style={sectionTitle}>10. Contact</h2>
       <p style={body}>
         Questions about these terms:{" "}
-        <a href="mailto:nixonmalvezzi@gmail.com" style={{ color: "var(--text-1)", textDecoration: "underline" }}>
-          nixonmalvezzi@gmail.com
+        <a href="mailto:admin1@4uni.online" style={{ color: "var(--text-1)", textDecoration: "underline" }}>
+          admin1@4uni.online
         </a>
         .
       </p>

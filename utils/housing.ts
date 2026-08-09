@@ -92,10 +92,12 @@ type ListingRow = {
   description: string | null;
   platform: string | null;
   link: string | null;
+  photo_path: string | null;
 };
 
 function listingToPin(row: ListingRow): ApartmentPin {
   const cityCoords = housingCityCoords[row.city];
+  const supabase = createClient();
   return {
     id: row.id,
     title: row.title,
@@ -111,6 +113,9 @@ function listingToPin(row: ListingRow): ApartmentPin {
       ? new Date(row.available_from).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })
       : undefined,
     description: row.description ?? undefined,
+    photo: row.photo_path
+      ? supabase.storage.from("housing-photos").getPublicUrl(row.photo_path).data.publicUrl
+      : undefined,
   };
 }
 
@@ -130,7 +135,7 @@ export async function fetchApartmentPins(): Promise<ApartmentPin[]> {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("housing_listings")
-    .select("id, title, city, lat, lng, price, rooms, furnished, available_from, description, platform, link")
+    .select("id, title, city, lat, lng, price, rooms, furnished, available_from, description, platform, link, photo_path")
     .order("created_at", { ascending: false });
   if (error) throw error;
   return (data as ListingRow[]).map(listingToPin);
@@ -221,5 +226,49 @@ export async function saveRoommateProfile(form: ProfileFormInput, idFile: File |
     },
     { onConflict: "user_id" }
   );
+  if (error) throw error;
+}
+
+// ── Listing save (Post an apartment form) ────────────────────────────────────
+
+export type ListingFormInput = {
+  title: string;
+  city: string;
+  price: string;
+  rooms: string;
+  furnished: boolean;
+  availableFrom: string; // yyyy-mm-dd, from an <input type="date">
+  description: string;
+};
+
+// Uploads the listing photo (if provided) and inserts the caller's listing.
+// Throws on failure; returns nothing the UI needs beyond success.
+export async function saveApartmentListing(form: ListingFormInput, photoFile: File | null): Promise<void> {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("not-signed-in");
+
+  let photoPath: string | undefined;
+  if (photoFile) {
+    // One folder per user (enforced by the bucket's RLS policies).
+    photoPath = `${user.id}/${Date.now()}-${photoFile.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+    const { error: uploadError } = await supabase.storage
+      .from("housing-photos")
+      .upload(photoPath, photoFile, { upsert: true });
+    if (uploadError) throw uploadError;
+  }
+
+  const { error } = await supabase.from("housing_listings").insert({
+    created_by: user.id,
+    title: form.title.trim(),
+    city: form.city,
+    price: Number(form.price),
+    rooms: form.rooms ? Number(form.rooms) : null,
+    furnished: form.furnished,
+    available_from: form.availableFrom || null,
+    description: form.description || null,
+    ...(photoPath ? { photo_path: photoPath } : {}),
+    is_active: true,
+  });
   if (error) throw error;
 }

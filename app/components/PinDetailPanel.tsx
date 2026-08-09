@@ -24,6 +24,7 @@ const PLATFORM_COLORS: Record<string, string> = {
   "HousingAnywhere": "201,163,92",
   "Spotahome":      "251,191,36",
   "Erasmusu":       "248,113,113",
+  "4UNI":           "201,163,92",
 };
 
 function platformColor(name: string): string {
@@ -195,6 +196,16 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20, padding: "20px 22px 24px" }}>
 
+      {/* Photo */}
+      {data.photo && (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={data.photo}
+          alt={data.title}
+          style={{ width: "100%", height: 180, objectFit: "cover", borderRadius: 14, border: "1px solid var(--border)" }}
+        />
+      )}
+
       {/* Price + furnished badge */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
         <div>
@@ -288,7 +299,9 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
         </a>
       ) : (
         <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)", fontSize: 13, color: "var(--text-3)", textAlign: "center" }}>
-          Listed on <strong style={{ color: "var(--text-2)" }}>{data.platform}</strong> — link coming soon
+          {data.platform === "4UNI"
+            ? "Posted directly by a student on 4UNI"
+            : <>Listed on <strong style={{ color: "var(--text-2)" }}>{data.platform}</strong> — link coming soon</>}
         </div>
       )}
 

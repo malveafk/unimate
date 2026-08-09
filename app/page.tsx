@@ -343,10 +343,10 @@ export default function Home() {
           {/* Header — plain heading, one word per feature highlighted in its own color, no eyebrow tag, no gradient-text */}
           <div className="reveal" style={{ marginBottom: 64, maxWidth: 620 }}>
             <h2 style={{ fontSize: "clamp(32px, 4.2vw, 48px)", fontWeight: 800, margin: 0, letterSpacing: "-1.3px", lineHeight: 1.15, color: "var(--text-1)" }}>
-              Two things stand between you and studying abroad: <span style={{ color: "rgb(52,211,153)" }}>the right school</span>, and <span style={{ color: "rgb(96,165,250)" }}>somewhere to live</span>.
+              Studying abroad really comes down to two things: <span style={{ color: "rgb(52,211,153)" }}>the right school</span>, and <span style={{ color: "rgb(96,165,250)" }}>somewhere decent to live</span>.
             </h2>
             <p style={{ fontSize: 15, color: "var(--text-2)", margin: "16px 0 0", lineHeight: 1.7, maxWidth: 460 }}>
-              4UNI handles both — real listings, real numbers, no guesswork.
+              We've got both covered — real numbers, not forty open tabs and a group chat full of rumours.
             </p>
           </div>
 
@@ -355,14 +355,14 @@ export default function Home() {
             <div className="reveal">
               <div style={{ borderLeft: "2px solid rgb(52,211,153)", paddingLeft: 20, marginBottom: 8 }}>
                 <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px", margin: "0 0 8px" }}>Find Your University</h3>
-                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Browse 24+ European universities filtered by country, faculty and language. Tuition fees, living costs, entry requirements and available programmes — before you apply.</p>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Filter through 24+ European universities by country, faculty or language, and see real tuition, living costs and entry requirements before you commit to anything.</p>
                 <TransitionLink href="/universities" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontSize: 13, fontWeight: 600, color: "rgb(52,211,153)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Explore universities →</TransitionLink>
               </div>
               <div>
                 {[
-                  { title: "Side-by-side Compare", desc: "Put two universities next to each other and compare tuition, living costs, teaching style and strengths at a glance." },
-                  { title: "AI Assistant", desc: "Ask anything — deadlines, required documents, language requirements, scholarship eligibility. Get instant, accurate answers." },
-                  { title: "Costs & Application Requirements", desc: "Every university profile shows tuition fees, monthly living costs, required documents and language certificates — no more digging through official websites." },
+                  { title: "Side-by-side Compare", desc: "Line up two universities and see which one actually wins on cost, teaching style, and what they're known for." },
+                  { title: "Ask Anything, Anytime", desc: "Deadlines, paperwork, scholarships, whatever's stressing you out — just ask. You'll get a real answer, not a template." },
+                  { title: "Costs & Application Requirements", desc: "Every profile lays out tuition, monthly costs, required documents and language certificates, so you're not digging through five university websites at 1am." },
                 ].map(({ title, desc }) => (
                   <div key={title} style={{ padding: "18px 0", borderTop: "1px solid var(--border)" }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>
@@ -376,16 +376,16 @@ export default function Home() {
             <div className="reveal reveal-d1">
               <div style={{ borderLeft: "2px solid rgb(96,165,250)", paddingLeft: 20, marginBottom: 8 }}>
                 <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px", margin: "0 0 8px" }}>Find Your Apartment</h3>
-                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Housing is one of the biggest challenges for international students. Best platforms, average costs per city, student housing options and how to avoid the common scams.</p>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Finding a place to live is genuinely the hardest part of moving abroad. Here's what actually works — the best platforms, real average costs per city, and how to spot a scam before you wire anyone a deposit.</p>
                 <TransitionLink href="/housing" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontSize: 13, fontWeight: 600, color: "rgb(96,165,250)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Browse housing →</TransitionLink>
               </div>
               <div>
                 {[
-                  { filters: null, title: "City Cost Guides", desc: "Average rent, utilities and transport costs for Amsterdam, Berlin, Paris, Barcelona and more — updated and broken down by neighbourhood." },
-                  { filters: null, title: "Best Platforms by Country", desc: "Kamernet, HousingAnywhere, Uniplaces, student halls — we tell you which platforms work best in each country and what to watch out for." },
-                  { filters: null, title: "Waiting Lists & Timelines", desc: "Student housing waiting lists can be 6–12 months. We tell you exactly when to register and how to maximise your chances of getting a room in time." },
-                  { filters: ["City", "Budget", "Size", "Furnished", "Distance to uni"], title: "Find an Apartment — with Filters", desc: "Filter by city, budget, size, furnished/unfurnished and distance to university. We surface the right listings from trusted platforms." },
-                  { filters: ["University", "Nationality", "Budget", "Lifestyle", "Language"], title: "Find a Roommate — with Filters", desc: "Splitting rent makes everything more affordable. Filter potential roommates by university, nationality, lifestyle habits and budget to find someone truly compatible." },
+                  { filters: null, title: "City Cost Guides", desc: "Real rent, utility and transport numbers for Amsterdam, Berlin, Paris, Barcelona and more, broken down by neighbourhood — so you know where you can actually afford to live." },
+                  { filters: null, title: "Best Platforms by Country", desc: "Kamernet, HousingAnywhere, Uniplaces, student halls — we'll tell you which ones are actually worth your time in each country, and which ones are full of scams." },
+                  { filters: null, title: "Waiting Lists & Timelines", desc: "Some student housing waitlists run 6 to 12 months. We tell you exactly when to sign up so you're not still hunting for a room the week before term starts." },
+                  { filters: ["City", "Budget", "Size", "Furnished", "Distance to uni"], title: "Find an Apartment — with Filters", desc: "Filter by city, budget, size, furnished or not, and how far you're willing to be from campus. We only show listings from platforms we actually trust." },
+                  { filters: ["University", "Nationality", "Budget", "Lifestyle", "Language"], title: "Find a Roommate — with Filters", desc: "Splitting rent changes everything. Filter by university, nationality, lifestyle and budget to find someone you'll actually get along with — not just whoever replied first." },
                 ].map(({ filters, title, desc }) => (
                   <div key={title} style={{ padding: "18px 0", borderTop: "1px solid var(--border)" }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>

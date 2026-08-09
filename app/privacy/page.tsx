@@ -44,6 +44,13 @@ export default function PrivacyPage() {
         choose to provide (name, age, university, city, budget, preferences, photo) so other
         students can find you as a roommate.
         <br />
+        <strong>Identity verification document.</strong> To keep the housing community safe, we
+        ask you to upload a photo ID (passport, national ID card, or driver&apos;s licence) before
+        your roommate profile goes live. This document is stored securely, is never shown to other
+        users, and is used only to confirm your identity and issue the ✓ Verified badge. Once we
+        add a third-party verification provider, that provider will be named here and will act as
+        an additional processor of this document under its own data processing agreement with us.
+        <br />
         <strong>Messages.</strong> Conversations you have with other users through 4UNI are
         stored so we can deliver them.
         <br />
@@ -55,7 +62,16 @@ export default function PrivacyPage() {
         abuse (rate limiting, daily message caps) and to understand how the product is used.
       </p>
 
-      <h2 style={sectionTitle}>2. Why we process it</h2>
+      <h2 style={sectionTitle}>2. Minimum age and verification for minors</h2>
+      <p style={body}>
+        4UNI is available to students aged 16 and over. If you are under 18 and are not able to
+        provide your own photo ID for housing verification, we will instead accept a photo ID from
+        a parent or legal guardian, together with their confirmation that they consent to your use
+        of the housing features. This is in addition to, not instead of, the standard identity
+        check described above.
+      </p>
+
+      <h2 style={sectionTitle}>3. Why we process it</h2>
       <p style={body}>
         We process your data to provide the service (contract, art. 6.1.b GDPR), to keep the
         platform secure and prevent abuse (legitimate interest, art. 6.1.f), and to comply with
@@ -63,28 +79,32 @@ export default function PrivacyPage() {
         advertising.
       </p>
 
-      <h2 style={sectionTitle}>3. Where your data lives</h2>
+      <h2 style={sectionTitle}>4. Where your data lives</h2>
       <p style={body}>
         Data is stored with Supabase (our database and authentication provider). AI chat messages
         are processed by Anthropic. Both act as processors on our behalf under their respective
-        data processing agreements.
+        data processing agreements. Identity verification documents are currently reviewed by our
+        team directly; we plan to introduce a specialised third-party verification provider, which
+        will be named here once selected.
       </p>
 
-      <h2 style={sectionTitle}>4. Cookies</h2>
+      <h2 style={sectionTitle}>5. Cookies</h2>
       <p style={body}>
         4UNI only uses cookies that are strictly necessary to keep you signed in
         (authentication session cookies). We do not use tracking or advertising cookies, which is
         why you do not see a cookie banner.
       </p>
 
-      <h2 style={sectionTitle}>5. Retention</h2>
+      <h2 style={sectionTitle}>6. Retention</h2>
       <p style={body}>
         We keep your data for as long as your account exists. If you delete your account, your
-        profile, housing profile and messages are deleted. Technical logs are kept for a limited
-        period for security purposes and then removed.
+        profile, housing profile and messages are deleted. Identity verification documents are
+        deleted once a review is complete and are not kept longer than necessary to confirm your
+        identity. Technical logs are kept for a limited period for security purposes and then
+        removed.
       </p>
 
-      <h2 style={sectionTitle}>6. Your rights</h2>
+      <h2 style={sectionTitle}>7. Your rights</h2>
       <p style={body}>
         Under the GDPR you can request access to, correction of, or deletion of your personal
         data, ask for a copy in a portable format, restrict or object to processing, and lodge a
@@ -92,11 +112,11 @@ export default function PrivacyPage() {
         dei Dati Personali).
       </p>
 
-      <h2 style={sectionTitle}>7. Contact</h2>
+      <h2 style={sectionTitle}>8. Contact</h2>
       <p style={body}>
         For any privacy request, write to{" "}
-        <a href="mailto:nixonmalvezzi@gmail.com" style={{ color: "var(--text-1)", textDecoration: "underline" }}>
-          nixonmalvezzi@gmail.com
+        <a href="mailto:admin1@4uni.online" style={{ color: "var(--text-1)", textDecoration: "underline" }}>
+          admin1@4uni.online
         </a>
         . We reply within 30 days as required by the GDPR.
       </p>

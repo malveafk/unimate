@@ -67,6 +67,7 @@ export type ApartmentPin = {
   rooms?: number;
   availableFrom?: string;
   description?: string;
+  photo?: string;        // public URL of a photo of the place, if provided
 };
 
 // ── Demo data (replace with Supabase rows in production) ──────────────────────
