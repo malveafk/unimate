@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { universities } from "../../../data/universities";
 import { universityMeta } from "../../../data/universityMeta";
+import { getUniversityCosts, formatMoney } from "../../../../utils/universityCosts";
 import ApplyPageLayout from "../../../components/ApplyPageLayout";
 
 // ── Helpers ───────────────────────────────────────────────────────
@@ -196,6 +197,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
   if (!uni) notFound();
 
   const meta = universityMeta[uni.id];
+  const costs = getUniversityCosts(uni);
   const [activeStep, setActiveStep] = useState(0);
   const [checkedSteps, setCheckedSteps] = useState<Set<number>>(new Set());
   const [selectedProgramme, setSelectedProgramme] = useState(uni.bachelors[0]?.id ?? "");
@@ -458,7 +460,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         ))}
         <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>
           <strong style={{ color: "var(--text-1)" }}>Estimated costs in {uni.city}:</strong>{" "}
-          {meta ? `€${meta.livingCostMin}–€${meta.livingCostMax}/month` : "Check university website"} including rent, food, transport and personal expenses.
+          {costs.living ? `${formatMoney(costs.living)}/month` : "Check university website"} including rent, food, transport and personal expenses.
         </div>
       </div>
     ),

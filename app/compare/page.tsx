@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useMemo, useState, useEffect, useRef, Children } from "react";
 import { getUniversities, type University } from "../../utils/universities";
-import { universityMeta, type UniversityMeta } from "../data/universityMeta";
+import { universityMeta } from "../data/universityMeta";
+import { getUniversityCosts, formatMoney, getBestFor } from "../../utils/universityCosts";
 import { trackComparison } from "../../utils/activity";
 
 /* ─── Types ─────────────────────────────────────── */
@@ -54,34 +55,6 @@ function parseCost(s: string): number {
   const m = s.match(/(\d[\d.,]*)/);
   if (!m) return 0;
   return parseInt(m[1].replace(/[.,]/g, ""), 10);
-}
-
-// Living-cost strings are ranges like "€900–€1,100/mese". Pull out the lower
-// and upper monthly figures so we can derive an annual total-cost estimate the
-// same way the Uni Page does — without relying on universityMeta (which only
-// covers ~half the catalogue and lags behind universities.ts).
-function parseLivingRange(s: string): [number, number] {
-  const parts = s.split("–");
-  const lo = parseCost(parts[0] ?? "");
-  const hi = parseCost(parts[1] ?? parts[0] ?? "");
-  return [lo || hi, hi || lo];
-}
-
-// Mirror of the Uni Page's "Best for" derivation so the two stay in sync.
-// Works off the live university fields (+ optional meta) and degrades
-// gracefully when a university has no meta entry.
-function getBestFor(u: University, meta: UniversityMeta | undefined): string[] {
-  const tags: string[] = [];
-  if (u.teaching.includes("PBL")) tags.push("Collaborative learners");
-  if (meta && meta.tuitionPerYear === 0) tags.push("Zero tuition");
-  if (meta && meta.tuitionPerYear > 0 && meta.tuitionPerYear < 1500) tags.push("Budget-conscious");
-  if (u.languages.includes("English")) tags.push("English-language programmes");
-  if (u.strengths.some((s) => s.toLowerCase().includes("research"))) tags.push("Research-focused students");
-  if (u.ranking) tags.push("Rankings-aware students");
-  if (u.strengths.some((s) => s.toLowerCase().includes("business") || s.toLowerCase().includes("economics"))) tags.push("Business & Economics");
-  if (u.strengths.some((s) => s.toLowerCase().includes("engineering") || s.toLowerCase().includes("tech"))) tags.push("Engineering & Tech");
-  if (meta && meta.scholarships) tags.push("Scholarship seekers");
-  return tags.slice(0, 4);
 }
 
 
@@ -394,8 +367,12 @@ export default function Compare() {
     setSelectedYear(null);
   };
 
-  const tuitions  = unis.map((u) => (u ? parseCost(u.tuition) : 0));
-  const livings   = unis.map((u) => (u ? parseCost(u.livingCost.split("–")[1] || u.livingCost) : 0));
+  // Every cost figure comes from utils/universityCosts, the same helper the
+  // Uni Page uses, so the two pages can never show different numbers.
+  const costs = unis.map((u) => (u ? getUniversityCosts(u) : null));
+
+  const tuitions  = costs.map((c) => c?.tuition?.max ?? 0);
+  const livings   = costs.map((c) => c?.living?.max ?? 0);
   const maxTuition = Math.max(...tuitions, 1);
   const maxLiving  = Math.max(...livings, 1);
   const minTuition = Math.min(...tuitions.filter(Boolean));
@@ -405,17 +382,6 @@ export default function Compare() {
   // Only ~half the catalogue has a meta entry, so every consumer below must
   // treat `undefined` as "not available" rather than assume it exists.
   const metas = unis.map((u) => (u ? universityMeta[u.id] : undefined));
-
-  // Annual total-cost estimate derived straight from the live tuition/living
-  // strings (the freshest source), so it covers every university and never
-  // contradicts the figures shown in the Costs rows above.
-  const totals = unis.map((u) => {
-    if (!u) return null;
-    const t = parseCost(u.tuition);
-    const [lmin, lmax] = parseLivingRange(u.livingCost);
-    if (lmax <= 0) return null; // no parseable living figure → can't estimate
-    return { min: t + lmin * 12, max: t + lmax * 12 };
-  });
 
   // Years to display (filtered or all)
   const yearsToShow = selectedYear !== null ? [selectedYear] : availableYears;
@@ -612,17 +578,22 @@ export default function Compare() {
             <Row label="Est. total / year" last>
               {unis.map((uni, idx) => {
                 if (!uni) return <Cell key={idx}><span style={{ color: "var(--text-3)" }}>—</span></Cell>;
-                const total = totals[idx];
+                const total = costs[idx]?.total ?? null;
                 return (
                   <Cell key={uni.id}>
                     {total ? (
                       <>
                         <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.3px" }}>
-                          €{total.min.toLocaleString()}–€{total.max.toLocaleString()}
+                          {formatMoney(total)}
                         </span>
                         <span style={{ display: "block", fontSize: 10, color: "var(--text-3)", marginTop: 3 }}>tuition + 12 months living</span>
                       </>
-                    ) : <span style={{ color: "var(--text-3)" }}>—</span>}
+                    ) : (
+                      <>
+                        <span style={{ color: "var(--text-3)" }}>—</span>
+                        <span style={{ display: "block", fontSize: 10, color: "var(--text-3)", marginTop: 3 }}>tuition and living use different currencies</span>
+                      </>
+                    )}
                   </Cell>
                 );
               })}
@@ -669,7 +640,7 @@ export default function Compare() {
             </Row>
             <Row label="Best for">
               {unis.map((uni, idx) => {
-                const tags = uni ? getBestFor(uni, metas[idx]) : [];
+                const tags = uni ? getBestFor(uni, metas[idx], costs[idx]!) : [];
                 return (
                   <Cell key={uni?.id ?? idx}>
                     {uni && tags.length > 0 ? (
