@@ -100,24 +100,50 @@ function mapStaticUniversity(uni: StaticUniversity): University {
   };
 }
 
+// PostgREST tronca ogni select a un massimo di righe (di default 1000), quindi
+// una tabella grande come `courses` va letta a pagine: senza questo, le
+// università in fondo all'elenco perderebbero silenziosamente il curriculum.
+const PAGE_SIZE = 1000;
+
+async function selectAll<T>(table: string): Promise<T[]> {
+  const all: T[] = [];
+  for (let from = 0; ; from += PAGE_SIZE) {
+    const { data, error } = await supabase
+      .from(table)
+      .select("*")
+      .range(from, from + PAGE_SIZE - 1);
+
+    if (error) throw error;
+    if (!data || data.length === 0) break;
+
+    all.push(...(data as T[]));
+    if (data.length < PAGE_SIZE) break;
+  }
+  return all;
+}
+
 // Prende tutte le università insieme ai bachelor che appartengono a ciascuna.
 // Se Supabase non è raggiungibile, ripiega sui dati statici così il sito
 // resta utilizzabile invece di mostrare un errore.
 export async function getUniversities(): Promise<University[]> {
   try {
-    const [
-      { data: rows, error: uniError },
-      { data: bachelors, error: bachError },
-      { data: courses, error: courseError },
-    ] = await Promise.all([
-      supabase.from("universities").select("*"),
-      supabase.from("bachelors").select("*"),
-      supabase.from("courses").select("*"),
+    const [rows, bachelors, courses] = await Promise.all([
+      selectAll<UniversityRow>("universities"),
+      selectAll<{
+        id: string;
+        university_id: string;
+        name: string;
+        duration: string;
+        language: string;
+        description: string;
+      }>("bachelors"),
+      selectAll<{
+        bachelor_id: string;
+        name: string;
+        credits: string | null;
+        year: number | null;
+      }>("courses"),
     ]);
-
-    if (uniError) throw uniError;
-    if (bachError) throw bachError;
-    if (courseError) throw courseError;
 
     return (rows ?? []).map((row) =>
       mapRow(

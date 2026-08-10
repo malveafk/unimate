@@ -6,6 +6,13 @@ import { usePathname } from "next/navigation";
 import { faculties } from "../data/universities";
 import { universityMeta } from "../data/universityMeta";
 import { getUniversities, type University } from "../../utils/universities";
+import {
+  getUniversityCosts,
+  formatMoney,
+  comparableTuition,
+  comparableLiving,
+  getBestFor,
+} from "../../utils/universityCosts";
 import dynamic from "next/dynamic";
 
 const UniversityMap = dynamic(() => import("../components/UniversityMap"), { ssr: false });
@@ -112,6 +119,7 @@ export default function Universities() {
 
   const filtered = universities.filter((u) => {
     const meta = universityMeta[u.id];
+    const costs = getUniversityCosts(u);
 
     const matchCountry = !browsingCountry || u.country === browsingCountry;
     const matchSearch =
@@ -127,20 +135,22 @@ export default function Universities() {
       );
 
     const matchTuition = (() => {
-      if (tuitionFilter === "any" || !meta) return true;
+      if (tuitionFilter === "any") return true;
       const b = TUITION_BRACKETS.find(x => x.value === tuitionFilter);
       if (!b) return true;
-      const t = meta.tuitionPerYear;
+      const t = comparableTuition(costs);
+      if (t === null) return true; // not derivable → don't hide the university
       if (b.min !== undefined && t < b.min) return false;
       if (b.max !== undefined && t >= b.max) return false;
       return true;
     })();
 
     const matchLiving = (() => {
-      if (livingFilter === "any" || !meta) return true;
+      if (livingFilter === "any") return true;
       const b = LIVING_BRACKETS.find(x => x.value === livingFilter);
       if (!b) return true;
-      const avg = (meta.livingCostMin + meta.livingCostMax) / 2;
+      const avg = comparableLiving(costs);
+      if (avg === null) return true; // not derivable → don't hide the university
       if (b.min !== undefined && avg < b.min) return false;
       if (b.max !== undefined && avg >= b.max) return false;
       return true;
@@ -167,10 +177,15 @@ export default function Universities() {
 
   const countryList = Object.values(countryGroups).sort((a, b) => a.country.localeCompare(b.country));
 
+  // Averaged over the derivable EUR figures only: mixing GBP/CHF into one mean
+  // would be meaningless, and the card that shows this is labelled in euros.
   function getAvgTuition(unis: typeof universities) {
-    const withMeta = unis.filter(u => universityMeta[u.id]);
-    if (!withMeta.length) return null;
-    return Math.round(withMeta.reduce((s, u) => s + universityMeta[u.id].tuitionPerYear, 0) / withMeta.length);
+    const values = unis
+      .map(u => getUniversityCosts(u).tuition)
+      .filter((t): t is NonNullable<typeof t> => t !== null && t.currency === "EUR")
+      .map(t => t.max);
+    if (!values.length) return null;
+    return Math.round(values.reduce((s, v) => s + v, 0) / values.length);
   }
 
   function getTopStrengths(unis: typeof universities) {
@@ -184,19 +199,8 @@ export default function Universities() {
     return out;
   }
 
-  function getBestFor(u: typeof universities[0], meta: typeof universityMeta[string] | undefined): string[] {
-    const tags: string[] = [];
-    if (u.teaching.includes("PBL")) tags.push("Collaborative learners");
-    if (meta && meta.tuitionPerYear === 0) tags.push("Zero tuition");
-    if (meta && meta.tuitionPerYear > 0 && meta.tuitionPerYear < 1500) tags.push("Budget-conscious");
-    if (u.languages.includes("English")) tags.push("English-language programmes");
-    if (u.strengths.some(s => s.toLowerCase().includes("research"))) tags.push("Research-focused students");
-    if (u.ranking) tags.push("Rankings-aware students");
-    if (u.strengths.some(s => s.toLowerCase().includes("business") || s.toLowerCase().includes("economics"))) tags.push("Business & Economics");
-    if (u.strengths.some(s => s.toLowerCase().includes("engineering") || s.toLowerCase().includes("tech"))) tags.push("Engineering & Tech");
-    if (meta && meta.scholarships) tags.push("Scholarship seekers");
-    return tags.slice(0, 4);
-  }
+  // getBestFor now lives in utils/universityCosts so the Compare Page renders
+  // exactly the same tags.
 
   return (
     <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px 80px" }}>
@@ -505,6 +509,7 @@ export default function Universities() {
         {filtered.map((uni) => {
           const isExpanded = expandedId === uni.id;
           const meta = universityMeta[uni.id];
+          const costs = getUniversityCosts(uni);
 
           return (
             <div
@@ -572,13 +577,13 @@ export default function Universities() {
                       <div style={{ background: "var(--panel)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 5 }}>Tuition / yr</div>
                         <div style={{ fontSize: 14, fontWeight: 700, color: "var(--green)", letterSpacing: "-0.2px" }}>
-                          {meta ? (meta.tuitionPerYear === 0 ? "Free" : `€${meta.tuitionPerYear.toLocaleString()}`) : uni.tuition}
+                          {formatMoney(costs.tuition)}
                         </div>
                       </div>
                       <div style={{ background: "var(--panel)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 5 }}>Living / mo</div>
                         <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.2px" }}>
-                          {meta ? `€${meta.livingCostMin}–€${meta.livingCostMax}` : uni.livingCost}
+                          {formatMoney(costs.living)}
                         </div>
                       </div>
                       <div style={{ background: "var(--panel)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" }}>
@@ -651,13 +656,13 @@ export default function Universities() {
                       <div style={{ background: "var(--panel)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 6 }}>Tuition / yr</div>
                         <div style={{ fontSize: 16, fontWeight: 800, color: "var(--green)" }}>
-                          {meta ? (meta.tuitionPerYear === 0 ? "Free" : `€${meta.tuitionPerYear.toLocaleString()}`) : uni.tuition}
+                          {formatMoney(costs.tuition)}
                         </div>
                       </div>
                       <div style={{ background: "var(--panel)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 6 }}>Living / mo</div>
                         <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-1)" }}>
-                          {meta ? `€${meta.livingCostMin}–€${meta.livingCostMax}` : uni.livingCost}
+                          {formatMoney(costs.living)}
                         </div>
                       </div>
                       <div style={{ background: "var(--panel)", borderRadius: 10, padding: "14px", border: "1px solid var(--border)" }}>
@@ -709,7 +714,7 @@ export default function Universities() {
                     </div>
 
                     {/* Best for */}
-                    {(() => { const tags = getBestFor(uni, meta); return tags.length > 0 ? (
+                    {(() => { const tags = getBestFor(uni, meta, costs); return tags.length > 0 ? (
                       <div>
                         <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 12 }}>Best for</div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -721,30 +726,30 @@ export default function Universities() {
                     ) : null; })()}
 
                     {/* For parents — cost breakdown */}
-                    {meta && (
+                    {(
                       <div style={{ background: "var(--panel)", borderRadius: 14, padding: "20px", border: "1px solid var(--border)" }}>
                         <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 16 }}>For parents — annual cost estimate</div>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                           <div>
                             <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Tuition / year</div>
                             <div style={{ fontSize: 16, fontWeight: 700, color: "var(--green)" }}>
-                              {meta.tuitionPerYear === 0 ? "Free" : `€${meta.tuitionPerYear.toLocaleString()}`}
+                              {formatMoney(costs.tuition)}
                             </div>
                           </div>
                           <div>
                             <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Living / month</div>
-                            <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>€{meta.livingCostMin}–€{meta.livingCostMax}</div>
+                            <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>{formatMoney(costs.living)}</div>
                           </div>
                           <div>
                             <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Est. total / year</div>
                             <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>
-                              €{(meta.tuitionPerYear + meta.livingCostMin * 12).toLocaleString()}–€{(meta.tuitionPerYear + meta.livingCostMax * 12).toLocaleString()}
+                              {formatMoney(costs.total)}
                             </div>
                           </div>
                           <div>
                             <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 4 }}>Scholarships</div>
-                            <div style={{ fontSize: 14, fontWeight: 600, color: meta.scholarships ? "var(--green)" : "var(--text-3)" }}>
-                              {meta.scholarships ? "Available" : "None listed"}
+                            <div style={{ fontSize: 14, fontWeight: 600, color: meta?.scholarships ? "var(--green)" : "var(--text-3)" }}>
+                              {meta ? (meta.scholarships ? "Available" : "None listed") : "—"}
                             </div>
                           </div>
                         </div>

@@ -1,7 +1,4 @@
 export type UniversityMeta = {
-  tuitionPerYear: number;          // euros / year (EU/EEA student rate)
-  livingCostMin: number;           // euros / month
-  livingCostMax: number;           // euros / month
   applicationDeadline: string;     // human-readable
   applicationDeadlineMonth: number | null; // 1–12, null = rolling / no fixed date
   scholarships: boolean;
@@ -13,9 +10,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── NETHERLANDS ─────────────────────────────────── */
   maastricht: {
-    tuitionPerYear: 2314,
-    livingCostMin: 900,
-    livingCostMax: 1100,
     applicationDeadline: "1 April 2026",
     applicationDeadlineMonth: 4,
     scholarships: true,
@@ -29,9 +23,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   amsterdam: {
-    tuitionPerYear: 2314,
-    livingCostMin: 1100,
-    livingCostMax: 1400,
     applicationDeadline: "1 May 2026",
     applicationDeadlineMonth: 5,
     scholarships: true,
@@ -45,9 +36,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   erasmus: {
-    tuitionPerYear: 2314,
-    livingCostMin: 1000,
-    livingCostMax: 1200,
     applicationDeadline: "15 April 2026",
     applicationDeadlineMonth: 4,
     scholarships: true,
@@ -61,9 +49,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   groningen: {
-    tuitionPerYear: 2314,
-    livingCostMin: 800,
-    livingCostMax: 1050,
     applicationDeadline: "1 May 2026",
     applicationDeadlineMonth: 5,
     scholarships: true,
@@ -77,9 +62,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   "tu-delft": {
-    tuitionPerYear: 2314,
-    livingCostMin: 900,
-    livingCostMax: 1200,
     applicationDeadline: "15 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: true,
@@ -93,9 +75,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   leiden: {
-    tuitionPerYear: 2314,
-    livingCostMin: 1000,
-    livingCostMax: 1300,
     applicationDeadline: "15 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: true,
@@ -111,9 +90,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── GERMANY ─────────────────────────────────────── */
   "lmu-munich": {
-    tuitionPerYear: 300,
-    livingCostMin: 900,
-    livingCostMax: 1200,
     applicationDeadline: "15 July 2026",
     applicationDeadlineMonth: 7,
     scholarships: true,
@@ -128,9 +104,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   "tu-munich": {
-    tuitionPerYear: 300,
-    livingCostMin: 900,
-    livingCostMax: 1200,
     applicationDeadline: "15 January 2026",
     applicationDeadlineMonth: 1,
     scholarships: true,
@@ -145,9 +118,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   "humboldt-berlin": {
-    tuitionPerYear: 314,
-    livingCostMin: 850,
-    livingCostMax: 1100,
     applicationDeadline: "15 July 2026",
     applicationDeadlineMonth: 7,
     scholarships: false,
@@ -163,9 +133,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── SPAIN ───────────────────────────────────────── */
   barcelona: {
-    tuitionPerYear: 1500,
-    livingCostMin: 900,
-    livingCostMax: 1150,
     applicationDeadline: "30 June 2026",
     applicationDeadlineMonth: 6,
     scholarships: false,
@@ -179,9 +146,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   complutense: {
-    tuitionPerYear: 1300,
-    livingCostMin: 800,
-    livingCostMax: 1050,
     applicationDeadline: "30 June 2026",
     applicationDeadlineMonth: 6,
     scholarships: false,
@@ -195,9 +159,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   "ie-university": {
-    tuitionPerYear: 22000,
-    livingCostMin: 1000,
-    livingCostMax: 1300,
     applicationDeadline: "Rolling admissions",
     applicationDeadlineMonth: null,
     scholarships: true,
@@ -214,9 +175,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── FRANCE ──────────────────────────────────────── */
   "sciences-po": {
-    tuitionPerYear: 200,
-    livingCostMin: 1100,
-    livingCostMax: 1500,
     applicationDeadline: "31 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: true,
@@ -231,9 +189,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   sorbonne: {
-    tuitionPerYear: 200,
-    livingCostMin: 1100,
-    livingCostMax: 1400,
     applicationDeadline: "15 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: false,
@@ -247,9 +202,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   lyon: {
-    tuitionPerYear: 170,
-    livingCostMin: 750,
-    livingCostMax: 1000,
     applicationDeadline: "15 June 2026",
     applicationDeadlineMonth: 6,
     scholarships: false,
@@ -264,9 +216,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── ITALY ───────────────────────────────────────── */
   bocconi: {
-    tuitionPerYear: 14000,
-    livingCostMin: 1050,
-    livingCostMax: 1350,
     applicationDeadline: "15 January 2026",
     applicationDeadlineMonth: 1,
     scholarships: true,
@@ -281,9 +230,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   bologna: {
-    tuitionPerYear: 2900,
-    livingCostMin: 800,
-    livingCostMax: 1050,
     applicationDeadline: "30 June 2026",
     applicationDeadlineMonth: 6,
     scholarships: true,
@@ -298,9 +244,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   polimi: {
-    tuitionPerYear: 3800,
-    livingCostMin: 1000,
-    livingCostMax: 1300,
     applicationDeadline: "15 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: true,
@@ -315,9 +258,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── PORTUGAL ────────────────────────────────────── */
   lisbon: {
-    tuitionPerYear: 1063,
-    livingCostMin: 700,
-    livingCostMax: 950,
     applicationDeadline: "31 July 2026",
     applicationDeadlineMonth: 7,
     scholarships: false,
@@ -332,9 +272,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   porto: {
-    tuitionPerYear: 950,
-    livingCostMin: 600,
-    livingCostMax: 800,
     applicationDeadline: "31 July 2026",
     applicationDeadlineMonth: 7,
     scholarships: false,
@@ -349,9 +286,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── SWITZERLAND ─────────────────────────────────── */
   "eth-zurich": {
-    tuitionPerYear: 1457,
-    livingCostMin: 2000,
-    livingCostMax: 2600,
     applicationDeadline: "15 December 2025",
     applicationDeadlineMonth: 12,
     scholarships: true,
@@ -367,9 +301,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── BELGIUM ─────────────────────────────────────── */
   "ku-leuven": {
-    tuitionPerYear: 1067,
-    livingCostMin: 900,
-    livingCostMax: 1200,
     applicationDeadline: "1 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: true,
@@ -385,9 +316,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── AUSTRIA ─────────────────────────────────────── */
   vienna: {
-    tuitionPerYear: 363,
-    livingCostMin: 900,
-    livingCostMax: 1200,
     applicationDeadline: "5 September 2026",
     applicationDeadlineMonth: 9,
     scholarships: false,
@@ -403,9 +331,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── DENMARK ─────────────────────────────────────── */
   copenhagen: {
-    tuitionPerYear: 0,
-    livingCostMin: 1300,
-    livingCostMax: 1800,
     applicationDeadline: "15 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: true,
@@ -420,9 +345,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   dtu: {
-    tuitionPerYear: 0,
-    livingCostMin: 1200,
-    livingCostMax: 1600,
     applicationDeadline: "15 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: false,
@@ -437,9 +359,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   aarhus: {
-    tuitionPerYear: 0,
-    livingCostMin: 1100,
-    livingCostMax: 1500,
     applicationDeadline: "15 March 2026",
     applicationDeadlineMonth: 3,
     scholarships: false,
@@ -455,9 +374,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
 
   /* ── SWEDEN ──────────────────────────────────────── */
   kth: {
-    tuitionPerYear: 0,
-    livingCostMin: 1000,
-    livingCostMax: 1400,
     applicationDeadline: "15 January 2026",
     applicationDeadlineMonth: 1,
     scholarships: false,
@@ -472,9 +388,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   lund: {
-    tuitionPerYear: 0,
-    livingCostMin: 900,
-    livingCostMax: 1200,
     applicationDeadline: "15 January 2026",
     applicationDeadlineMonth: 1,
     scholarships: false,
@@ -489,9 +402,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   stockholm: {
-    tuitionPerYear: 0,
-    livingCostMin: 1100,
-    livingCostMax: 1500,
     applicationDeadline: "15 January 2026",
     applicationDeadlineMonth: 1,
     scholarships: false,
@@ -506,9 +416,6 @@ export const universityMeta: Record<string, UniversityMeta> = {
   },
 
   uppsala: {
-    tuitionPerYear: 0,
-    livingCostMin: 900,
-    livingCostMax: 1200,
     applicationDeadline: "15 January 2026",
     applicationDeadlineMonth: 1,
     scholarships: false,

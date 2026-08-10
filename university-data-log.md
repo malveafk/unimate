@@ -1,5 +1,53 @@
 # University data log
 
+## 2026-08-08 — ADD (Germania + Svizzera, da incrocio EduRank top 100)
+
+Giro ADD mirato: incrociata la top 100 università europee di EduRank (edurank.org/geo/eu/, agg. marzo 2026) con `universities.ts`. Delle 100, ne mancavano 64. Aggiunte in questo giro le **18 tedesche** e le **5 svizzere** mancanti (23 atenei, da 46 a 69 totali). Nessun VERIFY questo giro.
+
+### Aggiunte — Germania (18)
+Tutte inserite nel blocco `// GERMANY`. Tasse semestrali verificate una per una su fonte ufficiale (le università pubbliche tedesche non hanno tuition: si paga solo il Semesterbeitrag, che include quasi ovunque il Deutschland-Semesterticket).
+
+- **heidelberg** (Heidelberg University) — €189,80/sem + **€1.500/sem per non-UE/SEE** (regola Baden-Württemberg). QS #80. Bachelor: Molecular Biotechnology (tedesco). Fonti: uni-heidelberg.de/beitraege-gebuehren, uni-heidelberg.de tuition-fees-for-international-students.
+- **hamburg** (University of Hamburg) — €384/sem (estivo), ~€400 invernale. QS #218. Bachelor: BWL (tedesco). Fonti: uni-hamburg.de/campuscenter semesterbeitrag, bwl.uni-hamburg.de.
+- **tuebingen** (University of Tübingen) — €194,80–197,80/sem + €1.500/sem non-UE/SEE. QS #215. Bachelor: Medizininformatik (tedesco). Fonti: uni-tuebingen.de/semesterbeitraege, uni-tuebingen.de verzeichnis-der-studiengaenge.
+- **fu-berlin** (Freie Universität Berlin) — €376,80/sem (WS 26/27), €358,80 estivo. QS #88. Bachelor: Psychologie B.Sc. (tedesco). Fonti: fu-berlin.de/studium/gebuehren, ewi-psy.fu-berlin.de.
+- **bonn** (University of Bonn) — €248,07/sem (WS 26/27). QS #209. Bachelor: VWL/Economics (tedesco) — **lista moduli 1° anno verificata**. Fonti: uni-bonn.de/costs, econ.uni-bonn.de/study-structure.
+- **goettingen** (University of Göttingen) — ~€157/sem ⚠️ vedi "da controllare". QS #261. Bachelor: VWL B.Sc. (riformato dal WS 26/27). Fonti: uni-goettingen.de/semesterbeiträge, uni-goettingen.de/594370.
+- **freiburg** (University of Freiburg) — €190/sem + €1.500/sem non-UE/SEE. QS #201. Bachelor: **Liberal Arts and Sciences — 4 anni, 240 ECTS, interamente in INGLESE** (University College Freiburg): rarissimo nel pubblico tedesco, ottimo candidato da mettere in evidenza sul sito. Fonti: uni-freiburg.de/semesterbeitrag-studiengebuehren, uni-freiburg.de/ucf/las/curriculum.
+- **cologne** (University of Cologne) — €304,25/sem. QS #269. Bachelor: BWL (tedesco). Fonti: studsek.uni-koeln.de/semesterbeitrag, wiso.uni-koeln.de programme-structure.
+- **rwth-aachen** (RWTH Aachen) — ~€320/sem. QS #105. Bachelor: Informatik B.Sc. — **lista moduli completa con CP e semestre, la meglio documentata del giro**. Fonti: asta.rwth-aachen.de, sc.informatik.rwth-aachen.de/aufbau-und-ablauf.
+- **fau-erlangen** (FAU Erlangen-Nürnberg) — €82/sem (contributo Studierendenwerk dal WS 26/27), ticket a parte. QS #230. Bachelor: Molekulare Medizin (moduli GOP con ECTS verificati). Fonti: werkswelt.de/studentenwerkbeitrag, med.fau.de/molmed-b.
+- **tu-dresden** (TU Dresden) — €361/sem (WS 26/27). Ranking omesso (posizione QS 2026 non verificata). Bachelor: Informatik B.Sc. — **tabella moduli con LP e semestre verificata**. NB: Maschinenbau a Dresda è **Diplom da 10 semestri / 300 ECTS**, non un bachelor → scartato apposta. Fonti: stura.tu-dresden.de/semesterbeitrag, tu-dresden.de bachelor-informatik.
+- **kit-karlsruhe** (KIT) — ~€164/sem (10,50 + 70 admin + 77,70 Studierendenwerk + 5,99 AStA) + €1.500/sem non-UE/SEE. QS #98. Bachelor: Informatik B.Sc. (aree modulari con CP). Fonti: asta-kit.de/beitragsordnung, sle.kit.edu/bachelor-informatics.
+- **muenster** (University of Münster) — €369,50/sem (WS 26/27). Ranking omesso. Bachelor: BWL — **lista moduli completa con ECTS**. Fonti: uni-muenster.de/studium/kosten, wiwi.uni-muenster.de bachelor/bwl/studium.
+- **leipzig** (Leipzig University) — €332,30/sem (WS 26/27). Ranking omesso. Bachelor: Psychologie B.Sc. (moduli 1° semestre con LP verificati). Fonti: uni-leipzig.de/rueckmeldung-und-semesterbeitrag, lw.uni-leipzig.de.
+- **mainz** (JGU Mainz) — €343,80/sem (dal WS 25/26). Ranking omesso. Bachelor: Publizistik B.A. Fonti: campus-mainz.net semesterbeitrag, studium.uni-mainz.de.
+- **tu-berlin** (TU Berlin) — €379,06/sem (WS 26/27), scomposizione verificata. Ranking omesso. Bachelor: Informatik B.Sc. Fonti: tu.berlin/studierendensekretariat/semester-fees, tu.berlin computer-science-b-sc.
+- **wuerzburg** (University of Würzburg) — €110,10/sem (WS 26/27), tra i più economici. Ranking omesso. Bachelor: **Games Engineering** — uno dei pochissimi bachelor dedicati ai videogiochi nel pubblico tedesco, buon gancio per il target 4UNI. Fonti: uni-wuerzburg.de Merkblatt Rückmeldung WS26/27, uni-wuerzburg.de/studium/angebot/faecher/games-engineering.
+- **bochum** (Ruhr University Bochum) — €340/sem. Ranking omesso. Bachelor: **IT-Sicherheit/Informationstechnik** (Horst-Görtz-Institut, leader europeo in cybersecurity; accesso zulassungsfrei). Fonti: international.ruhr-uni-bochum.de/costs, studienangebot.ruhr-uni-bochum.de.
+
+### Aggiunte — Svizzera (5)
+Inserite nel blocco `// SWITZERLAND` (dopo ETH ed EPFL). In Svizzera le tasse sono reali e in diversi casi differenziate per residenza al momento del diploma — verificate una per una.
+
+- **uzh** (University of Zurich) — CHF 779/sem residenti (720 tuition + 59 quote obbligatorie), **CHF 1.279/sem internazionali** (supplemento CHF 500 al bachelor). QS #100. Bachelor: BWL, Rechtswissenschaft. Fonti: uzh.ch/studies/application/fees, swissuniversities.ch.
+- **geneva** (University of Geneva) — **CHF 500/sem, stessa cifra per tutti** (65 fisse + 435 tuition): tra le più basse in Svizzera. QS #155. Bachelor: BARI (relations internationales, corsi 1° anno verificati) + BASCRI (90 ECTS computational + 90 IR). Fonti: unige.ch/immatriculations/informations/taxes, unige.ch/gsi plan-d'études.
+- **bern** (University of Bern) — CHF 850/sem residenti, **~CHF 2.550/sem internazionali dall'autunno 2026** (supplemento CHF 1.700; regime transitorio a CHF 200 per chi era già iscritto prima). Cambio importante, segnalato anche nella description. QS #184. Bachelor: Medicine, VWL. Fonti: unibe.ch fees, swissuniversities.ch.
+- **basel** (University of Basel) — **CHF 850/sem uguale per svizzeri e stranieri**; il Canton Basilea-Campagna ha respinto (dic. 2025) l'aumento per studenti internazionali. Miglior rapporto qualità/prezzo svizzero del gruppo. QS #158. Bachelor: Business and Economics. Fonti: unibas.ch Tuition-Fees, wwz.unibas.ch, bzbasel.ch (dic. 2025).
+- **unil** (University of Lausanne) — CHF 580/sem per tutti. QS #212. Bachelor: **BSc Management e BSc Economics di HEC Lausanne, entrambi bilingui francese/inglese** — ogni corso del 1° e 2° anno è tenuto in entrambe le lingue e si può scegliere lezione per lezione, esami inclusi. Forte argomento di vendita per studenti italiani. Fonti: unil.ch/immat FAQ, unil.ch/hec bachelor, unil.ch/news (bilinguismo HEC).
+
+### Da controllare a mano
+- **goettingen — tuition**: le fonti danno €127/sem dal WS 24/25 con aumenti programmati (€157 dal SS 2026, poi fino a €197 nel 2030), ma non è chiaro se questa cifra sia il **totale** o solo la quota Studentenwerk senza Semesterticket (sarebbe anomalo: gli altri atenei tedeschi con ticket stanno sui €250–380). Ho scritto "~€157/semestre" in via prudenziale. La pagina ufficiale "Höhe der Semesterbeiträge" non era raggiungibile in fetch. **Da riverificare.**
+- **fau-erlangen — tasse non-UE dal 2027**: la stampa locale (nn.de) riporta che la Baviera introdurrà tasse per studenti extra-UE alla FAU dal 2027, "fino a €6.000/semestre". **Non confermato da fonte ufficiale** → non inserito come dato, solo accennato in modo cauto nella description. Da verificare su fau.de quando escono le cifre definitive. Se confermato, riguarda anche **lmu-munich** e **tu-munich** già presenti nel file, che oggi riportano solo le tasse admin.
+- **livingCost tedeschi**: sono stime per fascia di città (Monaco/Amburgo €1.100–1.500; Berlino/Colonia/Francoforte €950–1.250; città medio-piccole e Est più basse), estrapolate da fonti aggregate sul costo della vita studentesco in Germania, non da pagine ufficiali dei singoli atenei. Ragionevoli ma non verificate ateneo per ateneo.
+- **Ranking mancanti**: posizione QS 2026 non verificata (quindi campo `ranking` omesso, come da regola) per **tu-dresden, muenster, leipzig, mainz, tu-berlin, wuerzburg, bochum**. Da completare in un prossimo giro.
+- **Numero di bachelor**: la maggior parte dei nuovi atenei ha **1 solo bachelor** (UZH, Ginevra, Berna e UNIL ne hanno 2). Scelta deliberata: ho inserito solo i programmi di cui sono riuscito a documentare il curriculum su fonte ufficiale, invece di riempire con corsi non verificati. Da espandere nei prossimi giri.
+### Seed e bugfix
+- **Seed Supabase ESEGUITO** (con ok esplicito di Nicolò): `npx tsx --env-file=.env.local seed.ts`, zero errori. DB ora a **69 università, 132 bachelor, 1922 corsi**.
+- ⚠️ **Bug trovato e corretto in `utils/universities.ts`**: `getUniversities()` leggeva le tabelle con `select("*")` senza paginazione. PostgREST tronca a 1000 righe, e con l'aggiunta di questo giro i corsi sono passati da ~1.100 a 1.922 → le università in fondo all'elenco (tutte le nuove) risultavano **senza curriculum** sul sito, in silenzio. Aggiunto un helper `selectAll()` che pagina con `.range()` a blocchi da 1000. Verificato: RWTH Aachen ora mostra i 20 moduli, Maastricht i suoi 22. Era un bug **latente già prima** di questo giro (chiunque fosse oltre la riga 1000 perdeva i corsi), solo che ora sarebbe stato molto più visibile. Type-check pulito, nessun errore in console.
+
+### Restano da aggiungere (dalla top 100 EduRank)
+41 atenei ancora mancanti dopo questo giro: **UK 20** (Cambridge, Edimburgo, Imperial, Manchester, KCL, Glasgow, Bristol, Leeds, Birmingham, Southampton, Nottingham, Sheffield, Warwick, Newcastle, Liverpool, Queen Mary, York, Cardiff, Exeter, Durham), **Italia 5** (Statale Milano, Torino, Pisa, Federico II, Firenze), **Nordici 5** (Oslo, Karolinska, Göteborg, Bergen, NTNU), **NL 3** (Radboud, VU Amsterdam, Wageningen), **BE 3** (Gent, Liegi, UCLouvain), **ES 2** (Autonoma Barcellona, Valencia), **altre 3** (Atene, Varsavia, Mosca — quest'ultima probabilmente da escludere). Pierre & Marie Curie (#61) e Lyon 1 (#100) sono di fatto già coperte da `sorbonne` e `lyon`.
+
 ## 2026-08-07 — ADD + VERIFY (giro routine)
 
 ### Aggiunte
