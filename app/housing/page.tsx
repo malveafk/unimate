@@ -153,13 +153,12 @@ function EmptyList({ tab }: { tab: Tab }) {
 }
 
 // ── "Pick your filters first" prompt (apartments tab) ──────────────
-function SelectFiltersPrompt({ cityFilter, budgetFilter, moveInFilter }: {
-  cityFilter: string; budgetFilter: string; moveInFilter: string;
+function SelectFiltersPrompt({ cityFilter, budgetFilter }: {
+  cityFilter: string; budgetFilter: string;
 }) {
   const steps = [
     { label: "City", done: cityFilter !== "All cities", value: cityFilter !== "All cities" ? cityFilter : "Not selected" },
     { label: "Budget", done: budgetFilter !== "any", value: budgetFilter !== "any" ? BUDGET_BRACKETS.find(b => b.value === budgetFilter)?.label : "Not selected" },
-    { label: "Move-in", done: moveInFilter !== "any", value: moveInFilter !== "any" ? MOVEIN_BRACKETS.find(b => b.value === moveInFilter)?.label : "Not selected" },
   ];
 
   return (
@@ -180,7 +179,7 @@ function SelectFiltersPrompt({ cityFilter, budgetFilter, moveInFilter }: {
             Tell us what you're looking for
           </div>
           <p style={{ fontSize: 14, color: "var(--text-3)", lineHeight: 1.7, maxWidth: 400, margin: "0 auto" }}>
-            Select a city, a budget and a move-in window above to see matching apartment listings.
+            Select a city and a budget above to see matching apartment listings.
           </p>
         </div>
 
@@ -425,9 +424,10 @@ export default function HousingPage() {
   });
 
   // Apartments only reveal their list once the visitor has actively chosen
-  // a city, a budget bracket and a move-in window — avoids dumping every
-  // listing on someone who hasn't told us what they're looking for yet.
-  const apartmentFiltersComplete = cityFilter !== "All cities" && budgetFilter !== "any" && moveInFilter !== "any";
+  // a city and a budget bracket — avoids dumping every listing on someone who
+  // hasn't told us what they're looking for yet. Move-in stays optional: leaving
+  // it on "Any" still shows results (it just doesn't narrow by date).
+  const apartmentFiltersComplete = cityFilter !== "All cities" && budgetFilter !== "any";
 
   const count = tab === "roommates" ? filteredRoommates.length : (apartmentFiltersComplete ? filteredApartments.length : 0);
 
@@ -698,7 +698,7 @@ export default function HousingPage() {
 
       {tab === "apartments" && (
         !apartmentFiltersComplete
-          ? <SelectFiltersPrompt cityFilter={cityFilter} budgetFilter={budgetFilter} moveInFilter={moveInFilter} />
+          ? <SelectFiltersPrompt cityFilter={cityFilter} budgetFilter={budgetFilter} />
           : filteredApartments.length === 0
           ? <EmptyList tab="apartments" />
           : (
