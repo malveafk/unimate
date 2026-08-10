@@ -1,5 +1,25 @@
 # University data log
 
+## 2026-08-10 (2° giro) — ADD Priorità 1: Regno Unito
+
+Giro mirato sul buco più grave del catalogo: il Regno Unito era fermo a 3 atenei (Oxford, UCL, LSE) pur essendo una delle destinazioni più cercate. **UK da 3 a 8; catalogo da 72 a 77.**
+
+### Aggiunte
+- **cambridge** (University of Cambridge, 🇬🇧) — bachelor: Economics (Economics Tripos). Tuition Home £9,790; international £25,734–£70,554 (+ college fee a parte). Living £1,568/mese (stima ufficiale Cambridge SU). Ranking **Top 10 QS (#6, 2027)**. I 5 paper di Part I verificati sulla pagina della Faculty of Economics. Fonti: undergraduate.study.cam.ac.uk (tuition fees 2026-27), econ.cam.ac.uk/apply/undergraduate/course-structure.
+- **imperial** (Imperial College London, 🇬🇧) — bachelor: Computing (BEng). Tuition Home £9,790 (confermata ufficialmente per il 2026-27); international £35,100–£42,000. Living £1,300–£1,800/mese. Ranking **Top 5 QS (#2, 2027)** — 1ª nel Regno Unito e in Europa per il terzo anno di fila. Primo anno: 60 ECTS, di cui il blocco Computing Practical 1 (20 ECTS) con le sue 4 componenti verificate; **gli 8 moduli teorici non sono nominati sulla pagina ufficiale**, quindi inseriti come voce aggregata invece di inventarne i nomi. Fonti: imperial.ac.uk/students/fees-and-funding, imperial.ac.uk/computing/current-students/computing-first-year.
+- **edinburgh** (University of Edinburgh, 🇬🇧) — bachelor: Computer Science (BSc Hons, **4 anni**, struttura scozzese). Tuition international £26,500–£37,500. Living £1,579/mese. Ranking **Top 50 QS (#35, 2027)**. Primo anno verificato (Informatics 1 + Mathematics 1 + outside courses). Fonti: study.ed.ac.uk, dcs.ed.ac.uk/teaching/FirstYearCourses.
+- **kings-college-london** (King's College London, 🇬🇧) — bachelor: Law (LLB). Tuition Home £9,790; international £24,000–£35,000. Living £1,300–£1,800/mese. Ranking **Top 50 QS (#37, 2027)**, 6ª nel Regno Unito. I 5 moduli obbligatori del 1° anno verificati con i crediti sulla pagina ufficiale del corso. Fonti: kcl.ac.uk/study/undergraduate/courses/law-llb/teaching-modules.
+- **warwick** (University of Warwick, 🇬🇧 Coventry) — bachelor: Economics (BSc). Tuition Home £9,790; international £26,840–£36,130 in base al corso. Living £1,100–£1,600/mese (campus fuori città, nettamente più economico di Londra). Ranking **Top 100 QS (#68, 2027)**, +6 posizioni. Fonti: warwick.ac.uk/study/undergraduate/courses/bsc-economics, QS 2027.
+
+### Verifiche
+- **oxford** e **ucl**: corretta una **imprecisione sostanziale** nel campo tuition. Entrambi riportavano `£9,790/anno (UK/EU con status Home)`, ma **dalla Brexit gli studenti UE non hanno più lo status Home**: pagano la tariffa international. L'etichetta è stata corretta e, con l'intervento successivo (vedi sotto), la tariffa international è passata in prima posizione. È un dato che riguarda direttamente il pubblico di Unimate, che rischiava di sottostimare di 3–6 volte il costo reale.
+- **oxford**: ranking aggiornato da `#4, 2026` a **`#4, 2027`** (posizione invariata, edizione aggiornata). Fonte: QS 2027.
+- **ucl**: ranking aggiornato da `#8, 2026` a **`#8, 2027`** (idem). Fonte: QS 2027.
+- **VERIFY: riordinate stringhe tuition UK (8 atenei)** — international ora in prima posizione per coerenza col filtro prezzo. Motivazione: post-Brexit gli studenti UE pagano tariffa international, non Home. Atenei: `oxford`, `ucl`, `lse`, `cambridge`, `imperial`, `edinburgh`, `kings-college-london`, `warwick`. **Nessuna fee è stata eliminata**: la tariffa Home resta come secondo segmento, etichettata "solo con status UK". `utils/universityCosts.ts` legge il primo segmento (separatore ` / `), quindi ora deriva la cifra international. Effetto verificato sul filtro prezzo: prima 7 atenei su 8 cadevano nella fascia **€3k–€10k** (per via dei £9.790 Home), ora tutti e 8 sono correttamente in **€10k+**. Modificato solo il campo `tuition`, nessun altro campo toccato. **Flag chiuso.**
+
+### Da controllare a mano
+- **luxembourg**: manca ancora il `ranking`.
+
 ## 2026-08-10 — ADD + VERIFY (giro routine)
 
 Catalogo da **69 a 72** atenei; due paesi nuovi (Lussemburgo, Ungheria) aggiunti anche all'array `countries`.
