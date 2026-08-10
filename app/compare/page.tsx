@@ -181,18 +181,23 @@ function UniversitySearchPicker({
 
   const selected = universities.find((u) => u.id === value) ?? null;
 
+  // The dropdown caps how many results it renders at once (a long unfiltered
+  // list would be unusable) — but that's just a display cap, not the actual
+  // dataset. Typing searches the full pool, not just what's currently shown.
+  const RESULT_CAP = 12;
+  const pool = useMemo(() => universities.filter((u) => u.id !== excludeId), [universities, excludeId]);
   const results = useMemo(() => {
-    const pool = universities.filter((u) => u.id !== excludeId);
     const q = query.trim().toLowerCase();
-    if (!q) return pool.slice(0, 8);
+    if (!q) return pool.slice(0, RESULT_CAP);
     return pool
       .filter((u) =>
         u.name.toLowerCase().includes(q) ||
         u.city.toLowerCase().includes(q) ||
         u.country.toLowerCase().includes(q)
       )
-      .slice(0, 8);
-  }, [query, excludeId]);
+      .slice(0, RESULT_CAP);
+  }, [query, pool]);
+  const showCapHint = query.trim() === "" && pool.length > RESULT_CAP;
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
@@ -283,6 +288,11 @@ function UniversitySearchPicker({
                 <span style={{ color: "var(--text-3)", flexShrink: 0 }}>· {u.city}</span>
               </button>
             ))
+          )}
+          {showCapHint && (
+            <div style={{ padding: "7px 12px", fontSize: 11, color: "var(--text-3)", borderTop: "1px solid var(--border)" }}>
+              Showing {RESULT_CAP} of {pool.length} — keep typing to search all
+            </div>
           )}
         </div>
       )}

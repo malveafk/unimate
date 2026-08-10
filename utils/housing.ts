@@ -93,6 +93,7 @@ type ListingRow = {
   platform: string | null;
   link: string | null;
   photo_path: string | null;
+  verified?: boolean;
 };
 
 function listingToPin(row: ListingRow): ApartmentPin {
@@ -116,6 +117,7 @@ function listingToPin(row: ListingRow): ApartmentPin {
     photo: row.photo_path
       ? supabase.storage.from("housing-photos").getPublicUrl(row.photo_path).data.publicUrl
       : undefined,
+    verified: row.verified ?? false,
   };
 }
 
@@ -135,7 +137,7 @@ export async function fetchApartmentPins(): Promise<ApartmentPin[]> {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("housing_listings")
-    .select("id, title, city, lat, lng, price, rooms, furnished, available_from, description, platform, link, photo_path")
+    .select("id, title, city, lat, lng, price, rooms, furnished, available_from, description, platform, link, photo_path, verified")
     .order("created_at", { ascending: false });
   if (error) throw error;
   return (data as ListingRow[]).map(listingToPin);
@@ -241,12 +243,49 @@ export type ListingFormInput = {
   description: string;
 };
 
-// Uploads the listing photo (if provided) and inserts the caller's listing.
+// If the signed-in user already uploaded an ID for their roommate profile,
+// we reuse that instead of asking them to verify twice. Returns null if
+// there's no signed-in user or they have no ID on file yet.
+export async function getExistingIdVerification(): Promise<{ idFilePath: string; verified: boolean } | null> {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data, error } = await supabase
+    .from("housing_profiles")
+    .select("id_file_path, verified")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (error || !data?.id_file_path) return null;
+
+  return { idFilePath: data.id_file_path, verified: data.verified ?? false };
+}
+
+// Uploads the ID document + listing photo (if provided) and inserts the
+// caller's listing. If the user already has an ID on file from a roommate
+// profile, that's reused instead of requiring a fresh upload.
 // Throws on failure; returns nothing the UI needs beyond success.
-export async function saveApartmentListing(form: ListingFormInput, photoFile: File | null): Promise<void> {
+export async function saveApartmentListing(form: ListingFormInput, idFile: File | null, photoFile: File | null): Promise<void> {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("not-signed-in");
+
+  let idFilePath: string | undefined;
+  let verified = false;
+  if (idFile) {
+    // One folder per user (enforced by the bucket's RLS policies) — same
+    // private bucket used for roommate-profile ID documents.
+    idFilePath = `${user.id}/${Date.now()}-${idFile.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+    const { error: uploadError } = await supabase.storage
+      .from("housing-ids")
+      .upload(idFilePath, idFile, { upsert: true });
+    if (uploadError) throw uploadError;
+  } else {
+    const existing = await getExistingIdVerification();
+    if (!existing) throw new Error("id-required");
+    idFilePath = existing.idFilePath;
+    verified = existing.verified;
+  }
 
   let photoPath: string | undefined;
   if (photoFile) {
@@ -267,6 +306,8 @@ export async function saveApartmentListing(form: ListingFormInput, photoFile: Fi
     furnished: form.furnished,
     available_from: form.availableFrom || null,
     description: form.description || null,
+    id_file_path: idFilePath,
+    verified,
     ...(photoPath ? { photo_path: photoPath } : {}),
     is_active: true,
   });

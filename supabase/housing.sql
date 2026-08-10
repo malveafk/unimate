@@ -284,3 +284,12 @@ drop policy if exists "Users delete own listing photos" on storage.objects;
 create policy "Users delete own listing photos"
   on storage.objects for delete
   using (bucket_id = 'housing-photos' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- ── ID verification for apartment listings ───────────────────────────────────
+-- Same verified-community promise as roommate profiles: a listing can't go
+-- live without the poster confirming their identity. Reuses the existing
+-- private housing-ids bucket (same per-user-folder RLS already covers this —
+-- no bucket/policy changes needed there, just new columns to record it here).
+
+alter table housing_listings add column if not exists id_file_path text;
+alter table housing_listings add column if not exists verified boolean not null default false;

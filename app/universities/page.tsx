@@ -10,10 +10,15 @@ import dynamic from "next/dynamic";
 
 const UniversityMap = dynamic(() => import("../components/UniversityMap"), { ssr: false });
 
+// Each nav item gets its own color from a small coordinated palette (all
+// already used elsewhere in the app — blue for info, green for compare,
+// violet for AI, gold for the primary CTA) so every entry is a little
+// highlighted "box" instead of just News/Compare/AI Chat being plain grey.
 const NAV_ITEMS = [
   {
     label: "News",
     href: "/news",
+    color: "96,165,250", // blue
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
@@ -24,6 +29,7 @@ const NAV_ITEMS = [
   {
     label: "Compare",
     href: "/compare",
+    color: "52,211,153", // green
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
@@ -33,9 +39,21 @@ const NAV_ITEMS = [
   {
     label: "AI Chat",
     href: "/chat",
+    color: "167,139,250", // violet
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Apply Guide",
+    href: "/apply",
+    color: "201,163,92", // gold — matches the site's primary accent
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 11l3 3L22 4"/>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
       </svg>
     ),
   },
@@ -78,6 +96,11 @@ export default function Universities() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const pathname = usePathname();
+
+  // When a card is expanded, the floating toolbar's Apply Guide / AI Chat
+  // entries should deep-link straight to that university instead of
+  // dropping the user back into the generic picker/chat.
+  const expandedUni = expandedId ? universities.find(u => u.id === expandedId) ?? null : null;
 
   useEffect(() => {
     getUniversities()
@@ -834,12 +857,26 @@ export default function Universities() {
         padding: 8,
         boxShadow: "0 8px 32px rgba(0,0,0,0.35)",
       }}>
-        {NAV_ITEMS.map(({ label, href, icon }) => {
+        {NAV_ITEMS.map(({ label, href, icon, color }) => {
+          // Deep-link into the expanded university when one is open, so
+          // "Apply Guide" and "AI Chat" don't just drop you back into a
+          // generic picker/chat you'd have to re-select the same uni in.
+          let effectiveHref = href;
+          if (expandedUni && label === "Apply Guide") {
+            effectiveHref = `/universities/${expandedUni.id}/apply`;
+          } else if (expandedUni && label === "AI Chat") {
+            effectiveHref = `/chat?q=${encodeURIComponent(
+              `Tell me more about ${expandedUni.name}, including what it's like to study there, the application process, and living costs`
+            )}`;
+          }
           const active = pathname === href;
+          // Darkened text color for the solid/active state so it stays
+          // readable against each item's own bright background.
+          const darkText = `rgb(${color.split(",").map(n => Math.round(Number(n) * 0.18)).join(",")})`;
           return (
             <Link
               key={href}
-              href={href}
+              href={effectiveHref}
               title={label}
               style={{
                 display: "flex",
@@ -849,8 +886,9 @@ export default function Universities() {
                 padding: "12px 14px",
                 borderRadius: 12,
                 textDecoration: "none",
-                color: active ? "#ffffff" : "rgba(255,255,255,0.5)",
-                background: active ? "rgba(255,255,255,0.12)" : "transparent",
+                color: active ? darkText : `rgb(${color})`,
+                background: active ? `rgb(${color})` : `rgba(${color},0.12)`,
+                border: `1px solid rgba(${color},0.28)`,
                 fontSize: 9,
                 fontWeight: 700,
                 letterSpacing: "0.08em",
@@ -859,16 +897,14 @@ export default function Universities() {
                 minWidth: 52,
               }}
               onMouseEnter={e => {
-                if (!active) {
-                  e.currentTarget.style.background = "var(--chip-strong)";
-                  e.currentTarget.style.color = "rgba(255,255,255,0.85)";
-                }
+                if (active) return;
+                e.currentTarget.style.background = `rgb(${color})`;
+                e.currentTarget.style.color = darkText;
               }}
               onMouseLeave={e => {
-                if (!active) {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "rgba(255,255,255,0.5)";
-                }
+                if (active) return;
+                e.currentTarget.style.background = `rgba(${color},0.12)`;
+                e.currentTarget.style.color = `rgb(${color})`;
               }}
             >
               {icon}

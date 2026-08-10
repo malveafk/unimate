@@ -2,7 +2,7 @@
 
 import { use, useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import { universities } from "../../../data/universities";
 import { universityMeta } from "../../../data/universityMeta";
 import ApplyPageLayout from "../../../components/ApplyPageLayout";
@@ -196,9 +196,15 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
   if (!uni) notFound();
 
   const meta = universityMeta[uni.id];
+  const searchParams = useSearchParams();
+  const requestedProgramme = searchParams.get("programme");
   const [activeStep, setActiveStep] = useState(0);
   const [checkedSteps, setCheckedSteps] = useState<Set<number>>(new Set());
-  const [selectedProgramme, setSelectedProgramme] = useState(uni.bachelors[0]?.id ?? "");
+  const [selectedProgramme, setSelectedProgramme] = useState(
+    (requestedProgramme && uni.bachelors.some(b => b.id === requestedProgramme))
+      ? requestedProgramme
+      : uni.bachelors[0]?.id ?? ""
+  );
 
   const programme = uni.bachelors.find(b => b.id === selectedProgramme) ?? uni.bachelors[0];
 
@@ -499,18 +505,26 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
       {/* Top bar */}
       <div style={{ borderBottom: "1px solid var(--border)", padding: "16px 32px", display: "flex", alignItems: "center", gap: 16 }}>
         <Link
-          href="/universities"
+          href="/apply"
           style={{ display: "flex", alignItems: "center", gap: 6, color: "var(--text-3)", fontSize: 13, fontWeight: 600, textDecoration: "none", transition: "color 0.15s" }}
           onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-1)")}
           onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-3)")}
+          title="Back to the university &amp; programme picker"
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
           </svg>
-          Universities
+          Apply Guide
         </Link>
         <span style={{ color: "var(--border)", fontSize: 14 }}>/</span>
-        <span style={{ fontSize: 13, color: "var(--text-3)" }}>{uni.name}</span>
+        <Link
+          href="/universities"
+          style={{ fontSize: 13, color: "var(--text-3)", textDecoration: "none" }}
+          onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-1)")}
+          onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-3)")}
+        >
+          {uni.name}
+        </Link>
         <span style={{ color: "var(--border)", fontSize: 14 }}>/</span>
         <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>Apply</span>
         <div style={{ marginLeft: "auto", display: "flex", gap: 10, alignItems: "center" }}>

@@ -68,6 +68,7 @@ export type ApartmentPin = {
   availableFrom?: string;
   description?: string;
   photo?: string;        // public URL of a photo of the place, if provided
+  verified?: boolean;    // poster completed ID verification
 };
 
 // ── Demo data (replace with Supabase rows in production) ──────────────────────

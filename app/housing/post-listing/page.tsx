@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { saveApartmentListing } from "@/utils/housing";
+import { saveApartmentListing, getExistingIdVerification } from "@/utils/housing";
 import AuthModal from "../../components/AuthModal";
 
 const CITIES = [
@@ -12,25 +12,29 @@ const CITIES = [
   "Porto", "Rotterdam", "Stockholm", "Vienna", "Zurich",
 ];
 
-const TOTAL_STEPS = 3;
-const STEP_LABELS = ["Photo", "The place", "Availability"];
+const TOTAL_STEPS = 4;
+const STEP_LABELS = ["Identity", "Photo", "The place", "Availability"];
 
 type FormData = {
-  // Step 0 – Photo
+  // Step 0 – Identity verification
+  idFileName: string;
+  idVerified: boolean;
+  // Step 1 – Photo
   photoFileName: string;
   photoPreviewUrl: string;
-  // Step 1 – The place
+  // Step 2 – The place
   title: string;
   city: string;
   price: string;
   rooms: string;
   furnished: boolean;
-  // Step 2 – Availability
+  // Step 3 – Availability
   availableFrom: string;
   description: string;
 };
 
 const EMPTY: FormData = {
+  idFileName: "", idVerified: false,
   photoFileName: "", photoPreviewUrl: "",
   title: "", city: "", price: "", rooms: "", furnished: false,
   availableFrom: "", description: "",
@@ -82,11 +86,42 @@ export default function PostListingPage() {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
-  // The actual File selected in step 0; uploaded to Supabase Storage on submit.
+  // True once we've checked whether the user already has an ID on file from
+  // their roommate profile, so we can skip the upload step entirely.
+  const [checkingVerification, setCheckingVerification] = useState(true);
+  const [reusedFromProfile, setReusedFromProfile] = useState(false);
+  // The actual Files selected; uploaded to Supabase Storage on submit.
+  const idFileRef = useRef<File | null>(null);
   const photoFileRef = useRef<File | null>(null);
+  const idFileInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // If the user already verified via their roommate profile, don't make
+  // them upload an ID a second time to post a listing.
+  useEffect(() => {
+    getExistingIdVerification()
+      .then(existing => {
+        if (existing) {
+          setReusedFromProfile(true);
+          set("idFileName", "Reused from your roommate profile");
+          set("idVerified", true);
+        }
+      })
+      .finally(() => setCheckingVerification(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const set = (key: keyof FormData, value: any) => setForm(f => ({ ...f, [key]: value }));
+
+  function handleIdFileSelect(file: File | null) {
+    if (!file) return;
+    const allowed = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+    if (!allowed.includes(file.type)) { alert("Please upload a JPG, PNG, WEBP or PDF file."); return; }
+    if (file.size > 10 * 1024 * 1024) { alert("File must be under 10 MB."); return; }
+    idFileRef.current = file;
+    set("idFileName", file.name);
+    set("idVerified", true);
+  }
 
   function handleFileSelect(file: File | null) {
     if (!file) return;
@@ -99,9 +134,10 @@ export default function PostListingPage() {
   }
 
   const canNext: Record<number, boolean> = {
-    0: !!form.photoFileName,
-    1: !!form.title && !!form.city && !!form.price,
-    2: form.description.length >= 20,
+    0: form.idVerified,
+    1: !!form.photoFileName,
+    2: !!form.title && !!form.city && !!form.price,
+    3: form.description.length >= 20,
   };
 
   async function handleSubmit() {
@@ -109,13 +145,16 @@ export default function PostListingPage() {
     setSaving(true);
     setSaveError(null);
     try {
-      await saveApartmentListing(form, photoFileRef.current);
+      await saveApartmentListing(form, idFileRef.current, photoFileRef.current);
       setSubmitted(true);
     } catch (e) {
       if (e instanceof Error && e.message === "not-signed-in") {
         // Listings belong to an account: ask to sign in, then the user
         // resubmits (the form state is untouched).
         setAuthOpen(true);
+      } else if (e instanceof Error && e.message === "id-required") {
+        setSaveError("We couldn't confirm your identity verification — please go back to step 1 and upload an ID.");
+        setStep(0);
       } else {
         console.error("Failed to save listing:", e);
         setSaveError("Something went wrong while saving. Please try again.");
@@ -184,8 +223,124 @@ export default function PostListingPage() {
       {/* Card */}
       <div style={{ width: "100%", maxWidth: 600, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: "40px 40px 36px", display: "flex", flexDirection: "column", gap: 28 }}>
 
-        {/* ── Step 0: Photo ── */}
+        {/* ── Step 0: Identity verification ── */}
         {step === 0 && (
+          <>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+              <div style={{ width: 48, height: 48, borderRadius: 14, background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "rgb(96,165,250)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2"/>
+                  <circle cx="8" cy="12" r="2.5"/>
+                  <path d="M14 9h4M14 12h4M14 15h2"/>
+                </svg>
+              </div>
+              <div>
+                <h2 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px", margin: "0 0 6px" }}>
+                  Identity verification
+                </h2>
+                <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>
+                  To keep the housing community safe, every listing needs a verified poster.
+                  {" "}You must be 16 or older. If you&rsquo;re under 18 and don&rsquo;t have your own ID document, you can upload a parent or guardian&rsquo;s ID instead, along with their consent.
+                </p>
+              </div>
+            </div>
+
+            {checkingVerification ? (
+              <div style={{ fontSize: 13, color: "var(--text-3)" }}>Checking your account…</div>
+            ) : reusedFromProfile ? (
+              /* Already verified via the roommate-profile flow — no need to re-upload */
+              <div style={{ borderRadius: 14, border: "1px solid rgba(52,211,153,0.35)", background: "rgba(52,211,153,0.06)", padding: "20px 22px", display: "flex", alignItems: "center", gap: 16 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(52,211,153,0.15)", border: "1px solid rgba(52,211,153,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "rgb(52,211,153)", marginBottom: 3 }}>You&rsquo;re already verified</div>
+                  <div style={{ fontSize: 12, color: "var(--text-3)" }}>Using the ID from your roommate profile — no need to upload it again.</div>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Accepted documents */}
+                <div style={{ display: "flex", gap: 10 }}>
+                  {[
+                    { icon: "🛂", label: "Passport" },
+                    { icon: "🪪", label: "National ID" },
+                    { icon: "🚗", label: "Driver's license" },
+                  ].map(({ icon, label }) => (
+                    <div key={label} style={{ flex: 1, borderRadius: 10, border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)", padding: "12px 14px", display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontSize: 20 }}>{icon}</span>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-2)" }}>{label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {!form.idVerified ? (
+                  <div
+                    onClick={() => idFileInputRef.current?.click()}
+                    onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={e => { e.preventDefault(); setDragOver(false); handleIdFileSelect(e.dataTransfer.files[0] ?? null); }}
+                    style={{
+                      border: `2px dashed ${dragOver ? "rgba(96,165,250,0.6)" : "var(--border)"}`,
+                      borderRadius: 16, padding: "44px 32px", textAlign: "center", cursor: "pointer",
+                      background: dragOver ? "rgba(96,165,250,0.06)" : "transparent",
+                      transition: "all 0.2s",
+                      display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
+                    }}
+                    onMouseEnter={e => { if (!dragOver) (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.25)"; }}
+                    onMouseLeave={e => { if (!dragOver) (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)"; }}
+                  >
+                    <div style={{ width: 52, height: 52, borderRadius: 14, background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-3)" }}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", marginBottom: 5 }}>
+                        Drop your document here
+                      </div>
+                      <div style={{ fontSize: 13, color: "var(--text-3)" }}>
+                        or <span style={{ color: "rgb(96,165,250)", fontWeight: 600 }}>click to browse</span>
+                      </div>
+                      <div style={{ fontSize: 11, color: "var(--text-3)", marginTop: 8 }}>JPG, PNG, WEBP or PDF · Max 10 MB</div>
+                    </div>
+                    <input
+                      ref={idFileInputRef} type="file" accept="image/jpeg,image/png,image/webp,application/pdf"
+                      style={{ display: "none" }}
+                      onChange={e => handleIdFileSelect(e.target.files?.[0] ?? null)}
+                    />
+                  </div>
+                ) : (
+                  <div style={{ borderRadius: 14, border: "1px solid rgba(52,211,153,0.35)", background: "rgba(52,211,153,0.06)", padding: "20px 22px", display: "flex", alignItems: "center", gap: 16 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(52,211,153,0.15)", border: "1px solid rgba(52,211,153,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: "rgb(52,211,153)", marginBottom: 3 }}>Document uploaded</div>
+                      <div style={{ fontSize: 12, color: "var(--text-3)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{form.idFileName}</div>
+                    </div>
+                    <button
+                      onClick={() => { set("idFileName", ""); set("idVerified", false); idFileRef.current = null; }}
+                      style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--text-3)", padding: 4, transition: "color 0.15s" }}
+                      onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
+                      onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+
+        {/* ── Step 1: Photo ── */}
+        {step === 1 && (
           <>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
               <div style={{ width: 48, height: 48, borderRadius: 14, background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "rgb(96,165,250)" }}>
@@ -263,8 +418,8 @@ export default function PostListingPage() {
           </>
         )}
 
-        {/* ── Step 1: The place ── */}
-        {step === 1 && (
+        {/* ── Step 2: The place ── */}
+        {step === 2 && (
           <>
             <div>
               <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", margin: "0 0 6px" }}>The place</h2>
@@ -295,8 +450,8 @@ export default function PostListingPage() {
           </>
         )}
 
-        {/* ── Step 2: Availability ── */}
-        {step === 2 && (
+        {/* ── Step 3: Availability ── */}
+        {step === 3 && (
           <>
             <div>
               <h2 style={{ fontSize: 24, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.5px", margin: "0 0 6px" }}>Availability & description</h2>
@@ -337,9 +492,9 @@ export default function PostListingPage() {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={!canNext[2] || saving}
-              style={{ padding: "13px 32px", borderRadius: 12, background: canNext[2] && !saving ? "var(--text-1)" : "var(--border)", color: canNext[2] && !saving ? "var(--bg)" : "var(--text-3)", border: "none", fontSize: 14, fontWeight: 700, cursor: canNext[2] && !saving ? "pointer" : "default", fontFamily: "inherit", transition: "opacity 0.15s" }}
-              onMouseEnter={e => { if (canNext[2] && !saving) e.currentTarget.style.opacity = "0.85"; }}
+              disabled={!canNext[3] || saving}
+              style={{ padding: "13px 32px", borderRadius: 12, background: canNext[3] && !saving ? "var(--text-1)" : "var(--border)", color: canNext[3] && !saving ? "var(--bg)" : "var(--text-3)", border: "none", fontSize: 14, fontWeight: 700, cursor: canNext[3] && !saving ? "pointer" : "default", fontFamily: "inherit", transition: "opacity 0.15s" }}
+              onMouseEnter={e => { if (canNext[3] && !saving) e.currentTarget.style.opacity = "0.85"; }}
               onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
             >
               {saving ? "Saving…" : "Post listing →"}

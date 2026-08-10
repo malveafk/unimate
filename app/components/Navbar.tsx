@@ -34,6 +34,12 @@ const SECTIONS = [
     accentRgb: "251,191,36",
   },
   {
+    href: "/apply",
+    label: "Apply Guide",
+    desc: "Pick your university and programme and get a step-by-step guide to actually applying.",
+    accentRgb: "201,163,92",
+  },
+  {
     href: "/messages",
     label: "Messages",
     desc: "Chat directly with other students — coordinate roommates, housing, and more.",
