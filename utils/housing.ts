@@ -94,6 +94,11 @@ type ListingRow = {
   link: string | null;
   photo_path: string | null;
   verified?: boolean;
+  // Partner-listing columns (may not be migrated yet — see the 42703 fallback).
+  image: string[] | null;
+  address: string | null;
+  bathrooms: number | null;
+  size_sqm: number | null;
 };
 
 function listingToPin(row: ListingRow): ApartmentPin {
@@ -118,6 +123,10 @@ function listingToPin(row: ListingRow): ApartmentPin {
       ? supabase.storage.from("housing-photos").getPublicUrl(row.photo_path).data.publicUrl
       : undefined,
     verified: row.verified ?? false,
+    image: row.image ?? undefined,
+    address: row.address ?? undefined,
+    bathrooms: row.bathrooms ?? undefined,
+    sizeSqm: row.size_sqm ?? undefined,
   };
 }
 
@@ -133,14 +142,36 @@ export async function fetchRoommatePins(): Promise<RoommatePin[]> {
   return (data as ProfileRow[]).map(profileToPin);
 }
 
+// Only the core columns are guaranteed on every deployed DB (original
+// supabase/housing.sql schema). Two independent later migrations add optionals:
+//   - photo_path, verified   → listing ID-verification feature (in housing.sql)
+//   - image, address, …      → supabase/housing_partner_listings.sql
+// Either may be unapplied on a given DB, so we try progressively narrower column
+// sets and stop at the first that isn't an "undefined column" error. This way
+// whichever optionals ARE migrated still load, and a deploy and its ALTER TABLEs
+// can land in any order without ever breaking the live apartment feed.
+const LISTING_CORE_COLS = "id, title, city, lat, lng, price, rooms, furnished, available_from, description, platform, link";
+const LISTING_VERIFY_COLS = "photo_path, verified";
+const LISTING_PARTNER_COLS = "image, address, bathrooms, size_sqm";
+
 export async function fetchApartmentPins(): Promise<ApartmentPin[]> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from("housing_listings")
-    .select("id, title, city, lat, lng, price, rooms, furnished, available_from, description, platform, link, photo_path, verified")
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return (data as ListingRow[]).map(listingToPin);
+  const attempts = [
+    `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}, ${LISTING_PARTNER_COLS}`,
+    `${LISTING_CORE_COLS}, ${LISTING_PARTNER_COLS}`,
+    `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}`,
+    LISTING_CORE_COLS,
+  ];
+
+  // 42703 = undefined_column: that column set isn't fully migrated → try the
+  // next, narrower one. Any other error (or success) ends the loop.
+  let result = await supabase.from("housing_listings").select(attempts[0]).order("created_at", { ascending: false });
+  for (let i = 1; i < attempts.length && result.error?.code === "42703"; i++) {
+    result = await supabase.from("housing_listings").select(attempts[i]).order("created_at", { ascending: false });
+  }
+
+  if (result.error) throw result.error;
+  return (result.data as unknown as ListingRow[]).map(listingToPin);
 }
 
 // Profiles of specific users (e.g. the people you're chatting with).

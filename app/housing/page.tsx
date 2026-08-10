@@ -15,7 +15,7 @@ type Tab = "roommates" | "apartments";
 const CITIES = [
   "All cities", "Amsterdam", "Barcelona", "Berlin", "Bologna", "Brussels",
   "Copenhagen", "Delft", "Groningen", "Leuven", "Lisbon", "Lyon",
-  "Maastricht", "Madrid", "Milan", "Munich", "Paris",
+  "London", "Maastricht", "Madrid", "Milan", "Munich", "Paris",
   "Porto", "Rotterdam", "Stockholm", "Vienna", "Zurich",
 ];
 

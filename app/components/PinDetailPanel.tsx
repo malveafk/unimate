@@ -196,11 +196,11 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20, padding: "20px 22px 24px" }}>
 
-      {/* Photo */}
-      {data.photo && (
+      {/* Hero photo — partner listings ship a gallery, user posts a single photo */}
+      {(data.image?.[0] || data.photo) && (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
-          src={data.photo}
+          src={data.image?.[0] ?? data.photo}
           alt={data.title}
           style={{ width: "100%", height: 180, objectFit: "cover", borderRadius: 14, border: "1px solid var(--border)" }}
         />
@@ -228,12 +228,25 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
               {data.rooms} {data.rooms === 1 ? "room" : "rooms"}
             </span>
           )}
+          {data.bathrooms != null && (
+            <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
+              {data.bathrooms} {data.bathrooms === 1 ? "bath" : "baths"}
+            </span>
+          )}
+          {data.sizeSqm != null && (
+            <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
+              {data.sizeSqm} m²
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Title */}
+      {/* Title + address */}
       <div>
         <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.3px", lineHeight: 1.35 }}>{data.title}</div>
+        {data.address && (
+          <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 5, lineHeight: 1.45 }}>{data.address}</div>
+        )}
       </div>
 
       {/* Available from */}

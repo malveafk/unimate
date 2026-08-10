@@ -21,6 +21,7 @@ export const housingCityCoords: Record<string, { lat: number; lng: number; count
   "Stockholm":   { lat: 59.3293, lng: 18.0686, country: "Sweden",      flag: "🇸🇪" },
   "Brussels":    { lat: 50.8503, lng:  4.3517, country: "Belgium",     flag: "🇧🇪" },
   "Leuven":      { lat: 50.8796, lng:  4.7009, country: "Belgium",     flag: "🇧🇪" },
+  "London":      { lat: 51.5074, lng: -0.1278, country: "United Kingdom", flag: "🇬🇧" },
 };
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -69,6 +70,11 @@ export type ApartmentPin = {
   description?: string;
   photo?: string;        // public URL of a photo of the place, if provided
   verified?: boolean;    // poster completed ID verification
+  // Partner-listing extras (see housing_listings partner columns)
+  image?: string[];      // photo gallery URLs; first is the hero image
+  address?: string;
+  bathrooms?: number;
+  sizeSqm?: number;      // m²
 };
 
 // ── Demo data (replace with Supabase rows in production) ──────────────────────
