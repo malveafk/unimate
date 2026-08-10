@@ -1,5 +1,25 @@
 # University data log
 
+## 2026-08-10 — ADD + VERIFY (giro routine)
+
+Catalogo da **69 a 72** atenei; due paesi nuovi (Lussemburgo, Ungheria) aggiunti anche all'array `countries`.
+
+### Aggiunte
+- **tue** (Eindhoven University of Technology, 🇳🇱 Eindhoven) — bachelor: Computer Science and Engineering. **Tutto il catalogo bachelor è in inglese**, nessun olandese richiesto. Tuition €2,694/anno (statutory NL); living €830–€1,000/mese (stima ufficiale TU/e: €10.000–€12.000/anno); ranking Top 200 QS (#152, 2027). Nel cuore della Brainport region (ASML, Philips, NXP). Fonti: tue.nl/en/education, educationguide.tue.nl, topuniversities.com.
+- **luxembourg** (University of Luxembourg, 🇱🇺 Esch-sur-Alzette) — **NUOVO PAESE**. Bachelor: Computer Science, interamente in inglese, 180 ECTS, semestre di mobilità obbligatorio, B2 inglese richiesto. Tuition €400/sem per i primi 2 semestri, poi €200/sem; living €700–€1,500/mese. Corsi del semestre 1 verificati (6 × 5 ECTS). **Ranking omesso**: non ho trovato una posizione QS verificabile in questo giro. Fonti: uni.lu/fstm-en/study-programs/bachelor-in-computer-science, mastersportal (costi di vita).
+- **semmelweis** (Semmelweis University, 🇭🇺 Budapest) — **NUOVO PAESE**. Bachelor: General Medicine (MD), 6 anni, in inglese. Rotta molto battuta dagli studenti italiani che non superano il test di medicina. Tuition €22.000/anno (o €12.000 a semestre in due rate) + €75 di application fee — **confermata sulla pagina ufficiale di ammissione**, non su aggregatori (che riportavano cifre incoerenti, es. USD 10.450/sem). Living €500–€800/mese, tra i più bassi UE. Ranking QS per materia: Medicine #251–300 (2025). Fonti: semmelweis.hu/admission, study-in-hungary.com.
+
+### Verifiche
+- **ie-university**: tuition **aggiornata** da `€29,000–€34,000/anno` a **`€26,500–€29,000/anno (aumenta del 2,9% ogni anno)`**. Cifre ufficiali ie.edu: €14.500/semestre per il BBA (€29.000/anno), €13.250/semestre per gli altri bachelor (€26.500/anno), con incremento annuo fisso del 2,9% legato al CPI. Il valore precedente era sovrastimato. Fonte: ie.edu/university/admission/payment-methods.
+- **lse**: tuition international **aggiornata** da `£39,900/anno` a **`£28,000–£35,700/anno (in base al corso)`** — LSE applica fasce per programma (es. BSc Accounting and Finance £35.700, BSc Actuarial Science £30.700). Home fee £9,790 confermata invariata. Ranking **aggiornato** da `Top 60 QS (#56, 2026)` a **`Top 100 QS (#62, 2027)`**. Fonti: info.lse.ac.uk (Table of Fees 2026-27), topuniversities.com.
+- **bologna**: ranking **aggiornato** da `Top 150 QS (#138, 2026)` a **`Top 150 QS (#123, 2027)`** (3ª in Italia). Fonte: QS World University Rankings 2027.
+- **bologna** — tuition **aggiornata** da `€900–€3,100/anno (basato sul reddito ISEE)` a **`€157–€2,040/anno (fino a €2,805 per pochi corsi a importo maggiorato; basato su ISEE, No Tax Area sotto €27.000)`**. Entrambi i valori precedenti erano imprecisi: sia il `€900–€3.100` presente nel file, sia il `€1.000–€4.080` segnalato dall'aggregatore. Il tetto di €4.080 **esiste solo per corsi a ciclo unico** (es. Odontoiatria) o per alcuni master, **mai per una laurea triennale standard**. Il documento ufficiale conferma **€2.040 come tetto standard per i corsi di primo ciclo**, con eccezioni fino a €2.805 per pochi programmi (es. Genomics), e la No Tax Area che azzera il contributo sotto €27.000 di ISEE (resta la sola imposta di bollo/tassa regionale, ~€157). Fonte: tabella ufficiale *"Importo massimo di contributo onnicomprensivo A.A. 2025/2026"* — https://www.unibo.it/en/attachments/tasse/Tabellaimportimassimi2526.pdf. **Flag chiuso.**
+- **copenhagen**: tuition confermata **invariata** (gratuita per studenti UE/SEE in tutte le università pubbliche danesi). Ranking **aggiornato** da `Top 100 QS` a **`Top 100 QS (#90, 2027)`**. Fonti: ku.dk, topuniversities.com.
+- **sciences-po**: tuition confermata **invariata** — €0–€14.900/anno per studenti SEE anche per l'a.a. 2026-2027, calcolata sul reddito familiare (€0 sotto ~€42.000, massimo da €285.000 in su). La nazionalità non incide. Fonte: sciencespo.fr/students/en/fees-funding/tuition-fees.
+
+### Da controllare a mano
+- **luxembourg**: manca il `ranking`. Se serve, va cercata la posizione QS/THE su fonte primaria.
+
 ## 2026-08-08 — ADD (Germania + Svizzera, da incrocio EduRank top 100)
 
 Giro ADD mirato: incrociata la top 100 università europee di EduRank (edurank.org/geo/eu/, agg. marzo 2026) con `universities.ts`. Delle 100, ne mancavano 64. Aggiunte in questo giro le **18 tedesche** e le **5 svizzere** mancanti (23 atenei, da 46 a 69 totali). Nessun VERIFY questo giro.
