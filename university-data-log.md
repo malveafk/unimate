@@ -1,5 +1,46 @@
 # University data log
 
+## 2026-08-10 (4° giro) — ADD Priorità 2 + VERIFY
+
+Catalogo da **81 a 84**. Belgio 1→2, Spagna 3→4, Francia 3→4.
+
+### Nota metodologica: la Priorità 2 va rivista
+Il piano prevedeva 4 atenei belgi (Ghent, UCLouvain, ULB, Antwerp) per correggere il paese più scoperto. La ricerca lo ha smentito: **in Belgio i bachelor non si tengono in inglese**. Per decreto fiammingo i corsi triennali di Gent sono tutti in olandese (l'unico in inglese, Social Sciences, si iscrive alla VUB); UCLouvain e ULB sono francofoni, con l'inglese quasi solo a livello magistrale. Stesso problema già incontrato con Oslo. Poiché la skill indica come ambito i "programmi in inglese per studenti internazionali", ho **ridotto il Belgio a 1 aggiunta** (la più forte) e spostato le altre due su Spagna e Francia, dove l'offerta in inglese esiste davvero.
+
+### Aggiunte
+- **ghent** (Ghent University, 🇧🇪 Gent) — bachelor: Business Economics (in **olandese**). Tuition SEE €1,181/anno (€305,40 fissi + €14,60 a credito su 60 crediti); living €800–€850/mese. Ranking **Top 200 QS (#162, 2026)**, prima università del Belgio. La descrizione dichiara esplicitamente il vincolo linguistico. Curriculum solo tematico: il dettaglio dei corsi è pubblicato unicamente nella guida in olandese. Fonti: ugent.be/student/en/administration/tuition, ugent.be/en/programmes, studiekiezer.ugent.be.
+- **pompeu-fabra** (Universitat Pompeu Fabra, 🇪🇸 Barcellona) — bachelor: **Global Studies, 240 ECTS, in inglese** nei primi due anni. Tuition €1,202/anno (UE, €17,69 a credito, tariffa pubblica catalana); living €900–€1,200/mese. Ranking **Top 300 QS (#265, 2026)**. Dieci corsi del 1° anno verificati sulla pagina della Facoltà di Humanities. Rara combinazione di bachelor in inglese a prezzo pubblico. Fonti: upf.edu/en/web/graus/grau-en-estudis-globals, upf.edu/en/web/humanitats.
+- **ecole-polytechnique** (École Polytechnique, 🇫🇷 Palaiseau) — bachelor: **Bachelor of Science, interamente in inglese**, con doppia specializzazione (Matematica + Fisica / Informatica / Economia). Tuition €15,900/anno (UE/SEE) — molto sopra la media pubblica francese, ma con borse diffuse; living €800–€1,000/mese (stima ufficiale: €800/mese in campus, ~€12.000/anno). Ranking **Top 50 QS (#41, 2026)** come Institut Polytechnique de Paris. Fonti: programmes.polytechnique.edu/en/bachelor (tuition fees, living costs, structure).
+
+### Verifiche
+- **barcelona**: tuition **confermata**. La tariffa pubblica catalana è €17,69 a credito (≈ €1.061/anno su 60 crediti), coerente con il minimo `€1,050` già presente; la variazione per coefficiente di grado giustifica il tetto. Nessuna modifica. Fonte: studyincatalonia.gencat.cat.
+- **vienna**: tuition UE **confermata** — €25,20 di ÖH-Beitrag a semestre (semestre estivo 2026), nessuna tassa entro la durata standard + 2 semestri. Il valore `~€25/semestre` nel file è corretto. Fonte: studieren.univie.ac.at/en/tuition-fee.
+- **ku-leuven**: **confermata indirettamente**. La tariffa SEE di Gent (€305,40 + €14,60/credito = €1.181,40) coincide con il valore `€1,181/anno` già presente per KU Leuven: è la tariffa fiamminga comune. Nessuna modifica.
+- **polimi**: **non verificabile in questo giro**. Le fonti ufficiali raggiunte riportano solo soglie di rateizzazione e tassa regionale, non il tetto del contributo onnicomprensivo. Campo lasciato invariato — vedi sotto.
+- **sapienza**: **discrepanza rilevata, campo non modificato**. Il file riporta `€300–€1,500/anno`, ma uniroma1.it indica una No Tax Area fino a €24.000 di ISEE con esonero totale dal contributo, restando dovuti solo tassa regionale €140 + bollo €16 = **€156**. Il minimo reale sarebbe quindi ~€156, non €300. Manca però conferma sul tetto massimo, quindi non ho toccato il campo — stesso criterio prudenziale usato per Bologna prima di trovare la tabella ufficiale.
+
+### Da controllare a mano
+- **sapienza**: recuperare la tabella ufficiale del contributo onnicomprensivo 2026/2027 e correggere la forbice (minimo atteso ~€156, come per Bologna).
+- **polimi**: idem, serve la tabella degli importi massimi per fascia ISEE.
+- **luxembourg**: manca ancora il `ranking`.
+- **Belgio/Francia/Spagna**: la Priorità 2 originale (14 atenei) va ricalibrata escludendo gli atenei belgi senza offerta triennale in inglese (UCLouvain, ULB, Antwerp) e privilegiando Spagna e Francia.
+
+## 2026-08-10 (3° giro) — ADD Priorità 1 completata: Regno Unito
+
+Chiusa la Priorità 1. **UK da 8 a 12; catalogo da 77 a 81.** Tutte e quattro seguono la convenzione UK adottata nel giro precedente: tariffa **International in prima posizione**, Home come secondo segmento.
+
+### Aggiunte
+- **manchester** (University of Manchester, 🇬🇧) — bachelor: Computer Science (BSc). International £19,500–£36,500 in base al corso; living £900–£1,100/mese, tra i più bassi del gruppo UK. Ranking **Top 50 QS (#40, 2027)**. Fonti: manchester.ac.uk/study/international/finance-and-scholarships/fees, manchester.ac.uk (comunicato QS 2027).
+- **bristol** (University of Bristol, 🇬🇧) — bachelor: Economics (BSc). International **£25,500–£49,700** — cifra presa dalla tabella ufficiale per gli immatricolati 2026/27, dopo che le ricerche generiche restituivano solo stime in dollari australiani da aggregatori. Living £1,100–£1,500/mese (terza città più cara d'Inghilterra per studenti). Ranking **Top 100 QS (#57, 2027)**. Fonte: bristol.ac.uk/students/support/finances/tuition-fees/ug/overseas/26-27/2026-starters.
+- **durham** (Durham University, 🇬🇧) — bachelor: Economics (BA). International £28,500–£31,000; living £1,046/mese. Ranking **Top 100 QS (#85, 2027)**, +9 posizioni. Sistema dei college come Oxbridge. Fonti: durham.ac.uk/study/undergraduate/fees-and-funding/tuition-fees, durham.ac.uk (comunicato QS 2027).
+- **glasgow** (University of Glasgow, 🇬🇧) — bachelor: Economics (MA Hons, **4 anni**, struttura scozzese). International £22,700–£62,700 in base al corso; living £900–£1,100/mese. Ranking **Top 100 QS (#80, 2027)**. Economics 1A e 1B verificati sul catalogo corsi. Come per Edinburgh, il secondo segmento resta descrittivo: **nessuna cifra verificata** per la fee scozzese/RUK, quindi non inventata. Fonti: gla.ac.uk/undergraduate/fees/intlfees, gla.ac.uk/coursecatalogue.
+
+### Note sui curricula
+Per questi quattro atenei le liste dei moduli del primo anno **non sono pubblicate integralmente** sulle pagine aperte (Manchester rimanda al portale interno; Bristol pubblica la struttura per tema; Durham non nomina i moduli obbligatori). Ho inserito solo ciò che è verificabile — per Glasgow i nomi reali (Economics 1A/1B), altrove voci tematiche — **senza inventare nomi di moduli**. Da arricchire in un giro VERIFY futuro se servisse maggiore dettaglio.
+
+### Stato Priorità 1
+Completata: 9 atenei su 9 della lista (Cambridge, Imperial, Edinburgh, King's, Warwick, Manchester, Bristol, Durham, Glasgow). Il Regno Unito passa dal **4%** al **15%** del catalogo. Prossimo passo previsto: Priorità 2 (Belgio, Francia, Spagna).
+
 ## 2026-08-10 (2° giro) — ADD Priorità 1: Regno Unito
 
 Giro mirato sul buco più grave del catalogo: il Regno Unito era fermo a 3 atenei (Oxford, UCL, LSE) pur essendo una delle destinazioni più cercate. **UK da 3 a 8; catalogo da 72 a 77.**
