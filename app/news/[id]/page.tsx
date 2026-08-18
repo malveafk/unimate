@@ -66,9 +66,16 @@ export default function ArticlePage() {
                 {item.university}
               </span>
             )}
-            <span style={{ marginLeft: "auto", fontFamily: "var(--font-mono)", fontSize: 11, color: "rgba(255,255,255,0.4)" }}>
-              {item.date}
-            </span>
+            <div style={{ marginLeft: "auto", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "rgba(255,255,255,0.4)" }}>
+                {item.date}
+              </span>
+              {item.updated && (
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(255,255,255,0.4)" }}>
+                  Updated on {item.updated}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>

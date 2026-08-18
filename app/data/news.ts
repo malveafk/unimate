@@ -1,11 +1,32 @@
+export const newsTags = ["All", "Admissions", "Grants", "Housing", "Scholarships", "Updates", "Trends", "Tuition"] as const;
+
+export const newsCountries = [
+  { code: "all", name: "All", flag: "🌍" },
+  { code: "Netherlands", name: "Netherlands", flag: "🇳🇱" },
+  { code: "Germany", name: "Germany", flag: "🇩🇪" },
+  { code: "France", name: "France", flag: "🇫🇷" },
+  { code: "Spain", name: "Spain", flag: "🇪🇸" },
+  { code: "Portugal", name: "Portugal", flag: "🇵🇹" },
+  { code: "Italy", name: "Italy", flag: "🇮🇹" },
+  { code: "Denmark", name: "Denmark", flag: "🇩🇰" },
+  { code: "Sweden", name: "Sweden", flag: "🇸🇪" },
+] as const;
+
+// Derived from the filter lists above: an article tag/country that isn't in
+// newsTags / newsCountries becomes a compile-time error instead of silently
+// vanishing from the runtime filters. "All"/"all" are filter-only options.
+export type NewsTag = Exclude<(typeof newsTags)[number], "All">;
+export type NewsCountry = Exclude<(typeof newsCountries)[number]["code"], "all">;
+
 export type NewsItem = {
   id: string;
   title: string;
   summary: string;
   date: string;
-  country: string;
+  updated?: string;
+  country: NewsCountry;
   flag: string;
-  tag: string;
+  tag: NewsTag;
   university?: string;
   link?: string;
   image: string;
@@ -16,7 +37,8 @@ export const news: NewsItem[] = [
     id: "11",
     title: "Sweden: EU students pay no tuition at KTH, Lund, Uppsala and Stockholm University",
     summary: "Sweden has charged no tuition to EU/EEA students since 2011 — and still doesn't. Bachelor's programmes at KTH, Lund, Uppsala and Stockholm University are free for European students, who also pay no application fee. Living costs run roughly €1,100–1,500/month in Stockholm and €900–1,200 in Lund or Uppsala. Applications go through universityadmissions.se, which publishes the autumn 2027 round and its deadlines in autumn 2026.",
-    date: "12 August 2026",
+    date: "8 April 2025",
+    updated: "18 August 2026",
     country: "Sweden",
     flag: "🇸🇪",
     tag: "Admissions",
@@ -27,7 +49,8 @@ export const news: NewsItem[] = [
     id: "10",
     title: "University of Copenhagen: September 2027 bachelor applications, EU deadline 15 March 2027",
     summary: "Applications for September 2027 bachelor's entry at the University of Copenhagen go through the national optagelse.dk portal. EU/EEA applicants will need to apply by 15 March 2027 and upload supporting documents by 5 July 2027; the portal for non-EU/EEA applicants opens on 15 November 2026 with a 15 January 2027 deadline. Most bachelor's programmes are taught in Danish and require B2/C1 proficiency.",
-    date: "12 August 2026",
+    date: "12 April 2025",
+    updated: "18 August 2026",
     country: "Denmark",
     flag: "🇩🇰",
     tag: "Admissions",
@@ -39,7 +62,8 @@ export const news: NewsItem[] = [
     id: "2",
     title: "Germany: BAföG maximum rises to €992/month — EU students qualify through work or long residence",
     summary: "Germany's BAföG state aid now pays a maximum of €992/month for 2025/26, combining basic need, a housing supplement and insurance. The next increase has been postponed to summer 2027, so this rate also holds for 2026/27. EU nationals aren't automatically entitled: they generally qualify by working at least 12 hours per week alongside their studies, or after five years of legal residence in Germany.",
-    date: "12 August 2026",
+    date: "28 April 2025",
+    updated: "18 August 2026",
     country: "Germany",
     flag: "🇩🇪",
     tag: "Grants",
@@ -50,7 +74,8 @@ export const news: NewsItem[] = [
     id: "8",
     title: "Spain: Catalonia keeps its public-university tuition freeze for 2026-2027",
     summary: "Catalonia has extended its public-university tuition freeze into 2026-2027 under Decree 96/2026, holding the price of a bachelor's credit at €17.69 — among the lowest in Spain. The University of Barcelona and UAB remain very affordable for EU students. New for 2026-2027, single-parent families receive the same fee exemptions previously reserved for large families, backed by €12.5 million in regional funding.",
-    date: "12 August 2026",
+    date: "1 April 2025",
+    updated: "18 August 2026",
     country: "Spain",
     flag: "🇪🇸",
     tag: "Tuition",
@@ -61,7 +86,8 @@ export const news: NewsItem[] = [
     id: "9",
     title: "Denmark: free tuition for EU students, plus SU grants of DKK 7,426/month for those who work",
     summary: "EU/EEA students pay no tuition at Danish universities. On top of that, the SU state grant pays DKK 7,426 per month before tax in 2026 (about €1,000) — but EU students aren't automatically eligible: you generally qualify by holding 'worker status', meaning around 10–12 hours of paid work per week. An optional student loan of up to DKK 3,799/month is available alongside the grant.",
-    date: "12 August 2026",
+    date: "18 April 2025",
+    updated: "18 August 2026",
     country: "Denmark",
     flag: "🇩🇰",
     tag: "Grants",
@@ -72,7 +98,8 @@ export const news: NewsItem[] = [
     id: "5",
     title: "University of Amsterdam: limited student housing allocated by lottery — apply by 1 April",
     summary: "Amsterdam's housing shortage means the University of Amsterdam allocates its limited student rooms — via partners such as DUWO, De Key and Student Experience — by randomized lottery, so a place is never guaranteed. International students should apply by the 1 April advisory deadline for housing and visa steps. The September 2026 round has already closed; spring-2027 starters enter a separate lottery held in October–November 2026.",
-    date: "12 August 2026",
+    date: "15 April 2025",
+    updated: "18 August 2026",
     country: "Netherlands",
     flag: "🇳🇱",
     tag: "Housing",
@@ -84,7 +111,8 @@ export const news: NewsItem[] = [
     id: "3",
     title: "TU Munich: which bachelor's degrees you can study fully in English",
     summary: "Most bachelor's degrees at TU Munich are taught in German, but a growing number run fully in English — including Aerospace (B.Sc.) and Information Engineering at the TUM Campus Heilbronn — while Management & Technology offers an English-taught track. For the fully-English programmes no German is required; applicants show English proficiency through a certificate or prior English-language schooling. Each programme page lists its exact language of instruction.",
-    date: "12 August 2026",
+    date: "25 April 2025",
+    updated: "18 August 2026",
     country: "Germany",
     flag: "🇩🇪",
     tag: "Updates",
@@ -96,7 +124,8 @@ export const news: NewsItem[] = [
     id: "12",
     title: "KTH Stockholm: one bachelor's programme is taught fully in English",
     summary: "At KTH Royal Institute of Technology, bachelor's programmes are taught in Swedish — with a single exception. The three-year BSc in Information and Communication Technology (180 ECTS) is delivered entirely in English and open to international students without Swedish. Every other KTH bachelor's requires Swedish for admission; the wide English-taught offering begins at master's level, where most programmes are in English.",
-    date: "12 August 2026",
+    date: "3 April 2025",
+    updated: "18 August 2026",
     country: "Sweden",
     flag: "🇸🇪",
     tag: "Updates",
@@ -146,18 +175,4 @@ export const news: NewsItem[] = [
     university: "Sciences Po Paris",
     image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=900&auto=format&fit=crop&q=80",
   },
-];
-
-export const newsTags = ["All", "Admissions", "Grants", "Housing", "Scholarships", "Updates", "Trends", "Tuition"];
-
-export const newsCountries = [
-  { code: "all", name: "All", flag: "🌍" },
-  { code: "Netherlands", name: "Netherlands", flag: "🇳🇱" },
-  { code: "Germany", name: "Germany", flag: "🇩🇪" },
-  { code: "France", name: "France", flag: "🇫🇷" },
-  { code: "Spain", name: "Spain", flag: "🇪🇸" },
-  { code: "Portugal", name: "Portugal", flag: "🇵🇹" },
-  { code: "Italy", name: "Italy", flag: "🇮🇹" },
-  { code: "Denmark", name: "Denmark", flag: "🇩🇰" },
-  { code: "Sweden", name: "Sweden", flag: "🇸🇪" },
 ];
