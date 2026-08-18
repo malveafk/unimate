@@ -14,20 +14,28 @@ Tutti e tre vanno tenuti coerenti tra loro.
 
 ## Il tipo
 
+`tag` e `country` sono **union types** derivati dagli array dei filtri `newsTags` / `newsCountries` (marcati `as const` in cima al file), non più semplici `string`:
+
 ```ts
+export type NewsTag = Exclude<(typeof newsTags)[number], "All">;
+export type NewsCountry = Exclude<(typeof newsCountries)[number]["code"], "all">;
+
 export type NewsItem = {
   id: string;
   title: string;
   summary: string;
-  date: string;
-  country: string;
+  date: string;         // data di pubblicazione originale
+  updated?: string;     // data dell'ultima revisione (REFRESH), stesso formato di date
+  country: NewsCountry; // un code di newsCountries diverso da "all"
   flag: string;
-  tag: string;
+  tag: NewsTag;         // un valore di newsTags diverso da "All"
   university?: string;
   link?: string;
   image: string;
 };
 ```
+
+Conseguenza pratica: usare un `tag`/`country` non dichiarato negli array è un **errore di compilazione** (`npx tsc --noEmit` fallisce), non più una sparizione silenziosa dai filtri a runtime.
 
 ## Campo per campo
 
@@ -61,8 +69,11 @@ Stringa in formato inglese `D Month YYYY`, senza zero iniziale e senza virgole:
 
 È solo visualizzata, non parsata: nessun codice la converte in `Date`. Quindi **non determina l'ordine** — vedi sotto.
 
+### `updated` (opzionale)
+Data dell'**ultima revisione** dell'articolo, stesso formato di `date` (`D Month YYYY`). Separa la data di pubblicazione (`date`, che in revisione non cambia più) da quella dell'ultima modifica. **In modalità REFRESH aggiorni `updated`, mai `date`.** Un articolo appena creato in ADD non ha `updated` (nasce con la sola `date`). Le pagine `/news` e `/news/[id]` mostrano "Updated on X" sotto la data quando il campo è presente.
+
 ### `country` (obbligatorio)
-Nome del paese in inglese, es. `"Netherlands"`. Deve corrispondere **esattamente** a un `code` presente in `newsCountries`, perché il filtro confronta `n.country === selectedCountry`.
+Nome del paese in inglese, es. `"Netherlands"`. Deve corrispondere **esattamente** a un `code` presente in `newsCountries` (il filtro confronta `n.country === selectedCountry`). È un **union type** (`NewsCountry`): un valore non tra i `code` di `newsCountries` è un errore di compilazione, non passa più inosservato.
 
 ### `flag` (obbligatorio)
 Emoji della bandiera del paese, coerente con `country` e con quella usata in `newsCountries`.
@@ -82,7 +93,7 @@ Una stringa scelta tra quelle in `newsTags`. Valori attualmente in uso:
 
 `"All"` è presente in `newsTags` solo come opzione del filtro: **non usarlo mai come `tag` di un articolo.**
 
-Preferisci sempre riusare un tag esistente. Introducine uno nuovo solo se nessuno dei sette descrive la notizia, e in quel caso aggiungilo anche a `newsTags`.
+Preferisci sempre riusare un tag esistente. Introducine uno nuovo solo se nessuno dei sette descrive la notizia, e in quel caso aggiungilo **prima** a `newsTags`: essendo `tag` un union type (`NewsTag`), usarne uno non ancora nell'array è un errore di compilazione.
 
 ### `university` (opzionale)
 Solo se la notizia riguarda un ateneo specifico. Usa il nome per esteso, e se l'ateneo è già presente in `app/data/universities.ts` **usa esattamente la stessa stringa del campo `name`** di quel record, così i due dataset restano allineati per usi futuri. Ometti il campo per notizie di respiro nazionale o europeo.
@@ -117,21 +128,21 @@ Quindi:
 
 ## Le liste dei filtri
 
-In fondo al file:
+In **cima** al file, marcati `as const` (è ciò che permette di derivare gli union types `NewsTag` / `NewsCountry`):
 
 ```ts
-export const newsTags = ["All", "Admissions", "Grants", "Housing", "Scholarships", "Updates", "Trends", "Tuition"];
+export const newsTags = ["All", "Admissions", "Grants", "Housing", "Scholarships", "Updates", "Trends", "Tuition"] as const;
 
 export const newsCountries = [
   { code: "all", name: "All", flag: "🌍" },
   { code: "Netherlands", name: "Netherlands", flag: "🇳🇱" },
   // ...
-];
+] as const;
 ```
 
 Paesi già presenti: Netherlands, Germany, France, Spain, Portugal, Italy, Denmark, Sweden.
 
-Per un paese nuovo, aggiungi una riga a `newsCountries` con `code` e `name` uguali al `country` dell'articolo, e la stessa emoji usata nel campo `flag`. Le voci `"all"` e `"All"` restano sempre in testa alle rispettive liste.
+Per un paese nuovo, aggiungi **prima** una riga a `newsCountries` con `code` e `name` uguali al `country` dell'articolo, e la stessa emoji usata nel campo `flag`; solo dopo potrai usare quel `country` in un articolo (altrimenti `tsc` fallisce). Le voci `"all"` e `"All"` restano sempre in testa alle rispettive liste. **Non rimuovere `as const`**: senza, gli union types tornano a essere `string` e sparisce il controllo a compile-time.
 
 ## Esempio di record completo
 
@@ -157,10 +168,11 @@ Per un paese nuovo, aggiungi una riga a `newsCountries` con `code` e `name` ugua
 - [ ] `id` = max esistente + 1, e nessun id preesistente è cambiato
 - [ ] `tag` compare in `newsTags` e non è `"All"`
 - [ ] `country` compare come `code` in `newsCountries`, e `flag` coincide
-- [ ] `date` nel formato `D Month YYYY`
+- [ ] `date` nel formato `D Month YYYY` (in ADD = oggi; in REFRESH la `date` **non cambia**)
+- [ ] Se è un REFRESH: `updated` impostato (stesso formato di `date`), `date` lasciata invariata
 - [ ] `image` è un URL Unsplash esistente, con i parametri query standard
 - [ ] `summary` in inglese, 40-70 parole, con numeri e scadenze
 - [ ] `link` compilato
-- [ ] File sintatticamente valido (virgole, apici, oggetti chiusi)
+- [ ] File sintatticamente valido e `npx tsc --noEmit` passa (gli union types bloccano `tag`/`country` non validi)
 - [ ] Voce aggiunta a `news-log.md`
 - [ ] **Nessun seed lanciato** — le news non passano da Supabase

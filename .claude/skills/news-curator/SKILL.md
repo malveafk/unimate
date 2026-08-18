@@ -32,7 +32,7 @@ Ripetute qui perché sono la causa più probabile di errore, ma i dettagli sono 
 
 1. **L'ordine dell'array è l'ordine di pubblicazione.** Non esiste nessun `.sort()` da nessuna parte. `filtered[0]` diventa la notizia in evidenza, `slice(1,4)` le tre secondarie. Una notizia nuova va messa **in cima all'array**, non in fondo.
 2. **Gli `id` sono stringhe numeriche e non si riusano mai.** L'URL di un articolo è `/news/<id>`. Cambiare o riassegnare un id rompe link già condivisi. Un articolo nuovo prende `max(id esistenti) + 1`, indipendentemente da dove finisce nell'array.
-3. **`tag` e `country` devono esistere negli array `newsTags` e `newsCountries` in fondo al file.** I filtri della pagina si costruiscono da quegli array. Un articolo con un tag non presente in `newsTags` è raggiungibile solo dal filtro "All" e sparisce appena l'utente filtra qualcosa.
+3. **`tag` e `country` sono union types derivati dagli array `newsTags` e `newsCountries` (ora in cima al file, marcati `as const`).** I filtri della pagina si costruiscono da quegli array. Usare un `tag`/`country` non presente nell'array è ora un **errore di compilazione** (`tsc --noEmit` fallisce), non più una sparizione silenziosa a runtime: per aggiungerne uno nuovo devi **prima estendere l'array**, e solo dopo puoi usarlo in un articolo.
 
 ## Due modalità
 
@@ -60,7 +60,7 @@ Ripetute qui perché sono la causa più probabile di errore, ma i dettagli sono 
    - Non copiare frasi dalla fonte: riscrivi con parole tue.
    - `link`: metti sempre l'URL della fonte primaria. Al momento le pagine non lo mostrano (vedi "Note aperte"), ma serve come tracciabilità.
 6. Inserisci il nuovo oggetto **in cima** all'array `news`, con id `max + 1`.
-7. Se la notizia riguarda un paese o un tag non ancora presenti negli array in fondo al file, aggiungili lì (vedi `references/schema.md` per il formato).
+7. Se la notizia riguarda un paese o un tag non ancora presenti negli array `newsTags` / `newsCountries` (in cima al file), **aggiungili prima lì** (vedi `references/schema.md` per il formato): essendo union types, usarne uno non dichiarato è un errore di compilazione.
 8. Registra l'aggiunta nel log.
 
 ### Modalità REFRESH — revisionare le notizie già pubblicate
@@ -68,9 +68,11 @@ Ripetute qui perché sono la causa più probabile di errore, ma i dettagli sono 
 Le news invecchiano in un modo che i dati delle università non hanno: una notizia può essere stata scritta correttamente e diventare falsa da sola col passare del tempo.
 
 1. Scorri gli articoli presenti partendo dai più vecchi e valuta ciascuno:
-   - **Scaduto**: parla di una scadenza o di un anno accademico ormai passati. Se il fatto si ripete ogni anno (es. finestra di ammissione), **aggiornalo** al ciclo corrente verificando le date nuove sul sito ufficiale, e sposta l'articolo in cima con la `date` aggiornata. Se è un evento irripetibile e superato, segnalalo nel log come candidato alla rimozione — **non cancellare articoli di tua iniziativa**, l'id sparirebbe e con esso un URL potenzialmente già condiviso.
-   - **Superato dai fatti**: l'importo, il requisito o la regola è cambiato. Correggi `summary` (e `title` se necessario) con il dato nuovo, citando la fonte nel log, e aggiorna `date`.
+   - **Scaduto**: parla di una scadenza o di un anno accademico ormai passati. Se il fatto si ripete ogni anno (es. finestra di ammissione), **aggiornalo** al ciclo corrente verificando le date nuove sul sito ufficiale, e sposta l'articolo in cima. Se è un evento irripetibile e superato, segnalalo nel log come candidato alla rimozione — **non cancellare articoli di tua iniziativa**, l'id sparirebbe e con esso un URL potenzialmente già condiviso.
+   - **Superato dai fatti**: l'importo, il requisito o la regola è cambiato. Correggi `summary` (e `title` se necessario) con il dato nuovo, citando la fonte nel log.
    - **Ancora valido**: non toccarlo. Non riscrivere il testo solo per riformularlo.
+
+   > **In REFRESH aggiorni `updated`, NON `date`.** La `date` è la data di **pubblicazione originale** dell'articolo e non si tocca mai in revisione; imposta invece `updated` alla data in cui fai la modifica (stesso formato di `date`, es. `"18 August 2026"`). Serve a separare "quando è uscita" da "quando l'ho rivista", così la sezione non sembra ripubblicata tutta in un giorno solo. Un articolo creato in ADD nasce con la sola `date`, senza `updated`; la pagina mostra "Updated on X" sotto la data quando `updated` è presente.
 2. Se una fonte non è più raggiungibile e non trovi conferma altrove, lascia l'articolo com'è e segnalalo nel log per revisione manuale.
 3. Registra ogni modifica nel log con cosa è cambiato e la fonte.
 
@@ -111,7 +113,7 @@ Il log è il modo in cui Nicolò controlla il lavoro senza leggere il diff riga 
 
 1. Verifica che il file sia sintatticamente valido — virgole, oggetti chiusi, apici. Se puoi lanciare `npx tsc --noEmit` o il lint del progetto, fallo.
 2. Controlla che ogni `id` sia ancora univoco e che nessun id preesistente sia cambiato.
-3. Controlla che ogni `tag` e ogni `country` usati compaiano in `newsTags` / `newsCountries`.
+3. Controlla che ogni `tag` e ogni `country` usati compaiano in `newsTags` / `newsCountries` — ora è anche garantito da `tsc` (sono union types: se usi un valore non dichiarato, `npx tsc --noEmit` fallisce).
 4. **Non lanciare `seed.ts`** — non c'entra nulla con le news, tocca solo università, bachelor e corsi.
 5. Mostra a Nicolò il diff di `news.ts` prima di committare, e non pushare automaticamente.
 
