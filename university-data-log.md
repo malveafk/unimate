@@ -7,6 +7,7 @@ Chiusi i due flag aperti nel giro precedente. Entrambi i campi erano sbagliati *
 ### Verifiche
 - **polimi** — tuition **corretta** da `€900–€3,900/anno (basato sul reddito ISEE)` a **`€157–€3,943/anno (basato su ISEE: €157,04 fino a €22.000, massimo €3.943,04 oltre €30.000)`**. Il tetto precedente (€3.900) era sostanzialmente giusto; **il minimo era sovrastimato di quasi sei volte**. Fonte: polimi.it/en/prospective-students/how-much-does-it-cost/laurea-laurea-magistrale-and-single-cycle-programmes.
 - **sapienza** — tuition **corretta** da `€300–€1,500/anno (basato su ISEE/residenza)` a **`€156–€2,924/anno (basato su ISEE: esonero totale sotto €24.000, restano tassa regionale €140 e bollo €16, massimo in base al gruppo di corso)`**. Qui **erano sbagliati entrambi gli estremi**: il minimo (esonero totale sotto €24.000 di ISEE, restano solo €140 + €16 = €156) e soprattutto il massimo, perché gli importi ordinari sono €2.821 per il Gruppo 1 (Economia, Giurisprudenza, Lettere, Scienze politiche) e €2.924 per il Gruppo 2 (Architettura, Ingegneria, Scienze) — quasi il doppio del €1.500 registrato. Fonti: uniroma1.it/it/content/importi-ordinari-dei-contributi-di-iscrizione, uniroma1.it/it/pagina/contributi-e-agevolazioni (No Tax Area estesa a €24.000).
+- **luxembourg** — `ranking` **aggiunto**: `"Top 400 QS (#381, 2026)"`. Era rimasto vuoto per due giri perché non avevo trovato una posizione verificabile; il dato è ora confermato su fonte primaria. Fonti: uni.lu/en/about/profile/rankings-accreditations/qs-world-university, topuniversities.com. **Flag chiuso.**
 
 ### Nota di metodo
 Il regolamento PDF di Sapienza (art. 41) non è risultato estraibile né via fetch né in locale (manca poppler sulla macchina), quindi le fasce ISEE intermedie non sono state ricostruite: la stringa riporta gli estremi verificati e rimanda all'ISEE per il calcolo, senza inventare le fasce di mezzo.
@@ -34,7 +35,6 @@ Il piano prevedeva 4 atenei belgi (Ghent, UCLouvain, ULB, Antwerp) per corregger
 - **sapienza**: **discrepanza rilevata, campo non modificato**. Il file riporta `€300–€1,500/anno`, ma uniroma1.it indica una No Tax Area fino a €24.000 di ISEE con esonero totale dal contributo, restando dovuti solo tassa regionale €140 + bollo €16 = **€156**. Il minimo reale sarebbe quindi ~€156, non €300. Manca però conferma sul tetto massimo, quindi non ho toccato il campo — stesso criterio prudenziale usato per Bologna prima di trovare la tabella ufficiale.
 
 ### Da controllare a mano
-- **luxembourg**: manca ancora il `ranking`.
 - **Belgio/Francia/Spagna**: la Priorità 2 originale (14 atenei) va ricalibrata escludendo gli atenei belgi senza offerta triennale in inglese (UCLouvain, ULB, Antwerp) e privilegiando Spagna e Francia.
 
 ## 2026-08-10 (3° giro) — ADD Priorità 1 completata: Regno Unito

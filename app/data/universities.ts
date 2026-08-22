@@ -4718,6 +4718,7 @@ export const universities: University[] = [
     strengths: ["Computer Science", "Finance", "Law", "European Studies"],
     description: "Luxembourg's only public university, founded in 2003 and built on the Belval campus, a former steelworks site redeveloped into a modern research hub. Deliberately multilingual: most programmes are taught in two languages, and a few — including Computer Science — are entirely in English. Very low tuition for a high-income country, an obligatory mobility semester abroad, and direct proximity to EU institutions and the Luxembourg financial centre.",
     website: "https://www.uni.lu/en/",
+    ranking: "Top 400 QS (#381, 2026)",
     bachelors: [
       {
         id: "computer-science",
