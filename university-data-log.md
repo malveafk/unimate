@@ -1,5 +1,32 @@
 # University data log
 
+## 2026-08-20 — ADD Priorità 2 (Spagna) + VERIFY
+
+Catalogo da **84 a 86**. Spagna 4→6. **Nessuna aggiunta francese**: nessuno dei candidati ha superato il filtro (vedi sotto).
+
+### Aggiunte
+- **uc3m** (Universidad Carlos III de Madrid, 🇪🇸 Getafe/Leganés) — bachelor: **International Studies, 240 ECTS, interamente in inglese**. Offre in inglese anche Economics, Aerospace Engineering e Data Science: raro per una pubblica spagnola. Tuition **€1.015–€1.241/anno** (UE, €16,92–€20,68 a credito secondo la fascia di sperimentalità — tabella ufficiale 2026/27); living €800–€1.100/mese; ranking **Top 350 QS (#314, 2026)**. Il dettaglio dei corsi è pubblicato solo dentro il documento ufficiale del piano di studi, quindi la lista è per area e non per singolo insegnamento. Fonti: uc3m.es/grado/admision/solicitud/matricula/precios-matricula, uc3m.es/bachelor-degree/international-studies.
+- **uab** (Universitat Autònoma de Barcelona, 🇪🇸 Bellaterra) — bachelor: **Business Administration and Management, interamente in inglese**. UAB ha tre triennali full-English (Business Administration, Primary Education e, da quest'anno, Economics). Tuition €1.061/anno (UE, €17,69 a credito, tariffa pubblica catalana come UPF); living €900–€1.200/mese; ranking **Top 200 QS (#172, 2026)**, seconda in Spagna. **Dieci insegnamenti del 1° anno verificati** con i crediti sul piano di studi ufficiale. Fonti: uab.cat/web/study/undergraduate/undergraduate-offer/bachelor-s-degrees-in-english, uab.cat (piano di studi Business Administration).
+
+### Francia: due candidati scartati
+Applicando lo stesso filtro usato per Oslo e per gli atenei belgi:
+- **Université Paris-Saclay** — scartata. La pagina ufficiale di ammissione ai triennali **non documenta alcun bachelor interamente in inglese**; l'inglese compare solo a livello magistrale. Stesso limite strutturale già visto altrove.
+- **ESSEC Business School** — scartata per qualità del dato, non per la lingua (il Global BBA ha effettivamente un English Track). ESSEC pubblica solo il **costo totale sui 4 anni** (€50.900–€91.200) e varia per campus (Cergy, Singapore, Rabat): non è riducibile a una cifra annuale affidabile senza fare aritmetica su valori che mescolano sedi dentro e fuori dall'Europa. Ricandidabile se pubblicheranno il dettaglio annuale.
+
+### Verifiche
+- **complutense** — tuition **corretta** da `€2,400–€2,900/anno (prima immatricolazione)` a **`€1,015–€1,241/anno (UE, €16,92–€20,68 a credito secondo il grado di sperimentalità, prima immatricolazione)`**. Il valore precedente era **circa il doppio del reale**. La Comunidad de Madrid fissa i prezzi pubblici per decreto uguali per tutti i suoi atenei: la tabella UCM riporta €20,68 (livello 1), €19,43 (livello 2) e €16,92 (livello 3) a credito, cioè €1.240,80 / €1.165,80 / €1.015,20 l'anno su 60 crediti — identici a UC3M. Il sospetto è nato proprio dal confronto tra i due atenei della stessa regione. Fonte: ucm.es/informacion/precios-de-grado.
+- **lisbon**: tuition **confermata** — €697/anno per la generalità dei corsi di licenciatura 2025/26. Nessuna modifica. Fonte: ulisboa.pt (deliberazione propinas 2025/26).
+- **porto**: tuition **confermata** — €697/anno (più €2 di assicurazione scolastica) per studenti nazionali ed equiparati UE. Nessuna modifica. Fonte: up.pt/portal/pt/estudar/licenciaturas-e-mestrados-integrados/funcionamento-e-propinas.
+- **sorbonne**: tuition **confermata** — €178 di droits nationaux in licence più €105 di CVEC = €283, coerente con il valore nel file. Nessuna modifica. Fonte: service-public.gouv.fr.
+- **lyon**: tuition **confermata** — stessi €178 + €105 CVEC. Nessuna modifica. **Nota**: dal 2026/27 la Francia inasprisce le esenzioni per i non-UE (licence a €2.895), ma il campo riguarda gli studenti UE e resta valido.
+
+### Nota: il pattern degli errori sulle tasse
+Con Complutense salgono a **quattro** gli atenei trovati con la tuition sbagliata dello stesso tipo — bologna, sapienza, polimi e ora complutense. In tutti i casi il dato originale sembrava basato su "quanto paga uno studente tipo" invece che sul tariffario ufficiale, e sbagliava di un fattore 2–6. **Regola pratica per i giri futuri**: per gli atenei pubblici di Spagna e Italia partire sempre dal tariffario ufficiale (prezzo a credito per la Spagna, tabella ISEE per l'Italia) e non da stime aggregate.
+
+### Da controllare a mano
+- **barcelona**: da riverificare con lo stesso metodo. Il file riporta `€1,050–€2,500/anno`; il minimo è coerente con la tariffa catalana (€17,69/credito ≈ €1.061), ma il tetto di €2.500 andrebbe confrontato con il tariffario ufficiale UB, visto quanto emerso su Complutense.
+- **Priorità 2, Francia**: serve un candidato francese con bachelor in inglese *e* tariffa annuale pubblicata. Da valutare Université Côte d'Azur e American University of Paris.
+
 ## 2026-08-10 (5° giro) — VERIFY: tabelle ufficiali Sapienza e Politecnico di Milano
 
 Chiusi i due flag aperti nel giro precedente. Entrambi i campi erano sbagliati **sul minimo**, con lo stesso schema già trovato su Bologna: la No Tax Area azzera il contributo e resta solo la tassa regionale più il bollo, circa €156, ma nel file era registrato un minimo molto più alto.
