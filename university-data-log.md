@@ -1,5 +1,23 @@
 # University data log
 
+## 2026-08-10 (7° giro) — VERIFY: incoerenze interne (Catalogna e Irlanda)
+
+Giro **senza aggiunte**: nessun candidato francese ha superato il filtro "almeno un bachelor interamente in inglese", e nel frattempo il confronto interno al catalogo ha fatto emergere due incoerenze più utili da chiudere. Catalogo fermo a **86**.
+
+### Verifiche
+- **barcelona** — tuition **corretta** da `€1,050–€2,500/anno (in base al grado)` a **`€1,061/anno (UE, €17,69 a credito, prezzo unico catalano dal 2025-2026; sconti fino all'80% per fascia di reddito)`**. **Questa correzione smentisce una mia conferma precedente**: nel 4° giro avevo giudicato il campo coerente ipotizzando che il tetto di €2.500 riflettesse i coefficienti di sperimentalità per tipo di grado. Quei coefficienti **sono stati aboliti**: dal 2025-2026 la Catalogna applica un prezzo unico di €17,69 a credito a tutti i gradi delle sette università pubbliche. Il tetto non esiste più. Fonti: studyincatalonia.gencat.cat/en/plan-your-studies/fees, govern.cat (nota stampa sul decreto prezzi unici).
+- **pompeu-fabra** — tuition **riformulata** da `€1,202/anno (UE, €17,69 a credito)` a **`€1,061/anno di tasse (UE, €17,69 a credito) più ~€141 di spese amministrative, totale ~€1,202`**. La cifra non era sbagliata, ma **non era comparabile**: includeva le spese amministrative mentre UAB e Barcelona riportavano le sole tasse. Affiancate nel confronto sembravano tre tariffe diverse per la stessa tariffa regionale. Ora tutte e tre derivano €1.061 e l'informazione sulle spese resta leggibile.
+- **trinity-dublin** — tuition **corretta** da `~€3,000/anno` a **`€2,500/anno (EU, dopo la riduzione permanente di €500 del Budget 2026)`**. Segnalata dallo stesso metodo: Trinity e UCD seguono il medesimo schema nazionale irlandese (Free Fees Initiative), ma il file dava €3.000 contro i €2.500 di UCD. Il Budget 2026 ha reso permanente una riduzione di €500 sulla Student Contribution. Fonte: tcd.ie/academicregistry/fees-and-payments/budget.
+- **epfl** — tuition **confermata**, nessuna modifica. La struttura nel file (CHF 1.460/anno per chi risiedeva in Svizzera al diploma, CHF 4.380/anno per chi si trasferisce per studiare, dall'autunno 2025) corrisponde: la triplicazione da CHF 730 a CHF 2.190 a semestre è confermata, e la distinzione è per residenza al diploma, non per cittadinanza. Fonte: epfl.ch/education/studies/en/rules-and-procedures/study-taxes.
+- **Gruppo olandese (10 atenei)** — **confermato per consistenza**: maastricht, amsterdam, erasmus, groningen, tu-delft, leiden, utrecht, tilburg, twente, tue riportano tutti €2.694/anno, allineati allo statutory nazionale già verificato. Nessuna deriva.
+
+### Nota di metodo
+Le tre correzioni di questo giro non sono nate da una ricerca esterna ma dal **confronto interno al catalogo**: atenei soggetti alla stessa tariffa regionale o nazionale che mostravano cifre diverse. È lo stesso segnale che aveva portato a Complutense nel giro precedente, e sta diventando il controllo più produttivo — più delle verifiche una-per-una. Vale la pena renderlo sistematico: raggruppare per paese o regione e cercare gli scostamenti.
+
+### Da controllare a mano
+- **Francia**: nessun candidato utile trovato finora. Paris-Saclay ed ESSEC scartate nei giri precedenti; da valutare Université Côte d'Azur e American University of Paris, ma il vincolo resta strutturale (i triennali pubblici francesi sono in francese).
+- **ucd**: verificare se il levy di €254 sia ancora attuale dopo il Budget 2026, per allinearlo alla stessa base di Trinity.
+
 ## 2026-08-20 — ADD Priorità 2 (Spagna) + VERIFY
 
 Catalogo da **84 a 86**. Spagna 4→6. **Nessuna aggiunta francese**: nessuno dei candidati ha superato il filtro (vedi sotto).
