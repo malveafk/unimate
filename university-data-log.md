@@ -1,5 +1,31 @@
 # University data log
 
+## 2026-08-24 — VERIFY: Bocconi, il minimo €0
+
+Chiuso il flag aperto nel giro precedente. **Nessuna delle due ipotesi di partenza era esatta.** Lo €0 non era un dato stimato per analogia (ipotesi b), ma non è nemmeno una fascia contributiva a zero (ipotesi a): **Bocconi non ha fasce contributive ISEE**. Applica una retta piena e vi sottrae riduzioni percentuali.
+
+### Verifiche
+- **bocconi** — tuition **precisata** da `€0–€17,000/anno (basato sul reddito ISEE)` a **`€0–€17,000/anno (retta piena €17.000, non suddivisa in fasce ISEE; Bocconi4Access la riduce del 20, 40, 60 o 80% oppure la azzera, in base a ISEE sotto €30.000 e a selezione)`**. Gli estremi numerici **non cambiano** — cambia il meccanismo che descrivono, che era rappresentato in modo sbagliato.
+
+  Cosa dice la fonte ufficiale:
+  - La **retta piena è €17.000** per il primo anno di triennale e Giurisprudenza 2026-27. È l'importo che paga chi non ottiene alcuna agevolazione: **non esiste un minimo di fascia più basso**.
+  - Le agevolazioni **Bocconi4Access to Education** operano come *tuition waiver* percentuali: **20%, 40%, 60%, 80%** o esonero totale (100%), condizionati a **ISEE sotto €30.000** e assegnati per selezione. Lo €0 è quindi l'esito del waiver pieno, non una fascia.
+  - Le **fasce ISU 2026-27 sono state pubblicate** (1ª fino a €13.443,97 · 2ª fino a €17.925,29 · 3ª fino a €26.887,93), ma servono a determinare il diritto a borse e benefici, **non un prezzo per fascia**.
+
+  Fonti: unibocconi.it/it/entrare-bocconi/corsi-di-laurea-triennale-e-giurisprudenza/tasse-e-contributi, .../agevolazioni/fascia-isu-bocconi-di-appartenenza-aa-2026-27, .../agevolazioni/100-full-tuition-waivers-aa-2026-27.
+
+### Perché la distinzione conta
+Nei quattro pubblici italiani lo zero **non esiste**: tassa regionale e bollo restano sempre dovuti, e il pavimento (€156–€208) è automatico per chiunque rientri nella No Tax Area. In Bocconi vale l'opposto: lo zero **esiste ma non è automatico**, mentre il valore di riferimento per chi non ottiene nulla è l'intera retta da €17.000. Scrivere "basato sul reddito ISEE" accanto a un `€0` suggeriva un pavimento della stessa natura dei pubblici; ora il campo dice che si tratta di riduzioni percentuali su una retta piena.
+
+Nessun effetto collaterale: filtro prezzo e tag usano il **massimo** della forbice, quindi Bocconi resta in fascia alta e non riceve il tag "Zero tuition" (verificato).
+
+### Nota sulla scadenza del flag
+Il flag precedente rimandava a "giugno–luglio 2026, quando la Regione Lombardia delibera le fasce". **Quella scadenza era già passata** al momento della verifica (24 agosto 2026) ed è stata ricontrollata: le fasce ISU sono effettivamente uscite. Il controllo ha però mostrato che l'attesa era mal posta — non esistono importi per fascia da recuperare. **Flag chiuso**, non rimandato. Le cifre 2027-28 saranno pubblicate entro fine ottobre 2026.
+
+### Da controllare a mano
+- **Francia**: ancora senza candidati validi (Paris-Saclay ed ESSEC scartate). Vincolo strutturale.
+- **ucd**: levy €254 da riverificare dopo il Budget 2026.
+
 ## 2026-08-20 (2° giro) — VERIFY: scansione sistematica per gruppi nazionali
 
 Primo giro con il **controllo incrociato reso sistematico**, come proposto alla fine del giro precedente: raggruppare gli atenei per paese, derivare la cifra di tuition con `utils/universityCosts` e cercare gli scostamenti dentro gruppi che dovrebbero essere omogenei per decreto. Ha prodotto subito un risultato. Catalogo fermo a **86**, nessuna aggiunta.

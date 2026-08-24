@@ -1986,7 +1986,7 @@ export const universities: University[] = [
     city: "Milano",
     country: "Italy",
     flag: "🇮🇹",
-    tuition: "€0–€17,000/anno (basato sul reddito ISEE)",
+    tuition: "€0–€17,000/anno (retta piena €17.000, non suddivisa in fasce ISEE; Bocconi4Access la riduce del 20, 40, 60 o 80% oppure la azzera, in base a ISEE sotto €30.000 e a selezione)",
     livingCost: "€1,100–€1,500/mese",
     teaching: "Lectures + case studies",
     languages: ["Italian", "English"],
