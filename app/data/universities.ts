@@ -2336,7 +2336,7 @@ export const universities: University[] = [
     city: "Padova",
     country: "Italy",
     flag: "🇮🇹",
-    tuition: "€0–€2,900/anno (basato sul reddito ISEE)",
+    tuition: "€208–€2,990/anno (basato su ISEE: No Tax Area fino a €30.000, restano tassa regionale €192 e bollo €16; massimo €2.990 per i corsi scientifici, €2.790 per gli umanistici)",
     livingCost: "€700–€1,000/mese",
     teaching: "Lectures + labs",
     languages: ["Italian", "English"],

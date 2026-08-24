@@ -1,5 +1,32 @@
 # University data log
 
+## 2026-08-20 (2° giro) — VERIFY: scansione sistematica per gruppi nazionali
+
+Primo giro con il **controllo incrociato reso sistematico**, come proposto alla fine del giro precedente: raggruppare gli atenei per paese, derivare la cifra di tuition con `utils/universityCosts` e cercare gli scostamenti dentro gruppi che dovrebbero essere omogenei per decreto. Ha prodotto subito un risultato. Catalogo fermo a **86**, nessuna aggiunta.
+
+### Esito della scansione
+Gruppi **coerenti**, nessuna anomalia:
+- **Paesi Bassi (10)** — tutti esattamente €2.694, statutory nazionale. Zero deriva.
+- **Regno Unito (12)** — tutti con international in prima posizione, £31.000–£70.554: spread ampio ma atteso, le fee britanniche variano per corso.
+- **Svezia (4)** — tutti gratuiti per studenti UE.
+- **Svizzera (7)** — CHF 1.000–1.700, variazione cantonale legittima.
+- **Spagna (6)** — tre catalane a €1.061, due madrilene a €1.241, IE privata a €29.000: coerente per regione, com'è corretto che sia.
+- **Germania (21)** — €194–€768 l'anno. Spread ampio ma **non è un'anomalia**: il Semesterbeitrag è fissato da ogni ateneo e include Semesterticket diversi. Nessuna azione.
+
+### Verifiche
+- **padua** — tuition **corretta** da `€0–€2,900/anno (basato sul reddito ISEE)` a **`€208–€2,990/anno (basato su ISEE: No Tax Area fino a €30.000, restano tassa regionale €192 e bollo €16; massimo €2.990 per i corsi scientifici, €2.790 per gli umanistici)`**. Il **minimo di €0 era sbagliato**: anche in No Tax Area restano dovuti la tassa regionale per il diritto allo studio e l'imposta di bollo. L'anomalia è emersa proprio dalla scansione — Padova era l'unico ateneo pubblico italiano con pavimento a zero, mentre bologna, sapienza e polimi avevano già ~€156. Da segnalare anche che la No Tax Area di Padova arriva a **€30.000 di ISEE**, la più alta tra gli atenei in catalogo. Fonte: unipd.it/contribuzione-studentesca (bando contribuzione ed esoneri 2026/27).
+
+### Stato del gruppo italiano
+Ora tutti e quattro i pubblici hanno un pavimento reale e regionalmente differenziato — il che è un buon segno, perché significa che i dati riflettono le singole delibere e non una stima ripetuta: **bologna** €157–€2.040 (Emilia-Romagna) · **sapienza** €156–€2.924 (Lazio) · **polimi** €157–€3.943 (Lombardia) · **padua** €208–€2.990 (Veneto, tassa regionale più alta). **bocconi** €0–€17.000 resta l'unica privata.
+
+### Nota di metodo
+La scansione per gruppi ha impiegato una frazione del tempo di una verifica ateneo-per-ateneo e ha isolato l'unico caso anomalo su 86 record. Conviene renderla il primo passo di ogni giro VERIFY: prima si passa il setaccio ai gruppi, poi si spende la ricerca esterna solo sugli scostamenti che emergono. Con Padova salgono a **sei** gli atenei con tuition corretta (bologna, sapienza, polimi, complutense, barcelona, trinity, padua — sette contando la riformulazione di pompeu-fabra).
+
+### Da controllare a mano
+- **bocconi**: il minimo di €0 non è verificato. Essendo privata, uno zero è plausibile solo come esito di borsa totale, non come fascia contributiva: andrebbe distinto. Il tetto di €17.000 è invece già confermato su fonte ufficiale.
+- **Francia**: resta senza candidati validi (Paris-Saclay ed ESSEC scartate). Vincolo strutturale, i triennali pubblici sono in francese.
+- **ucd**: verificare il levy di €254 dopo il Budget 2026, per allinearlo alla base di Trinity.
+
 ## 2026-08-10 (7° giro) — VERIFY: incoerenze interne (Catalogna e Irlanda)
 
 Giro **senza aggiunte**: nessun candidato francese ha superato il filtro "almeno un bachelor interamente in inglese", e nel frattempo il confronto interno al catalogo ha fatto emergere due incoerenze più utili da chiudere. Catalogo fermo a **86**.
