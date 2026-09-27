@@ -31,14 +31,29 @@ type FormData = {
   // Step 3 – Availability
   availableFrom: string;
   description: string;
+  link: string; // owner's / agency's website, so students can contact them
 };
 
 const EMPTY: FormData = {
   idFileName: "", idVerified: false,
   photoFileName: "", photoPreviewUrl: "",
   title: "", city: "", price: "", rooms: "", furnished: false,
-  availableFrom: "", description: "",
+  availableFrom: "", description: "", link: "",
 };
+
+// Accepts "agency.com" or "https://agency.com"; returns a full https URL,
+// "" for an empty field, or null if it doesn't look like a web address.
+function normalizeLink(raw: string): string | null {
+  const v = raw.trim();
+  if (!v) return "";
+  const withScheme = /^https?:\/\//i.test(v) ? v : `https://${v}`;
+  try {
+    const url = new URL(withScheme);
+    return url.hostname.includes(".") ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
 
 // ── Reusable bits (same style language as the roommate profile form) ──────
 
@@ -137,15 +152,16 @@ export default function PostListingPage() {
     0: form.idVerified,
     1: !!form.photoFileName,
     2: !!form.title && !!form.city && !!form.price,
-    3: form.description.length >= 20,
+    3: form.description.length >= 20 && normalizeLink(form.link) !== null,
   };
+  const linkInvalid = form.link.trim() !== "" && normalizeLink(form.link) === null;
 
   async function handleSubmit() {
     if (saving) return;
     setSaving(true);
     setSaveError(null);
     try {
-      await saveApartmentListing(form, idFileRef.current, photoFileRef.current);
+      await saveApartmentListing({ ...form, link: normalizeLink(form.link) ?? "" }, idFileRef.current, photoFileRef.current);
       setSubmitted(true);
     } catch (e) {
       if (e instanceof Error && e.message === "not-signed-in") {
@@ -473,6 +489,17 @@ export default function PostListingPage() {
                 onFocus={e => (e.target.style.borderColor = "var(--border-strong)")}
                 onBlur={e => (e.target.style.borderColor = "var(--border)")}
               />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              <FieldLabel>Your website or contact page (optional)</FieldLabel>
+              <input
+                type="url" inputMode="url" placeholder="e.g. youragency.com/contact"
+                value={form.link} onChange={e => set("link", e.target.value)}
+                style={{ padding: "13px 16px", borderRadius: 10, border: `1px solid ${linkInvalid ? "#f87171" : "var(--border)"}`, background: "var(--surface)", color: "var(--text-1)", fontSize: 15, outline: "none", fontFamily: "inherit" }}
+              />
+              <p style={{ fontSize: 12, color: linkInvalid ? "#f87171" : "var(--text-3)", margin: 0 }}>
+                {linkInvalid ? "That doesn't look like a web address." : "Students will see a button on your listing that opens this link, so they can contact you directly."}
+              </p>
             </div>
           </>
         )}

@@ -272,6 +272,7 @@ export type ListingFormInput = {
   furnished: boolean;
   availableFrom: string; // yyyy-mm-dd, from an <input type="date">
   description: string;
+  link?: string; // full https URL (already normalized by the form) or ""
 };
 
 // If the signed-in user already uploaded an ID for their roommate profile,
@@ -337,6 +338,7 @@ export async function saveApartmentListing(form: ListingFormInput, idFile: File 
     furnished: form.furnished,
     available_from: form.availableFrom || null,
     description: form.description || null,
+    link: form.link || null,
     id_file_path: idFilePath,
     verified,
     ...(photoPath ? { photo_path: photoPath } : {}),

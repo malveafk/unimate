@@ -293,10 +293,10 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
         >
           <div>
             <div style={{ fontSize: 12, color: `rgb(${color})`, fontFamily: "var(--font-mono)", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700, marginBottom: 3 }}>
-              Listed on {data.platform}
+              {data.platform === "4UNI" ? "Posted on 4UNI" : `Listed on ${data.platform}`}
             </div>
             <div style={{ fontSize: 13, color: "var(--text-1)", fontWeight: 600 }}>
-              View full listing →
+              {data.platform === "4UNI" ? "Contact the owner →" : "View full listing →"}
             </div>
           </div>
           <div style={{
