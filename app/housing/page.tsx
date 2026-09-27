@@ -152,6 +152,112 @@ function EmptyList({ tab }: { tab: Tab }) {
   );
 }
 
+// ── Housing partners (apartments tab) ───────────────────────────────
+// Add a new partner by adding an entry here — nothing else to change.
+type Partner = {
+  name: string;
+  initials: string;
+  color: string;       // "r,g,b" accent for the card
+  description: string;
+  cities: string[];
+  url: string;
+};
+
+const PARTNERS: Partner[] = [
+  {
+    name: "ClubHouse",
+    initials: "CH",
+    color: "201,163,92",
+    description: "Handpicked student flats, curated by students who've been through the same search. Book a room and join their local community.",
+    cities: ["Madrid", "Barcelona", "Paris", "Berlin"],
+    url: "https://www.clubhouse-student.eu",
+  },
+];
+
+function PartnersSection({ cityFilter }: { cityFilter: string }) {
+  return (
+    <section style={{ marginTop: 48 }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", letterSpacing: "0.12em", textTransform: "uppercase", color: "rgb(201,163,92)", marginBottom: 6 }}>
+            Our housing partners
+          </div>
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px" }}>
+            Trusted places to find your home
+          </h2>
+        </div>
+        <p style={{ margin: 0, fontSize: 13, color: "var(--text-3)", maxWidth: 380 }}>
+          We work directly with these providers. You book with them on their own website.
+        </p>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
+        {PARTNERS.map(p => {
+          const inSelectedCity = p.cities.includes(cityFilter);
+          return (
+            <div key={p.name} style={{
+              borderRadius: 18, padding: 26, display: "flex", flexDirection: "column", gap: 16,
+              background: `linear-gradient(135deg, rgba(${p.color},0.10), var(--surface) 60%)`,
+              border: `1px solid rgba(${p.color},${inSelectedCity ? 0.55 : 0.3})`,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <div style={{
+                  width: 48, height: 48, borderRadius: 12, flexShrink: 0,
+                  background: `rgba(${p.color},0.15)`, border: `1px solid rgba(${p.color},0.35)`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontWeight: 800, fontSize: 15, color: `rgb(${p.color})`, letterSpacing: "0.5px",
+                }}>
+                  {p.initials}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "var(--text-1)" }}>{p.name}</h3>
+                  <span style={{
+                    display: "inline-block", marginTop: 4, padding: "2px 8px", borderRadius: 999,
+                    fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase",
+                    background: `rgba(${p.color},0.15)`, color: `rgb(${p.color})`, border: `1px solid rgba(${p.color},0.3)`,
+                  }}>
+                    Official partner
+                  </span>
+                </div>
+              </div>
+
+              <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "var(--text-2)" }}>{p.description}</p>
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {p.cities.map(c => (
+                  <span key={c} style={{
+                    padding: "4px 10px", borderRadius: 999, fontSize: 12, fontWeight: 600,
+                    background: c === cityFilter ? `rgba(${p.color},0.2)` : "rgba(0,0,0,0.3)",
+                    color: c === cityFilter ? `rgb(${p.color})` : "var(--text-2)",
+                    border: `1px solid ${c === cityFilter ? `rgba(${p.color},0.4)` : "var(--border)"}`,
+                  }}>
+                    {c}
+                  </span>
+                ))}
+              </div>
+
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  marginTop: "auto", padding: "11px 16px", borderRadius: 10, textDecoration: "none",
+                  background: `rgb(${p.color})`, color: "#1a1408",
+                  fontSize: 13, fontWeight: 700, textAlign: "center", transition: "opacity 0.15s",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
+                onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+              >
+                {inSelectedCity ? `See ${p.name} flats in ${cityFilter} →` : `Visit ${p.name} →`}
+              </a>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 // ── "Pick your filters first" prompt (apartments tab) ──────────────
 function SelectFiltersPrompt({ cityFilter, budgetFilter }: {
   cityFilter: string; budgetFilter: string;
@@ -778,8 +884,10 @@ export default function HousingPage() {
           )
       )}
 
+      {tab === "apartments" && <PartnersSection cityFilter={cityFilter} />}
+
       {/* ── Chat panel ─────────────────────────────────── */}
-      {activeChat && <ChatPanel profile={activeChat} onClose={() => setActiveChat(null)} />}
+      {activeChat &&<ChatPanel profile={activeChat} onClose={() => setActiveChat(null)} />}
 
       {/* ── Pin detail drawer (opens when map pin is clicked) ─── */}
       <PinDetailPanel
