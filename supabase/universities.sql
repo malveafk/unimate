@@ -23,8 +23,8 @@ create table if not exists universities (
   city text not null,
   country text not null,
   flag text,                       -- emoji flag, e.g. "🇳🇱"
-  tuition text,                    -- free text, e.g. "€2,601/anno"
-  living_cost text,                -- free text, e.g. "€900–€1,100/mese"
+  tuition text,                    -- free text, e.g. "€2,601/year"
+  living_cost text,                -- free text, e.g. "€900–€1,100/month"
   teaching text,
   languages text,                  -- ", "-joined, e.g. "English, Dutch"
   strengths text,                  -- ", "-joined

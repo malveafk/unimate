@@ -31,7 +31,7 @@ Da lì, `seed.ts` legge l'array e lo scrive in Supabase (tabelle `universities`,
 4. Costruisci l'oggetto TS seguendo esattamente lo schema in `references/schema.md`. Alcuni campi meritano attenzione:
    - `id`: slug minuscolo, trattini, univoco (es. `"amsterdam"`, `"vu-amsterdam"` se città già usata da un altro ateneo)
    - `flag`: emoji della bandiera del paese
-   - `tuition` / `livingCost`: testo libero ma nel formato già usato (`"€X/anno"`, `"€X–Y/mese"`), converti sempre in EUR se la fonte usa un'altra valuta, indicandolo se è una stima
+   - `tuition` / `livingCost`: **sempre in inglese semplice** (il sito è per studenti internazionali), nel formato `"€X/year"`, `"€X/semester"`, `"€X–€Y/month"`. Regole, perché `utils/universityCosts.ts` legge i numeri da questo testo: la cifra UE va per prima; un intervallo usa il trattino lungo `–`; la cifra non-UE va dopo `;` oppure ` / `; se la tassa è semestrale scrivi `/semester`; se è gratuita scrivi `"Free (EU/EEA)"` senza numeri. Note brevi tra parentesi (es. `(EU)`, `(based on family income)`), niente dettagli tecnici come prezzo a credito o nomi di tasse locali. Converti sempre in EUR se la fonte usa un'altra valuta, indicandolo se è una stima
    - `languages` / `strengths`: array di stringhe (non stringa unita — quella è solo la forma DB)
    - `ranking`: opzionale, ometti se non trovi un dato verificabile invece di stimarlo
    - Per ogni bachelor: `id` "nudo" (senza prefisso università, es. `"international-business"`, non `"amsterdam__international-business"`)
@@ -66,7 +66,7 @@ Ad ogni esecuzione, aggiungi (non sovrascrivere) una sezione a `university-data-
 - **vu-amsterdam** (Vrije Universiteit Amsterdam) — bachelor: International Business Administration. Fonte: vu.nl/en/education/bachelor/...
 
 ### Verifiche
-- **maastricht**: tuition confermata (€2,601/anno, invariata). Fonte: maastrichtuniversity.nl/...
+- **maastricht**: tuition confermata (€2,601/year, invariata). Fonte: maastrichtuniversity.nl/...
 - **groningen**: ranking aggiornato da "Top 300 QS" a "Top 250 QS (#233, 2026)". Fonte: topuniversities.com/...
 
 ### Da controllare a mano
