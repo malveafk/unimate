@@ -158,7 +158,7 @@ function RoommateDetail({ data, onMessage }: { data: RoommatePin; onMessage: (p:
             Interested? Send a message
           </div>
           <p style={{ fontSize: 12, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>
-            Your ID must be verified to message other students. Messages are encrypted end-to-end.
+            Messages are private between you and this student, and only visible to the two of you.
           </p>
         </div>
         <button

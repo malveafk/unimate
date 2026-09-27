@@ -66,7 +66,14 @@ export default function Chat() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      let user: { id: string } | null = null;
+      try {
+        const { data } = await supabase.auth.getUser();
+        user = data.user;
+      } catch (e) {
+        console.error("Failed to check auth session:", e instanceof Error ? e.message : e);
+        return;
+      }
       if (!user || cancelled) return;
       setUserId(user.id);
 

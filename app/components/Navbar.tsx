@@ -138,7 +138,15 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    // If Supabase is unreachable (paused project, network blip, etc.) this
+    // must not throw unhandled — that crashes the whole app, since Navbar
+    // renders on every page. Fail safe: treat it as signed-out.
+    supabase.auth.getUser()
+      .then(({ data }) => setUser(data.user))
+      .catch((error) => {
+        console.warn("Failed to check auth session:", error instanceof Error ? error.message : error);
+        setUser(null);
+      });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });

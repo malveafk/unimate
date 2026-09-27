@@ -214,15 +214,49 @@ create policy "Participants send messages as themselves"
     )
   );
 
--- Recipients mark messages as read (participants can set read_at).
+-- Recipients mark messages as read (only the recipient, not the sender, and
+-- only read_at — RLS is row-level, so a trigger below stops content/sender
+-- tampering that a bare USING/CHECK policy can't restrict on its own).
 drop policy if exists "Participants mark messages read" on housing_messages;
 create policy "Participants mark messages read"
   on housing_messages for update
-  using (exists (
-    select 1 from housing_conversations c
-    where c.id = conversation_id
-      and auth.uid() in (c.participant_a, c.participant_b)
-  ));
+  using (
+    sender_id <> auth.uid()
+    and exists (
+      select 1 from housing_conversations c
+      where c.id = conversation_id
+        and auth.uid() in (c.participant_a, c.participant_b)
+    )
+  )
+  with check (
+    sender_id <> auth.uid()
+    and exists (
+      select 1 from housing_conversations c
+      where c.id = conversation_id
+        and auth.uid() in (c.participant_a, c.participant_b)
+    )
+  );
+
+-- Belt-and-braces: even a participant with UPDATE rights on a row can only
+-- ever change read_at. Nobody can rewrite content, reassign sender_id, or
+-- move a message to a different conversation after the fact.
+create or replace function public.enforce_housing_message_readonly_fields()
+returns trigger as $$
+begin
+  if new.content is distinct from old.content
+     or new.sender_id is distinct from old.sender_id
+     or new.conversation_id is distinct from old.conversation_id
+     or new.created_at is distinct from old.created_at then
+    raise exception 'housing_messages: only read_at may be updated';
+  end if;
+  return new;
+end;
+$$ language plpgsql security definer set search_path = public;
+
+drop trigger if exists housing_messages_readonly_fields on housing_messages;
+create trigger housing_messages_readonly_fields
+  before update on housing_messages
+  for each row execute function public.enforce_housing_message_readonly_fields();
 
 create index if not exists housing_messages_conversation_idx
   on housing_messages (conversation_id, created_at);
