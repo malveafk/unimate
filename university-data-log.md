@@ -1,5 +1,32 @@
 # University data log
 
+## 2026-08-24 (2° giro) — ADD Wageningen + VERIFY: costo di vita per città
+
+Catalogo da **86 a 87**. La scansione sistematica è stata estesa a un campo mai controllato prima — il `livingCost` — con un criterio nuovo: **atenei nella stessa città devono avere lo stesso costo di vita**, perché quello dipende dalla città e non da quale ateneo si frequenta. Ha prodotto due incoerenze.
+
+### Verifiche
+- **humboldt-berlin** — `livingCost` allineato da `€900–€1,200/mese` a **`€950–€1,250/mese`**. I tre atenei berlinesi in catalogo riportavano due valori diversi: fu-berlin e tu-berlin a €950–€1.250, humboldt a €900–€1.200. Un utente che confrontava Humboldt e TU Berlin vedeva una differenza di €50 al mese che nella realtà non esiste. Entrambi i valori cadono dentro la forbice delle fonti per Berlino (media studenti €870–€1.370), quindi **il difetto era la divergenza, non il livello**: ho applicato la modifica minima, allineando al valore già presente su due record su tre.
+- **epfl** — `livingCost` allineato da `€1,500–€1,900/mese` a **`€1,600–€2,000/mese`**, lo stesso valore di unil. Entrambi gli atenei sono a Losanna. Le fonti indicano per Losanna una fascia alta (CHF 1.600–2.500 al mese), quindi ho allineato al valore superiore dei due.
+- **Controllo completo**: dopo le due correzioni, **nessuna città in catalogo ha più atenei con costo di vita divergente**.
+
+### Aggiunte
+- **wageningen** (Wageningen University & Research, 🇳🇱) — 2 bachelor in inglese: Environmental Sciences e Data Science for Global Challenges (quest'ultimo di recente attivazione). Tuition **€2.694/anno (UE/SEE)** / €18.300 non-UE; living €1.000–€1.200/mese; ranking **Top 200 QS (#154, 2027)** e **#1 al mondo per Agriculture & Forestry** (QS by Subject 2026). Otto dei suoi bachelor sono in inglese, quota insolitamente alta per un ateneo olandese. Fonti: wur.nl/en/education/bachelor/study-expenses-bachelors/tuition-fees-and-study-finances, wur.nl/en/education/bachelor/programmes.
+
+  **Nota sul dato di tuition**: una prima fonte riportava €18.300 anche per gli studenti UE. Era sbagliata — confondeva la tariffa istituzionale non-UE con lo statutory. Il sospetto è nato dal confronto interno: gli altri dieci atenei olandesi hanno tutti €2.694, ed è una cifra fissata a livello nazionale, quindi un'olandese fuori scala era implausibile. Verificato sulla pagina ufficiale: **€2.694**. È lo stesso meccanismo di controllo che ha già intercettato Complutense, Barcelona e Trinity, applicato qui **prima** di inserire il dato anziché dopo.
+
+  Curricula: Wageningen pubblica il dettaglio dei corsi nel proprio study handbook e non sulla pagina aperta del programma, quindi le voci sono per area tematica e non per singolo insegnamento — stesso criterio già usato per Ghent, Bristol, Durham e Manchester.
+
+### Nota di metodo
+Il controllo "stessa città, stesso costo di vita" è un criterio strutturale come quello sulle tariffe regionali: non richiede fonti esterne per **individuare** l'anomalia, solo per risolverla. Vale la pena aggiungerlo stabilmente alla scansione di ogni giro VERIFY, insieme al raggruppamento per paese sulle tasse.
+
+### Osservazione dalla scansione, non ancora affrontata
+**39 atenei su 87 hanno un solo bachelor** — quasi la metà del catalogo. Non è un errore, ma è il limite di profondità più evidente rimasto: chi confronta due atenei con un solo corso ciascuno ha poco su cui decidere. Sono in gran parte i 18 tedeschi aggiunti in blocco e i 9 britannici. Potrebbe valere più di nuove aggiunte.
+
+### Da controllare a mano
+- **Berlino e Losanna**: i valori sono ora coerenti, ma il livello assoluto andrebbe riancorato a fonti ufficiali (DAAD/Studentenwerk per la Germania; un dato in CHF per la Svizzera, dove i costi in EUR sono comunque una conversione).
+- **Francia**: ancora senza candidati validi.
+- **ucd**: levy €254 da riverificare dopo il Budget 2026.
+
 ## 2026-08-24 — VERIFY: Bocconi, il minimo €0
 
 Chiuso il flag aperto nel giro precedente. **Nessuna delle due ipotesi di partenza era esatta.** Lo €0 non era un dato stimato per analogia (ipotesi b), ma non è nemmeno una fascia contributiva a zero (ipotesi a): **Bocconi non ha fasce contributive ISEE**. Applica una retta piena e vi sottrae riduzioni percentuali.
