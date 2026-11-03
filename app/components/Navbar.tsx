@@ -8,7 +8,17 @@ import { createClient } from "@/utils/supabase/client";
 import AuthModal from "./AuthModal";
 import type { User } from "@supabase/supabase-js";
 
-const SECTIONS = [
+type NavChild = { href: string; label: string; desc: string };
+
+type NavSection = {
+  href?: string;
+  label: string;
+  desc: string;
+  accentRgb: string;
+  children?: NavChild[];
+};
+
+const SECTIONS: NavSection[] = [
   {
     href: "/news",
     label: "News",
@@ -16,28 +26,43 @@ const SECTIONS = [
     accentRgb: "201,163,92",
   },
   {
-    href: "/universities",
     label: "Universities",
-    desc: "Browse and filter 24+ universities across 12 European countries by tuition and faculty.",
+    desc: "Everything about universities — browse them all, or get guided through applying.",
     accentRgb: "52,211,153",
+    children: [
+      {
+        href: "/universities",
+        label: "All Universities",
+        desc: "Browse and filter 85+ universities across 18 European countries by tuition and faculty.",
+      },
+      {
+        href: "/apply",
+        label: "Apply Guide",
+        desc: "Pick your university and programme and get a step-by-step guide to actually applying.",
+      },
+      {
+        href: "/compare",
+        label: "Compare",
+        desc: "Place universities side-by-side to compare costs, programmes and living expenses.",
+      },
+    ],
   },
   {
-    href: "/housing",
     label: "Housing",
     desc: "Find apartments and roommates across Europe — filtered by city, budget and move-in date.",
     accentRgb: "96,165,250",
-  },
-  {
-    href: "/compare",
-    label: "Compare",
-    desc: "Place universities side-by-side to compare costs, programmes and living expenses.",
-    accentRgb: "251,191,36",
-  },
-  {
-    href: "/apply",
-    label: "Apply Guide",
-    desc: "Pick your university and programme and get a step-by-step guide to actually applying.",
-    accentRgb: "201,163,92",
+    children: [
+      {
+        href: "/housing?tab=apartments",
+        label: "Apartments",
+        desc: "Rooms and flats listed across European student cities, filtered by budget and move-in date.",
+      },
+      {
+        href: "/housing?tab=roommates",
+        label: "Roommates",
+        desc: "Students looking for someone to share with — find your match by city and budget.",
+      },
+    ],
   },
   {
     href: "/messages",
@@ -54,9 +79,11 @@ const SECTIONS = [
 ];
 
 // ─── Nav row item ───────────────────────────────────────────────────────────
-function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; index: number; onNavigate: (href: string) => void }) {
+function NavCard({ section, index, onNavigate }: { section: NavSection; index: number; onNavigate: (href: string) => void }) {
   const [hovered, setHovered] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const rgb = section.accentRgb;
+  const hasChildren = !!section.children?.length;
 
   return (
     <motion.div
@@ -66,7 +93,8 @@ function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; 
       transition={{ duration: 0.32, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
     >
       <button
-        onClick={() => onNavigate(section.href)}
+        onClick={() => (hasChildren ? setExpanded(v => !v) : onNavigate(section.href!))}
+        aria-expanded={hasChildren ? expanded : undefined}
         style={{
           display: "flex",
           alignItems: "center",
@@ -88,7 +116,7 @@ function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; 
         <span style={{ flexShrink: 0, width: 28, display: "flex" }}>
           <span style={{
             width: 8, height: 8, borderRadius: "50%",
-            background: hovered ? `rgb(${rgb})` : "var(--text-3)",
+            background: hovered || expanded ? `rgb(${rgb})` : "var(--text-3)",
             transition: "background 0.2s",
           }} />
         </span>
@@ -96,7 +124,7 @@ function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; 
         {/* Label */}
         <span style={{
           fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 800,
-          color: hovered ? `rgb(${rgb})` : "var(--text-1)",
+          color: hovered || expanded ? `rgb(${rgb})` : "var(--text-1)",
           letterSpacing: "-1.5px", lineHeight: 1,
           transition: "color 0.2s",
           flex: 1,
@@ -115,14 +143,117 @@ function NavCard({ section, index, onNavigate }: { section: typeof SECTIONS[0]; 
           {section.desc}
         </span>
 
+        {/* Arrow — chevron for expandable rows */}
+        <motion.span
+          animate={hasChildren ? { rotate: expanded ? 90 : 0 } : { rotate: 0 }}
+          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            fontSize: 20,
+            color: hovered || expanded ? `rgb(${rgb})` : "var(--text-3)",
+            transition: "color 0.2s",
+            flexShrink: 0,
+            display: "block",
+          }}
+        >
+          {hasChildren ? "\u203A" : "\u2192"}
+        </motion.span>
+      </button>
+
+      {/* Sub-rows */}
+      {hasChildren && (
+        <AnimatePresence initial={false}>
+          {expanded && (
+            <motion.div
+              key="children"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              style={{ overflow: "hidden" }}
+            >
+              {section.children!.map((child, ci) => (
+                <NavSubCard
+                  key={child.href}
+                  child={child}
+                  index={ci}
+                  rgb={rgb}
+                  onNavigate={onNavigate}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+    </motion.div>
+  );
+}
+
+// ─── Nav sub-row (nested under an expandable section) ──────────────────────
+function NavSubCard({ child, index, rgb, onNavigate }: { child: NavChild; index: number; rgb: string; onNavigate: (href: string) => void }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -14 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.28, delay: 0.06 + index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <button
+        onClick={() => onNavigate(child.href)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 20,
+          width: "100%",
+          padding: "16px 0 16px 56px",
+          background: "none",
+          border: "none",
+          borderBottom: "1px solid var(--border)",
+          cursor: "pointer",
+          textAlign: "left",
+          fontFamily: "inherit",
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Branch tick */}
+        <span style={{
+          flexShrink: 0, width: 18, height: 1,
+          background: hovered ? `rgb(${rgb})` : "var(--text-3)",
+          opacity: hovered ? 1 : 0.5,
+          transition: "background 0.2s, opacity 0.2s",
+        }} />
+
+        {/* Label */}
+        <span style={{
+          fontSize: "clamp(20px, 2.6vw, 30px)", fontWeight: 700,
+          color: hovered ? `rgb(${rgb})` : "var(--text-2)",
+          letterSpacing: "-0.6px", lineHeight: 1.1,
+          transition: "color 0.2s",
+          flex: 1,
+        }}>
+          {child.label}
+        </span>
+
+        {/* Description — visible on hover */}
+        <span style={{
+          fontSize: 12, color: "var(--text-2)",
+          lineHeight: 1.6, maxWidth: 240, textAlign: "right",
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? "translateX(0)" : "translateX(12px)",
+          transition: "opacity 0.2s, transform 0.2s",
+        }}>
+          {child.desc}
+        </span>
+
         {/* Arrow */}
         <span style={{
-          fontSize: 20,
+          fontSize: 16,
           color: hovered ? `rgb(${rgb})` : "var(--text-3)",
           transform: hovered ? "translateX(4px)" : "translateX(0)",
           transition: "color 0.2s, transform 0.2s",
           flexShrink: 0,
-        }}>→</span>
+        }}>{"\u2192"}</span>
       </button>
     </motion.div>
   );
@@ -371,7 +502,7 @@ export default function Navbar() {
               <div>
                 {SECTIONS.map((section, i) => (
                   <NavCard
-                    key={section.href}
+                    key={section.href ?? section.label}
                     section={section}
                     index={i}
                     onNavigate={(href) => {

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { roommatePins, apartmentPins, type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 import PinDetailPanel, { type ActivePin } from "../components/PinDetailPanel";
@@ -422,9 +422,18 @@ function ChatPanel({ profile, onClose }: { profile: RoommatePin; onClose: () => 
 }
 
 // ── Main page ─────────────────────────────────────────────────────
-export default function HousingPage() {
+function HousingPageInner() {
   const router = useRouter();
-  const [tab, setTab] = useState<Tab>("roommates");
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+  const [tab, setTab] = useState<Tab>(tabParam === "apartments" ? "apartments" : "roommates");
+
+  // Keep the tab in sync when the URL changes without remounting the page
+  // (e.g. navigating from Housing › Apartments while already on /housing).
+  useEffect(() => {
+    if (tabParam === "apartments" || tabParam === "roommates") setTab(tabParam);
+  }, [tabParam]);
+
   const [cityFilter, setCityFilter] = useState("All cities");
   const [budgetFilter, setBudgetFilter] = useState("any");
   const [moveInFilter, setMoveInFilter] = useState("any");
@@ -918,5 +927,13 @@ export default function HousingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function HousingPage() {
+  return (
+    <Suspense fallback={null}>
+      <HousingPageInner />
+    </Suspense>
   );
 }
