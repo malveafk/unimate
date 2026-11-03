@@ -59,3 +59,7 @@ Unimate_Modello_Finanziario.xlsx
 credentials.json
 service-account.json
 .claude/launch.json
+
+# local archives and study material (not part of the codebase)
+*.zip
+*.pdf
