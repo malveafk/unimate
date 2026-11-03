@@ -10,12 +10,11 @@ const HERO_ACCENT = "201,163,92";
 
 /* ─── Hero slideshow ──────────────────────────────── */
 const ALL_SLIDES = [
-  "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1516550893435-5b0e6bfe3bc1?auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=1600&q=72",
+  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=72",
+  "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1600&q=72",
+  "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1600&q=72",
+  "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=1600&q=72",
 ];
 
 
@@ -167,7 +166,7 @@ export default function Home() {
         {[
           {
             label: "Universities",
-            sub: "Browse 30+ unis across Europe",
+            sub: `Browse ${totalUniversities}+ unis across Europe`,
             href: "/universities",
             icon: (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -361,7 +360,7 @@ export default function Home() {
             <div className="reveal">
               <div style={{ borderLeft: "2px solid rgb(52,211,153)", paddingLeft: 20, marginBottom: 8 }}>
                 <h3 style={{ fontSize: 22, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.4px", margin: "0 0 8px" }}>Find Your University</h3>
-                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Filter through 24+ European universities by country, faculty or language, and see real tuition, living costs and entry requirements before you commit to anything.</p>
+                <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>Filter through {totalUniversities}+ European universities by country, faculty or language, and see real tuition, living costs and entry requirements before you commit to anything.</p>
                 <TransitionLink href="/universities" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontSize: 13, fontWeight: 600, color: "rgb(52,211,153)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")} onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>Explore universities →</TransitionLink>
               </div>
               <div>

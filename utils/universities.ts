@@ -105,13 +105,23 @@ function mapStaticUniversity(uni: StaticUniversity): University {
 // università in fondo all'elenco perderebbero silenziosamente il curriculum.
 const PAGE_SIZE = 1000;
 
+// postgrest-js riprova da solo 3 volte con backoff 1s/2s/4s. Con Supabase
+// irraggiungibile (il progetto free va in pausa dopo una settimana di
+// inattività) ogni selectAll diventa 4 richieste e il fallimento arriva solo
+// dopo ~7s: misurati 7135ms e 12 richieste per caricare /universities, con la
+// pagina vuota per tutto quel tempo. Qui i retry non servono — abbiamo già il
+// fallback ai dati statici — quindi li disattiviamo e mettiamo un tetto.
+const QUERY_TIMEOUT_MS = 3000;
+
 async function selectAll<T>(table: string): Promise<T[]> {
   const all: T[] = [];
   for (let from = 0; ; from += PAGE_SIZE) {
     const { data, error } = await supabase
       .from(table)
       .select("*")
-      .range(from, from + PAGE_SIZE - 1);
+      .range(from, from + PAGE_SIZE - 1)
+      .retry(false)
+      .abortSignal(AbortSignal.timeout(QUERY_TIMEOUT_MS));
 
     if (error) throw error;
     if (!data || data.length === 0) break;

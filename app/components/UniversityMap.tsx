@@ -81,11 +81,15 @@ export default function UniversityMap({ universities }: Props) {
     });
     L.control.zoom({ position: 'topright' }).addTo(map);
 
-    // Dark tile from CartoDB — fits the site's dark theme
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://openstreetmap.org">OSM</a> &copy; <a href="https://carto.com">CARTO</a>',
-      subdomains: 'abcd',
+    // Dark basemap from Esri — fits the site's dark theme.
+    // Was CartoDB, which now serves an "API KEY REQUIRED" watermark instead of
+    // tiles to unauthenticated callers (HTTP 200, ~2.5KB, so nothing errored).
+    // Esri Canvas only has tiles up to z16: maxNativeZoom lets Leaflet upscale
+    // the z16 tile beyond that instead of rendering blank squares.
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '&copy; <a href="https://www.esri.com">Esri</a> &copy; <a href="https://openstreetmap.org">OSM</a>',
       maxZoom: 19,
+      maxNativeZoom: 16,
     }).addTo(map);
 
     const pinIcon = L.divIcon({
@@ -96,6 +100,7 @@ export default function UniversityMap({ universities }: Props) {
       popupAnchor: [0, -12],
     });
 
+    const markers = [];
     unis.forEach(u => {
       const tags = u.strengths.map(s =>
         '<span class="uni-popup-tag">' + s + '</span>'
@@ -109,10 +114,23 @@ export default function UniversityMap({ universities }: Props) {
           '<div class="uni-popup-tags">' + tags + '</div>' +
         '</div>';
 
-      L.marker([u.lat, u.lng], { icon: pinIcon })
-        .bindPopup(content, { maxWidth: 260 })
-        .addTo(map);
+      markers.push(
+        L.marker([u.lat, u.lng], { icon: pinIcon })
+          .bindPopup(content, { maxWidth: 260 })
+          .addTo(map)
+      );
     });
+
+    // Inquadra i segnaposto effettivamente mostrati invece di aprire sempre su
+    // una vista fissa dell'Europa: scegliendo un singolo paese la mappa
+    // restava sul continente intero con i pin ammassati in un angolo.
+    // maxZoom evita di spingersi troppo vicino quando c'è un solo ateneo.
+    if (markers.length > 0) {
+      map.fitBounds(L.featureGroup(markers).getBounds(), {
+        padding: [48, 48],
+        maxZoom: 12,
+      });
+    }
   </script>
 </body>
 </html>`;
