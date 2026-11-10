@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -25,6 +25,13 @@ const PLATFORM_COLORS: Record<string, string> = {
   "Spotahome":      "251,191,36",
   "Erasmusu":       "248,113,113",
   "4UNI":           "201,163,92",
+  "Club House":     "201,163,92",
+};
+
+// Partner feeds: the attribution badge shown on their listings, keyed by the
+// row's `source`.
+const PARTNER_BADGES: Record<string, string> = {
+  clubhouse: "via Club House",
 };
 
 function platformColor(name: string): string {
@@ -192,135 +199,234 @@ function RoommateDetail({ data, onMessage }: { data: RoommatePin; onMessage: (p:
 
 function ApartmentDetail({ data }: { data: ApartmentPin }) {
   const color = platformColor(data.platform);
+  const partnerBadge = data.source ? PARTNER_BADGES[data.source] : undefined;
+  // wa.me wants the number with country code and digits only (no "+").
+  const whatsappDigits = data.whatsapp?.replace(/\D/g, "");
+
+  // Photo gallery — partner listings ship several photos, a user post one.
+  // Photos that fail to load are dropped so the gallery never shows a hole.
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const [brokenPhotos, setBrokenPhotos] = useState<string[]>([]);
+  const allPhotos = data.image?.length ? data.image : data.photo ? [data.photo] : [];
+  const photos = allPhotos.filter(url => !brokenPhotos.includes(url));
+  const current = Math.min(photoIndex, Math.max(photos.length - 1, 0));
+  const stepPhoto = (delta: number) => setPhotoIndex((current + delta + photos.length) % photos.length);
+  const galleryArrow = (side: "left" | "right"): React.CSSProperties => ({
+    position: "absolute", top: "50%", [side]: 8, transform: "translateY(-50%)",
+    width: 38, height: 38, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.25)",
+    background: "rgba(0,0,0,0.55)", color: "#fff", cursor: "pointer", fontSize: 20, lineHeight: 1,
+    display: "flex", alignItems: "center", justifyContent: "center", padding: 0, fontFamily: "inherit",
+  });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20, padding: "20px 22px 24px" }}>
+    // Two columns (photos | details) when the panel is wide; the columns wrap
+    // into one on a narrow panel or a phone.
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", gap: 28, padding: "24px 28px 32px" }}>
 
-      {/* Hero photo — partner listings ship a gallery, user posts a single photo */}
-      {(data.image?.[0] || data.photo) && (
-        /* eslint-disable-next-line @next/next/no-img-element */
-        <img
-          src={data.image?.[0] ?? data.photo}
-          alt={data.title}
-          style={{ width: "100%", height: 180, objectFit: "cover", borderRadius: 14, border: "1px solid var(--border)" }}
-        />
-      )}
-
-      {/* Price + furnished badge */}
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
-        <div>
-          <div style={{ fontSize: 28, fontWeight: 800, color: "rgb(248,113,113)", letterSpacing: "-0.7px", lineHeight: 1 }}>
-            €{data.price}<span style={{ fontSize: 14, fontWeight: 500, color: "var(--text-3)" }}>/mo</span>
+      {/* Photo gallery — main photo with arrows, then a strip of thumbnails */}
+      {photos.length > 0 && (
+        <div style={{ flex: "1.5 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ position: "relative" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photos[current]}
+              alt={`${data.title} — photo ${current + 1} of ${photos.length}`}
+              onError={() => setBrokenPhotos(prev => [...prev, photos[current]])}
+              style={{ display: "block", width: "100%", aspectRatio: "4 / 3", maxHeight: "62vh", objectFit: "cover", borderRadius: 14, border: "1px solid var(--border)", background: "var(--surface)" }}
+            />
+            {photos.length > 1 && (
+              <>
+                <button type="button" aria-label="Previous photo" onClick={() => stepPhoto(-1)} style={galleryArrow("left")}>‹</button>
+                <button type="button" aria-label="Next photo" onClick={() => stepPhoto(1)} style={galleryArrow("right")}>›</button>
+                <span style={{
+                  position: "absolute", right: 10, bottom: 10, padding: "3px 8px", borderRadius: 6,
+                  background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)",
+                }}>
+                  {current + 1} / {photos.length}
+                </span>
+              </>
+            )}
           </div>
-          <div style={{ fontSize: 13, color: "var(--text-3)", marginTop: 4 }}>{data.city}</div>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
-          <span style={{
-            padding: "4px 10px", borderRadius: 6, fontSize: 11, fontWeight: 700,
-            background: data.furnished ? "rgba(52,211,153,0.1)" : "rgba(255,255,255,0.05)",
-            border: data.furnished ? "1px solid rgba(52,211,153,0.25)" : "1px solid var(--border)",
-            color: data.furnished ? "rgb(52,211,153)" : "var(--text-3)",
-          }}>
-            {data.furnished ? "Furnished" : "Unfurnished"}
-          </span>
-          {data.rooms && (
-            <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
-              {data.rooms} {data.rooms === 1 ? "room" : "rooms"}
-            </span>
+          {photos.length > 1 && (
+            <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 2 }}>
+              {photos.map((url, i) => (
+                <button
+                  key={url}
+                  type="button"
+                  aria-label={`Show photo ${i + 1}`}
+                  onClick={() => setPhotoIndex(i)}
+                  style={{
+                    flexShrink: 0, width: 76, height: 57, padding: 0, borderRadius: 8, overflow: "hidden", cursor: "pointer",
+                    background: "var(--surface)",
+                    border: i === current ? "2px solid rgb(248,113,113)" : "1px solid var(--border)",
+                    opacity: i === current ? 1 : 0.65,
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={url}
+                    alt=""
+                    loading="lazy"
+                    onError={() => setBrokenPhotos(prev => [...prev, url])}
+                    style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </button>
+              ))}
+            </div>
           )}
-          {data.bathrooms != null && (
-            <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
-              {data.bathrooms} {data.bathrooms === 1 ? "bath" : "baths"}
-            </span>
-          )}
-          {data.sizeSqm != null && (
-            <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
-              {data.sizeSqm} m²
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Title + address */}
-      <div>
-        <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.3px", lineHeight: 1.35 }}>{data.title}</div>
-        {data.address && (
-          <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 5, lineHeight: 1.45 }}>{data.address}</div>
-        )}
-      </div>
-
-      {/* Available from */}
-      {data.availableFrom && (
-        <div style={{ padding: "12px 14px", borderRadius: 12, background: "var(--surface)", border: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontWeight: 700, fontSize: 12, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Available from</span>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>{data.availableFrom}</span>
         </div>
       )}
 
-      {/* Description */}
-      {data.description && (
-        <div>
-          <SectionLabel>Description</SectionLabel>
-          <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.75, margin: 0 }}>{data.description}</p>
-        </div>
-      )}
-
-      {/* ── Platform link box ────────────────────────────────────────────────── */}
-      {data.link ? (
-        <a
-          href={data.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "16px 18px", borderRadius: 14, textDecoration: "none",
-            border: `1px solid rgba(${color},0.25)`,
-            background: `rgba(${color},0.06)`,
-            transition: "background 0.15s, border-color 0.15s, transform 0.15s",
-          }}
-          onMouseEnter={e => {
-            const el = e.currentTarget as HTMLAnchorElement;
-            el.style.background = `rgba(${color},0.12)`;
-            el.style.borderColor = `rgba(${color},0.45)`;
-            el.style.transform = "translateY(-1px)";
-          }}
-          onMouseLeave={e => {
-            const el = e.currentTarget as HTMLAnchorElement;
-            el.style.background = `rgba(${color},0.06)`;
-            el.style.borderColor = `rgba(${color},0.25)`;
-            el.style.transform = "translateY(0)";
-          }}
-        >
+      {/* Details column */}
+      <div style={{ flex: "1 1 320px", minWidth: 0, display: "flex", flexDirection: "column", gap: 20 }}>
+        {/* Price + furnished badge */}
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
           <div>
-            <div style={{ fontSize: 12, color: `rgb(${color})`, fontFamily: "var(--font-mono)", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700, marginBottom: 3 }}>
-              {data.platform === "4UNI" ? "Posted on 4UNI" : `Listed on ${data.platform}`}
+            <div style={{ fontSize: 28, fontWeight: 800, color: "rgb(248,113,113)", letterSpacing: "-0.7px", lineHeight: 1 }}>
+              €{data.price}<span style={{ fontSize: 14, fontWeight: 500, color: "var(--text-3)" }}>/mo</span>
             </div>
-            <div style={{ fontSize: 13, color: "var(--text-1)", fontWeight: 600 }}>
-              {data.platform === "4UNI" ? "Contact the owner →" : "View full listing →"}
-            </div>
+            <div style={{ fontSize: 13, color: "var(--text-3)", marginTop: 4 }}>{data.city}</div>
           </div>
-          <div style={{
-            width: 38, height: 38, borderRadius: 10, flexShrink: 0,
-            background: `rgba(${color},0.12)`, border: `1px solid rgba(${color},0.2)`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={`rgb(${color})`} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-            </svg>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
+            <span style={{
+              padding: "4px 10px", borderRadius: 6, fontSize: 11, fontWeight: 700,
+              background: data.furnished ? "rgba(52,211,153,0.1)" : "rgba(255,255,255,0.05)",
+              border: data.furnished ? "1px solid rgba(52,211,153,0.25)" : "1px solid var(--border)",
+              color: data.furnished ? "rgb(52,211,153)" : "var(--text-3)",
+            }}>
+              {data.furnished ? "Furnished" : "Unfurnished"}
+            </span>
+            {data.rooms && (
+              <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
+                {data.rooms} {data.rooms === 1 ? "room" : "rooms"}
+              </span>
+            )}
+            {data.bathrooms != null && (
+              <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
+                {data.bathrooms} {data.bathrooms === 1 ? "bath" : "baths"}
+              </span>
+            )}
+            {data.sizeSqm != null && (
+              <span style={{ padding: "3px 9px", borderRadius: 5, fontSize: 11, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-3)" }}>
+                {data.sizeSqm} m²
+              </span>
+            )}
           </div>
-        </a>
-      ) : (
-        <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)", fontSize: 13, color: "var(--text-3)", textAlign: "center" }}>
-          {data.platform === "4UNI"
-            ? "Posted directly by a student on 4UNI"
-            : <>Listed on <strong style={{ color: "var(--text-2)" }}>{data.platform}</strong> — link coming soon</>}
         </div>
-      )}
 
-      {/* Safety note */}
-      <div style={{ fontSize: 11, color: "var(--text-3)", lineHeight: 1.6, padding: "10px 14px", borderRadius: 10, border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}>
-        🔒 Always visit the property before paying any deposit. Never transfer money without a signed contract.
+        {/* Title + address */}
+        <div>
+          {partnerBadge && (
+            <span style={{
+              display: "inline-block", marginBottom: 8, padding: "3px 9px", borderRadius: 5,
+              fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono)", letterSpacing: "0.06em",
+              background: `rgba(${color},0.1)`, border: `1px solid rgba(${color},0.25)`, color: `rgb(${color})`,
+            }}>
+              {partnerBadge}
+            </span>
+          )}
+          <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.3px", lineHeight: 1.35 }}>{data.title}</div>
+          {data.address && (
+            <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 5, lineHeight: 1.45 }}>{data.address}</div>
+          )}
+        </div>
+
+        {/* Available from */}
+        {data.availableFrom && (
+          <div style={{ padding: "12px 14px", borderRadius: 12, background: "var(--surface)", border: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontWeight: 700, fontSize: 12, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Available from</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>{data.availableFrom}</span>
+          </div>
+        )}
+
+        {/* Description */}
+        {data.description && (
+          <div>
+            <SectionLabel>Description</SectionLabel>
+            <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.75, margin: 0, overflowWrap: "anywhere" }}>{data.description}</p>
+          </div>
+        )}
+
+        {/* ── Platform link box ────────────────────────────────────────────────── */}
+        {data.link ? (
+          <a
+            href={data.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "16px 18px", borderRadius: 14, textDecoration: "none",
+              border: `1px solid rgba(${color},0.25)`,
+              background: `rgba(${color},0.06)`,
+              transition: "background 0.15s, border-color 0.15s, transform 0.15s",
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.background = `rgba(${color},0.12)`;
+              el.style.borderColor = `rgba(${color},0.45)`;
+              el.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.background = `rgba(${color},0.06)`;
+              el.style.borderColor = `rgba(${color},0.25)`;
+              el.style.transform = "translateY(0)";
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 12, color: `rgb(${color})`, fontFamily: "var(--font-mono)", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700, marginBottom: 3 }}>
+                {data.platform === "4UNI" ? "Posted on 4UNI" : `Listed on ${data.platform}`}
+              </div>
+              <div style={{ fontSize: 13, color: "var(--text-1)", fontWeight: 600 }}>
+                {data.platform === "4UNI" ? "Contact the owner →" : "View full listing →"}
+              </div>
+            </div>
+            <div style={{
+              width: 38, height: 38, borderRadius: 10, flexShrink: 0,
+              background: `rgba(${color},0.12)`, border: `1px solid rgba(${color},0.2)`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={`rgb(${color})`} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </div>
+          </a>
+        ) : (
+          <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)", fontSize: 13, color: "var(--text-3)", textAlign: "center" }}>
+            {data.platform === "4UNI"
+              ? "Posted directly by a student on 4UNI"
+              : <>Listed on <strong style={{ color: "var(--text-2)" }}>{data.platform}</strong> — link coming soon</>}
+          </div>
+        )}
+
+        {/* WhatsApp contact — partner listings carry their city's number */}
+        {whatsappDigits && (
+          <a
+            href={`https://wa.me/${whatsappDigits}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              padding: "13px 18px", borderRadius: 14, textDecoration: "none",
+              border: "1px solid rgba(37,211,102,0.3)", background: "rgba(37,211,102,0.1)",
+              color: "rgb(37,211,102)", fontSize: 13, fontWeight: 700,
+              transition: "background 0.15s",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(37,211,102,0.18)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "rgba(37,211,102,0.1)")}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20.5l1.6-5.1A8.5 8.5 0 1 1 21 11.5z"/>
+            </svg>
+            Chat on WhatsApp
+          </a>
+        )}
+
+        {/* Safety note */}
+        <div style={{ fontSize: 11, color: "var(--text-3)", lineHeight: 1.6, padding: "10px 14px", borderRadius: 10, border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}>
+          🔒 Always visit the property before paying any deposit. Never transfer money without a signed contract.
+        </div>
       </div>
     </div>
   );
@@ -395,14 +501,26 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
 export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
   const isOpen = !!pin;
 
+  // Apartment previews take two thirds of the screen; roommate and city panels
+  // keep the narrow drawer. The width is remembered while the drawer slides
+  // out (pin is null by then) so it does not snap narrower mid-animation.
+  const [wide, setWide] = useState(false);
+  if (pin && (pin.pinType === "apartment") !== wide) setWide(pin.pinType === "apartment");
+
   // While the drawer is open, freeze the page behind it so the mouse wheel
   // scrolls the drawer content instead of the housing page underneath.
   useEffect(() => {
     if (!isOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = previous; };
-  }, [isOpen]);
+    // A panel this large behaves like a dialog: Esc closes it.
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen, onClose]);
 
   // Derive header label
   const headerLabel =
@@ -439,8 +557,10 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
           top: 0,
           right: 0,
           bottom: 0,
-          width: 400,
-          maxWidth: "92vw",
+          // wide: 2/3 of the screen, but never below the narrow drawer's size
+          // (so on a phone it still fills ~92% of the width)
+          width: wide ? "max(68vw, min(400px, 92vw))" : 400,
+          maxWidth: wide ? "100vw" : "92vw",
           zIndex: 1201,
           background: "var(--bg)",
           borderLeft: "1px solid var(--border)",
@@ -492,7 +612,7 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
             <RoommateDetail data={pin.data} onMessage={onMessage} />
           )}
           {pin?.pinType === "apartment" && (
-            <ApartmentDetail data={pin.data} />
+            <ApartmentDetail key={pin.data.id} data={pin.data} />
           )}
           {pin?.pinType === "city" && (
             <CityDetail

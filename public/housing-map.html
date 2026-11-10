@@ -178,8 +178,8 @@
       apts.forEach(function(a) {
         var redPin = L.divIcon({
           className: '',
-          html: '<div style="width:16px;height:16px;background:radial-gradient(circle at 35% 30%,#FCA5A5,#F87171 70%);border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(248,113,113,0.25),0 3px 8px rgba(15,23,42,0.35);cursor:pointer;transition:transform 0.15s ease;" onmouseover="this.style.transform=\'scale(1.35)\'" onmouseout="this.style.transform=\'scale(1)\'"></div>',
-          iconSize: [16, 16], iconAnchor: [8, 8],
+          html: '<div style="width:10px;height:10px;background:#F87171;border:1.5px solid #fff;border-radius:50%;box-shadow:0 0 0 1.5px rgba(248,113,113,0.22),0 1px 3px rgba(15,23,42,0.3);cursor:pointer;transition:transform 0.15s ease;" onmouseover="this.style.transform=\'scale(1.5)\'" onmouseout="this.style.transform=\'scale(1)\'"></div>',
+          iconSize: [10, 10], iconAnchor: [5, 5],
         });
         var m = L.marker([a.lat, a.lng], { icon: redPin });
         m.on('click', function() {

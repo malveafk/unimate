@@ -99,6 +99,9 @@ type ListingRow = {
   address: string | null;
   bathrooms: number | null;
   size_sqm: number | null;
+  source?: string | null;
+  // Added by supabase/housing_clubhouse_whatsapp.sql (may not be migrated yet).
+  contact_whatsapp?: string | null;
 };
 
 function listingToPin(row: ListingRow): ApartmentPin {
@@ -127,6 +130,8 @@ function listingToPin(row: ListingRow): ApartmentPin {
     address: row.address ?? undefined,
     bathrooms: row.bathrooms ?? undefined,
     sizeSqm: row.size_sqm ?? undefined,
+    source: row.source ?? undefined,
+    whatsapp: row.contact_whatsapp ?? undefined,
   };
 }
 
@@ -146,17 +151,20 @@ export async function fetchRoommatePins(): Promise<RoommatePin[]> {
 // supabase/housing.sql schema). Two independent later migrations add optionals:
 //   - photo_path, verified   → listing ID-verification feature (in housing.sql)
 //   - image, address, …      → supabase/housing_partner_listings.sql
+//   - contact_whatsapp       → supabase/housing_clubhouse_whatsapp.sql
 // Either may be unapplied on a given DB, so we try progressively narrower column
 // sets and stop at the first that isn't an "undefined column" error. This way
 // whichever optionals ARE migrated still load, and a deploy and its ALTER TABLEs
 // can land in any order without ever breaking the live apartment feed.
 const LISTING_CORE_COLS = "id, title, city, lat, lng, price, rooms, furnished, available_from, description, platform, link";
 const LISTING_VERIFY_COLS = "photo_path, verified";
-const LISTING_PARTNER_COLS = "image, address, bathrooms, size_sqm";
+const LISTING_PARTNER_COLS = "image, address, bathrooms, size_sqm, source";
+const LISTING_CONTACT_COLS = "contact_whatsapp";
 
 export async function fetchApartmentPins(): Promise<ApartmentPin[]> {
   const supabase = createClient();
   const attempts = [
+    `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}, ${LISTING_PARTNER_COLS}, ${LISTING_CONTACT_COLS}`,
     `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}, ${LISTING_PARTNER_COLS}`,
     `${LISTING_CORE_COLS}, ${LISTING_PARTNER_COLS}`,
     `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}`,

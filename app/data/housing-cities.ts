@@ -75,6 +75,8 @@ export type ApartmentPin = {
   address?: string;
   bathrooms?: number;
   sizeSqm?: number;      // m²
+  source?: string;       // partner the row comes from, e.g. "clubhouse"; unset for user posts
+  whatsapp?: string;     // partner contact number in E.164 form, e.g. "+34654870491"
 };
 
 // ── Demo data (replace with Supabase rows in production) ──────────────────────

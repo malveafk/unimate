@@ -259,12 +259,11 @@ function PartnersSection({ cityFilter }: { cityFilter: string }) {
 }
 
 // ── "Pick your filters first" prompt (apartments tab) ──────────────
-function SelectFiltersPrompt({ cityFilter, budgetFilter }: {
-  cityFilter: string; budgetFilter: string;
+function SelectFiltersPrompt({ cityFilter }: {
+  cityFilter: string;
 }) {
   const steps = [
     { label: "City", done: cityFilter !== "All cities", value: cityFilter !== "All cities" ? cityFilter : "Not selected" },
-    { label: "Budget", done: budgetFilter !== "any", value: budgetFilter !== "any" ? BUDGET_BRACKETS.find(b => b.value === budgetFilter)?.label : "Not selected" },
   ];
 
   return (
@@ -285,7 +284,7 @@ function SelectFiltersPrompt({ cityFilter, budgetFilter }: {
             Tell us what you're looking for
           </div>
           <p style={{ fontSize: 14, color: "var(--text-3)", lineHeight: 1.7, maxWidth: 400, margin: "0 auto" }}>
-            Select a city and a budget above to see matching apartment listings.
+            Select a city above to see all its apartment listings. Budget and move-in are optional filters to narrow them down.
           </p>
         </div>
 
@@ -538,11 +537,10 @@ function HousingPageInner() {
     return true;
   });
 
-  // Apartments only reveal their list once the visitor has actively chosen
-  // a city and a budget bracket — avoids dumping every listing on someone who
-  // hasn't told us what they're looking for yet. Move-in stays optional: leaving
-  // it on "Any" still shows results (it just doesn't narrow by date).
-  const apartmentFiltersComplete = cityFilter !== "All cities" && budgetFilter !== "any";
+  // Apartments reveal their list as soon as the visitor picks a city: one click
+  // on a city shows every listing there. Budget and move-in are optional extra
+  // filters that only narrow that list (left on "Any" they change nothing).
+  const apartmentFiltersComplete = cityFilter !== "All cities";
 
   const count = tab === "roommates" ? filteredRoommates.length : (apartmentFiltersComplete ? filteredApartments.length : 0);
 
@@ -813,7 +811,7 @@ function HousingPageInner() {
 
       {tab === "apartments" && (
         !apartmentFiltersComplete
-          ? <SelectFiltersPrompt cityFilter={cityFilter} budgetFilter={budgetFilter} />
+          ? <SelectFiltersPrompt cityFilter={cityFilter} />
           : filteredApartments.length === 0
           ? <EmptyList tab="apartments" />
           : (
@@ -827,9 +825,9 @@ function HousingPageInner() {
                   onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.4)"; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
                 >
-                  {a.photo && (
+                  {(a.image?.[0] || a.photo) && (
                     /* eslint-disable-next-line @next/next/no-img-element */
-                    <img src={a.photo} alt={a.title} style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 12, border: "1px solid var(--border)" }} />
+                    <img src={a.image?.[0] ?? a.photo} alt={a.title} loading="lazy" style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 12, border: "1px solid var(--border)" }} />
                   )}
                   <div>
                     <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>{a.title}</h3>
@@ -847,46 +845,23 @@ function HousingPageInner() {
                       </div>
                     ))}
                   </div>
-                  {a.link ? (
-                    <a
-                      href={a.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        width: "100%", padding: "10px 16px", borderRadius: 10,
-                        background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
-                        color: "rgb(96,165,250)",
-                        fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
-                        display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                        transition: "background 0.15s", textDecoration: "none",
-                        boxSizing: "border-box",
-                      }}
-                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
-                      onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                        <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-                      </svg>
-                      {a.platform === "4UNI" ? "Contact the owner →" : `View on ${a.platform} →`}
-                    </a>
-                  ) : (
-                    <button
-                      onClick={() => setActivePin({ pinType: "apartment", data: a })}
-                      style={{
-                        width: "100%", padding: "10px 16px", borderRadius: 10,
-                        background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
-                        color: "rgb(96,165,250)",
-                        fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
-                        display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                        transition: "background 0.15s",
-                      }}
-                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
-                      onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
-                    >
-                      View details →
-                    </button>
-                  )}
+                  {/* Every listing opens its on-site preview first; the link to the
+                      original listing lives inside that preview. */}
+                  <button
+                    onClick={() => setActivePin({ pinType: "apartment", data: a })}
+                    style={{
+                      width: "100%", padding: "10px 16px", borderRadius: 10,
+                      background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
+                      color: "rgb(96,165,250)",
+                      fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                      transition: "background 0.15s",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
+                    onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
+                  >
+                    View details →
+                  </button>
                 </div>
               ))}
             </div>
