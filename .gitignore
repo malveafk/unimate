@@ -63,3 +63,9 @@ service-account.json
 # local archives and study material (not part of the codebase)
 *.zip
 *.pdf
+
+# Club House scraper: saved login session (cookies/tokens), never commit
+scripts/clubhouse/.auth/
+
+# Club House scraper output (raw.json holds owner first names in titles)
+scripts/clubhouse/output/

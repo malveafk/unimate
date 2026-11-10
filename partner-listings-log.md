@@ -1,5 +1,9 @@
 # Partner listings data log
 
+## 2026-11-10 18:36 — IMPORT (source: clubhouse)
+
+Run: `npx tsx scripts/clubhouse/import.ts --apply` → **housing_listings**. 510 nuovi, 0 aggiornati, 0 invariati, 0 disattivati (scomparsi dal sito), 8 demo disattivati. Catalogo: 510 attivi (Berlin 153, Madrid 192, Paris 165), scrape del 2026-11-10T17:13:08.627Z.
+
 ## 2026-08-10 15:35 — SEED (source: demo)
 
 Run: `npx tsx seed-listings.ts` → **housing_listings**. 8 nuovi, 0 aggiornati, 8 totali nel file sorgente.
