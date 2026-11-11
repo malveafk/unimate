@@ -573,7 +573,10 @@ function HousingPageInner() {
     if (!matchesMoveIn(a.availableFrom ?? "")) return false;
     if (search && !a.title.toLowerCase().includes(search.toLowerCase()) && !a.city.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
-  });
+  })
+    // Cheapest first, whatever the source: partners are mixed by price, not
+    // grouped. The id breaks ties so the order is the same on every visit.
+    .sort((a, b) => a.price - b.price || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
   // Apartments reveal their list as soon as the visitor picks a city: one click
   // on a city shows every listing there. Budget and move-in are optional extra
