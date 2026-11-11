@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { roommatePins, apartmentPins, type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 import PinDetailPanel, { type ActivePin } from "../components/PinDetailPanel";
 import { fetchRoommatePins, fetchApartmentPins, fetchApartmentDetails } from "@/utils/housing";
+import { PARTNER_THEMES, partnerTheme, partnerTint, partnerStripe, type PartnerTheme } from "../data/housing-partners";
 
 const HousingMap = dynamic(() => import("../components/HousingMap"), { ssr: false });
 
@@ -160,20 +161,31 @@ function EmptyList({ tab }: { tab: Tab }) {
 type Partner = {
   name: string;
   initials: string;
-  color: string;       // "r,g,b" accent for the card
+  theme: PartnerTheme; // the partner's two colours, same as on its listings
   description: string;
   cities: string[];
   url: string;
+  offer: string;       // what they rent, for the button: "flats", "rooms"
 };
 
 const PARTNERS: Partner[] = [
   {
     name: "ClubHouse",
     initials: "CH",
-    color: "201,163,92",
+    theme: PARTNER_THEMES.clubhouse,
     description: "Handpicked student flats, curated by students who've been through the same search. Book a room and join their local community.",
     cities: ["Madrid", "Barcelona", "Paris", "Berlin"],
     url: "https://www.clubhouse-student.eu",
+    offer: "flats",
+  },
+  {
+    name: "helpHousing",
+    initials: "hH",
+    theme: PARTNER_THEMES.helphousing,
+    description: "Furnished rooms in shared flats for students and young professionals, managed directly by helpHousing. Pick a room and book it with them.",
+    cities: ["Madrid", "Barcelona", "Valencia", "Milan", "Florence"],
+    url: "https://www.helphousing.com",
+    offer: "rooms",
   },
 ];
 
@@ -195,12 +207,13 @@ function PartnersSection({ cityFilter }: { cityFilter: string }) {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
-        {PARTNERS.map(p => {
+        {PARTNERS.map(partner => {
+          const p = { ...partner, color: partner.theme.primary };
           const inSelectedCity = p.cities.includes(cityFilter);
           return (
             <div key={p.name} style={{
               borderRadius: 18, padding: 26, display: "flex", flexDirection: "column", gap: 16,
-              background: `linear-gradient(135deg, rgba(${p.color},0.10), var(--surface) 60%)`,
+              background: partnerTint(p.theme, "var(--surface)"),
               border: `1px solid rgba(${p.color},${inSelectedCity ? 0.55 : 0.3})`,
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -245,13 +258,13 @@ function PartnersSection({ cityFilter }: { cityFilter: string }) {
                 rel="noopener noreferrer"
                 style={{
                   marginTop: "auto", padding: "11px 16px", borderRadius: 10, textDecoration: "none",
-                  background: `rgb(${p.color})`, color: "#1a1408",
+                  background: `rgb(${p.color})`, color: p.theme.onPrimary,
                   fontSize: 13, fontWeight: 700, textAlign: "center", transition: "opacity 0.15s",
                 }}
                 onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
                 onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
               >
-                {inSelectedCity ? `See ${p.name} flats in ${cityFilter} →` : `Visit ${p.name} →`}
+                {inSelectedCity ? `See ${p.name} ${p.offer} in ${cityFilter} →` : `Visit ${p.name} →`}
               </a>
             </div>
           );
@@ -864,15 +877,33 @@ function HousingPageInner() {
           ? <EmptyList tab="apartments" />
           : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
-              {shownApartments.map(a => (
+              {shownApartments.map(a => {
+                // A partner's listing wears the partner's two colours on the whole card.
+                const theme = partnerTheme(a.source);
+                const restBorder = theme ? `rgba(${theme.primary},0.3)` : "var(--border)";
+                const hoverBorder = theme ? `rgba(${theme.primary},0.6)` : "var(--border-strong)";
+                return (
                 <div key={a.id} style={{
-                  background: "var(--surface)", borderRadius: 18, border: "1px solid var(--border)",
+                  background: theme ? partnerTint(theme, "var(--surface)") : "var(--surface)",
+                  borderRadius: 18, border: `1px solid ${restBorder}`,
                   padding: "26px", display: "flex", flexDirection: "column", gap: 14,
                   transition: "border-color 0.2s, transform 0.2s, box-shadow 0.2s",
                 }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.4)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = hoverBorder; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.4)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = restBorder; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
                 >
+                  {theme && (
+                    <span style={{
+                      alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 7,
+                      padding: "4px 10px 4px 8px", borderRadius: 999,
+                      fontSize: 11, fontWeight: 700, letterSpacing: "0.02em",
+                      background: `rgba(${theme.primary},0.12)`, border: `1px solid rgba(${theme.primary},0.3)`,
+                      color: `rgb(${theme.primary})`,
+                    }}>
+                      <span style={{ width: 14, height: 6, borderRadius: 3, background: partnerStripe(theme) }} />
+                      {theme.name}
+                    </span>
+                  )}
                   {(a.image?.[0] || a.photo) && (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img src={a.image?.[0] ?? a.photo} alt={a.title} loading="lazy" style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 12, border: "1px solid var(--border)" }} />
@@ -911,7 +942,8 @@ function HousingPageInner() {
                     View details →
                   </button>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )
       )}

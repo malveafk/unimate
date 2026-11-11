@@ -175,7 +175,14 @@ const LISTING_VERIFY_COLS = "photo_path, verified";
 const LISTING_PARTNER_COLS = "image, address, bathrooms, size_sqm, source";
 const LISTING_CONTACT_COLS = "contact_whatsapp";
 
-const LIST_ATTEMPTS = [`${LISTING_LIST_COLS}, photo_path`, LISTING_LIST_COLS];
+// `source` rides along so a card wears its partner's colours from the first
+// paint, before the full row arrives.
+const LIST_ATTEMPTS = [
+  `${LISTING_LIST_COLS}, photo_path, source`,
+  `${LISTING_LIST_COLS}, source`,
+  `${LISTING_LIST_COLS}, photo_path`,
+  LISTING_LIST_COLS,
+];
 const DETAIL_ATTEMPTS = [
   `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}, ${LISTING_PARTNER_COLS}, ${LISTING_CONTACT_COLS}`,
   `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}, ${LISTING_PARTNER_COLS}`,
