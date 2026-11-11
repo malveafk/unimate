@@ -1,5 +1,13 @@
 # Partner listings data log
 
+## 2026-11-11 11:31 — IMPORT (source: helphousing)
+
+Run: `npx tsx scripts/helphousing/import.ts --apply` → **housing_listings**. 100 nuovi, 0 aggiornati, 1464 invariati, 0 disattivati (scomparsi dal sito). Catalogo: 1564 attivi (Barcelona 168, Florence 164, Madrid 931, Milan 113, Valencia 188), scrape del 2026-11-11T09:46:38.084Z.
+
+## 2026-11-11 11:31 — IMPORT (source: helphousing)
+
+Run: `npx tsx scripts/helphousing/import.ts --apply` → **housing_listings**. 1564 nuovi, 0 aggiornati, 0 invariati, 0 disattivati (scomparsi dal sito), **100 falliti**. Catalogo: 1564 attivi (Barcelona 168, Florence 164, Madrid 931, Milan 113, Valencia 188), scrape del 2026-11-11T09:46:38.084Z.
+
 ## 2026-11-10 18:36 — IMPORT (source: clubhouse)
 
 Run: `npx tsx scripts/clubhouse/import.ts --apply` → **housing_listings**. 510 nuovi, 0 aggiornati, 0 invariati, 0 disattivati (scomparsi dal sito), 8 demo disattivati. Catalogo: 510 attivi (Berlin 153, Madrid 192, Paris 165), scrape del 2026-11-10T17:13:08.627Z.

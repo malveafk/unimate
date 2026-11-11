@@ -373,8 +373,15 @@ async function main() {
       `. Catalogo: ${rows.length} attivi (${Object.entries(byCity).map(([c, n]) => `${c} ${n}`).join(", ")}), scrape del ${file.scraped_at}.\n\n`,
   );
 
-  console.log(`\nDone: ${toInsert.length} inserted, ${toUpdate.length} updated, ${toDeactivate.length} deactivated${failed ? `, ${failed} FAILED` : ""}.`);
-  if (failed) process.exit(1);
+  if (failed) {
+    // The counts above are the plan, not the outcome: say plainly what is missing.
+    console.error(
+      `\nFinished with errors: ${failed} rows were NOT written (planned: ${toInsert.length} inserts, ${toUpdate.length} updates, ${toDeactivate.length} deactivations).` +
+        "\nRun the same command again: it writes only what is still missing.",
+    );
+    process.exit(1);
+  }
+  console.log(`\nDone: ${toInsert.length} inserted, ${toUpdate.length} updated, ${toDeactivate.length} deactivated.`);
 }
 
 // Only run when executed directly, so toRow() can be imported and tested.
