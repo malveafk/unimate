@@ -47,7 +47,7 @@ const REPLIES: Record<string, string[]> = {
     "Happy to hop on a quick video call if you want to chat more.",
   ],
   "demo-r3": [
-    "Bonjour! Yes, I'm looking for a flatmate in Berlin 🙂",
+    "Hi! Yes, I'm looking for a flatmate in Berlin 🙂",
     "I'm doing my Erasmus at Humboldt until July next year.",
     "I prefer a calm environment — I spend most evenings reading.",
     "I'm bilingual French/English and have basic German.",

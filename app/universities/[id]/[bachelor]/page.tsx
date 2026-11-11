@@ -16,7 +16,7 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
       .then((data) => setUni(data))
       .catch((error) => {
         console.error("Failed to load university:", error?.message ?? error);
-        setError("Impossibile caricare i dati. Riprova più tardi.");
+        setError("Couldn't load this programme. Please try again later.");
       })
       .finally(() => setLoading(false));
   }, [id]);

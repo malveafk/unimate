@@ -63,15 +63,15 @@ FORMATTING:
 - For any list of items (subsidies, universities, steps, options), use this exact format:
 
 LISTA:
-Nome item | Descrizione breve in una riga
-Nome item | Descrizione breve in una riga
+Item name | One-line short description
+Item name | One-line short description
 FINE_LISTA
 
 Example:
 LISTA:
-CAF | Sussidio affitto, copre €100–€250/mese
-Bourse CROUS | Borsa di studio su base economica
-Retta universitaria | ~€170/anno per studenti EU
+CAF | Rent subsidy, covers €100–€250/month
+Bourse CROUS | Means-tested scholarship
+University tuition | ~€170/year for EU students
 FINE_LISTA
 
 Always use LISTA for any enumeration of 2 or more items. Never use plain dashes.
@@ -81,10 +81,10 @@ When you want to ask the student a key question with clear choices, end your mes
 OPZIONI: [first option] | [second option]
 
 Use OPZIONI when asking things like:
-- What area they want to study (e.g. OPZIONI: Economia e Business | Ingegneria e Tech)
-- Which country direction (e.g. OPZIONI: Nord Europa (Olanda, Germania) | Sud Europa (Spagna, Portogallo))
-- Their priority (e.g. OPZIONI: Risparmiare il più possibile | Vivere bene anche spendendo di più)
-- Language preference (e.g. OPZIONI: Preferisco corsi in inglese | Va bene anche imparare una nuova lingua)
+- What area they want to study (e.g. OPZIONI: Economics & Business | Engineering & Tech)
+- Which country direction (e.g. OPZIONI: Northern Europe (Netherlands, Germany) | Southern Europe (Spain, Portugal))
+- Their priority (e.g. OPZIONI: Save as much as possible | Live well even if it costs more)
+- Language preference (e.g. OPZIONI: I prefer courses in English | Happy to learn a new language)
 
 Only use OPZIONI when there are exactly 2 clear choices. For open questions, just ask normally.
 
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
 
   if (isRateLimited(ip)) {
-    return NextResponse.json({ error: "Troppe richieste. Aspetta un minuto." }, { status: 429 });
+    return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });
   }
 
   // Quota key: the logged-in user's id when available, otherwise the IP.
@@ -163,11 +163,11 @@ export async function POST(req: NextRequest) {
     const { messages } = await req.json();
 
     if (!Array.isArray(messages) || messages.length === 0) {
-      return NextResponse.json({ error: "Richiesta non valida." }, { status: 400 });
+      return NextResponse.json({ error: "Invalid request." }, { status: 400 });
     }
 
     if (messages.length > 40) {
-      return NextResponse.json({ error: "Conversazione troppo lunga. Inizia una nuova chat." }, { status: 400 });
+      return NextResponse.json({ error: "This conversation is too long. Please start a new chat." }, { status: 400 });
     }
 
     // Anthropic requires the first message to be from the user.
@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
     const firstUserIndex = messages.findIndex((m: { role: string }) => m.role === "user");
     const apiMessages = firstUserIndex >= 0 ? messages.slice(firstUserIndex) : messages;
 
-    const today = new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+    const today = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
     const response = await client.messages.create({
       model: "claude-sonnet-4-6",
@@ -189,7 +189,7 @@ export async function POST(req: NextRequest) {
         },
         {
           type: "text",
-          text: `Data di oggi: ${today}.`,
+          text: `Today's date: ${today}.`,
         },
       ],
       messages: apiMessages,
@@ -205,7 +205,7 @@ export async function POST(req: NextRequest) {
     // Log the full error (with stack) server-side; never leak it to the client.
     console.error("Anthropic error:", error instanceof Error ? error.stack ?? error.message : error);
     return NextResponse.json(
-      { error: "Si è verificato un errore. Riprova tra poco." },
+      { error: "Something went wrong. Please try again in a moment." },
       { status: 500 }
     );
   }

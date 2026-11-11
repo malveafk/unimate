@@ -21,7 +21,7 @@ export default function UniversityDetail({ params }: { params: Promise<{ id: str
       })
       .catch((error) => {
         console.error("Failed to load university:", error?.message ?? error);
-        setError("Impossibile caricare l'università. Riprova più tardi.");
+        setError("Couldn't load this university. Please try again later.");
       })
       .finally(() => setLoading(false));
   }, [id]);
