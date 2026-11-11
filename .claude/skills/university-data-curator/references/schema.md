@@ -24,7 +24,7 @@ type University = {
   city: string;
   country: string;
   flag: string;         // emoji bandiera
-  tuition: string;       // inglese semplice, es. "€2,601/year"
+  tuition: string;       // inglese semplice CON anno accademico, es. "€2,771/year, 2027-28"
   livingCost: string;    // es. "€900–€1,100/month"
   teaching: string;      // stile didattico, es. "Problem-Based Learning (PBL)"
   languages: string[];   // ARRAY nel TS (non stringa)
@@ -57,7 +57,7 @@ type University = {
   city: "Maastricht",
   country: "Netherlands",
   flag: "🇳🇱",
-  tuition: "€2,601/year",
+  tuition: "€2,771/year, 2027-28",
   livingCost: "€900–€1,100/month",
   teaching: "Problem-Based Learning (PBL)",
   languages: ["English", "Dutch"],

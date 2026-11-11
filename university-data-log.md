@@ -1,5 +1,100 @@
 # University data log
 
+## 2026-11-11 (2° giro) — Opzione C: etichetta dell'anno accademico su tutti i record
+
+Implementata l'opzione C decisa da Nicolo': ogni stringa `tuition` dichiara ora l'anno accademico a cui si riferisce la cifra, e la deriva diventa rilevabile da uno script invece di dipendere dall'attenzione di chi fa il giro. Catalogo fermo a **87**.
+
+### Scoperta che ha cambiato l'implementazione
+Prima di toccare i record ho letto il commit `3786734 "University costs in simple English"` (Lorenzo, 27 settembre): aveva tradotto le 87 stringhe in inglese semplice **e aggiornato la skill**, fissando una convenzione precisa — note brevi fra parentesi, *niente dettagli tecnici come prezzo a credito o nomi di tasse locali*. Nel farlo aveva rimosso i riferimenti d'anno che alcune stringhe contenevano (es. `fu-berlin` aveva "WS 2026/27").
+
+Due conseguenze:
+1. **La mia modifica del giro precedente violava quella convenzione.** Avevo scritto `student centre levy` e `Free Fees Initiative` su ucd e trinity-dublin: nomi di tasse e di schemi locali, esplicitamente esclusi. Riscritte nello stile di Lorenzo (`+ €254 student fees`, `+ ~€205 student fees`), mantenendo la sostanza della correzione, cioe' la stessa base di calcolo per i due atenei irlandesi.
+2. **Gli anni erano stati rimossi perche' nulla li documentava.** Rimetterli senza aggiornare la skill avrebbe significato farli rimuovere di nuovo al prossimo riordino. Quindi l'opzione C include l'aggiornamento di `SKILL.md` e `references/schema.md`.
+
+### Formato scelto
+`", 2026-27"` subito dopo la cifra UE, dentro il **primo segmento** (quello che `universityCosts.ts` legge). Esempi: `"€2,771/year, 2027-28"`, `"Free for EU students, 2026-27"`, `"€1,061/year, 2025-26 (EU; up to 80% off...)"`.
+
+Due vincoli hanno determinato la forma:
+- **Trattino corto per l'anno, lungo per gli intervalli di prezzo.** `2026-27` usa `-`, un range come `€157–€2,040` usa `–`. Il parser riconosce come intervallo solo il trattino lungo, quindi i due non si confondono mai.
+- **Anno nel primo segmento, non in coda alla stringa.** Su `aalto` ("Free (EU/EEA) / €12,000/year (non-EU)") una regola "dopo il primo /year" avrebbe etichettato la cifra **non-UE**. Inserendo a fine primo segmento si ottiene `"Free (EU/EEA), 2026-27 / €12,000/year (non-EU)"`.
+
+### Un bug che l'opzione C avrebbe introdotto, trovato prima di applicarla
+Aggiungere l'anno alle 7 stringhe `"Free for EU students"` avrebbe **rotto il parser**. La guardia che distingue "gratis" da "zero euro" si basava sull'assenza di cifre nel segmento (`!/\d/.test(segment)`), introdotta il 10 agosto per il caso irlandese "Free Fees Initiative". Con l'anno in coda il segmento contiene `2026` e `27`: la guardia non sarebbe scattata e Copenhagen, DTU, Aarhus, KTH, Lund, Stockholm e Uppsala avrebbero derivato **€2.026 invece di €0**.
+
+Corretto in `utils/universityCosts.ts`: la guardia ora cerca una cifra **legata a una valuta** (`[€£$]\s?\d`, `CHF\s?\d`, `\d\s?(?:EUR|GBP|CHF|USD)`) invece di una cifra qualsiasi. Piu' robusta anche in generale: distingue un prezzo da un numero che non e' un prezzo.
+
+### Verifica: le etichette non hanno cambiato un solo numero
+Snapshot dei valori derivati (tuition, living, total per tutti gli 87 atenei) prima e dopo. Il diff contiene **esattamente e solo** le 12 migrazioni volute — 11 olandesi e Bocconi. Gli altri 75 record sono numericamente identici. I 7 "free" restano a `EUR:0-0`.
+
+### Migrazioni applicate al 2027-28
+- **Paesi Bassi (11 atenei)**: €2.694 -> **€2.771** (statutory nazionale 2027-28, indicizzazione +2,85%, pubblicata dal governo a novembre). maastricht, amsterdam, erasmus, groningen, tu-delft, leiden, utrecht, tilburg, twente, tue, wageningen.
+- **bocconi**: €17.000 -> **€17.700** (retta piena 2027-28).
+
+Restano al **2026-27** i 71 record i cui dati sono stati verificati per quell'anno, e al **2025-26** quattro record le cui fonti erano esplicitamente di quell'anno: bologna (tabella "A.A. 2025/2026") e le tre catalane (il prezzo unico di €17,69 a credito e' stato introdotto "dal 2025-2026"). **Non le ho etichettate 2026-27**: sarebbe stato asserire una verifica che non ho fatto. Lo script le segnala, ed e' il comportamento corretto.
+
+### Nuovo: `check-universities.ts`
+Script committato nel repo, eseguibile con `npx tsx check-universities.ts`, che raccoglie i quattro controlli diventati routine e li rende ripetibili senza di me. Esce con codice 1 se segnala qualcosa, quindi puo' essere usato come gate pre-commit.
+
+1. **Integrita**: id duplicati, atenei senza bachelor, costi non derivabili.
+2. **Stessa citta, stesso costo di vita**: il controllo del 24 agosto.
+3. **Deriva dell'anno accademico**: distribuzione delle etichette e, soprattutto, atenei **indietro rispetto ai pari del proprio paese** — il caso azionabile, perche' le tasse sono fissate per paese o regione.
+4. **Scostamento tasse per paese**: stampa i gruppi con rapporto oltre 3x per ispezione a occhio.
+
+Esito alla prima esecuzione: `2025-26: 4 | 2026-27: 71 | 2027-28: 12`, con due flag — Spagna (le tre catalane indietro rispetto a Madrid) e Italia (bologna indietro, e i tre pubblici indietro rispetto a Bocconi). Entrambi corretti e azionabili.
+
+Nota sul rumore: il flag italiano confronta tre atenei pubblici con una privata che pubblica in anticipo, quindi segnala un ritardo che e' di calendario, non di manutenzione. E' segnale utile ma va letto, non applicato meccanicamente.
+
+### Perche' questo cambia il modo di lavorare
+Finora ogni errore trovato in questa sessione — bologna, sapienza, polimi, complutense, barcelona, trinity, padua — e' stato trovato confrontando il catalogo con se stesso, e **dipendeva dal fatto che io scegliessi di guardare**. Con le etichette e lo script, la deriva si denuncia da sola: il primo passo di ogni giro VERIFY diventa eseguire lo script, e la ricerca esterna si spende solo sui flag.
+
+### Da controllare a mano
+- **Tre catalane e bologna (2025-26)**: verificare se le cifre valgono ancora per il 2026-27 e aggiornare l'etichetta. Sono i flag che lo script segnala oggi.
+- **Irlanda 2027-28**: dipende dal Budget 2027, non ancora pubblicato.
+- **Trinity, totale levy**: non pubblicato come cifra unica per i triennali; `~€205` e' la somma delle componenti pubblicate (sport €137, spazi €34, commencements da €33,75), con il commencements variabile fino a €135.
+- **Berlino e Losanna**: coerenti tra loro, livello assoluto da riancorare a fonti ufficiali.
+- **Francia**: ancora senza candidati con bachelor interamente in inglese e tariffa annuale pubblicata.
+- **Profondita**: 39 atenei su 87 con un solo bachelor, invariato.
+
+## 2026-11-11 — VERIFY: deriva dell'anno accademico, normalizzazione Irlanda
+
+Primo giro dopo una pausa di quasi tre mesi (24 agosto - 11 novembre). La pausa ha cambiato la priorità: i controlli di coerenza interna, diventati routine, sono risultati **tutti puliti**, mentre è emerso un problema di natura diversa e piu' importante — il catalogo e' ancorato a un anno accademico che sta diventando quello sbagliato per chi lo consulta. Catalogo fermo a **87**, nessuna aggiunta.
+
+### Scansione di coerenza: nessuna anomalia
+- **Stessa citta, stesso costo di vita**: nessuna divergenza (il controllo introdotto il 24 agosto tiene).
+- **Gruppi nazionali**: gli scostamenti rilevati (Germania 164-768, Spagna 1061-29000, Francia 178-15900, Italia 2040-17000) sono tutti **spiegati** — variazione per Land, differenza pubblico/privato (IE, Bocconi, Sciences Po, Ecole Polytechnique). Nessun nuovo caso sospetto.
+- **Integrita**: 87 record, zero duplicati, zero atenei senza bachelor, 87/87 con tuition e living derivabili.
+
+### Il file e' stato tradotto in inglese da terzi, il parser ha tenuto
+Tutte le 87 stringhe `tuition` sono passate dall'italiano all'inglese dopo il mio ultimo giro (`/anno` -> `/year`, `Gratuita per studenti UE` -> `Free for EU students`, e i decimali dalla virgola al punto: `€189,80` -> `€189.80`). **Zero regressioni** in `utils/universityCosts`: 87/87 valori ancora derivabili, moltiplicatore semestrale corretto (Heidelberg €189.80/semester -> €380/anno, quindi anche il decimale col punto e' gestito), rilevamento "free" corretto, e Bocconi continua a derivare €17.000 e non €0 grazie alla guardia sulle cifre.
+
+E' una conferma della scelta di progetto fatta il 10 agosto: il modulo si aggancia alla **struttura** della stringa (cifre, trattini, separatori) piu' a parole chiave bilingui, non alla prosa italiana. Un parser costruito sulle parole italiane si sarebbe rotto su tutti e 87 i record.
+
+### Verifiche
+- **ucd** e **trinity-dublin** — tuition **normalizzate sulla stessa base**. Prima: UCD `~€2,750/year` (contribution + levy sommati), Trinity `€2,500/year` (sola contribution). Entrambi gli atenei sono soggetti **allo stesso schema nazionale irlandese**, con contribution identica di €2.500: la differenza nel file non era reale, era una differenza di *cosa veniva conteggiato*. Stessa famiglia di difetto gia' corretta su pompeu-fabra rispetto a uab e barcelona. Ora entrambi dichiarano €2.500 come cifra di riferimento, con il levy specifico di ateneo indicato a parte: UCD `+€254 student centre levy` (cifra pubblicata da UCD, che riporta anche il combinato €2.754), Trinity `+student levies from ~€205`. **Flag ucd chiuso**, era aperto da quattro giri.
+- **trinity-dublin, nota sull'incertezza**: il totale dei levy di Trinity **non e' pubblicato** come cifra unica per i triennali. Le componenti lo sono (sport €137, spazi €34, commencements da €33,75), e ~€205 e' la loro somma minima; il commencements varia fino a €135 secondo titolo e durata. Per questo la stringa dice "from ~€205" e non una cifra secca. La fonte consultata forniva €212,75 dichiarando esplicitamente che era un **proprio calcolo** e non un dato ufficiale: non l'ho ripreso come tale.
+
+### Il problema vero: deriva dell'anno accademico
+Chi guarda il sito **oggi** (novembre 2026) si iscrive per l'autunno **2027**, quindi paghera' le tasse **2027-28**. Tutto il catalogo e' invece verificato sul **2026-27**. Ho controllato se i dati del nuovo anno sono disponibili, e il quadro e' **misto**:
+
+| Ateneo / gruppo | 2027-28 | Valore |
+|---|---|---|
+| Paesi Bassi (11 atenei, statutory nazionale) | **pubblicato** | **€2.771** (da €2.694, indicizzazione +2,85%; il governo la pubblica ogni novembre) |
+| Bocconi | **pubblicato** | **€17.700** (da €17.000); waiver Bocconi4Access a €14.160 / €10.620 / €7.080 / €3.540 |
+| UCD / Irlanda | **non pubblicato** | dipende dal Budget 2027, non ancora uscito |
+
+Fonti: pagine collegegeld di UvA, Leiden, Radboud (2027-28); unibocconi.it tasse-e-contributi (2027-28, pagina segnata "in aggiornamento"); ucd.ie/students/fees (UCD dichiara di essere al corrente di una modifica nel Budget 2027 senza indicarne l'importo).
+
+**Non ho applicato nessuno di questi aggiornamenti**, e la ragione e' metodologica: aggiornare solo i gruppi che hanno pubblicato creerebbe un catalogo che mescola 2026-27 e 2027-28 **senza che si veda**. E' esattamente la classe di difetto che ha prodotto gli errori su Barcelona, Trinity e Complutense — non la staleness in se, ma la staleness invisibile. Un utente che confronta Maastricht (2027-28) con Sapienza (2026-27) confronterebbe anni diversi senza saperlo.
+
+E' una decisione di politica del catalogo, non una singola correzione, quindi va presa da Nicolo'. Le tre opzioni e la raccomandazione sono nel messaggio di consegna del giro.
+
+### Da controllare a mano
+- **Decisione sull'anno accademico di riferimento** (vedi sopra): e' il punto che blocca gli aggiornamenti tasse dei prossimi giri. I dati 2027-28 di Paesi Bassi e Bocconi sono **gia' verificati e pronti** da applicare appena la politica e' decisa.
+- **Irlanda 2027-28**: riverificare dopo la pubblicazione del Budget 2027.
+- **Berlino e Losanna**: valori coerenti tra loro, ma livello assoluto da riancorare a fonti ufficiali (DAAD/Studentenwerk; un dato in CHF per la Svizzera).
+- **Francia**: ancora senza candidati con bachelor interamente in inglese e tariffa annuale pubblicata.
+- **Profondita del catalogo**: 39 atenei su 87 hanno un solo bachelor, invariato. Resta la direzione piu' promettente in alternativa a nuove aggiunte.
+
 ## 2026-08-24 (2° giro) — ADD Wageningen + VERIFY: costo di vita per città
 
 Catalogo da **86 a 87**. La scansione sistematica è stata estesa a un campo mai controllato prima — il `livingCost` — con un criterio nuovo: **atenei nella stessa città devono avere lo stesso costo di vita**, perché quello dipende dalla città e non da quale ateneo si frequenta. Ha prodotto due incoerenze.
