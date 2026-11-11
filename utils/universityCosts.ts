@@ -76,11 +76,14 @@ function parseMoney(source: string, annualise: boolean): Money | null {
   const segment = firstSegment(source);
   const currency = detectCurrency(segment);
 
-  // "Gratis (EU/EEA)", "Gratuita per studenti UE", "Free tuition"… — but only
-  // when the segment carries no figure at all. Ireland's "Student contribution
-  // ~€2,750/anno (EU, con Free Fees Initiative)" mentions "Free" yet still
-  // charges €2,750, so a keyword match alone would wrongly report it as free.
-  if (!/\d/.test(segment) && /gratis|gratuit|free/i.test(segment)) {
+  // "Free (EU/EEA)", "Free for EU students", "Gratuita per studenti UE"… — but
+  // only when the segment carries no MONETARY figure. Two traps this guards
+  // against: Ireland's "student contribution €2,500 (EU, Free Fees Initiative)"
+  // says "Free" yet charges €2,500, and an academic-year label such as
+  // "Free for EU students, 2026-27" puts bare digits in the segment that are
+  // not a price. So we look for a figure attached to a currency, not any digit.
+  const MONETARY = /[€£$]\s?\d|\bCHF\s?\d|\d\s?(?:EUR|GBP|CHF|USD)\b/i;
+  if (!MONETARY.test(segment) && /gratis|gratuit|free/i.test(segment)) {
     return { min: 0, max: 0, currency };
   }
 
