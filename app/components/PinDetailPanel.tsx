@@ -26,12 +26,14 @@ const PLATFORM_COLORS: Record<string, string> = {
   "Erasmusu":       "248,113,113",
   "4UNI":           "201,163,92",
   "Club House":     "201,163,92",
+  "helpHousing":    "45,212,191",
 };
 
 // Partner feeds: the attribution badge shown on their listings, keyed by the
 // row's `source`.
 const PARTNER_BADGES: Record<string, string> = {
   clubhouse: "via Club House",
+  helphousing: "via helpHousing",
 };
 
 function platformColor(name: string): string {
@@ -339,11 +341,16 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
           </div>
         )}
 
+        {/* Opened from the light list: photos, description and link are on their way */}
+        {data.partial && (
+          <div style={{ fontSize: 13, color: "var(--text-3)" }}>Loading photos and description…</div>
+        )}
+
         {/* Description */}
         {data.description && (
           <div>
             <SectionLabel>Description</SectionLabel>
-            <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.75, margin: 0, overflowWrap: "anywhere" }}>{data.description}</p>
+            <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.75, margin: 0, overflowWrap: "anywhere", whiteSpace: "pre-line" }}>{data.description}</p>
           </div>
         )}
 
@@ -392,7 +399,7 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
               </svg>
             </div>
           </a>
-        ) : (
+        ) : data.partial ? null : (
           <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)", fontSize: 13, color: "var(--text-3)", textAlign: "center" }}>
             {data.platform === "4UNI"
               ? "Posted directly by a student on 4UNI"
