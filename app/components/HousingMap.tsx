@@ -29,7 +29,11 @@ export default function HousingMap({ roommatePins, apartmentPins, filter }: Prop
     }));
 
     const visibleRoommates  = filter !== "apartments" ? roommatePins : [];
-    const visibleApartments = filter !== "roommates"  ? apartmentPins : [];
+    // The map only draws and identifies apartment pins: send it just that, not
+    // thousands of full listing objects.
+    const visibleApartments = filter !== "roommates"
+      ? apartmentPins.map(({ id, city, lat, lng }) => ({ id, city, lat, lng }))
+      : [];
 
     return { type: "init-map", cities, roommates: visibleRoommates, apts: visibleApartments, filter };
   }
@@ -57,9 +61,14 @@ export default function HousingMap({ roommatePins, apartmentPins, filter }: Prop
   }, [sendMapData]);
 
   /* ── Re-send whenever filter / pins change ──────────────────────── */
+  // The page hands over freshly filtered arrays on every render, so comparing
+  // the arrays themselves would rebuild every marker each time anything on the
+  // page changes (typing in the search box, opening a listing…). With thousands
+  // of pins that is a visible stutter: compare what is actually on the map.
+  const pinsKey = `${filter}|${roommatePins.map(p => p.id).join(",")}|${apartmentPins.map(p => p.id).join(",")}`;
   useEffect(() => {
     if (readyRef.current) sendMapData();
-  }, [roommatePins, apartmentPins, filter, sendMapData]);
+  }, [pinsKey, sendMapData]);
 
   /* ── Fallback: iframe onLoad (in case map-ready fired before listener) ── */
   const onLoad = useCallback(() => {
