@@ -1,5 +1,59 @@
 # University data log
 
+## 2026-11-12 — ADD Cork, Bruxelles, NOVA + VERIFY: chiusi i due flag di Spagna e Italia
+
+Catalogo da **87 a 90**. Primo giro condotto con il metodo nuovo: lo script `check-universities.ts` ha deciso dove spendere la ricerca esterna, invece di sceglierlo io. I due flag aperti sono stati entrambi risolti, e lungo la strada e' saltato fuori un errore che il sistema delle etichette **non poteva** intercettare.
+
+### Lo script ha funzionato come previsto
+Prima esecuzione del giro: due flag, Spagna (le tre catalane a 2025-26) e Italia (bologna a 2025-26 piu' i tre pubblici dietro a Bocconi). Tutta la ricerca esterna di questo giro e' andata li'. Nessun tempo speso a rileggere record gia' a posto.
+
+Dopo le correzioni: **zero record a 2025-26**, flag Spagna chiuso. Resta il solo flag Italia, che il giro precedente aveva gia' qualificato come rumore di calendario (tre atenei pubblici confrontati con una privata che pubblica in anticipo). Comportamento corretto.
+
+### Verifiche
+- **barcelona, uab, pompeu-fabra** — etichetta **2025-26 -> 2026-27**, cifre invariate. Il **Decret 96/2026** del 16 giugno mantiene il prezzo del credito a **17,69 €** anche per il 2026-2027, quindi 60 crediti restano €1.061. Confermato sulla pagina prezzi ufficiale della UB, che cita il decreto per nome. Era una verifica dovuta da due giri.
+- **bologna** — etichetta **2025-26 -> 2026-27**, cifre invariate. Verificate entrambe sulle tabelle ufficiali 2026/2027: la quota fissa che **tutti** pagano a prescindere dall'ISEE e anche in caso di esonero totale e' **157,04 €** (tassa regionale €140 + bollo €16 + assicurazione €1,04), e il tetto del contributo per i corsi di primo ciclo e' **2.040,00 €**, con alcuni corsi maggiorati fino a €2.805 (Genomics) e €2.550 (i tre linguistici).
+- **ucd** e **trinity-dublin** — contribution **€2.500 -> €2.350**. Vedi sotto: non e' una rietichettatura, e' una correzione.
+
+### L'errore che le etichette non potevano trovare
+Il **Budget 2027 irlandese**, presentato il 6 ottobre, ha ridotto la student contribution di €150 **in modo permanente**, da €2.500 a €2.350. Il punto delicato e' **a quale anno si applica**, e qui le fonti sembravano contraddirsi:
+
+| Fonte | Cosa dice |
+|---|---|
+| Citizens Information (servizio statale, pagina aggiornata 15 ott 2026) | €2.350; chi ha gia' pagato per il **2026-2027** riceve un rimborso di €150 dal proprio ateneo |
+| UCD, pagina student contribution (aggiornata 6 ott 2026) | ancora €2.500, con un avviso: "we are aware of the change... updates will be published as soon as full details are available" |
+| UCC, schedule EU undergraduate **2026/27** | due colonne affiancate: **Pre-Budget 2027 €2.500 / Post-Budget 2027 €2.350** |
+
+La terza riga chiude la questione: e' un ateneo che pubblica entrambe le cifre **sullo stesso anno 2026/27**. Quindi la contribution effettiva per il 2026-27 e' €2.350, e i due record irlandesi in catalogo erano sbagliati.
+
+**Perche' questo caso e' istruttivo.** Le etichette d'anno intercettano la *deriva* — un record fermo a un anno vecchio. Qui l'etichetta diceva 2026-27 e l'anno **era** giusto: a cambiare era la cifra *dentro* l'anno gia' etichettato, per una decisione di bilancio presa a ottobre. Nessun controllo interno poteva vederlo, perche' i tre record irlandesi sarebbero stati sbagliati **tutti insieme e allo stesso modo**, quindi coerenti fra loro. Serve una fonte esterna, e serve sapere **quale** fonte ha autorita' sulla grandezza: la contribution la fissa lo Stato, gli atenei la incassano, quindi le pagine degli atenei possono restare indietro e non fanno fede. Da aggiungere allo scanning: **dopo la legge di bilancio di un paese, riverificare i suoi record anche se l'etichetta e' dell'anno giusto.**
+
+- **Levy UCD confermato**: €254 per il 2026/27, dalla pagina UCD. Lasciato invariato. UCD applica anche un contributo AMLÉ di €5 per il 2026-2027 che il record non conta: scarto di €5 noto e volutamente non inseguito, per non aumentare la superficie d'errore su una cifra irrilevante per una decisione.
+
+### Aggiunte
+- **ucc** (University College Cork, 🇮🇪) — 2 bachelor: Commerce (BComm, 4 anni) e Computer Science (BSc, 4 anni), curricula del primo anno dalle pagine ufficiali di corso. Tuition **€2.350 + €210 capitation**; non-UE €16.300–€56.100. Living **€1.200–€1.600/mese**. Ranking **#220 QS (2027)**. Porta l'Irlanda da 2 a 3 atenei e, soprattutto, e' il terzo record sulla stessa base di calcolo degli altri due: contribution + fee d'ateneo, confrontabili a colpo d'occhio.
+- **vub** (Vrije Universiteit Brussel, 🇧🇪) — 2 bachelor in inglese: Business Economics (Solvay) e Social Sciences (in co-titolo con Ghent). Tuition **€1.181/anno**, living **€1.000–€1.300/mese** dalla tabella costi di VUB. Ranking **#295 QS (2027)**. Sblocca il Belgio, fermo a 2 da quando UCLouvain, ULB e Anversa erano state scartate per assenza di bachelor interamente in inglese: VUB ne ha tre.
+- **nova-lisbon** (NOVA University Lisbon, 🇵🇹) — 2 bachelor Nova SBE: Economics e Management, con **English Track** in cui tutte le lezioni dei tre anni sono in inglese. Tuition **€697 (UE) / €7.500 (non-UE)**, quest'ultima dalla pagina fees di Nova SBE. Ranking **#337 QS (2027)**.
+
+### Due dati ricavati per struttura, non dalla pagina del singolo ateneo
+Dichiarati qui perche' sono inferenze, non letture dirette, e vanno sapute:
+- **VUB €1.181**: letto dalla tabella EEA 2026-2027 di VUB (fisso €305,40 + €14,60/ECTS × 60). E' la tariffa del **decreto fiammingo**, non un prezzo d'ateneo — ed e' infatti identica a quella gia' in catalogo per KU Leuven e Ghent, e a quella pubblicata da Anversa. Tre riscontri indipendenti sulla stessa cifra.
+- **NOVA €697**: e' il tetto nazionale portoghese, confermato da un **despacho ufficiale di NOVA FCT per il 2026/2027** ("propina anual de licenciatura 697,00 €, estudantes nacionais ou de estados membros da União Europeia"). Nova SBE non pubblica la propina UE sulla propria pagina fees, che riporta solo la tariffa internazionale. Stessa logica usata per gli undici olandesi sullo statutory nazionale.
+
+### Non applicato di proposito: Fiandre 2027-28
+VUB pubblica **gia'** la tabella EEA **2027-2028**: fisso €317,70 + €15,20/ECTS = **€1.229,70** per 60 crediti. Varrebbe per tutti e tre i belgi, visto che e' tariffa di decreto. **Non l'ho applicata**, perche' nessun secondo ateneo fiammingo l'ha ancora pubblicata e un solo riscontro non basta per muovere tre record: la migrazione olandese dei €2.771 si appoggiava alla pubblicazione del governo, non a un ateneo. La cifra e' verificata e pronta: appena UGent o KU Leuven pubblicano, i tre record belgi si spostano insieme a 2027-28.
+
+### Verifica
+`tsc --noEmit` pulito. 90 atenei, 157 bachelor, zero id duplicati, **90/90** con tuition e living derivabili. Nessuna citta' con costo di vita divergente (nova-lisbon allineato a lisbon, stessa citta'). Distribuzione etichette: **2026-27: 78 | 2027-28: 12**.
+
+### Da controllare a mano
+- **Fiandre 2027-28**: vedi sopra, migrazione pronta in attesa di una seconda fonte istituzionale.
+- **Irlanda 2027-28**: con il taglio dichiarato permanente, €2.350 dovrebbe reggere, ma nessun ateneo ha ancora pubblicato lo schedule 2027-28 aggiornato — UCC ne pubblica uno che riporta ancora €2.500, compilato prima di ottobre.
+- **Living cost di Cork**: €1.200–€1.600 viene dalla tabella UCC (house share + spese), e risulta **identico a Dublino**. Puo' essere corretto, ma e' controintuitivo e merita un riscontro su una seconda fonte.
+- **Trinity, totale levy**: invariato, non pubblicato come cifra unica.
+- **Berlino e Losanna**: livello assoluto da riancorare, invariato.
+- **Francia**: ancora nessun candidato con bachelor interamente in inglese e tariffa annuale pubblicata.
+- **Profondita**: 39 atenei su 90 con un solo bachelor. I tre aggiunti oggi ne hanno due ciascuno, quindi il rapporto migliora senza che il numero assoluto cambi.
+
 ## 2026-11-11 (2° giro) — Opzione C: etichetta dell'anno accademico su tutti i record
 
 Implementata l'opzione C decisa da Nicolo': ogni stringa `tuition` dichiara ora l'anno accademico a cui si riferisce la cifra, e la deriva diventa rilevabile da uno script invece di dipendere dall'attenzione di chi fa il giro. Catalogo fermo a **87**.
