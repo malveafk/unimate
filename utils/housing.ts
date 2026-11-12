@@ -455,6 +455,12 @@ export async function saveApartmentListing(form: ListingFormInput, idFile: File 
     verified,
     ...(photoPath ? { photo_path: photoPath } : {}),
     is_active: true,
+    // A listing is a REQUEST to publish: it waits in the queue until an admin
+    // approves it (supabase/housing_listing_review.sql). The trigger there
+    // forces this value anyway, but the insert policy also demands it, and
+    // sending it explicitly means we don't depend on whether the policy's
+    // WITH CHECK is evaluated before or after that BEFORE INSERT trigger.
+    status: "pending",
   });
   if (error) throw error;
 }
