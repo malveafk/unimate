@@ -1,5 +1,96 @@
 # University data log
 
+## 2026-11-13 (2) — Corsi verificati per gli ultimi 40 atenei, costi della vita, quiz e chatbot
+
+### Corsi e programmi (fase 2)
+Ricostruiti dai piani ufficiali (fonti puntuali nel file di lavoro SOURCES.md): TU Wien (Informatik e Maschinenbau 2025), TU Dresden (SO 2025), Complutense (Derecho Plan 2020, Ciencias Políticas Plan 2023), Padova, Bonn (PO 2024), Amburgo (nuova PO da ottobre 2026), UAB (piano 1632), FAU (PO 2023), Twente (2026-27), Tubinga (MHB 2026), ISEG Lisbona (piano 2025-26), Friburgo (LAS), tutti e 5 i programmi di Maastricht (OSP 2026-27, ELS 2024-25, Psicologia curriculum 2024), Porto (L.EIC e FEP), Gottinga (nuovo VWL 2026-27), Colonia (PO 2021), Charles (BEF e LAH), UC3M, Sciences Po, Tartu, Lussemburgo, Bochum, Tilburg (3 programmi 2026-27), Würzburg (MHB 2025), IE (3 programmi), Magonza (PO 2023).
+
+Errori trovati, non solo dettagli:
+- **Programmi inesistenti o chiusi:** Maastricht *Fiscal Economics* non accetta iscritti dal 2023 -> rimosso. Charles *Economics, Finance and Management* non esiste -> è *Economics and Finance (BEF)*. Maastricht "Economics, Business and Economics" -> *Economics and Business Economics*.
+- **Piani inventati sostituiti:** IE (tutti e 3), Tilburg (tutti e 3), Maastricht (tutti), TU Wien (tutti i corsi a 6 ECTS, tesi 12 invece di 10), Porto (corsi da 7,5 ECTS inesistenti), Colonia, Tubinga, Würzburg e Bochum (voci generiche tipo "Mathematics foundations"), Sciences Po ("9 campus", "anni 2-3 a Parigi": in realtà 7 campus e terzo anno all'estero).
+- **Lingua sbagliata:** FEP Porto e ISEG Lisbona hanno un Economics **in inglese** (30 posti) -> aggiornati; Bonn Economia si può seguire in tedesco **o** inglese; Maastricht Fiscal Economics era misto.
+- **Ammissione:** Bonn Economia è ad **accesso libero** (non 15 luglio): iscrizione online giugno-30 settembre, tedesco B2 + inglese B2.
+- **Tasse:** Charles 5.000-7.000 €/anno per i corsi in inglese (prima mostrava "Free tuition"); Tartu 4.200-6.000 €; Strathclyde etichettata 2027-28.
+- **Affermazioni rimosse perché non verificabili o false:** UAB "seconda in Spagna" (in QS 2027 è terza dopo UB e Complutense), IE "elite"/"82% non spagnoli", Tilburg "top 100 Economics", Bochum "leader europeo", Complutense "a due passi dal Parlamento", Bonn "capitale fino al 1999" (lo era fino al 1990, sede del governo fino al 1999).
+- **Non verificabili oggi:** Lione 2 (pagine corsi dietro login: elenco corsi tolto, descrizione con la struttura verificata), Lipsia (sito offline per attacco informatico: dati lasciati com'erano), Pompeu Fabra (download bloccati: primo anno coerente con il piano ufficiale).
+
+### Costo della vita (fase 3)
+Dalle stime ufficiali: Copenaghen 1.280-1.800 €, Dublino 1.735-2.445 € (prima 1.200-1.600, sottostimato), Cork 1.130-1.550 €, Stoccolma e KTH 960-1.090 € (prima 1.100-1.500), Helsinki 900-1.250 €, Aalto 800-1.300 €; Oslo confermato.
+
+### Quiz e chatbot (fase 4)
+- **Quiz** (`app/quiz/page.tsx`): i tratti scritti a mano coprivano 30 atenei, gli altri 91 prendevano 0 e non venivano mai consigliati. Ora materie, quota di corsi in inglese, fasce di costo, posizione QS e capitale sono calcolati dai dati per tutti i 121; i tratti d'opinione già scritti (stile di studio, vita in città) restano.
+- **Chatbot** (`app/api/chat/route.ts`): corretti i fatti per paese (Olanda €2,771 e non ~€2,300; Francia €178 + €105; BAföG non "dopo 3 mesi" ma di norma dopo 5 anni di residenza; Belgio, Irlanda, Germania con cifre reali) e aggiunti Italia, Svizzera, Austria, Portogallo e Regno Unito.
+
+### Da fare a mano
+- **Seed Supabase non eseguito**: va lanciato da Nicolò (il sito legge i corsi da Supabase; finché non si lancia, online restano i dati vecchi). Il seed ora cancella le righe non più nel file (es. Fiscal Economics).
+- Deploy su Vercel per quiz, chatbot, pagina Apply e requisiti.
+
+## 2026-11-13 — "What you need to apply" rifatto per tutti i 121 atenei (ingresso 2027-28)
+
+Prima: `universityMeta.ts` copriva 30 atenei su 121, con scadenze tutte del 2026 (già passate, la pagina Apply mostrava "-227d left") e requisiti generici, alcuni sbagliati (Lyon puntava a Lyon 1, Polimi "for English-taught programmes"). Gli altri 91 atenei non mostravano la sezione.
+
+Ora: 121/121, scritti per chi ha il **Diploma di Esame di Stato italiano** (cittadino UE), dalle pagine ufficiali degli atenei e delle piattaforme nazionali, verificate il 12-13/11/2026. Ogni link di candidatura risponde (controllo HTTP; Parcoursup, CEU e Aalto bloccano i client automatici ma le pagine esistono).
+- **Regola sulle date:** "D Month YYYY" solo se confermata per il 2027 (o fissata per legge, come il 15 luglio tedesco); altrimenti "Expected <mese> 2027" con il calendario 2026 spiegato nei requisiti (Spagna, Portogallo, Italia esclusa Bocconi/Polimi, VUB, UCLouvain, Tartu, Lussemburgo, TU Wien, RWTH). Il conto alla rovescia compare solo per le date confermate e mai negativo.
+- **Borse:** "Available" solo dove ho verificato una borsa aperta a studenti UE (Bocconi, IE). Sciences Po corretto: la Émile Boutmy è solo per non-UE; gli studenti UE pagano una retta in base al reddito.
+- **Scoperte rilevanti per gli utenti:** Medicina a Berna è chiusa a chi non ha residenza svizzera; all'Università di Copenaghen tutti i bachelor sono in danese; in Portogallo un cittadino UE entra dal concorso nazionale DGES anche a NOVA (non dalla procedura internazionale); in Norvegia la scadenza del 1° marzo vale solo per categorie speciali (per chi ha diploma estero: 15 aprile); da quest'anno Polito usa solo test CISIA in presenza; Padova Psychological Science ha 55 posti; Lipsia ha il sito offline dopo un attacco informatico (fine ottobre 2026), link alla homepage.
+- **Pagina Apply** (`app/universities/[id]/apply/page.tsx`), stessa interfaccia, contenuti non più generici: il passo "Language proof" mostra i requisiti di lingua dell'ateneo invece di IELTS 6.0/TOEFL 80 fissi; "Submit" nomina la piattaforma reale (UCAS, CAO, Studielink, Parcoursup, optagelse.dk...) invece di "Create a Studielink account" per tutti; lettera motivazionale e CV non più "REQUIRED" ovunque; tolti i riferimenti olandesi (BRP) dai passi finali. Nuovo campo opzionale `applicationPlatform` nei meta.
+- **Tipo `Course.year`** esteso a 6: i corsi di Medicina al 6° anno (LMU, Semmelweis) facevano fallire `tsc`.
+
+### Fonti principali per paese
+- Regno Unito/Irlanda: pagine "international qualifications/Italy" di ogni ateneo; UCAS (13/1/2027 18:00; Oxbridge 15/10/2026); CAO (1/2/2027 17:00).
+- Olanda: Studielink (numerus fixus 15/1/2027; altri 1/5/2027) e pagine d'ammissione di ogni corso.
+- Germania: pagine studio di ogni ateneo; hochschulstart DoSV; uni-assist VPD (TU Berlin, FU, LMU dal SoSe 2027, Würzburg, Lipsia). Colonia: candidatura diretta UE (non uni-assist).
+- Svizzera: swissuniversities (diploma italiano: 70/100 e materie), ETH (1/12/2026-31/3/2027, tedesco C1), EPFL (30/4/2027, Liceo Scientifico 80/100 e 8 in matematica e fisica, francese B2), UZH/UNIGE/UNIL (30/4, 28/2 con visto), Basilea (1/2-30/4/2027), Berna (30/4; medicina solo con status svizzero).
+- Austria: Uni Wien Aufnahmeverfahren VWL (1/3-4/5/2027, 353 posti); TU Wien Informatik (2026: 1/4-4/5, 670 posti, C1); CEU (round 2/2, 15/4, 15/7/2027).
+- Francia: Parcoursup 2027 (voeux 18/1-11/3, conferma 1/4); Sciences Po procedura internazionale (1/3/2027); Polytechnique Bachelor (round 6/1 e 8/2/2027); PSL IBSAI.
+- Italia: Bocconi (sessioni Winter 25/11/2026-26/1/2027, Spring 8-27/4/2027); Polimi TOL 2027; Sapienza/Padova/Polito bandi 2027-28 non ancora pubblicati; Unibo libero accesso con TOLC.
+- Spagna: UNEDasiss; preiscrizione Catalogna (2026: 2-26/6); UCM, UAM (note di taglio 2026-27), UC3M; IE (round 15/1 e 5/3/2027).
+- Portogallo: DGES (equipollenza + prove d'ingresso; 1ª fase 2026 a fine luglio); NOVA SBE National Call.
+- Nordici: optagelse.dk (15/3/2027 12:00), universityadmissions.se (15/1/2027 internazionale; 15/4/2027 nazionale), Samordna opptak (15/4/2027), Studyinfo (Helsinki 5-19/1/2027 gruppo SAT; Aalto 7-22/1/2027).
+- Belgio: KU Leuven (UE fino al 22/9/2027; starttoets ingegneria 1/7 o 21/8/2027), UGent (1/6), VUB, UCLouvain (equivalenza FWB, francese B2).
+- Altri: Charles (FSV 28/2/2027; FHS 31/3/2027), Semmelweis (31/5/2027), Tartu (DreamApply, 15/4), Lussemburgo (apertura 1/2/2027).
+
+## 2026-11-12 (3° giro) — Verifica corso per corso, atenei non-UK fino a QS #168 [completato il 13/11, vedi sopra]
+
+Fonti puntuali per ogni ateneo in scratchpad SOURCES.md (sezioni "FASE B"). Sintesi:
+- **Ricostruiti da piani di studio ufficiali**: eth-zurich, epfl, tu-munich, bocconi (offerta 2027-28 ristrutturata: Management, Finance, Economics, Management and Computer Science, IPG), ecole-polytechnique, tu-delft, ku-leuven, amsterdam, lmu-munich, lund, sorbonne, trinity-dublin, kth, heidelberg, polimi, uppsala, copenhagen, fu-berlin, uzh, ucd, dtu, kit-karlsruhe, sapienza, utrecht, leiden, bologna, helsinki, aalto, aarhus, vienna, erasmus, basel, ghent, tue, tu-berlin, wageningen, groningen, stockholm.
+- **Corsi inesistenti sostituiti**: Sapienza (Management and Computer Science = LUISS; Civil Engineering for Risk Mitigation = Politecnico) -> Applied Computer Science and AI; Lund, Stockholm, Aarhus, UCD, Ghent, Helsinki: sostituiti con i programmi reali (in inglese dove esistono).
+- **Lingua corretta**: UvA Computer Science (olandese), Polimi (italiano), Bologna Ing. Energetica (italiano), Copenhagen CS (danese).
+- **Errori fattuali corretti**: Aalto "#1 in Finlandia" (falso in QS 2027), Ghent "più alta in Belgio" (falso), Uppsala Medicina 6 anni/360 crediti (non 5.5), LMU Medicina/Giurisprudenza senza ECTS inventati, Vienna descrizione tasse contraddittoria, ranking QS 2026 superati rimossi da varie descrizioni.
+- **Costi vita da fonte ufficiale**: Zurigo, Losanna, Monaco, Amsterdam, Delft, Lovanio, Lund, Palaiseau/Orsay. Etichette tasse nordiche allineate a 2027-28 (gratuità UE per legge).
+- **Codice**: seed.ts ora elimina corsi/bachelor non più nel file (94 righe orfane erano online); utils/universities.ts ordina i corsi per indice; university-coords.ts +34 coordinate mancanti (mappa).
+
+### Da controllare a mano
+- Corsi vuoti o parziali: leiden (Law), geneva (BASCRI), bern, humboldt-berlin (sito con anti-bot), rwth-aachen (PO 2022 non trovata), aarhus (Datalogi).
+- Non ancora verificati corso per corso: tu-dresden, tu-wien, complutense, padua, bonn, hamburg, uab, fau-erlangen, twente, tuebingen, lisbon, freiburg, maastricht, porto, goettingen, pompeu-fabra, cologne, charles-prague, uc3m, sciences-po, tartu, muenster, luxembourg, bochum, tilburg, wuerzburg, ie-university, mainz, leipzig, lyon.
+
+## 2026-11-12 (2° giro) — Copertura top-100 QS Europa + verifica del catalogo [completato il 13/11]
+
+Richiesta di Nicolò: prima del lancio di lunedì, avere almeno le **prime 100 università europee** e rendere perfetti tutti i dettagli (corsi, nomi, crediti). Interpretazione dichiarata: prime 100 europee del **QS World University Rankings 2027** (la stessa fonte del campo `ranking`); "perfetto" = ogni dato verificato su fonte ufficiale **oppure** omesso, mai stimato.
+
+### Fase A — 31 atenei aggiunti (90 -> 121)
+Delle prime 100 europee QS 2027 ne mancavano 32. Esclusa **Lomonosov** (Mosca): per uno studente UE oggi non è un'opzione reale. **IP Paris** considerata coperta dal record École Polytechnique.
+- **Regno Unito (19):** Birmingham, Leeds, Sheffield, Nottingham, Queen Mary, Southampton, St Andrews, Bath, Exeter, Liverpool, Newcastle, York, Lancaster, Queen's Belfast, Cardiff, Reading, Loughborough, Strathclyde, Surrey.
+- **Francia (4):** Université PSL (bachelor in AI interamente in inglese), Paris-Saclay, ENS de Lyon (unico accesso diretto: CPES Sciences et Société), Paris 1 Panthéon-Sorbonne (con l'**International Track in inglese** dell'economia).
+- **Altri (8):** VU Amsterdam, Politecnico di Torino, Autónoma de Madrid, Central European University, UCLouvain, Oslo, Chalmers, Göteborg.
+- Regola di inclusione: almeno un bachelor a iscrizione diretta. Oslo, UCLouvain e Paris-Saclay, scartati mesi fa per assenza di bachelor in inglese, entrano ora con la lingua reale dichiarata.
+- 54 bachelor, 695 corsi, 406 con crediti ufficiali. Fonti per ogni ateneo nel file di lavoro (tasse, piani di studio, costo della vita).
+
+### Criteri adottati e da conoscere
+- **Costo della vita UK:** ogni ateneo usa basi diverse (Leeds 52 settimane, St Andrews 38 con alloggio catered, Sheffield nessun totale). Per tutti i nuovi atenei UK fuori Londra uso il requisito ufficiale UKVI **£1.203/mese** (domande dal 30/11/2026); Londra e Glasgow seguono la regola "stessa città". I record UK preesistenti restano su stime d'ateneo eterogenee: **decisione da prendere** (normalizzare o no).
+- **Crediti UK convertiti in ECTS** (2 crediti UK = 1 ECTS, QAA). Bath dichiara già ECTS; LSE convertita dalla struttura dichiarata (12 unità in 3 anni = 60 ECTS/anno).
+- **Francia:** gli ECTS sono per UE (gruppi di corsi), non per corso -> omessi per struttura, non per buco.
+- **Valute:** SEK e NOK convertite al cambio di riferimento BCE dell'11/11/2026 (il parser non riconosce le corone e le leggerebbe come euro).
+
+### Fase B — verifica del catalogo esistente (in corso)
+- **Ranking:** 66 campi riallineati a QS 2027 con formato unico "Top N QS (#posizione, 2027)"; 7 atenei ne erano privi. Bocconi: "Top 10 in Europe for Business" (senza fonte) -> **#10 al mondo Business & Management** (QS by Subject 2026, verificato). Semmelweis aggiornato al 2026. Sciences Po: "Top 5 for Social Sciences" (senza fonte) -> #354 generale.
+- **Pulizia automatica:** 77 righe segnaposto rimosse ("Elective 1", "Electives", "Optional Modules"...), 59 crediti "CP"/"EC" -> "ECTS".
+- **12 atenei UK preesistenti ricostruiti** da pagine ufficiali 2027: tasse al 2027-28 (+£10.050 home), moduli reali con crediti, via 71 crediti "n/a" e **due parole italiane** ("opzionale" a Edinburgh, "fino a 2" a Warwick). Errori trovati: Oxford PPE aveva corsi del 2°-3° anno messi al 1°; Oxford Engineering è un MEng di 4 anni (non "3-4"); UCL Economia ridisegnata per il 2027 (il 3° anno è tutto opzionale); costo della vita aggiornato alle stime ufficiali 2027-28 di Oxford (£1.475-2.175), Cambridge (£1.330), Edinburgh (£1.546). Aggiunto Computer Science a Cambridge.
+- **Record "lyon"**: era intestato a "Université de Lyon", una federazione che non rilascia lauree, mentre il bachelor era di Lyon 2. Corretto in **Université Lumière Lyon 2** (QS 1001-1200).
+
+### Stato
+121 atenei, 212 bachelor, 2.791 corsi (74% con crediti). Etichette: 2026-27: 77 | 2027-28: 43. Restano da riverificare corso per corso **75 atenei preesistenti non britannici**.
+
 ## 2026-11-12 — ADD Cork, Bruxelles, NOVA + VERIFY: chiusi i due flag di Spagna e Italia
 
 Catalogo da **87 a 90**. Primo giro condotto con il metodo nuovo: lo script `check-universities.ts` ha deciso dove spendere la ricerca esterna, invece di sceglierlo io. I due flag aperti sono stati entrambi risolti, e lungo la strada e' saltato fuori un errore che il sistema delle etichette **non poteva** intercettare.
