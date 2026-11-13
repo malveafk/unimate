@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { universities } from "../data/universities";
+import { getUniversityCosts, type Money } from "../../utils/universityCosts";
 
 /* ── Question definitions ──────────────────────────────────────────────────── */
 type Option = {
@@ -241,6 +242,81 @@ const UNI_TRAITS: Record<string, UniTraits> = {
   uppsala:      { medicine: 4, law: 3, science: 3, research: 4, traditional: 4, local: 3, smallcity: 4, affordable: 3, moderate: 2, elite: 3, balance: 3 },
 };
 
+/* Objective traits, derived from the catalogue for every university.
+   UNI_TRAITS above was written by hand for 30 universities only, so the other
+   91 scored 0 and could never be recommended; it also contained subject and
+   cost values that no longer matched the data. The keys below are computed from
+   the real bachelors, languages, fees, living costs and QS rank, and override the
+   hand-written ones. The remaining hand-written keys (study style, city vibe) are
+   opinions with no source in the data and are kept as they are. */
+type CatalogueUni = (typeof universities)[number];
+
+const SUBJECTS: [string, RegExp][] = [
+  ["business", /business|management|commerce|administration/i],
+  ["economics", /econom/i],
+  ["finance", /financ|accounting/i],
+  ["law", /\blaw\b|llb|legal/i],
+  ["medicine", /medic/i],
+  ["health", /medic|psycholog|health/i],
+  ["engineering", /engineer/i],
+  ["tech", /computer|informatic|software|data|artificial|\bai\b|security|computing|technolog/i],
+  ["maths", /math|econometric|statistic/i],
+  ["science", /(?<!political |social |computer |computational |data )science|physics|chemistr|biolog|molecular|biotech/i],
+  ["humanities", /philosoph|literature|history|humanities|liberal arts|culture|communication/i],
+  ["social", /social|sociolog|psycholog|global studies|communication/i],
+  ["politics", /politic|international relations|international studies|government|global/i],
+  ["design", /design|games/i],
+  ["architecture", /architect/i],
+];
+
+const CAPITALS = new Set(["Amsterdam", "Berlin", "Paris", "Madrid", "Lisbon", "Rome", "Vienna", "Copenhagen", "Stockholm", "Oslo", "Helsinki", "Dublin", "Prague", "Budapest", "Brussels", "London", "Bern", "Tallinn", "Luxembourg"]);
+
+// Fixed ECB reference rates (11 Nov 2026), only to place GBP and CHF figures in
+// the same euro bands; the quiz never shows these numbers.
+const EUR_PER = { EUR: 1, GBP: 1 / 0.83618, CHF: 1 / 0.9234 } as const;
+const toEur = (m: Money | null, pick: "min" | "max" | "mid") =>
+  m === null ? null : (pick === "mid" ? (m.min + m.max) / 2 : m[pick]) * EUR_PER[m.currency];
+
+function objectiveTraits(uni: CatalogueUni): UniTraits {
+  const t: UniTraits = {};
+  const n = Math.max(uni.bachelors.length, 1);
+  // A subject counts when one of the listed bachelors is in it (more weight the
+  // larger the share), or, at a lower weight, when the university lists it
+  // among its strengths (e.g. Sciences Po's single "Social Sciences" bachelor
+  // is political science at heart).
+  for (const [key, re] of SUBJECTS) {
+    const hits = uni.bachelors.filter((b) => re.test(b.name)).length;
+    const fromBachelors = hits === 0 ? 0 : Math.max(3, Math.round((5 * hits) / n));
+    const fromStrengths = uni.strengths.some((s) => re.test(s)) ? 3 : 0;
+    t[key] = Math.max(fromBachelors, fromStrengths);
+  }
+  const english = uni.bachelors.filter((b) => /english/i.test(b.language)).length;
+  t.english = Math.round((5 * english) / n);
+  t.international = t.english;
+
+  const costs = getUniversityCosts(uni);
+  const tuition = toEur(costs.tuition, "max");
+  const living = toEur(costs.living, "mid");
+  t.free = tuition === null ? 0 : tuition <= 500 ? 5 : tuition <= 1500 ? 3 : 0;
+  t.expensive = tuition === null ? 0 : tuition >= 10000 ? 5 : tuition >= 5000 ? 3 : 0;
+  t.cheap = living === null ? 0 : living < 900 ? 5 : living < 1100 ? 3 : 0;
+  t.pricey = living === null ? 0 : living >= 1600 ? 5 : living >= 1300 ? 4 : 0;
+  const year = tuition !== null && living !== null ? tuition + 12 * living : null;
+  t.affordable = year === null ? 0 : year < 15000 ? 4 : year < 20000 ? 3 : 1;
+  t.moderate = year === null ? 0 : year >= 15000 && year < 25000 ? 3 : 0;
+
+  const rank = Number(uni.ranking?.match(/#(\d+)/)?.[1] ?? NaN);
+  const tier = isNaN(rank) ? 1 : rank <= 50 ? 5 : rank <= 100 ? 4 : rank <= 200 ? 3 : rank <= 400 ? 2 : 1;
+  t.elite = tier;
+  t.research = tier;
+  t.capital = CAPITALS.has(uni.city) ? 5 : 0;
+  return t;
+}
+
+const TRAITS: Record<string, UniTraits> = Object.fromEntries(
+  universities.map((u) => [u.id, { ...(UNI_TRAITS[u.id] ?? {}), ...objectiveTraits(u) }])
+);
+
 /* Faculty matching */
 const FACULTY_SCORES: Record<string, string[]> = {
   business:    ["business", "economics", "finance", "international", "innovation"],
@@ -262,7 +338,7 @@ function scoreUniversities(answers: Record<string, Option>) {
   }
 
   const scores = universities.map((uni) => {
-    const traits = UNI_TRAITS[uni.id] ?? {};
+    const traits = TRAITS[uni.id] ?? {};
     let score = 0;
     let total = 0;
     for (const [key, profileVal] of Object.entries(profile)) {
