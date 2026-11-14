@@ -433,8 +433,7 @@ export default function CreateProfilePage() {
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>Your privacy is protected</div>
                 <p style={{ fontSize: 12, color: "var(--text-2)", margin: 0, lineHeight: 1.6 }}>
-                  Your ID is encrypted and used only to verify your identity. It is <strong>never shown to other users</strong> or shared with third parties. Once verified, only the ✓ badge is visible on your profile.
-                  {" "}<span style={{ color: "var(--text-3)" }}>Powered by Stripe Identity (coming soon).</span>
+                  Your ID is stored privately and used only to verify your identity. It is <strong>never shown to other users</strong>. Once verified, only the ✓ badge is visible on your profile. You can delete it any time by deleting your profile or account. <a href="/privacy" style={{ color: "var(--text-1)", textDecoration: "underline" }}>Privacy policy</a>
                 </p>
               </div>
             </div>

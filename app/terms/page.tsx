@@ -26,12 +26,13 @@ export default function TermsPage() {
         Terms of Service
       </h1>
       <p style={{ fontSize: 13, color: "var(--text-3)", marginBottom: 32 }}>
-        Last updated: 18 July 2026
+        Last updated: 14 November 2026
       </p>
 
       <p style={body}>
         These terms govern your use of 4UNI, a platform that helps students explore
-        universities abroad, get guidance from an AI assistant, and find housing and roommates. By
+        universities abroad, get guidance from an AI assistant, and find housing and roommates.
+        4UNI is run by Lorenzo Distefano and Nicolo Malvezzi, based in Luxembourg. By
         using 4UNI you agree to these terms.
       </p>
 
@@ -62,10 +63,16 @@ export default function TermsPage() {
 
       <h2 style={sectionTitle}>4. Housing and interactions between users</h2>
       <p style={body}>
-        Housing profiles and listings are published by users. 4UNI does not verify identities,
-        listings, or the accuracy of what users publish, and is not a party to any agreement you
-        make with other users. Never send money to someone you have not verified, and always view
-        a room or apartment (in person or by live video) before paying anything.
+        Roommate profiles and apartment listings are published by users and by our housing
+        partners. To make the community safer, we ask users to upload a photo ID, and we review
+        apartment listings before they appear on the map. These checks reduce risk but cannot rule
+        it out: we cannot guarantee that every person, listing or description is genuine or
+        accurate, and the ✓ Verified badge only means we have checked an ID document.
+        <br />
+        4UNI is not a party to any agreement you make with other users or with housing partners.
+        Bookings made through a partner&apos;s website or WhatsApp are between you and that partner.
+        Never send money to someone before you have viewed the room or apartment (in person or by
+        live video) and signed a contract.
       </p>
 
       <h2 style={sectionTitle}>5. Your account and conduct</h2>
@@ -73,7 +80,7 @@ export default function TermsPage() {
         You must provide accurate information and keep your credentials secure. You may not use
         4UNI to harass others, publish false listings, send spam, scrape the platform, or
         attempt to disrupt the service. We may suspend or delete accounts that violate these
-        rules.
+        rules. You can delete your account at any time from your account page.
       </p>
 
       <h2 style={sectionTitle}>6. Fair use of the AI assistant</h2>
@@ -92,8 +99,8 @@ export default function TermsPage() {
 
       <h2 style={sectionTitle}>8. Governing law</h2>
       <p style={body}>
-        These terms are governed by Italian law. Any dispute not resolved amicably will be subject
-        to the exclusive jurisdiction of the competent Italian courts, without prejudice to any
+        These terms are governed by the law of Luxembourg. Any dispute not resolved amicably will be
+        subject to the jurisdiction of the competent courts of Luxembourg, without prejudice to any
         mandatory consumer-protection rights you may have under the law of your country of
         residence.
       </p>
