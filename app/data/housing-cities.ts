@@ -9,10 +9,12 @@ export const housingCityCoords: Record<string, { lat: number; lng: number; count
   "Berlin":      { lat: 52.5200, lng: 13.4050, country: "Germany",     flag: "🇩🇪" },
   "Barcelona":   { lat: 41.3851, lng:  2.1734, country: "Spain",       flag: "🇪🇸" },
   "Madrid":      { lat: 40.4168, lng: -3.7038, country: "Spain",       flag: "🇪🇸" },
+  "Valencia":    { lat: 39.4699, lng: -0.3763, country: "Spain",       flag: "🇪🇸" },
   "Paris":       { lat: 48.8566, lng:  2.3522, country: "France",      flag: "🇫🇷" },
   "Lyon":        { lat: 45.7640, lng:  4.8357, country: "France",      flag: "🇫🇷" },
   "Milan":       { lat: 45.4642, lng:  9.1900, country: "Italy",       flag: "🇮🇹" },
   "Bologna":     { lat: 44.4949, lng: 11.3426, country: "Italy",       flag: "🇮🇹" },
+  "Florence":    { lat: 43.7696, lng: 11.2558, country: "Italy",       flag: "🇮🇹" },
   "Lisbon":      { lat: 38.7223, lng: -9.1393, country: "Portugal",    flag: "🇵🇹" },
   "Porto":       { lat: 41.1579, lng: -8.6291, country: "Portugal",    flag: "🇵🇹" },
   "Zurich":      { lat: 47.3769, lng:  8.5417, country: "Switzerland", flag: "🇨🇭" },
@@ -77,6 +79,10 @@ export type ApartmentPin = {
   sizeSqm?: number;      // m²
   source?: string;       // partner the row comes from, e.g. "clubhouse"; unset for user posts
   whatsapp?: string;     // partner contact number in E.164 form, e.g. "+34654870491"
+  // True for a pin from the light list (utils/housing fetchApartmentPins): no
+  // description, gallery, address or link yet — the full row is fetched when
+  // the listing is shown as a card or opened.
+  partial?: boolean;
 };
 
 // ── Demo data (replace with Supabase rows in production) ──────────────────────

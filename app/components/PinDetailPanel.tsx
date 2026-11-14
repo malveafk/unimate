@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { type RoommatePin, type ApartmentPin } from "../data/housing-cities";
+import { PARTNER_THEMES, partnerTheme, partnerTint, partnerStripe } from "../data/housing-partners";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -25,13 +26,8 @@ const PLATFORM_COLORS: Record<string, string> = {
   "Spotahome":      "251,191,36",
   "Erasmusu":       "248,113,113",
   "4UNI":           "201,163,92",
-  "Club House":     "201,163,92",
-};
-
-// Partner feeds: the attribution badge shown on their listings, keyed by the
-// row's `source`.
-const PARTNER_BADGES: Record<string, string> = {
-  clubhouse: "via Club House",
+  // Partner feeds take their colour from their theme (data/housing-partners).
+  ...Object.fromEntries(Object.values(PARTNER_THEMES).map(t => [t.name, t.primary])),
 };
 
 function platformColor(name: string): string {
@@ -199,7 +195,7 @@ function RoommateDetail({ data, onMessage }: { data: RoommatePin; onMessage: (p:
 
 function ApartmentDetail({ data }: { data: ApartmentPin }) {
   const color = platformColor(data.platform);
-  const partnerBadge = data.source ? PARTNER_BADGES[data.source] : undefined;
+  const partnerBadge = partnerTheme(data.source)?.badge;
   // wa.me wants the number with country code and digits only (no "+").
   const whatsappDigits = data.whatsapp?.replace(/\D/g, "");
 
@@ -339,11 +335,16 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
           </div>
         )}
 
+        {/* Opened from the light list: photos, description and link are on their way */}
+        {data.partial && (
+          <div style={{ fontSize: 13, color: "var(--text-3)" }}>Loading photos and description…</div>
+        )}
+
         {/* Description */}
         {data.description && (
           <div>
             <SectionLabel>Description</SectionLabel>
-            <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.75, margin: 0, overflowWrap: "anywhere" }}>{data.description}</p>
+            <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.75, margin: 0, overflowWrap: "anywhere", whiteSpace: "pre-line" }}>{data.description}</p>
           </div>
         )}
 
@@ -392,7 +393,7 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
               </svg>
             </div>
           </a>
-        ) : (
+        ) : data.partial ? null : (
           <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)", fontSize: 13, color: "var(--text-3)", textAlign: "center" }}>
             {data.platform === "4UNI"
               ? "Posted directly by a student on 4UNI"
@@ -507,6 +508,13 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
   const [wide, setWide] = useState(false);
   if (pin && (pin.pinType === "apartment") !== wide) setWide(pin.pinType === "apartment");
 
+  // A partner's listing tints the whole preview with the partner's two colours
+  // (remembered while the drawer slides out, like the width).
+  const openSource = pin?.pinType === "apartment" ? pin.data.source : undefined;
+  const [tintSource, setTintSource] = useState<string | undefined>(undefined);
+  if (pin && openSource !== tintSource) setTintSource(openSource);
+  const theme = partnerTheme(tintSource);
+
   // While the drawer is open, freeze the page behind it so the mouse wheel
   // scrolls the drawer content instead of the housing page underneath.
   useEffect(() => {
@@ -562,8 +570,8 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
           width: wide ? "max(68vw, min(400px, 92vw))" : 400,
           maxWidth: wide ? "100vw" : "92vw",
           zIndex: 1201,
-          background: "var(--bg)",
-          borderLeft: "1px solid var(--border)",
+          background: theme ? partnerTint(theme, "var(--bg)", 0.85) : "var(--bg)",
+          borderLeft: theme ? `1px solid rgba(${theme.primary},0.3)` : "1px solid var(--border)",
           display: "flex",
           flexDirection: "column",
           transform: isOpen ? "translateX(0)" : "translateX(100%)",
@@ -571,6 +579,9 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
           boxShadow: isOpen ? "-24px 0 80px rgba(0,0,0,0.7)" : "none",
         }}
       >
+        {/* Partner stripe: the partner's two colours across the top */}
+        {theme && <div style={{ height: 3, flexShrink: 0, background: partnerStripe(theme), opacity: 0.85 }} />}
+
         {/* Header */}
         <div style={{
           padding: "16px 20px",
@@ -587,6 +598,9 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
               boxShadow: `0 0 6px rgba(${headerColor},0.6)`,
             }} />
             <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>{headerLabel}</span>
+            {theme && pin?.pinType === "apartment" && (
+              <span style={{ fontSize: 12, fontWeight: 700, color: `rgb(${theme.primary})` }}>· {theme.name}</span>
+            )}
           </div>
           <button
             onClick={onClose}

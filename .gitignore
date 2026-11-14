@@ -69,3 +69,6 @@ scripts/clubhouse/.auth/
 
 # Club House scraper output (raw.json holds owner first names in titles)
 scripts/clubhouse/output/
+
+# helpHousing scraper output (large raw API responses, not source code)
+scripts/helphousing/output/

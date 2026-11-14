@@ -148,12 +148,19 @@ export async function getUniversities(): Promise<University[]> {
         description: string;
       }>("bachelors"),
       selectAll<{
+        id: string;
         bachelor_id: string;
         name: string;
         credits: string | null;
         year: number | null;
       }>("courses"),
     ]);
+
+    // Senza ORDER BY Postgres restituisce le righe nell'ordine fisico, che
+    // cambia a ogni UPDATE del seed: i corsi di uno stesso anno uscirebbero
+    // mescolati. L'id "<bachelor>__c<indice>" conserva l'ordine del file.
+    const courseIndex = (id: string) => Number(id.slice(id.lastIndexOf("__c") + 3));
+    courses.sort((a, b) => courseIndex(a.id) - courseIndex(b.id));
 
     return (rows ?? []).map((row) =>
       mapRow(

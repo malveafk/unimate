@@ -6,7 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { roommatePins, apartmentPins, type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 import PinDetailPanel, { type ActivePin } from "../components/PinDetailPanel";
-import { fetchRoommatePins, fetchApartmentPins } from "@/utils/housing";
+import { fetchRoommatePins, fetchApartmentPins, fetchApartmentDetails } from "@/utils/housing";
+import { PARTNER_THEMES, partnerTheme, partnerTint, partnerStripe, type PartnerTheme } from "../data/housing-partners";
 
 const HousingMap = dynamic(() => import("../components/HousingMap"), { ssr: false });
 
@@ -14,10 +15,13 @@ type Tab = "roommates" | "apartments";
 
 const CITIES = [
   "All cities", "Amsterdam", "Barcelona", "Berlin", "Bologna", "Brussels",
-  "Copenhagen", "Delft", "Groningen", "Leuven", "Lisbon", "Lyon",
+  "Copenhagen", "Delft", "Florence", "Groningen", "Leuven", "Lisbon", "Lyon",
   "London", "Maastricht", "Madrid", "Milan", "Munich", "Paris",
-  "Porto", "Rotterdam", "Stockholm", "Vienna", "Zurich",
+  "Porto", "Rotterdam", "Stockholm", "Valencia", "Vienna", "Zurich",
 ];
+
+// Apartment cards are shown in blocks: a city can have over a thousand listings.
+const APARTMENT_CARDS_PER_BLOCK = 24;
 
 const BUDGET_BRACKETS = [
   { label: "Any",         value: "any" },
@@ -157,20 +161,31 @@ function EmptyList({ tab }: { tab: Tab }) {
 type Partner = {
   name: string;
   initials: string;
-  color: string;       // "r,g,b" accent for the card
+  theme: PartnerTheme; // the partner's two colours, same as on its listings
   description: string;
   cities: string[];
   url: string;
+  offer: string;       // what they rent, for the button: "flats", "rooms"
 };
 
 const PARTNERS: Partner[] = [
   {
     name: "ClubHouse",
     initials: "CH",
-    color: "201,163,92",
+    theme: PARTNER_THEMES.clubhouse,
     description: "Handpicked student flats, curated by students who've been through the same search. Book a room and join their local community.",
     cities: ["Madrid", "Barcelona", "Paris", "Berlin"],
     url: "https://www.clubhouse-student.eu",
+    offer: "flats",
+  },
+  {
+    name: "helpHousing",
+    initials: "hH",
+    theme: PARTNER_THEMES.helphousing,
+    description: "Furnished rooms in shared flats for students and young professionals, managed directly by helpHousing. Pick a room and book it with them.",
+    cities: ["Madrid", "Barcelona", "Valencia", "Milan", "Florence"],
+    url: "https://www.helphousing.com",
+    offer: "rooms",
   },
 ];
 
@@ -192,12 +207,13 @@ function PartnersSection({ cityFilter }: { cityFilter: string }) {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
-        {PARTNERS.map(p => {
+        {PARTNERS.map(partner => {
+          const p = { ...partner, color: partner.theme.primary };
           const inSelectedCity = p.cities.includes(cityFilter);
           return (
             <div key={p.name} style={{
               borderRadius: 18, padding: 26, display: "flex", flexDirection: "column", gap: 16,
-              background: `linear-gradient(135deg, rgba(${p.color},0.10), var(--surface) 60%)`,
+              background: partnerTint(p.theme, "var(--surface)"),
               border: `1px solid rgba(${p.color},${inSelectedCity ? 0.55 : 0.3})`,
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -242,13 +258,13 @@ function PartnersSection({ cityFilter }: { cityFilter: string }) {
                 rel="noopener noreferrer"
                 style={{
                   marginTop: "auto", padding: "11px 16px", borderRadius: 10, textDecoration: "none",
-                  background: `rgb(${p.color})`, color: "#1a1408",
+                  background: `rgb(${p.color})`, color: p.theme.onPrimary,
                   fontSize: 13, fontWeight: 700, textAlign: "center", transition: "opacity 0.15s",
                 }}
                 onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
                 onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
               >
-                {inSelectedCity ? `See ${p.name} flats in ${cityFilter} →` : `Visit ${p.name} →`}
+                {inSelectedCity ? `See ${p.name} ${p.offer} in ${cityFilter} →` : `Visit ${p.name} →`}
               </a>
             </div>
           );
@@ -452,6 +468,28 @@ function HousingPageInner() {
   const allRoommates  = [...dbRoommates, ...roommatePins];
   const allApartments = [...dbApartments, ...apartmentPins];
 
+  // dbApartments is the light list (no description, photos, address or link).
+  // The full row of a listing is fetched when it is shown as a card or opened,
+  // and kept here by id.
+  const [apartmentDetails, setApartmentDetails] = useState<Record<string, ApartmentPin>>({});
+  const storeDetails = useCallback((rows: ApartmentPin[]) => {
+    if (rows.length) setApartmentDetails(prev => ({ ...prev, ...Object.fromEntries(rows.map(r => [r.id, r])) }));
+  }, []);
+
+  // Open a listing's on-site preview. A listing not loaded in full yet opens
+  // straight away with what the list knows, then fills in when the row arrives.
+  const openApartment = useCallback((pin: ApartmentPin) => {
+    setActivePin({ pinType: "apartment", data: pin });
+    if (!pin.partial) return;
+    fetchApartmentDetails([pin.id])
+      .then(rows => {
+        storeDetails(rows);
+        const full = rows[0];
+        if (full) setActivePin(cur => (cur?.pinType === "apartment" && cur.data.id === full.id ? { pinType: "apartment", data: full } : cur));
+      })
+      .catch(e => console.error("Failed to load the listing:", e));
+  }, [storeDetails]);
+
   // Real profiles get the real inbox (/messages); demo pins keep the local
   // demo chat panel with canned replies.
   const openChat = (profile: RoommatePin) => {
@@ -474,7 +512,7 @@ function HousingPageInner() {
 
       } else if (data.pinType === "apartment") {
         const pin = [...dbApartments, ...apartmentPins].find(p => p.id === data.id);
-        if (pin) setActivePin({ pinType: "apartment", data: pin });
+        if (pin) openApartment(apartmentDetails[pin.id] ?? pin);
 
       } else if (data.pinType === "city") {
         setActivePin({
@@ -487,7 +525,7 @@ function HousingPageInner() {
         });
       }
     } catch { /* ignore non-JSON messages */ }
-  }, [dbRoommates, dbApartments]);
+  }, [dbRoommates, dbApartments, apartmentDetails, openApartment]);
 
   useEffect(() => {
     window.addEventListener("message", handleMapMessage);
@@ -535,7 +573,10 @@ function HousingPageInner() {
     if (!matchesMoveIn(a.availableFrom ?? "")) return false;
     if (search && !a.title.toLowerCase().includes(search.toLowerCase()) && !a.city.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
-  });
+  })
+    // Cheapest first, whatever the source: partners are mixed by price, not
+    // grouped. The id breaks ties so the order is the same on every visit.
+    .sort((a, b) => a.price - b.price || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
   // Apartments reveal their list as soon as the visitor picks a city: one click
   // on a city shows every listing there. Budget and move-in are optional extra
@@ -543,6 +584,29 @@ function HousingPageInner() {
   const apartmentFiltersComplete = cityFilter !== "All cities";
 
   const count = tab === "roommates" ? filteredRoommates.length : (apartmentFiltersComplete ? filteredApartments.length : 0);
+
+  // Cards come in blocks of APARTMENT_CARDS_PER_BLOCK; "Show more" adds one.
+  // The block count belongs to one set of filters: change any of them and the
+  // list starts again from the first block.
+  const filtersKey = `${cityFilter}|${budgetFilter}|${moveInFilter}|${search}`;
+  const [cardBlocks, setCardBlocks] = useState({ key: filtersKey, blocks: 1 });
+  const blocksShown = cardBlocks.key === filtersKey ? cardBlocks.blocks : 1;
+  const shownApartments = (apartmentFiltersComplete && tab === "apartments"
+    ? filteredApartments.slice(0, blocksShown * APARTMENT_CARDS_PER_BLOCK)
+    : []
+  ).map(a => apartmentDetails[a.id] ?? a);
+
+  // Fetch the full rows (thumbnail, description…) of the cards on screen that
+  // still come from the light list.
+  const missingDetailIds = shownApartments.filter(a => a.partial).map(a => a.id).join(",");
+  useEffect(() => {
+    if (!missingDetailIds) return;
+    let cancelled = false;
+    fetchApartmentDetails(missingDetailIds.split(","))
+      .then(rows => { if (!cancelled) storeDetails(rows); })
+      .catch(e => console.error("Failed to load listing details:", e));
+    return () => { cancelled = true; };
+  }, [missingDetailIds, storeDetails]);
 
   return (
     <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px 100px" }}>
@@ -816,15 +880,33 @@ function HousingPageInner() {
           ? <EmptyList tab="apartments" />
           : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
-              {filteredApartments.map(a => (
+              {shownApartments.map(a => {
+                // A partner's listing wears the partner's two colours on the whole card.
+                const theme = partnerTheme(a.source);
+                const restBorder = theme ? `rgba(${theme.primary},0.3)` : "var(--border)";
+                const hoverBorder = theme ? `rgba(${theme.primary},0.6)` : "var(--border-strong)";
+                return (
                 <div key={a.id} style={{
-                  background: "var(--surface)", borderRadius: 18, border: "1px solid var(--border)",
+                  background: theme ? partnerTint(theme, "var(--surface)") : "var(--surface)",
+                  borderRadius: 18, border: `1px solid ${restBorder}`,
                   padding: "26px", display: "flex", flexDirection: "column", gap: 14,
                   transition: "border-color 0.2s, transform 0.2s, box-shadow 0.2s",
                 }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.4)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = hoverBorder; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.4)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = restBorder; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
                 >
+                  {theme && (
+                    <span style={{
+                      alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 7,
+                      padding: "4px 10px 4px 8px", borderRadius: 999,
+                      fontSize: 11, fontWeight: 700, letterSpacing: "0.02em",
+                      background: `rgba(${theme.primary},0.12)`, border: `1px solid rgba(${theme.primary},0.3)`,
+                      color: `rgb(${theme.primary})`,
+                    }}>
+                      <span style={{ width: 14, height: 6, borderRadius: 3, background: partnerStripe(theme) }} />
+                      {theme.name}
+                    </span>
+                  )}
                   {(a.image?.[0] || a.photo) && (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img src={a.image?.[0] ?? a.photo} alt={a.title} loading="lazy" style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 12, border: "1px solid var(--border)" }} />
@@ -848,7 +930,7 @@ function HousingPageInner() {
                   {/* Every listing opens its on-site preview first; the link to the
                       original listing lives inside that preview. */}
                   <button
-                    onClick={() => setActivePin({ pinType: "apartment", data: a })}
+                    onClick={() => openApartment(a)}
                     style={{
                       width: "100%", padding: "10px 16px", borderRadius: 10,
                       background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
@@ -863,9 +945,33 @@ function HousingPageInner() {
                     View details →
                   </button>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )
+      )}
+
+      {/* More cards of the same city, one block at a time */}
+      {shownApartments.length > 0 && shownApartments.length < filteredApartments.length && (
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginTop: 28 }}>
+          <span style={{ fontSize: 12, color: "var(--text-3)" }}>
+            Showing {shownApartments.length} of {filteredApartments.length} listings
+          </span>
+          <button
+            onClick={() => setCardBlocks({ key: filtersKey, blocks: blocksShown + 1 })}
+            style={{
+              padding: "10px 22px", borderRadius: 10,
+              background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
+              color: "rgb(96,165,250)",
+              fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
+              transition: "background 0.15s",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
+          >
+            Show {Math.min(APARTMENT_CARDS_PER_BLOCK, filteredApartments.length - shownApartments.length)} more
+          </button>
+        </div>
       )}
 
       {tab === "apartments" && <PartnersSection cityFilter={cityFilter} />}

@@ -3,6 +3,36 @@
 Registro delle esecuzioni della skill `news-curator` su `app/data/news.ts`.
 Voce più recente in cima.
 
+## 2026-11-12
+
+Giro periodico **ADD + REFRESH** (trigger "aggiorna news"). Il file aveva 12 articoli; ora 15.
+Nota di metodo: la regola di default della skill ("REFRESH i 5 con la `date` più vecchia") è ormai disallineata con il campo `updated` introdotto ad agosto — `date` è la pubblicazione (tutti apr-mag 2025), quindi la vera staleness è `updated ?? date`. Ho selezionato i 4 articoli **mai revisionati** (senza `updated`: id 1, 4, 6, 7) + id 11 (il più time-sensitive). **Da sistemare**: aggiornare la riga di default della skill a `updated ?? date`.
+
+### Aggiunte
+- **id 13** — "Netherlands: statutory tuition rises to €2,771 for 2027-2028" (Netherlands, Tuition). Tassa statale UE/SEE €2.694 → €2.771 (+2,8%). Fonti: eur.nl/…/collegegeldtarieven-2027-2028, maastrichtuniversity.nl, duo.nl.
+- **id 14** — "Netherlands: top universities cap English-taught bachelor places for 2027-2028" (Netherlands, Admissions). Numerus fixus nuovo/rivisto sulle track in inglese di Political Science, Business Administration, Psychology all'UvA per il 2027-2028; taglio ~20% dell'inflow internazionale, dentro accordi nazionali col ministero. Fonte: uva.nl (annuncio lug 2026, confermato via fetch).
+- **id 15** — "Germany: BAföG reform heading to Parliament — higher student aid from April 2027" (Germany, Grants). 30ª legge BAföG adottata dal governo: dal 1 apr 2027 Wohnkostenpauschale €380→€440, supplemento assicurazioni €137→€160; Grundbedarf a step successivi. Max attuale €992. In attesa di Bundestag/Bundesrat (fine 2026). Inquadrato come **bozza pendente**, niente Höchstsatz 2027 non confermato. Fonti: zdfheute.de, finanztip.de, studierenplus.de.
+
+### Aggiornate (updated = 12 November 2026, `date` di pubblicazione invariata)
+- **id 11** (Sweden) → le date **autunno 2027** ora sono pubblicate (ad agosto ancora no): apre 16/10/2026, I round 15/01/2027 (risultati bachelor 08/04/2027), II round 15/04/2027. Inserite al posto del rimando generico "in autumn 2026". Fonte: universityadmissions.se/.../autumn-semester-dates (confermata via fetch).
+- **id 1** (Maastricht) → chiuso finalmente il ciclo che ad agosto avevo lasciato invariato: **settembre 2027** aperto su Studielink dal 01/10/2026; scadenza UE ~01/05/2027, selettivi (Medicine, Psychology) 15/01/2027. Titolo e summary aggiornati. Fonte: maastrichtuniversity.nl (alcune pagine programma con refusi di data → tenuto il quadro generale, non le date per-programma incerte).
+- **id 7** (Sciences Po) → **corretti i numeri traballanti** del vecchio testo ("ISEE €25k / €14.000/anno"). Modello reale: tasse su base reddito per famiglie residenti UE/SEE da **€0 a ~€14.900/anno**, **36% paga zero**; pathway internazionale 2027 chiude **01/03/2027**. Fonte: sciencespo.fr/…/tuition-fees (conflitto €12.363 vs €14.900 tra pagine ufficiali → usato il tetto €14.900).
+- **id 4** (France APL) → ad agosto l'avevo lasciato (€280 ancora nel range). Ora aggiornato al fatto nuovo: **forfait congelati nel 2026** (= 2025); importo tipico ~€100-250/mese, tetti affitto ~€272-333 (persona sola); UE idonei. Tolto il framing "increases to €280". Fonti: moneyvox.fr, aide-sociale.fr. (La voce su taglio APL per extra-UE da luglio 2026 veniva da aggregatori → non inserita.)
+- **id 6** (Portugal) → da pezzo "trend" vago (claim non verificati: ranking Uniplaces, borse Porto) a fatto concreto: bachelor pubblici UE **~€697/anno** (tetto nazionale), ma **pochissimi bachelor in inglese** (l'offerta in inglese è al master). Fonte: ulisboa.pt/en/info/tuition-fees.
+
+### Da controllare a mano
+- **4° ADD non fatto di proposito**: pubblicati **3 ADD invece di 4**. Parcoursup/Campus France 2027 non ha ancora un calendario ufficiale; Erasmus+ e Spagna non reggevano su fonte primaria o erano fuori tema. Meglio 3 solidi che un 4° debole. Se vuoi il 4°, dimmi il paese e lo cerco.
+- **Sbilanciamento NL**: 2 dei 3 ADD sono olandesi (tassa + cap). È lì che stava la notizia verificata di novembre; il blocco in cima resta comunque vario (SE, NL, DE, FR).
+
+### Nuovi tag o paesi introdotti
+- Nessuno. Tutti i `country`/`tag` già presenti; nessuna estensione degli union types necessaria.
+
+### Note tecniche
+- `npx tsc --noEmit` → exit 0.
+- id esistenti invariati; nuovi id 13, 14, 15 (= max+1 progressivo). 15 id univoci.
+- Ordine array: 11 · 14 · 15 · 7 · 13 · 1 · 4 · 6 · 10 · 2 · 8 · 9 · 5 · 3 · 12.
+- Nessun `seed.ts`. Non committato, non pushato. Lavoro housing non committato e `autostash` non toccati.
+
 ## 2026-08-12
 
 Giro **solo REFRESH** (nessun ADD), su richiesta. Confermati 12 articoli (id 1–12), nessun articolo mancante.

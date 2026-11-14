@@ -12,10 +12,23 @@ import ApplyPageLayout from "../../../components/ApplyPageLayout";
 
 const MONTH_NAMES = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
 
+// Countdown only for confirmed dates written as "D Month YYYY". Estimates such
+// as "Expected June 2027" would otherwise be parsed by V8 as 1 June and shown as
+// an exact number of days; past dates would show a negative count.
 function daysUntil(deadline: string): number | null {
+  if (!/^\d{1,2} [A-Z][a-z]+ \d{4}$/.test(deadline)) return null;
   const d = new Date(deadline);
   if (isNaN(d.getTime())) return null;
-  return Math.ceil((d.getTime() - Date.now()) / 86_400_000);
+  const days = Math.ceil((d.getTime() - Date.now()) / 86_400_000);
+  return days >= 0 ? days : null;
+}
+
+// Lines of the admission requirements that are about language proof: a test,
+// a CEFR level or the language of instruction. The diploma line is excluded
+// because it mentions languages only as school subjects.
+const LANGUAGE_LINE = /IELTS|TOEFL|Cambridge|Duolingo|DSH|TestDaF|telc|Goethe|TISUS|Svenska 3|Studieprøven|\b[ABC][12]\b|[Tt]aught (in|mainly in|entirely in)|[Pp]roof of (English|German|French|Dutch)|academic Danish|both Norwegian and English|language/;
+function languageLines(requirements: string[] | undefined): string[] {
+  return (requirements ?? []).filter(r => LANGUAGE_LINE.test(r) && !/^Italian Diploma/.test(r));
 }
 
 // ── Application steps definition ─────────────────────────────────
@@ -212,6 +225,8 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
 
   const deadline = meta?.applicationDeadline ?? "Check university website";
   const days = meta?.applicationDeadline ? daysUntil(meta.applicationDeadline) : null;
+  const langLines = languageLines(meta?.requirements);
+  const platform = meta?.applicationPlatform ?? null;
 
   const STEPS = [
     {
@@ -330,14 +345,14 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>What to prepare</div>
         {[
-          { icon: "🎓", title: "Diploma / High school certificate", desc: "Official copy of your secondary school diploma. If not in English, Dutch, French or German — get a certified translation.", required: true },
+          { icon: "🎓", title: "Diploma / High school certificate", desc: "Official copy of your secondary school diploma (or a provisional certificate if you are still in your final year). Some universities ask for a certified translation: check the admission requirements.", required: true },
           { icon: "📊", title: "Official grade transcripts", desc: "Complete academic record from your secondary school, showing all subjects and grades.", required: true },
-          { icon: "✍️", title: "Motivation letter", desc: "500–800 words explaining why this programme and why this university. Be specific — mention the curriculum, teaching method and your goals.", required: true },
-          { icon: "📋", title: "CV / Résumé", desc: "Academic and extracurricular achievements. Keep it to 1 page.", required: true },
-          { icon: "🌐", title: "Language certificate", desc: "IELTS, TOEFL, Cambridge or equivalent. Check language step for minimum scores.", required: true },
+          { icon: "✍️", title: "Motivation letter or personal statement", desc: "Required by some universities only (for example the UCAS personal statement, essays for selective programmes). Check the admission requirements for this university.", required: false },
+          { icon: "📋", title: "CV / Résumé", desc: "Requested by some universities and selective programmes. Keep it to 1 page.", required: false },
+          { icon: "🌐", title: "Language certificate", desc: "Needed when the programme is not taught in your language. The language step lists what this university asks for.", required: langLines.length > 0 },
           { icon: "🪪", title: "Passport / ID copy", desc: "Valid government-issued photo ID.", required: true },
-          { icon: "📝", title: "Reference letter", desc: "One or two letters from teachers or professors. Optional for most programmes but recommended.", required: false },
-          { icon: "💰", title: "Proof of funds (if required)", desc: "Some universities require evidence you can cover living costs. Check the university website.", required: false },
+          { icon: "📝", title: "Reference letter", desc: "Required by some systems (for example a teacher reference on UCAS) and by selective programmes.", required: false },
+          { icon: "💰", title: "Proof of funds (if required)", desc: "Mainly for students who need a visa. Check the university website.", required: false },
         ].map(({ icon, title, desc, required }) => (
           <div key={title} style={{ display: "flex", gap: 14, padding: "16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
             <div style={{ fontSize: 22, flexShrink: 0, marginTop: 2 }}>{icon}</div>
@@ -349,7 +364,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
                   background: required ? "rgba(248,113,113,0.12)" : "rgba(255,255,255,0.05)",
                   border: required ? "1px solid rgba(248,113,113,0.3)" : "1px solid var(--border)",
                   color: required ? "rgb(248,113,113)" : "var(--text-3)",
-                }}>{required ? "REQUIRED" : "OPTIONAL"}</span>
+                }}>{required ? "REQUIRED" : "IF REQUESTED"}</span>
               </div>
               <p style={{ fontSize: 13, color: "var(--text-2)", margin: 0, lineHeight: 1.6 }}>{desc}</p>
             </div>
@@ -368,28 +383,18 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
             <span key={l} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid rgba(96,165,250,0.3)", background: "rgba(96,165,250,0.08)", fontSize: 13, fontWeight: 700, color: "rgb(96,165,250)" }}>{l}</span>
           ))}
         </div>
-        {uni.languages.includes("English") && (
-          <>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>Accepted English certificates</div>
-            {[
-              { test: "IELTS Academic", score: "6.0 overall (no band below 5.5)", color: "52,211,153" },
-              { test: "TOEFL iBT",      score: "80 overall",                      color: "96,165,250" },
-              { test: "Cambridge B2",   score: "B2 First (FCE) or above",          color: "201,163,92" },
-              { test: "Duolingo",       score: "105+ (check programme page)",      color: "251,191,36" },
-            ].map(({ test, score, color }) => (
-              <div key={test} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: `rgb(${color})`, flexShrink: 0 }} />
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 2 }}>{test}</div>
-                  <div style={{ fontSize: 12, color: "var(--text-3)" }}>{score}</div>
-                </div>
-              </div>
-            ))}
-            <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid rgba(251,191,36,0.2)", background: "rgba(251,191,36,0.04)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>
-              💡 <strong style={{ color: "var(--text-1)" }}>Tip:</strong> If you studied in an English-medium school for 3+ years, many universities will waive the language test. Check your specific programme requirements.
+        <>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>What {uni.name} asks for</div>
+          {(langLines.length > 0 ? langLines : ["The language requirement is set for each programme: check the university's admission page."]).map((line, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: `rgb(${["52,211,153", "96,165,250", "201,163,92", "251,191,36"][i % 4]})`, flexShrink: 0 }} />
+              <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.55 }}>{line}</div>
             </div>
-          </>
-        )}
+          ))}
+          <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid rgba(251,191,36,0.2)", background: "rgba(251,191,36,0.04)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>
+            💡 <strong style={{ color: "var(--text-1)" }}>Tip:</strong> Book the language test early: results take a few weeks, and many universities want the certificate by the application deadline.
+          </div>
+        </>
       </div>
     ),
 
@@ -417,11 +422,11 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)" }}>How to submit</div>
           {[
-            { num: "01", title: "Create a Studielink account", desc: "For Dutch universities, applications go through Studielink (studielink.nl). For other countries, apply directly on the university portal.", color: "96,165,250" },
+            { num: "01", title: platform ? `Create your account on ${platform}` : "Create an account on the university's application portal", desc: platform ? `Applications to ${uni.name} go through ${platform}. The admission requirements list any extra step on the university's own portal.` : `Applications to ${uni.name} go through its own online portal, linked below.`, color: "96,165,250" },
             { num: "02", title: "Fill in your personal details", desc: "Your name, address, nationality, and secondary education details. Have your passport and diploma ready.", color: "96,165,250" },
-            { num: "03", title: "Select your programme", desc: `Choose ${uni.name} → ${programme?.name ?? "your programme"}. Double-check the start date (September intake).`, color: "96,165,250" },
+            { num: "03", title: "Select your programme", desc: `Choose ${uni.name} → ${programme?.name ?? "your programme"}. Double-check the start date of the intake.`, color: "96,165,250" },
             { num: "04", title: "Upload all documents", desc: "Upload each required document as a PDF. Scans are fine — just make sure they're legible and complete.", color: "96,165,250" },
-            { num: "05", title: "Pay the application fee (if any)", desc: "Some universities charge €50–100. Check the university website. EU/EEA students are sometimes exempt.", color: "96,165,250" },
+            { num: "05", title: "Pay the application fee (if any)", desc: "Some universities and platforms charge a fee (the admission requirements mention it where it applies); many public universities charge nothing.", color: "96,165,250" },
           ].map(({ num, title, desc, color }) => (
             <div key={num} style={{ display: "flex", gap: 14, padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: `rgb(${color})`, flexShrink: 0, marginTop: 2 }}>{num}</span>
@@ -447,13 +452,13 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         <div style={{ padding: "18px 20px", borderRadius: 14, border: "1px solid rgba(248,113,113,0.3)", background: "rgba(248,113,113,0.05)" }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: "rgb(248,113,113)", marginBottom: 6 }}>⚠️ Start housing NOW</div>
           <p style={{ fontSize: 13, color: "var(--text-2)", margin: 0, lineHeight: 1.65 }}>
-            Student housing in {uni.city} is extremely competitive. Waitlists at official student housing can be 6–12 months. Start searching the moment you get your offer letter.
+            Student housing in {uni.city} can be hard to find, and official student residences often have waiting lists. Start searching the moment you get your offer letter.
           </p>
         </div>
         {[
           { icon: "🏫", title: "University housing", desc: `Check ${uni.name}'s official student housing portal first. It's usually cheaper, safer, and easier for first-arrivals.`, color: "52,211,153" },
           { icon: "🤝", title: "Find a roommate on 4UNI", desc: "Browse student profiles looking for a flatmate in the same city and budget range. Verified profiles only.", color: "201,163,92", link: `/housing?city=${uni.city}` },
-          { icon: "🏠", title: "Private platforms", desc: "Kamernet, WG-Gesucht, HousingAnywhere and Facebook groups. Never pay a deposit before viewing.", color: "96,165,250" },
+          { icon: "🏠", title: "Private platforms", desc: "HousingAnywhere and local Facebook groups everywhere; Kamernet in the Netherlands, WG-Gesucht in Germany and Austria. Never pay a deposit before viewing.", color: "96,165,250" },
         ].map(({ icon, title, desc, color, link }) => (
           <div key={title} style={{ display: "flex", gap: 14, padding: "16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
             <span style={{ fontSize: 22, flexShrink: 0 }}>{icon}</span>
@@ -476,10 +481,10 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>What happens next</div>
         {[
           { icon: "📧", title: "Confirmation email", desc: "You'll receive an automatic confirmation when your application is received. Check your spam folder." },
-          { icon: "⏳", title: "Review period (4–10 weeks)", desc: "The admissions team reviews your documents. Some programmes are selective, others are first-come-first-served." },
-          { icon: "✅", title: "Conditional offer", desc: "If accepted, you'll receive a conditional offer. This means you need to provide proof of your final diploma once you graduate." },
+          { icon: "⏳", title: "Review period", desc: "Some systems publish all results on a fixed date (for example ranking numbers or national allocation rounds), others answer within a few weeks. The admission requirements give the dates where they are fixed." },
+          { icon: "✅", title: "Conditional offer", desc: "If you are still in your final year, the offer is usually conditional: you confirm it with your final diploma and grades." },
           { icon: "🎓", title: "Enrolment", desc: "After accepting your offer, you'll receive enrolment instructions. Pay tuition and register at the student services office." },
-          { icon: "🏠", title: "Practical tasks", desc: "Register at the city hall (BRP in Netherlands), get health insurance, open a local bank account. The AI assistant can guide you through each one." },
+          { icon: "🏠", title: "Practical tasks", desc: "Register your address with the city, sort out health insurance and open a local bank account if needed. The AI assistant can guide you through each one." },
         ].map(({ icon, title, desc }) => (
           <div key={title} style={{ display: "flex", gap: 14, padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
             <span style={{ fontSize: 20, flexShrink: 0, marginTop: 2 }}>{icon}</span>

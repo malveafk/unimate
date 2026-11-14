@@ -191,12 +191,12 @@ export default function PostListingPage() {
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
+              <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>
             </svg>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.8px", marginBottom: 16 }}>Listing posted!</h1>
+          <h1 style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.8px", marginBottom: 16 }}>Request sent!</h1>
           <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.7, marginBottom: 32 }}>
-            Your apartment is now live on the housing map. Students searching in {form.city || "your city"} will be able to find it and reach out.
+            Your apartment is with our team for review. As soon as we approve it, it goes live on the housing map and students searching in {form.city || "your city"} will be able to find it and reach out.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
             <button onClick={() => router.push("/housing")} style={{ padding: "13px 28px", borderRadius: 12, background: "var(--text-1)", color: "var(--bg)", border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>

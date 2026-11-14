@@ -8,6 +8,32 @@ const supabase = createClient(
   { realtime: { transport: ws } }
 );
 
+// Elimina dalla tabella le righe figlie di `parentId` il cui id non è in
+// `keepIds`. Legge prima gli id esistenti e cancella solo la differenza, così
+// il log dice esattamente cosa è stato tolto.
+async function pruneStale(
+  table: "courses" | "bachelors",
+  parentColumn: "bachelor_id" | "university_id",
+  parentId: string,
+  keepIds: string[]
+) {
+  const { data, error } = await supabase.from(table).select("id").eq(parentColumn, parentId);
+  if (error) {
+    console.error(`  Errore lettura ${table} di ${parentId}:`, error.message);
+    return;
+  }
+  const keep = new Set(keepIds);
+  const stale = (data ?? []).map((r) => r.id as string).filter((id) => !keep.has(id));
+  if (stale.length === 0) return;
+
+  const { error: deleteError } = await supabase.from(table).delete().in("id", stale);
+  if (deleteError) {
+    console.error(`  Errore pulizia ${table} di ${parentId}:`, deleteError.message);
+    return;
+  }
+  console.log(`  ✗ ${stale.length} ${table} non più nel file rimossi da ${parentId}`);
+}
+
 async function seed() {
   console.log("Inizio importazione...\n");
 
@@ -70,7 +96,28 @@ async function seed() {
           console.error(`    Errore corso ${course.name}:`, courseError.message);
         }
       }
+
+      // L'upsert aggiorna e aggiunge, ma non toglie: se un bachelor passa da
+      // 25 a 20 corsi, le righe __c20..__c24 resterebbero nel DB e il sito
+      // (che legge da Supabase) continuerebbe a mostrarle. Il file è la fonte
+      // di verità, quindi qui eliminiamo le righe che non vi compaiono più.
+      await pruneStale(
+        "courses",
+        "bachelor_id",
+        bachelorRowId,
+        bachelor.courses.map((_, i) => `${bachelorRowId}__c${i}`)
+      );
     }
+
+    // Stesso principio per i bachelor rimossi o rinominati: la FK
+    // courses.bachelor_id ha "on delete cascade", quindi spariscono anche i
+    // loro corsi.
+    await pruneStale(
+      "bachelors",
+      "university_id",
+      uni.id,
+      uni.bachelors.map((b) => `${uni.id}__${b.id}`)
+    );
   }
 
   console.log("\nImportazione completata!");
