@@ -311,7 +311,6 @@ export async function saveApartmentListing(form: ListingFormInput, idFile: File 
   if (!user) throw new Error("not-signed-in");
 
   let idFilePath: string | undefined;
-  let verified = false;
   if (idFile) {
     // One folder per user (enforced by the bucket's RLS policies) — same
     // private bucket used for roommate-profile ID documents.
@@ -324,7 +323,6 @@ export async function saveApartmentListing(form: ListingFormInput, idFile: File 
     const existing = await getExistingIdVerification();
     if (!existing) throw new Error("id-required");
     idFilePath = existing.idFilePath;
-    verified = existing.verified;
   }
 
   let photoPath: string | undefined;
@@ -348,7 +346,9 @@ export async function saveApartmentListing(form: ListingFormInput, idFile: File 
     description: form.description || null,
     link: form.link || null,
     id_file_path: idFilePath,
-    verified,
+    // `verified` is left to its default (false): only an admin can grant the
+    // badge (see supabase/housing_verified_admin_only.sql), and the database
+    // rejects any insert that tries to set it.
     ...(photoPath ? { photo_path: photoPath } : {}),
     is_active: true,
   });
