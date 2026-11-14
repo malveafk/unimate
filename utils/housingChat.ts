@@ -4,6 +4,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { fetchRoommatePinsByUserIds } from "@/utils/housing";
+import { fetchBlockedUserIds } from "@/utils/moderation";
 import { type RoommatePin } from "@/app/data/housing-cities";
 
 export type ChatMessage = {
@@ -75,12 +76,25 @@ export async function listConversations(): Promise<RealConversation[]> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return [];
 
-  const { data: convs, error: convError } = await supabase
-    .from("housing_conversations")
-    .select("id, participant_a, participant_b")
-    .order("created_at", { ascending: false });
+  const [{ data: allConvs, error: convError }, blocked] = await Promise.all([
+    supabase
+      .from("housing_conversations")
+      .select("id, participant_a, participant_b")
+      .order("created_at", { ascending: false }),
+    fetchBlockedUserIds(),
+  ]);
   if (convError) throw convError;
-  if (!convs || convs.length === 0) return [];
+  if (!allConvs || allConvs.length === 0) return [];
+
+  // A blocked person's thread leaves the inbox entirely rather than sitting
+  // there greyed out. The messages are not deleted — the row survives, and
+  // unblocking brings the whole conversation back.
+  const hidden = new Set(blocked);
+  const convs = allConvs.filter(c => {
+    const other = c.participant_a === user.id ? c.participant_b : c.participant_a;
+    return !hidden.has(other);
+  });
+  if (convs.length === 0) return [];
 
   const otherIds = convs.map(c => (c.participant_a === user.id ? c.participant_b : c.participant_a));
   const profiles = await fetchRoommatePinsByUserIds(otherIds);

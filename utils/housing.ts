@@ -3,6 +3,7 @@
 // already consume, so real and demo pins render identically.
 
 import { createClient } from "@/utils/supabase/client";
+import { fetchBlockedUserIds } from "@/utils/moderation";
 import {
   housingCityCoords,
   type RoommatePin,
@@ -81,6 +82,9 @@ function profileToPin(row: ProfileRow): RoommatePin {
 
 type ListingRow = {
   id: string;
+  // Null on partner imports, which belong to no account and so can never be
+  // hidden by a block.
+  created_by?: string | null;
   title: string;
   city: string;
   lat: number | null;
@@ -110,6 +114,7 @@ function listingToPin(row: ListingRow, partial: boolean): ApartmentPin {
   const cityCoords = housingCityCoords[row.city];
   return {
     id: row.id,
+    createdBy: row.created_by ?? undefined,
     title: row.title,
     city: row.city,
     lat: row.lat ?? (cityCoords ? cityCoords.lat + jitter(row.id, 0) : 0),
@@ -139,14 +144,27 @@ function listingToPin(row: ListingRow, partial: boolean): ApartmentPin {
 
 // ── Reads (public — RLS shows only active rows) ──────────────────────────────
 
+// Blocked people are filtered out here rather than in the database, because
+// RLS cannot express it: housing_profiles is readable by anonymous visitors
+// too, and a policy that consulted auth.uid() would have to be written to let
+// that case through anyway. Hiding is cosmetic — the rule with teeth ("they
+// cannot contact me") is enforced by the policies in
+// supabase/housing_reports_blocks.sql, where leaving it out would matter.
 export async function fetchRoommatePins(): Promise<RoommatePin[]> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from("housing_profiles")
-    .select("id, user_id, first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, lat, lng, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, verified")
-    .order("created_at", { ascending: false });
+  const [{ data, error }, blocked] = await Promise.all([
+    supabase
+      .from("housing_profiles")
+      .select("id, user_id, first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, lat, lng, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, verified")
+      .order("created_at", { ascending: false }),
+    fetchBlockedUserIds(),
+  ]);
   if (error) throw error;
-  return (data as ProfileRow[]).map(profileToPin);
+
+  const hidden = new Set(blocked);
+  return (data as ProfileRow[])
+    .filter(row => !hidden.has(row.user_id))
+    .map(profileToPin);
 }
 
 // ── Listings: a light list for everything, full rows on demand ───────────────
@@ -169,7 +187,10 @@ export async function fetchRoommatePins(): Promise<RoommatePin[]> {
 // column sets and stop at the first that isn't an "undefined column" error. This
 // way whichever optionals ARE migrated still load, and a deploy and its ALTER
 // TABLEs can land in any order without ever breaking the live apartment feed.
-const LISTING_LIST_COLS = "id, title, city, lat, lng, price, furnished, available_from, platform";
+// created_by is in the original schema, so unlike the optionals below it is
+// safe in the narrowest attempt: every deployed database has it. It is here so
+// a blocked person's listings can be left off the map.
+const LISTING_LIST_COLS = "id, created_by, title, city, lat, lng, price, furnished, available_from, platform";
 const LISTING_CORE_COLS = `${LISTING_LIST_COLS}, rooms, description, link`;
 const LISTING_VERIFY_COLS = "photo_path, verified";
 const LISTING_PARTNER_COLS = "image, address, bathrooms, size_sqm, source";
@@ -258,7 +279,10 @@ export async function fetchApartmentPins(pageSize: number = LISTING_PAGE_SIZE): 
       .order("id")
       .range(from, from + pageSize - 1);
 
-  const first = await selectListings(LIST_ATTEMPTS, (columns) => page(columns, 0, true));
+  const [first, blocked] = await Promise.all([
+    selectListings(LIST_ATTEMPTS, (columns) => page(columns, 0, true)),
+    fetchBlockedUserIds(),
+  ]);
   const byId = new Map(first.rows.map((row) => [row.id, row]));
   // Keep asking until we hold as many rows as the table says it has. Advancing
   // by what actually arrived (not by pageSize) stays correct even if the server
@@ -273,7 +297,12 @@ export async function fetchApartmentPins(pageSize: number = LISTING_PAGE_SIZE): 
     fetched += rows.length;
   }
 
-  return spreadStackedPins([...byId.values()].map((row) => listingToPin(row, true)));
+  const hidden = new Set(blocked);
+  return spreadStackedPins(
+    [...byId.values()]
+      .filter((row) => !(row.created_by && hidden.has(row.created_by)))
+      .map((row) => listingToPin(row, true)),
+  );
 }
 
 // Full rows (description, photo gallery, address, contact…) for a few listings.

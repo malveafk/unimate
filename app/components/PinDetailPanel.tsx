@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 import { PARTNER_THEMES, partnerTheme, partnerTint, partnerStripe } from "../data/housing-partners";
 import { studyYearLabel } from "@/utils/housing";
+import { blockUser, reportListing, reportProfile, type ReportReason } from "@/utils/moderation";
+import ReportDialog from "./ReportDialog";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -17,6 +19,9 @@ type Props = {
   pin:       ActivePin | null;
   onClose:   () => void;
   onMessage: (profile: RoommatePin) => void; // opens the chat panel
+  // Called after the signed-in user blocks someone, so the page can drop that
+  // person's pin instead of leaving it on the map until the next reload.
+  onBlocked?: (userId: string) => void;
 };
 
 // Platform brand colours (subtle)
@@ -56,9 +61,123 @@ function Tag({ label, color = "255,255,255" }: { label: string; color?: string }
   );
 }
 
+// ── Report / block footer ─────────────────────────────────────────────────────
+//
+// Deliberately quiet: a small line of grey text at the bottom, not a button
+// competing with "Message". Almost nobody needs it, and a prominent red
+// control on every profile would make the whole site feel like a place where
+// people get scammed. The ones who do need it go looking, and it is where
+// every other site puts it.
+//
+// Reporting and blocking answer different questions, so they are two controls,
+// not one. Reporting asks an admin to look at something; blocking needs
+// nobody's approval and takes effect at once. Blocking confirms first, because
+// it changes what the person can do — undoing it means finding them again.
+
+function FooterAction({ children, onClick, danger }: {
+  children: React.ReactNode; onClick: () => void; danger?: boolean;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "inline-flex", alignItems: "center", gap: 6,
+        background: "none", border: "none", padding: "4px 0", cursor: "pointer",
+        fontFamily: "inherit", fontSize: 12, fontWeight: 600,
+        color: danger ? "rgba(248,113,113,0.85)" : "var(--text-3)",
+        textDecoration: "underline", textUnderlineOffset: 3,
+        transition: "color 0.12s",
+      }}
+      onMouseEnter={e => (e.currentTarget.style.color = danger ? "#f87171" : "var(--text-1)")}
+      onMouseLeave={e => (e.currentTarget.style.color = danger ? "rgba(248,113,113,0.85)" : "var(--text-3)")}
+    >
+      {children}
+    </button>
+  );
+}
+
+function ModerationFooter({ target, onReport, blockable }: {
+  // How the thing is named in the dialog: "this listing", "Marta".
+  target: string;
+  onReport: (reason: ReportReason, details: string) => Promise<void>;
+  // Absent for apartments and for demo pins, which belong to no account.
+  blockable?: { name: string; onConfirm: () => Promise<void> };
+}) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [confirmingBlock, setConfirmingBlock] = useState(false);
+  const [blockState, setBlockState] = useState<"idle" | "working" | "done" | "error">("idle");
+
+  async function doBlock() {
+    if (!blockable) return;
+    setBlockState("working");
+    try {
+      await blockable.onConfirm();
+      setBlockState("done");
+    } catch {
+      setBlockState("error");
+    }
+  }
+
+  if (blockState === "done") {
+    return (
+      <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.6 }}>
+        Blocked. They can&apos;t message you and you won&apos;t see them on the map.
+        You can undo this under <Link href="/account" style={{ color: "var(--accent)" }}>My account</Link>.
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
+        {confirmingBlock && blockable ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <p style={{ margin: 0, fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.6 }}>
+              Block {blockable.name}? Neither of you will be able to message the
+              other, and their profile disappears from your map. Messages you
+              already exchanged stay where they are, and you can undo this under
+              My account.
+            </p>
+            {blockState === "error" && (
+              <p style={{ margin: 0, fontSize: 12, color: "#f87171" }}>
+                That didn&apos;t work. Please try again.
+              </p>
+            )}
+            <div style={{ display: "flex", gap: 14 }}>
+              <FooterAction danger onClick={doBlock}>
+                {blockState === "working" ? "Blocking…" : `Yes, block ${blockable.name}`}
+              </FooterAction>
+              <FooterAction onClick={() => { setConfirmingBlock(false); setBlockState("idle"); }}>
+                Cancel
+              </FooterAction>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
+            <FooterAction onClick={() => setDialogOpen(true)}>⚑ Report {target}</FooterAction>
+            {blockable && (
+              <FooterAction danger onClick={() => setConfirmingBlock(true)}>
+                Block {blockable.name}
+              </FooterAction>
+            )}
+          </div>
+        )}
+      </div>
+
+      {dialogOpen && (
+        <ReportDialog target={target} onSubmit={onReport} onClose={() => setDialogOpen(false)} />
+      )}
+    </>
+  );
+}
+
 // ── Roommate detail ───────────────────────────────────────────────────────────
 
-function RoommateDetail({ data, onMessage }: { data: RoommatePin; onMessage: (p: RoommatePin) => void }) {
+function RoommateDetail({ data, onMessage, onBlocked }: {
+  data: RoommatePin; onMessage: (p: RoommatePin) => void; onBlocked?: (userId: string) => void;
+}) {
+  const firstName = data.name.split(" ")[0];
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20, padding: "20px 22px 24px" }}>
 
@@ -188,6 +307,21 @@ function RoommateDetail({ data, onMessage }: { data: RoommatePin; onMessage: (p:
           </p>
         )}
       </div>
+
+      {/* Demo pins carry no userId: there is no account to report or block. */}
+      {data.userId && (
+        <ModerationFooter
+          target={firstName}
+          onReport={(reason, details) => reportProfile(data.userId!, reason, details)}
+          blockable={{
+            name: firstName,
+            onConfirm: async () => {
+              await blockUser(data.userId!);
+              onBlocked?.(data.userId!);
+            },
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -429,6 +563,13 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
         <div style={{ fontSize: 11, color: "var(--text-3)", lineHeight: 1.6, padding: "10px 14px", borderRadius: 10, border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}>
           🔒 Always visit the property before paying any deposit. Never transfer money without a signed contract.
         </div>
+
+        {/* The advice above is only useful if there is somewhere to turn when
+            it is ignored, so the report sits directly under it. */}
+        <ModerationFooter
+          target="this listing"
+          onReport={(reason, details) => reportListing(data.id, reason, details)}
+        />
       </div>
     </div>
   );
@@ -500,7 +641,7 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
 
 // ── Main panel ────────────────────────────────────────────────────────────────
 
-export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
+export default function PinDetailPanel({ pin, onClose, onMessage, onBlocked }: Props) {
   const isOpen = !!pin;
 
   // Apartment previews take two thirds of the screen; roommate and city panels
@@ -624,7 +765,7 @@ export default function PinDetailPanel({ pin, onClose, onMessage }: Props) {
             drawer never hands the wheel over to the page behind it */}
         <div style={{ flex: 1, overflowY: "auto", minHeight: 0, overscrollBehavior: "contain" }}>
           {pin?.pinType === "roommate" && (
-            <RoommateDetail data={pin.data} onMessage={onMessage} />
+            <RoommateDetail data={pin.data} onMessage={onMessage} onBlocked={onBlocked} />
           )}
           {pin?.pinType === "apartment" && (
             <ApartmentDetail key={pin.data.id} data={pin.data} />

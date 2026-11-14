@@ -987,6 +987,12 @@ function HousingPageInner() {
           setActivePin(null);           // close the detail drawer first
           openChat(profile);            // real inbox or demo chat panel
         }}
+        onBlocked={(userId) => {
+          // The next fetch would leave them out anyway, but a pin that stays
+          // on the map after you blocked someone reads as "it didn't work".
+          setDbRoommates(pins => pins.filter(p => p.userId !== userId));
+          setDbApartments(pins => pins.filter(p => p.createdBy !== userId));
+        }}
       />
 
       {/* ── Safety note ────────────────────────────────── */}

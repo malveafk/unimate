@@ -58,6 +58,9 @@ export type RoommatePin = {
 
 export type ApartmentPin = {
   id: string;
+  // The account that posted it. Unset on demo pins and on partner imports,
+  // which belong to nobody; used to drop a blocked person's listings.
+  createdBy?: string;
   title: string;
   city: string;
   lat: number;

@@ -7,6 +7,7 @@ import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import AuthModal from "../components/AuthModal";
 import AccountIcon from "../components/AccountIcon";
+import { fetchBlockedUsers, unblockUser, type BlockedUser } from "@/utils/moderation";
 
 // ── Types (only the columns this page needs) ───────────────────────────────
 
@@ -194,6 +195,7 @@ export default function AccountPage() {
       <AccountSection user={user} provider={provider} onSignOut={async () => { await supabase.auth.signOut(); router.push("/"); }} />
       <ProfileSection profile={profile} listings={listings} onChanged={() => load(user.id)} />
       <ListingsSection listings={listings} onChanged={() => load(user.id)} />
+      <BlockedSection />
       <DeleteSection onDeleted={async () => { await supabase.auth.signOut(); router.push("/"); }} />
     </div>
   );
@@ -471,6 +473,92 @@ function ListingRow({ listing, onChanged }: { listing: MyListing; onChanged: () 
 }
 
 // ── Delete account ──────────────────────────────────────────────────────────
+
+// ── Blocked accounts ────────────────────────────────────────────────────────
+//
+// A block is instant and needs nobody's approval, which is right — but it only
+// stays a reasonable thing to offer if it can be taken back. Without a list
+// like this, undoing one would mean finding that person's pin on the map
+// again, and a blocked pin is exactly what the map no longer shows. So the
+// list is not a nicety: it is the other half of the feature.
+//
+// The section hides itself when there is nothing in it, rather than sitting
+// there as an empty card reminding everyone that blocking exists.
+
+function BlockedSection() {
+  const [blocked, setBlocked] = useState<BlockedUser[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  // Bumped after an unblock to re-run the effect below. The list is only ever
+  // read in one place that way, instead of once on mount and again by hand.
+  const [reloadToken, setReloadToken] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchBlockedUsers()
+      // Most likely cause of a failure is that the migration has not been run
+      // on this database. Nothing to show and nothing the student can do about
+      // it, so the section stays quiet and hidden.
+      .catch(() => [] as BlockedUser[])
+      .then(rows => {
+        if (cancelled) return;
+        setBlocked(rows);
+        setLoaded(true);
+      });
+    return () => { cancelled = true; };
+  }, [reloadToken]);
+
+  if (!loaded || blocked.length === 0) return null;
+
+  async function unblock(userId: string) {
+    setBusy(userId);
+    setError("");
+    try {
+      await unblockUser(userId);
+      setReloadToken(n => n + 1);
+    } catch {
+      setError("Couldn't unblock. Please try again.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  return (
+    <section style={card}>
+      <SectionTitle
+        title="Blocked accounts"
+        subtitle="They can't message you and you don't see them on the map. Unblocking brings back their profile and your old conversation."
+      />
+      {error && <p style={{ margin: 0, fontSize: 13, color: "#f87171" }}>{error}</p>}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {blocked.map(b => (
+          <div
+            key={b.userId}
+            style={{
+              display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap",
+              padding: "12px 14px", borderRadius: 12,
+              border: "1px solid var(--border)", background: "var(--surface-2)",
+            }}
+          >
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>
+                {b.name ?? "A student"}
+                {b.city && <span style={{ color: "var(--text-3)", fontWeight: 400 }}> · {b.city}</span>}
+              </div>
+              <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>
+                Blocked on {new Date(b.blockedAt).toLocaleDateString()}
+              </div>
+            </div>
+            <Button onClick={() => unblock(b.userId)} disabled={busy === b.userId}>
+              {busy === b.userId ? "Unblocking…" : "Unblock"}
+            </Button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function DeleteSection({ onDeleted }: { onDeleted: () => void }) {
   const [open, setOpen] = useState(false);

@@ -9,6 +9,8 @@ import {
   sendHousingMessage,
   markConversationRead,
 } from "@/utils/housingChat";
+import { blockUser, reportProfile } from "@/utils/moderation";
+import ReportDialog from "../components/ReportDialog";
 
 /* ── Types ─────────────────────────────────────────────────────────────────── */
 
@@ -98,6 +100,145 @@ function Avatar({ profile, size = 40 }: { profile: RoommatePin; size?: number })
     >
       {profile.initials}
     </div>
+  );
+}
+
+/* ── Report / block menu in the chat header ─────────────────────────────────── */
+//
+// The inbox is where a scam actually plays out: the listing looks ordinary,
+// and the request to wire a deposit arrives in a message. So the controls have
+// to be reachable from the conversation itself, not only from the pin on the
+// map the student may never find again.
+
+function ConversationMenu({ otherUserId, name, onBlocked }: {
+  otherUserId: string;
+  name: string;
+  onBlocked: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [reporting, setReporting] = useState(false);
+  const [confirmingBlock, setConfirmingBlock] = useState(false);
+  const [blockError, setBlockError] = useState(false);
+  const [blocking, setBlocking] = useState(false);
+
+  function close() {
+    setOpen(false);
+    setConfirmingBlock(false);
+    setBlockError(false);
+  }
+
+  async function doBlock() {
+    setBlocking(true);
+    setBlockError(false);
+    try {
+      await blockUser(otherUserId);
+      close();
+      onBlocked();
+    } catch {
+      setBlockError(true);
+    } finally {
+      setBlocking(false);
+    }
+  }
+
+  return (
+    <div style={{ position: "relative", flexShrink: 0 }}>
+      <button
+        onClick={() => (open ? close() : setOpen(true))}
+        aria-label={`More options for ${name}`}
+        aria-expanded={open}
+        style={{
+          width: 32, height: 32, borderRadius: 8, cursor: "pointer",
+          background: open ? "var(--surface)" : "transparent",
+          border: "1px solid", borderColor: open ? "var(--border)" : "transparent",
+          color: "var(--text-3)", fontSize: 17, lineHeight: 1, fontFamily: "inherit",
+        }}
+      >
+        ⋯
+      </button>
+
+      {open && (
+        <>
+          {/* Click anywhere else to dismiss. */}
+          <div onClick={close} style={{ position: "fixed", inset: 0, zIndex: 10 }} />
+          <div style={{
+            position: "absolute", top: 38, right: 0, zIndex: 11, width: 248,
+            background: "var(--surface)", border: "1px solid var(--border-strong)",
+            borderRadius: 12, padding: 8,
+            boxShadow: "0 12px 32px rgba(0,0,0,0.45)",
+          }}>
+            {confirmingBlock ? (
+              <div style={{ padding: "6px 8px 8px", display: "flex", flexDirection: "column", gap: 10 }}>
+                <p style={{ margin: 0, fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.6 }}>
+                  Block {name}? This thread leaves your inbox and neither of you
+                  can message the other. You can undo it under My account.
+                </p>
+                {blockError && (
+                  <p style={{ margin: 0, fontSize: 12, color: "#f87171" }}>
+                    That didn&apos;t work. Please try again.
+                  </p>
+                )}
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button onClick={doBlock} disabled={blocking} style={{
+                    flex: 1, padding: "8px 0", borderRadius: 9, border: "none",
+                    background: "#f87171", color: "#1a1a1a",
+                    fontSize: 12.5, fontWeight: 700, fontFamily: "inherit",
+                    cursor: blocking ? "wait" : "pointer",
+                  }}>
+                    {blocking ? "Blocking…" : "Block"}
+                  </button>
+                  <button onClick={() => setConfirmingBlock(false)} style={{
+                    flex: 1, padding: "8px 0", borderRadius: 9,
+                    border: "1px solid var(--border-strong)", background: "transparent",
+                    color: "var(--text-2)", fontSize: 12.5, fontWeight: 600,
+                    fontFamily: "inherit", cursor: "pointer",
+                  }}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <MenuItem onClick={() => { setOpen(false); setReporting(true); }}>
+                  ⚑ Report {name}
+                </MenuItem>
+                <MenuItem danger onClick={() => setConfirmingBlock(true)}>
+                  Block {name}
+                </MenuItem>
+              </>
+            )}
+          </div>
+        </>
+      )}
+
+      {reporting && (
+        <ReportDialog
+          target={name}
+          onSubmit={(reason, details) => reportProfile(otherUserId, reason, details)}
+          onClose={() => setReporting(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+function MenuItem({ children, onClick, danger }: {
+  children: React.ReactNode; onClick: () => void; danger?: boolean;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "block", width: "100%", textAlign: "left",
+        padding: "9px 10px", borderRadius: 8, border: "none", background: "transparent",
+        color: danger ? "#f87171" : "var(--text-1)",
+        fontSize: 13, fontWeight: 600, fontFamily: "inherit", cursor: "pointer",
+      }}
+      onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}
+      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+    >
+      {children}
+    </button>
   );
 }
 
@@ -415,6 +556,21 @@ export default function MessagesPage() {
                     Moves {activeConv.profile.moveIn.split(" ")[0]}
                   </div>
                 </div>
+              )}
+
+              {/* Demo threads have no account behind them, so nothing to act on. */}
+              {realMode && activeConv.profile.userId && (
+                <ConversationMenu
+                  otherUserId={activeConv.profile.userId}
+                  name={activeConv.profile.name.split(" ")[0]}
+                  onBlocked={() => {
+                    // listConversations() already leaves out blocked threads;
+                    // this just stops the open one being shown until it runs.
+                    setActiveId("");
+                    setMobileShowChat(false);
+                    loadReal();
+                  }}
+                />
               )}
             </div>
 

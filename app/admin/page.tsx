@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { isAdminEmail } from "@/utils/adminEmails";
-import { approveListing, rejectListing } from "./actions";
+import { approveListing, rejectListing, actionReport, dismissReport } from "./actions";
+import { REPORT_REASONS } from "@/utils/reportReasons";
 
 // A listing waiting in the review queue, plus the two links an admin needs in
 // order to decide: the photo of the place and the poster's ID document.
@@ -21,6 +22,19 @@ type QueueListing = {
   created_by: string | null;
   photoUrl: string | null;
   idDocUrl: string | null;
+};
+
+// An open report, with enough of its target resolved that the admin can judge
+// it without opening another tab.
+type OpenReport = {
+  id: string;
+  created_at: string;
+  reason: string;
+  details: string | null;
+  reporterEmail: string;
+  // Exactly one of these two is set (enforced by a check constraint).
+  listing: { id: string; title: string; city: string; price: number; status: string } | null;
+  profile: { userId: string; name: string | null; email: string | null } | null;
 };
 
 type DecidedListing = {
@@ -126,6 +140,65 @@ export default async function AdminPage() {
 
   const emailOf = new Map((profiles ?? []).map(p => [p.id as string, p.email as string]));
 
+  // ── Reports ────────────────────────────────────────────────────────────────
+  // Same tolerance as the queue above: if supabase/housing_reports_blocks.sql
+  // has not been run here, 42P01 (undefined table) comes back and the section
+  // says so instead of taking the whole admin page down.
+  const reportsResult = await admin
+    .from("housing_reports")
+    .select("id, created_at, reporter_id, target_type, listing_id, profile_user_id, reason, details")
+    .eq("status", "open")
+    .order("created_at", { ascending: true });
+
+  const reportsMissing = reportsResult.error?.code === "42P01";
+  const reportRows = (reportsResult.data ?? []) as Record<string, unknown>[];
+
+  // Two lookups for the whole batch rather than one per report.
+  const reportedListingIds = reportRows.map(r => r.listing_id as string | null).filter(Boolean) as string[];
+  const reportedUserIds = reportRows.map(r => r.profile_user_id as string | null).filter(Boolean) as string[];
+
+  const { data: reportedListings } = reportedListingIds.length
+    ? await admin.from("housing_listings").select("id, title, city, price, status").in("id", reportedListingIds)
+    : { data: [] };
+  const { data: reportedProfiles } = reportedUserIds.length
+    ? await admin.from("housing_profiles").select("user_id, first_name").in("user_id", reportedUserIds)
+    : { data: [] };
+
+  const listingById = new Map((reportedListings ?? []).map(l => [l.id as string, l]));
+  const profileNameOf = new Map((reportedProfiles ?? []).map(p => [p.user_id as string, p.first_name as string]));
+
+  const reports: OpenReport[] = reportRows.map(row => {
+    const listingId = row.listing_id as string | null;
+    const profileUserId = row.profile_user_id as string | null;
+    const listing = listingId ? listingById.get(listingId) : null;
+    return {
+      id: row.id as string,
+      created_at: row.created_at as string,
+      reason: row.reason as string,
+      details: (row.details as string | null) ?? null,
+      reporterEmail: emailOf.get(row.reporter_id as string) ?? "unknown account",
+      listing: listing
+        ? {
+            id: listing.id as string,
+            title: listing.title as string,
+            city: listing.city as string,
+            price: listing.price as number,
+            status: (listing.status as string) ?? "approved",
+          }
+        : null,
+      profile: profileUserId
+        ? {
+            userId: profileUserId,
+            name: profileNameOf.get(profileUserId) ?? null,
+            email: emailOf.get(profileUserId) ?? null,
+          }
+        : null,
+    };
+  });
+
+  const reasonLabel = (value: string) =>
+    REPORT_REASONS.find(r => r.value === value)?.label ?? value;
+
   // Photo is in a public bucket, so a plain URL is enough. The ID document is
   // in a private one on purpose, so it gets a link that expires in 10 minutes
   // and is generated per page load rather than stored anywhere.
@@ -176,10 +249,110 @@ export default async function AdminPage() {
       <div style={{ display: "flex", gap: 12, marginBottom: 44, flexWrap: "wrap" }}>
         <Stat label="Users" value={profiles?.length ?? 0} />
         <Stat label="Awaiting review" value={queue.length} highlight={queue.length > 0} />
+        <Stat label="Open reports" value={reports.length} highlight={reports.length > 0} />
         {Object.entries(counts).map(([action, count]) => (
           <Stat key={action} label={action} value={count} />
         ))}
       </div>
+
+      {/* ── Reports ───────────────────────────────────────────────────────── */}
+      {/* Above the review queue on purpose: a pending listing is nobody's
+          problem yet, while a report is about something already live. */}
+      <SectionTitle count={reports.length}>Reports</SectionTitle>
+      <p style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 16, lineHeight: 1.6 }}>
+        Students reported these. A report is one person&apos;s account of what
+        happened, not a verdict — read it, then decide. <strong>Take down</strong>{" "}
+        unpublishes the listing (the same state as rejecting one in the queue, so
+        it can be approved again later). <strong>Dismiss</strong> leaves everything
+        as it is. Either way the report stops appearing here.
+      </p>
+
+      {reportsMissing ? (
+        <div style={{ ...card, padding: 18, marginBottom: 44, borderColor: "var(--accent)" }}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--accent)", marginBottom: 6 }}>
+            Reporting is not set up on this database
+          </div>
+          <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>
+            Run <code>supabase/housing_reports_blocks.sql</code> in the Supabase SQL
+            Editor. Until then the report and block buttons on the site will fail.
+          </div>
+        </div>
+      ) : reports.length === 0 ? (
+        <div style={{ ...card, padding: 24, marginBottom: 44, textAlign: "center" }}>
+          <div style={{ fontSize: 14, color: "var(--text-2)" }}>No open reports.</div>
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 44 }}>
+          {reports.map(r => (
+            <div key={r.id} style={{ ...card, padding: 16, display: "flex", gap: 16, flexWrap: "wrap", borderColor: "rgba(248,113,113,0.3)" }}>
+              <div style={{ flex: "1 1 360px", minWidth: 0 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", marginBottom: 6 }}>
+                  <span style={{
+                    fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em",
+                    color: "#f87171", background: "rgba(248,113,113,0.1)",
+                    border: "1px solid rgba(248,113,113,0.3)", borderRadius: 999, padding: "2px 9px",
+                  }}>
+                    {reasonLabel(r.reason)}
+                  </span>
+                  <span style={{ fontSize: 12, color: "var(--text-3)" }}>
+                    {new Date(r.created_at).toLocaleString()}
+                  </span>
+                </div>
+
+                <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>
+                  {r.listing
+                    ? r.listing.title
+                    : `Profile: ${r.profile?.name ?? r.profile?.email ?? "unknown account"}`}
+                </div>
+                <div style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 8 }}>
+                  {r.listing
+                    ? <>{r.listing.city} · €{r.listing.price}/month · currently <strong>{r.listing.status}</strong></>
+                    : <>{r.profile?.email ?? "email not available"}</>}
+                </div>
+
+                {r.details && (
+                  <div style={{
+                    fontSize: 13, color: "var(--text-2)", lineHeight: 1.6, whiteSpace: "pre-wrap",
+                    borderLeft: "2px solid var(--border-strong)", paddingLeft: 12, marginBottom: 8,
+                  }}>
+                    {r.details}
+                  </div>
+                )}
+
+                <div style={{ fontSize: 12, color: "var(--text-3)" }}>
+                  reported by {r.reporterEmail}
+                </div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, justifyContent: "center" }}>
+                {/* A profile report has nothing to unpublish, so it gets the
+                    "agreed" button without a listing id attached. */}
+                <form action={actionReport}>
+                  <input type="hidden" name="id" value={r.id} />
+                  {r.listing && <input type="hidden" name="listingId" value={r.listing.id} />}
+                  <button type="submit" style={{
+                    padding: "10px 22px", borderRadius: 10, border: "none", cursor: "pointer",
+                    background: "#f87171", color: "var(--bg)", fontSize: 13, fontWeight: 700,
+                    fontFamily: "inherit", width: "100%",
+                  }}>
+                    {r.listing ? "Take down" : "Mark actioned"}
+                  </button>
+                </form>
+                <form action={dismissReport}>
+                  <input type="hidden" name="id" value={r.id} />
+                  <button type="submit" style={{
+                    padding: "10px 22px", borderRadius: 10, cursor: "pointer",
+                    background: "transparent", color: "var(--text-2)", border: "1px solid var(--border-strong)",
+                    fontSize: 13, fontWeight: 700, fontFamily: "inherit", width: "100%",
+                  }}>
+                    Dismiss
+                  </button>
+                </form>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ── Housing requests ──────────────────────────────────────────────── */}
       <SectionTitle count={queue.length}>Housing requests</SectionTitle>

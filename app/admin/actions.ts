@@ -49,3 +49,67 @@ export async function approveListing(formData: FormData): Promise<void> {
 export async function rejectListing(formData: FormData): Promise<void> {
   await setListingStatus(listingIdFrom(formData), "rejected");
 }
+
+// ── Reports ──────────────────────────────────────────────────────────────────
+//
+// Same shape as the listing decisions above, and the same reason for it: a
+// Server Action is a public URL, so the admin check is repeated here rather
+// than trusted from the fact that the page rendered the button.
+//
+// A report is evidence, never an instruction. Nothing a reporter wrote reaches
+// the database through these: the admin's decision is the only input, and
+// `reason`/`details` are shown on the page for a human to read and weigh.
+
+async function requireAdmin() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || !isAdminEmail(user.email)) throw new Error("not-an-admin");
+  return createAdminClient();
+}
+
+function uuidFrom(formData: FormData, field: string): string {
+  const value = String(formData.get(field) ?? "");
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
+    throw new Error(`bad-${field}`);
+  }
+  return value;
+}
+
+async function setReportStatus(admin: ReturnType<typeof createAdminClient>, id: string, status: "actioned" | "dismissed") {
+  const { error } = await admin.from("housing_reports").update({ status }).eq("id", id);
+  if (error) throw error;
+}
+
+/** Looked at it, nothing wrong. The report stays on file. */
+export async function dismissReport(formData: FormData): Promise<void> {
+  const admin = await requireAdmin();
+  await setReportStatus(admin, uuidFrom(formData, "id"), "dismissed");
+  revalidatePath("/admin");
+}
+
+/**
+ * Agreed with the report and acted on it.
+ *
+ * For a listing that means taking it off the map, which is the same
+ * 'rejected' state the review queue uses — one way for a listing to be
+ * unpublished, not two, so the owner's account page keeps telling them the
+ * truth with no extra code. For a profile there is nothing to unpublish
+ * (personal blocks are the students' own), so this only records the verdict.
+ */
+export async function actionReport(formData: FormData): Promise<void> {
+  const admin = await requireAdmin();
+  const id = uuidFrom(formData, "id");
+  const listingId = String(formData.get("listingId") ?? "");
+
+  if (listingId) {
+    const { error } = await admin
+      .from("housing_listings")
+      .update({ status: "rejected" })
+      .eq("id", uuidFrom(formData, "listingId"));
+    if (error) throw error;
+  }
+
+  await setReportStatus(admin, id, "actioned");
+  revalidatePath("/admin");
+  revalidatePath("/housing");
+}
