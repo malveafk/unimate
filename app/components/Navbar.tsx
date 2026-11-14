@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { TransitionLink, usePageTransition } from "./PageTransition";
 import { createClient } from "@/utils/supabase/client";
 import AuthModal from "./AuthModal";
+import AccountIcon from "./AccountIcon";
 import type { User } from "@supabase/supabase-js";
 
 type NavChild = { href: string; label: string; desc: string };
@@ -351,13 +352,16 @@ export default function Navbar() {
         {/* Right side: account + menu */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, position: "relative", zIndex: 1001 }}>
           {user ? (
+            // Sign out now lives on the account page, next to the other
+            // account settings.
             <button
-              onClick={() => supabase.auth.signOut()}
+              onClick={() => go("/account")}
+              aria-label="My account"
               style={{
                 display: "flex", alignItems: "center", gap: 8,
                 background: "transparent",
                 border: "1px solid var(--border)",
-                borderRadius: 9, padding: "7px 14px 7px 7px",
+                borderRadius: 9, padding: "6px 14px 6px 8px",
                 cursor: "pointer", color: "var(--text-2)",
                 fontSize: 13, fontWeight: 500,
                 fontFamily: "inherit", transition: "border-color 0.2s, color 0.2s",
@@ -365,14 +369,8 @@ export default function Navbar() {
               onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "var(--text-1)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
             >
-              <div style={{
-                width: 22, height: 22, borderRadius: "50%",
-                background: "var(--accent)", display: "flex", alignItems: "center",
-                justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#fff", flexShrink: 0,
-              }}>
-                {(user.email ?? "?")[0].toUpperCase()}
-              </div>
-              Sign out
+              <AccountIcon size={22} />
+              Account
             </button>
           ) : (
             <button

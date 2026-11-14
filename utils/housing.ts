@@ -324,6 +324,63 @@ export type ProfileFormInput = {
   petsOk: boolean;
 };
 
+// Year-of-study options shown in the Create profile form. The database stores
+// the position in this list (1-based) because study_year is an integer column.
+export const STUDY_YEARS = ["1st year", "2nd year", "3rd year", "4th year", "Master's", "PhD", "Exchange"];
+
+export function studyYearToNumber(label: string): number | null {
+  const i = STUDY_YEARS.indexOf(label);
+  return i >= 0 ? i + 1 : null;
+}
+
+export function studyYearLabel(n: number | null | undefined): string | null {
+  return n && n >= 1 && n <= STUDY_YEARS.length ? STUDY_YEARS[n - 1] : null;
+}
+
+// The signed-in user's own roommate profile, shaped like the Create profile
+// form so the form can be pre-filled for editing. Null if there's no
+// signed-in user or they haven't created a profile yet.
+export async function getMyRoommateProfile(): Promise<{ form: ProfileFormInput; hasId: boolean } | null> {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data, error } = await supabase
+    .from("housing_profiles")
+    .select("first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, gender_preference, smoking_ok, pets_ok, id_file_path")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (error || !data) return null;
+
+  const str = (v: unknown) => (v === null || v === undefined ? "" : String(v));
+  return {
+    hasId: !!data.id_file_path,
+    form: {
+      firstName: str(data.first_name),
+      age: str(data.age),
+      gender: str(data.gender),
+      nationality: str(data.nationality),
+      flag: str(data.flag),
+      avatarColor: str(data.avatar_color),
+      university: str(data.university),
+      programme: str(data.programme),
+      studyYear: studyYearLabel(data.study_year) ?? "",
+      city: str(data.city),
+      budgetMin: str(data.budget_min),
+      budgetMax: str(data.budget_max),
+      moveInMonth: data.move_in_month ? MONTHS[data.move_in_month - 1] : "",
+      moveInYear: str(data.move_in_year),
+      bio: str(data.bio),
+      lifestyle: data.lifestyle ?? [],
+      languages: data.languages ?? [],
+      lookingFor: str(data.looking_for),
+      genderPreference: str(data.gender_preference) || "no preference",
+      smokingOk: !!data.smoking_ok,
+      petsOk: !!data.pets_ok,
+    },
+  };
+}
+
 // Uploads the ID document (if provided) and upserts the caller's profile.
 // Throws on failure; returns nothing the UI needs beyond success.
 export async function saveRoommateProfile(form: ProfileFormInput, idFile: File | null): Promise<void> {
@@ -353,7 +410,7 @@ export async function saveRoommateProfile(form: ProfileFormInput, idFile: File |
       avatar_color: form.avatarColor || null,
       university: form.university || null,
       programme: form.programme || null,
-      study_year: form.studyYear ? Number(form.studyYear) : null,
+      study_year: studyYearToNumber(form.studyYear),
       city: form.city,
       budget_min: form.budgetMin ? Number(form.budgetMin) : null,
       budget_max: form.budgetMax ? Number(form.budgetMax) : null,
@@ -367,7 +424,9 @@ export async function saveRoommateProfile(form: ProfileFormInput, idFile: File |
       smoking_ok: form.smokingOk,
       pets_ok: form.petsOk,
       ...(idFilePath ? { id_file_path: idFilePath } : {}),
-      is_active: true,
+      // is_active is not sent: a new profile gets the column default (visible),
+      // and editing an existing one keeps whatever the user chose on the
+      // account page (visible or hidden).
     },
     { onConflict: "user_id" }
   );

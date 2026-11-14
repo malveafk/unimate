@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { saveRoommateProfile } from "@/utils/housing";
+import { saveRoommateProfile, getMyRoommateProfile, STUDY_YEARS } from "@/utils/housing";
 import AuthModal from "../../components/AuthModal";
 
 const CITIES = [
@@ -44,7 +44,6 @@ const GENDERS = [
   { label: "Prefer not to say", value: "undisclosed" },
 ];
 
-const STUDY_YEARS = ["1st year", "2nd year", "3rd year", "4th year", "Master's", "PhD", "Exchange"];
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const AVATAR_COLORS = ["201,163,92","96,165,250","52,211,153","251,191,36","248,113,113","251,146,60"];
 
@@ -196,11 +195,33 @@ export default function CreateProfilePage() {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
+  // True when the signed-in user already has a profile: the form is pre-filled
+  // with it and saving updates it instead of creating a new one.
+  const [editing, setEditing] = useState(false);
   // The actual File selected in step 0; uploaded to Supabase Storage on submit.
   const idFileRef = useRef<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const set = (key: keyof FormData, value: any) => setForm(f => ({ ...f, [key]: value }));
+
+  useEffect(() => {
+    let cancelled = false;
+    getMyRoommateProfile()
+      .then(existing => {
+        if (cancelled || !existing) return;
+        setEditing(true);
+        setForm({
+          ...EMPTY,
+          ...existing.form,
+          avatarColor: existing.form.avatarColor || AVATAR_COLORS[0],
+          // An ID already on file is reused; no need to upload it again.
+          idVerified: existing.hasId,
+          idFileName: existing.hasId ? "Already on file — no need to upload it again" : "",
+        });
+      })
+      .catch(() => { /* not signed in or offline: start with an empty form */ });
+    return () => { cancelled = true; };
+  }, []);
 
   function handleFileSelect(file: File | null) {
     if (!file) return;
@@ -256,16 +277,20 @@ export default function CreateProfilePage() {
               <polyline points="20 6 9 17 4 12"/>
             </svg>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.8px", marginBottom: 16 }}>Profile created!</h1>
+          <h1 style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.8px", marginBottom: 16 }}>{editing ? "Profile updated!" : "Profile created!"}</h1>
           <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.7, marginBottom: 12 }}>
-            Your roommate profile is live. Your uploaded ID is being reviewed — once confirmed you'll receive the <strong style={{ color: "rgb(52,211,153)" }}>✓ Verified</strong> badge automatically.
+            {editing
+              ? "Your changes are saved. You can hide or delete your profile any time from your account page."
+              : <>Your roommate profile is live. Your uploaded ID is being reviewed — once confirmed you&rsquo;ll receive the <strong style={{ color: "rgb(52,211,153)" }}>✓ Verified</strong> badge automatically.</>}
           </p>
-          <p style={{ fontSize: 13, color: "var(--text-3)", lineHeight: 1.6, marginBottom: 32 }}>
-            This usually takes less than 24 hours.
-          </p>
+          {!editing && (
+            <p style={{ fontSize: 13, color: "var(--text-3)", lineHeight: 1.6, marginBottom: 32 }}>
+              This usually takes less than 24 hours.
+            </p>
+          )}
           <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
-            <button onClick={() => router.push("/housing")} style={{ padding: "13px 28px", borderRadius: 12, background: "var(--text-1)", color: "var(--bg)", border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
-              Back to housing →
+            <button onClick={() => router.push(editing ? "/account" : "/housing")} style={{ padding: "13px 28px", borderRadius: 12, background: "var(--text-1)", color: "var(--bg)", border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", marginTop: editing ? 20 : 0 }}>
+              {editing ? "Back to my account →" : "Back to housing →"}
             </button>
           </div>
         </div>
@@ -562,7 +587,7 @@ export default function CreateProfilePage() {
               onMouseEnter={e => { if (canNext[5] && !saving) e.currentTarget.style.opacity = "0.85"; }}
               onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
             >
-              {saving ? "Saving…" : "Create profile →"}
+              {saving ? "Saving…" : editing ? "Save changes →" : "Create profile →"}
             </button>
           )}
         </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { type RoommatePin, type ApartmentPin } from "../data/housing-cities";
 import { PARTNER_THEMES, partnerTheme, partnerTint, partnerStripe } from "../data/housing-partners";
+import { studyYearLabel } from "@/utils/housing";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -93,7 +94,7 @@ function RoommateDetail({ data, onMessage }: { data: RoommatePin; onMessage: (p:
         <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 2 }}>{data.university}</div>
         {(data.programme || data.year) && (
           <div style={{ fontSize: 13, color: "var(--text-3)" }}>
-            {[data.programme, data.year && `Year ${data.year}`].filter(Boolean).join(" · ")}
+            {[data.programme, studyYearLabel(data.year)].filter(Boolean).join(" · ")}
           </div>
         )}
       </div>
