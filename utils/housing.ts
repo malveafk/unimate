@@ -369,21 +369,20 @@ export function studyYearLabel(n: number | null | undefined): string | null {
 // The signed-in user's own roommate profile, shaped like the Create profile
 // form so the form can be pre-filled for editing. Null if there's no
 // signed-in user or they haven't created a profile yet.
-export async function getMyRoommateProfile(): Promise<{ form: ProfileFormInput; hasId: boolean } | null> {
+export async function getMyRoommateProfile(): Promise<{ form: ProfileFormInput } | null> {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
   const { data, error } = await supabase
     .from("housing_profiles")
-    .select("first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, gender_preference, smoking_ok, pets_ok, id_file_path")
+    .select("first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, gender_preference, smoking_ok, pets_ok")
     .eq("user_id", user.id)
     .maybeSingle();
   if (error || !data) return null;
 
   const str = (v: unknown) => (v === null || v === undefined ? "" : String(v));
   return {
-    hasId: !!data.id_file_path,
     form: {
       firstName: str(data.first_name),
       age: str(data.age),
@@ -410,6 +409,75 @@ export async function getMyRoommateProfile(): Promise<{ form: ProfileFormInput; 
   };
 }
 
+// ── ID checks (supabase/housing_id_checks.sql) ───────────────────────────────
+//
+// An ID is checked once per PERSON, not per profile or listing: one row in
+// housing_id_checks, decided by an admin, drives the badge on the person's
+// roommate profile and on every listing they post. The database derives
+// `verified` from that row, so nothing here ever sends it.
+
+export type IdCheckStatus = "pending" | "verified" | "rejected";
+
+// The signed-in user's ID check, or null if they never submitted one (or
+// aren't signed in). A 'rejected' check means they must upload a new document.
+export async function getExistingIdVerification(): Promise<{ status: IdCheckStatus } | null> {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data, error } = await supabase
+    .from("housing_id_checks")
+    .select("status")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (error || !data) return null;
+
+  return { status: data.status as IdCheckStatus };
+}
+
+// True when the person has a document on file that still counts: waiting for
+// review or already verified. A rejected one has to be replaced.
+export function idCheckCovers(check: { status: IdCheckStatus } | null): boolean {
+  return check?.status === "pending" || check?.status === "verified";
+}
+
+// Uploads a new ID document and puts the person (back) in the review queue.
+// Any document they had waiting is replaced, and its file deleted.
+async function submitIdDocument(
+  supabase: ReturnType<typeof createClient>,
+  userId: string,
+  idFile: File
+): Promise<void> {
+  // One folder per user, enforced by the bucket's RLS policies and by the
+  // housing_id_checks_own_folder constraint.
+  const path = `${userId}/${Date.now()}-${idFile.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+  const { error: uploadError } = await supabase.storage
+    .from("housing-ids")
+    .upload(path, idFile, { upsert: true });
+  if (uploadError) throw uploadError;
+
+  const { data: previous } = await supabase
+    .from("housing_id_checks")
+    .select("file_path")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  // status is sent explicitly because the insert policy demands it; the
+  // database trigger would force 'pending' anyway.
+  const { error } = await supabase
+    .from("housing_id_checks")
+    .upsert({ user_id: userId, file_path: path, status: "pending" }, { onConflict: "user_id" });
+  if (error) {
+    // Don't leave an ID document in storage that no review points at.
+    await supabase.storage.from("housing-ids").remove([path]);
+    throw error;
+  }
+
+  if (previous?.file_path && previous.file_path !== path) {
+    await supabase.storage.from("housing-ids").remove([previous.file_path]);
+  }
+}
+
 // Uploads the ID document (if provided) and upserts the caller's profile.
 // Throws on failure; returns nothing the UI needs beyond success.
 export async function saveRoommateProfile(form: ProfileFormInput, idFile: File | null): Promise<void> {
@@ -417,14 +485,11 @@ export async function saveRoommateProfile(form: ProfileFormInput, idFile: File |
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("not-signed-in");
 
-  let idFilePath: string | undefined;
+  // The ID check comes first: the profile reads its badge from it on insert.
   if (idFile) {
-    // One folder per user (enforced by the bucket's RLS policies).
-    idFilePath = `${user.id}/${Date.now()}-${idFile.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-    const { error: uploadError } = await supabase.storage
-      .from("housing-ids")
-      .upload(idFilePath, idFile, { upsert: true });
-    if (uploadError) throw uploadError;
+    await submitIdDocument(supabase, user.id, idFile);
+  } else if (!idCheckCovers(await getExistingIdVerification())) {
+    throw new Error("id-required");
   }
 
   const monthIndex = MONTHS.indexOf(form.moveInMonth);
@@ -452,7 +517,6 @@ export async function saveRoommateProfile(form: ProfileFormInput, idFile: File |
       gender_preference: form.genderPreference || null,
       smoking_ok: form.smokingOk,
       pets_ok: form.petsOk,
-      ...(idFilePath ? { id_file_path: idFilePath } : {}),
       // is_active is not sent: a new profile gets the column default (visible),
       // and editing an existing one keeps whatever the user chose on the
       // account page (visible or hidden).
@@ -475,46 +539,20 @@ export type ListingFormInput = {
   link?: string; // full https URL (already normalized by the form) or ""
 };
 
-// If the signed-in user already uploaded an ID for their roommate profile,
-// we reuse that instead of asking them to verify twice. Returns null if
-// there's no signed-in user or they have no ID on file yet.
-export async function getExistingIdVerification(): Promise<{ idFilePath: string; verified: boolean } | null> {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data, error } = await supabase
-    .from("housing_profiles")
-    .select("id_file_path, verified")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (error || !data?.id_file_path) return null;
-
-  return { idFilePath: data.id_file_path, verified: data.verified ?? false };
-}
-
 // Uploads the ID document + listing photo (if provided) and inserts the
-// caller's listing. If the user already has an ID on file from a roommate
-// profile, that's reused instead of requiring a fresh upload.
+// caller's listing. A person whose ID is already on file (waiting for review
+// or verified, from a profile or an earlier listing) doesn't upload it again.
 // Throws on failure; returns nothing the UI needs beyond success.
 export async function saveApartmentListing(form: ListingFormInput, idFile: File | null, photoFile: File | null): Promise<void> {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("not-signed-in");
 
-  let idFilePath: string | undefined;
+  // The ID check comes first: the listing reads its badge from it on insert.
   if (idFile) {
-    // One folder per user (enforced by the bucket's RLS policies) — same
-    // private bucket used for roommate-profile ID documents.
-    idFilePath = `${user.id}/${Date.now()}-${idFile.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-    const { error: uploadError } = await supabase.storage
-      .from("housing-ids")
-      .upload(idFilePath, idFile, { upsert: true });
-    if (uploadError) throw uploadError;
-  } else {
-    const existing = await getExistingIdVerification();
-    if (!existing) throw new Error("id-required");
-    idFilePath = existing.idFilePath;
+    await submitIdDocument(supabase, user.id, idFile);
+  } else if (!idCheckCovers(await getExistingIdVerification())) {
+    throw new Error("id-required");
   }
 
   let photoPath: string | undefined;
@@ -537,10 +575,8 @@ export async function saveApartmentListing(form: ListingFormInput, idFile: File 
     available_from: form.availableFrom || null,
     description: form.description || null,
     link: form.link || null,
-    id_file_path: idFilePath,
-    // `verified` is left to its default (false): only an admin can grant the
-    // badge (see supabase/housing_verified_admin_only.sql), and the database
-    // rejects any insert that tries to set it.
+    // `verified` is not sent: the database copies it from the person's ID
+    // check (supabase/housing_id_checks.sql), and only an admin decides that.
     ...(photoPath ? { photo_path: photoPath } : {}),
     is_active: true,
     // A listing is a REQUEST to publish: it waits in the queue until an admin

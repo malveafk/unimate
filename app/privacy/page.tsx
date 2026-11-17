@@ -146,10 +146,10 @@ export default function PrivacyPage() {
         your account permanently removes your profile, listings, photos, messages, AI chats and
         identity documents.
         <br />
-        <strong>Identity documents</strong>{" "}are kept for as long as your account exists, so we can
-        re-check them if a safety problem is reported, and are deleted together with your account
-        (or earlier, if you delete your roommate profile and you have no listings that rely on
-        them).
+        <strong>Identity documents</strong>{" "}are deleted as soon as we have checked them. After
+        that we keep only the outcome (verified or not) and the date of the check, for as long as
+        your account exists. A document still waiting to be checked is deleted together with your
+        account.
         <br />
         <strong>Technical logs</strong>{" "}are kept only as long as needed for security and abuse
         prevention, and are then deleted.

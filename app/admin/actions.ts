@@ -25,7 +25,12 @@ async function setListingStatus(id: string, status: "approved" | "rejected"): Pr
   if (!user || !isAdminEmail(user.email)) throw new Error("not-an-admin");
 
   const admin = createAdminClient();
-  const { error } = await admin.from("housing_listings").update({ status }).eq("id", id);
+  // reviewed_at is the decision time shown under "Recently decided"; updated_at
+  // can't serve, since it moves on every later write to the row.
+  const { error } = await admin
+    .from("housing_listings")
+    .update({ status, reviewed_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) throw error;
 
   // The queue and the map both change as a result of this decision.
@@ -112,4 +117,69 @@ export async function actionReport(formData: FormData): Promise<void> {
   await setReportStatus(admin, id, "actioned");
   revalidatePath("/admin");
   revalidatePath("/housing");
+}
+
+/**
+ * Decide on a person's ID check (supabase/housing_id_checks.sql).
+ *
+ * Same guard as setListingStatus: a Server Action is a public endpoint, so the
+ * caller is checked against ADMIN_EMAILS here, before the service role exists.
+ *
+ * The decision is recorded and the document is deleted in the same step,
+ * because nothing needs the file after it: the badge reads the status, and the
+ * privacy policy promises the document goes once it has been checked. The file
+ * is deleted FIRST. If that fails the check stays pending and the admin can
+ * press the button again; the opposite order could record a decision and then
+ * leave an ID document in storage with nothing pointing at it.
+ *
+ * The badge on the person's profile and listings follows by itself: the
+ * housing_id_checks_sync trigger copies the new status onto them.
+ */
+async function decideIdCheck(userId: string, status: "verified" | "rejected"): Promise<void> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || !isAdminEmail(user.email)) throw new Error("not-an-admin");
+
+  const admin = createAdminClient();
+  const { data: check, error: readError } = await admin
+    .from("housing_id_checks")
+    .select("file_path, status")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (readError) throw readError;
+  // Only a check that is waiting can be decided: a double click, or two admins
+  // at once, must not turn a verification into a rejection or the reverse.
+  if (!check || check.status !== "pending") return;
+
+  if (check.file_path) {
+    const { error: removeError } = await admin.storage.from("housing-ids").remove([check.file_path]);
+    if (removeError) throw removeError;
+  }
+
+  const { error } = await admin
+    .from("housing_id_checks")
+    .update({ status, reviewed_at: new Date().toISOString(), file_path: null })
+    .eq("user_id", userId)
+    .eq("status", "pending");
+  if (error) throw error;
+
+  revalidatePath("/admin");
+  revalidatePath("/housing");
+}
+
+/** Reads the user id out of the submitted form and rejects anything that isn't a uuid. */
+function userIdFrom(formData: FormData): string {
+  const id = String(formData.get("userId") ?? "");
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+    throw new Error("bad-user-id");
+  }
+  return id;
+}
+
+export async function verifyIdCheck(formData: FormData): Promise<void> {
+  await decideIdCheck(userIdFrom(formData), "verified");
+}
+
+export async function rejectIdCheck(formData: FormData): Promise<void> {
+  await decideIdCheck(userIdFrom(formData), "rejected");
 }

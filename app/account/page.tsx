@@ -20,7 +20,6 @@ type MyProfile = {
   budget_max: number | null;
   move_in_month: number | null;
   move_in_year: number | null;
-  id_file_path: string | null;
   verified: boolean;
   is_active: boolean;
 };
@@ -34,7 +33,6 @@ type MyListing = {
   description: string | null;
   link: string | null;
   photo_path: string | null;
-  id_file_path: string | null;
   is_active: boolean;
   // Only present once supabase/housing_listing_review.sql has been run.
   status?: "pending" | "approved" | "rejected";
@@ -42,7 +40,11 @@ type MyListing = {
 };
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const LISTING_COLS = "id, title, city, price, available_from, description, link, photo_path, id_file_path, is_active, created_at";
+const LISTING_COLS = "id, title, city, price, available_from, description, link, photo_path, is_active, created_at";
+
+// The person's ID check (supabase/housing_id_checks.sql): one per account,
+// covering their roommate profile and every listing.
+type IdStatus = "pending" | "verified" | "rejected";
 
 // ── Small UI pieces ─────────────────────────────────────────────────────────
 
@@ -117,17 +119,23 @@ export default function AccountPage() {
 
   const [profile, setProfile] = useState<MyProfile | null>(null);
   const [listings, setListings] = useState<MyListing[]>([]);
+  const [idStatus, setIdStatus] = useState<IdStatus | null>(null);
   const [loadError, setLoadError] = useState("");
 
   // ── Data ──
   const load = useCallback(async (uid: string) => {
     const { data: p, error: pErr } = await supabase
       .from("housing_profiles")
-      .select("id, first_name, city, university, budget_min, budget_max, move_in_month, move_in_year, id_file_path, verified, is_active")
+      .select("id, first_name, city, university, budget_min, budget_max, move_in_month, move_in_year, verified, is_active")
       .eq("user_id", uid)
       .maybeSingle();
     setLoadError(pErr ? "Couldn't load your profile. Please refresh the page." : "");
     setProfile((p as MyProfile) ?? null);
+
+    // Missing table (migration not run yet) or no check: both read as "none".
+    const { data: check } = await supabase
+      .from("housing_id_checks").select("status").eq("user_id", uid).maybeSingle();
+    setIdStatus((check?.status as IdStatus | undefined) ?? null);
 
     // `status` only exists after the listing-review SQL has been run, so ask
     // for it first and fall back to the older columns if the database says no.
@@ -193,7 +201,8 @@ export default function AccountPage() {
       {loadError && <p style={{ margin: 0, fontSize: 13, color: "#f87171" }}>{loadError}</p>}
 
       <AccountSection user={user} provider={provider} onSignOut={async () => { await supabase.auth.signOut(); router.push("/"); }} />
-      <ProfileSection profile={profile} listings={listings} onChanged={() => load(user.id)} />
+      {idStatus && <IdCheckSection status={idStatus} hasProfile={!!profile} />}
+      <ProfileSection profile={profile} idStatus={idStatus} onChanged={() => load(user.id)} />
       <ListingsSection listings={listings} onChanged={() => load(user.id)} />
       <BlockedSection />
       <DeleteSection onDeleted={async () => { await supabase.auth.signOut(); router.push("/"); }} />
@@ -268,7 +277,43 @@ function AccountSection({ user, provider, onSignOut }: { user: User; provider: s
 
 // ── Roommate profile ────────────────────────────────────────────────────────
 
-function ProfileSection({ profile, listings, onChanged }: { profile: MyProfile | null; listings: MyListing[]; onChanged: () => void }) {
+// ── Identity check ──────────────────────────────────────────────────────────
+
+function IdCheckSection({ status, hasProfile }: { status: IdStatus; hasProfile: boolean }) {
+  const content = {
+    pending: {
+      pill: <Pill label="Waiting for review" rgb="251,191,36" />,
+      text: "We are checking the ID you uploaded. Your roommate profile appears on the housing map, and the ✓ Verified badge on your profile and listings, as soon as it is done. This usually takes less than 24 hours.",
+    },
+    verified: {
+      pill: <Pill label="✓ Verified" rgb="52,211,153" />,
+      text: "Your ID has been checked and the document deleted. The ✓ Verified badge shows on your roommate profile and on your listings.",
+    },
+    rejected: {
+      pill: <Pill label="Not verified" rgb="248,113,113" />,
+      text: "We could not verify the document you uploaded, and we have deleted it. Please upload a clear photo of a valid passport, national ID card or driving licence. Until then your roommate profile stays off the map.",
+    },
+  }[status];
+
+  return (
+    <section style={card}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <SectionTitle title="Identity check" />
+        {content.pill}
+      </div>
+      <p style={{ margin: 0, fontSize: 14, color: "var(--text-2)", lineHeight: 1.7 }}>{content.text}</p>
+      {status === "rejected" && (
+        <div>
+          <Link href={hasProfile ? "/housing/create-profile" : "/housing/post-listing"} style={{ textDecoration: "none" }}>
+            <Button tone="primary">Upload a new ID</Button>
+          </Link>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ProfileSection({ profile, idStatus, onChanged }: { profile: MyProfile | null; idStatus: IdStatus | null; onChanged: () => void }) {
   const supabase = createClient();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -295,11 +340,9 @@ function ProfileSection({ profile, listings, onChanged }: { profile: MyProfile |
     if (!profile) return;
     if (!window.confirm("Delete your roommate profile? It will disappear from the map. Your messages stay in your inbox.")) return;
     setBusy(true); setError("");
+    // The ID check is not touched: it belongs to the person, not the profile,
+    // and its document is deleted as soon as an admin has decided.
     const { error } = await supabase.from("housing_profiles").delete().eq("id", profile.id);
-    if (!error && profile.id_file_path && !listings.some(l => l.id_file_path === profile.id_file_path)) {
-      // The ID document is only kept while something still relies on it.
-      await supabase.storage.from("housing-ids").remove([profile.id_file_path]);
-    }
     setBusy(false);
     if (error) setError("Couldn't delete your profile. Please try again.");
     else onChanged();
@@ -311,12 +354,25 @@ function ProfileSection({ profile, listings, onChanged }: { profile: MyProfile |
   return (
     <section style={card}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexWrap: "wrap" }}>
-        <SectionTitle title="Roommate profile" subtitle={profile.is_active ? "Visible to other students on the housing map." : "Hidden: only you can see it."} />
+        <SectionTitle
+          title="Roommate profile"
+          subtitle={!profile.is_active
+            ? "Hidden: only you can see it."
+            : profile.verified
+              ? "Visible to other students on the housing map."
+              : "Not on the map yet: it appears as soon as your ID is verified."}
+        />
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          <Pill label={profile.is_active ? "Visible" : "Hidden"} rgb={profile.is_active ? "52,211,153" : "150,150,150"} />
+          {!profile.is_active
+            ? <Pill label="Hidden" rgb="150,150,150" />
+            : profile.verified
+              ? <Pill label="Visible" rgb="52,211,153" />
+              : <Pill label="Waiting for ID check" rgb="251,191,36" />}
           {profile.verified
             ? <Pill label="✓ ID verified" rgb="52,211,153" />
-            : profile.id_file_path ? <Pill label="ID under review" rgb="251,191,36" /> : <Pill label="No ID uploaded" rgb="248,113,113" />}
+            : idStatus === "pending" ? <Pill label="ID under review" rgb="251,191,36" />
+            : idStatus === "rejected" ? <Pill label="ID not verified" rgb="248,113,113" />
+            : <Pill label="No ID uploaded" rgb="248,113,113" />}
         </div>
       </div>
 

@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { saveRoommateProfile, getMyRoommateProfile, STUDY_YEARS } from "@/utils/housing";
+import { saveRoommateProfile, getMyRoommateProfile, getExistingIdVerification, idCheckCovers, STUDY_YEARS } from "@/utils/housing";
+import type { IdCheckStatus } from "@/utils/housing";
 import AuthModal from "../../components/AuthModal";
 
 const CITIES = [
@@ -198,6 +199,11 @@ export default function CreateProfilePage() {
   // True when the signed-in user already has a profile: the form is pre-filled
   // with it and saving updates it instead of creating a new one.
   const [editing, setEditing] = useState(false);
+  // The person's ID check (supabase/housing_id_checks.sql), if they have one.
+  // The profile only appears on the map once it is 'verified'.
+  const [idStatus, setIdStatus] = useState<IdCheckStatus | null>(null);
+  // Whether the saved profile is on the map right now, for the success screen.
+  const [liveNow, setLiveNow] = useState(false);
   // The actual File selected in step 0; uploaded to Supabase Storage on submit.
   const idFileRef = useRef<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -206,17 +212,30 @@ export default function CreateProfilePage() {
 
   useEffect(() => {
     let cancelled = false;
-    getMyRoommateProfile()
-      .then(existing => {
-        if (cancelled || !existing) return;
+    Promise.all([getMyRoommateProfile(), getExistingIdVerification()])
+      .then(([existing, check]) => {
+        if (cancelled) return;
+        setIdStatus(check?.status ?? null);
+        // An ID waiting for review or already verified is reused, whether it
+        // came with a profile or with an apartment listing. A rejected one
+        // has to be replaced, so the upload step stays open.
+        const covered = idCheckCovers(check);
+        const idFields = {
+          idVerified: covered,
+          idFileName: !covered ? ""
+            : check?.status === "verified" ? "Already verified, no need to upload it again"
+            : "Already on file and waiting for review",
+        };
+        if (!existing) {
+          if (covered) setForm(f => ({ ...f, ...idFields }));
+          return;
+        }
         setEditing(true);
         setForm({
           ...EMPTY,
           ...existing.form,
           avatarColor: existing.form.avatarColor || AVATAR_COLORS[0],
-          // An ID already on file is reused; no need to upload it again.
-          idVerified: existing.hasId,
-          idFileName: existing.hasId ? "Already on file — no need to upload it again" : "",
+          ...idFields,
         });
       })
       .catch(() => { /* not signed in or offline: start with an empty form */ });
@@ -248,6 +267,9 @@ export default function CreateProfilePage() {
     setSaveError(null);
     try {
       await saveRoommateProfile(form, idFileRef.current);
+      // A new document always goes back to the review queue, even for someone
+      // who was verified: only an untouched verified check is live right away.
+      setLiveNow(!idFileRef.current && idStatus === "verified");
       setSubmitted(true);
     } catch (e) {
       if (e instanceof Error && e.message === "not-signed-in") {
@@ -279,11 +301,13 @@ export default function CreateProfilePage() {
           </div>
           <h1 style={{ fontSize: 32, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.8px", marginBottom: 16 }}>{editing ? "Profile updated!" : "Profile created!"}</h1>
           <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.7, marginBottom: 12 }}>
-            {editing
-              ? "Your changes are saved. You can hide or delete your profile any time from your account page."
-              : <>Your roommate profile is live. Your uploaded ID is being reviewed — once confirmed you&rsquo;ll receive the <strong style={{ color: "rgb(52,211,153)" }}>✓ Verified</strong> badge automatically.</>}
+            {liveNow
+              ? (editing
+                ? "Your changes are saved. You can hide or delete your profile any time from your account page."
+                : <>Your roommate profile is live on the housing map, with the <strong style={{ color: "rgb(52,211,153)" }}>✓ Verified</strong> badge.</>)
+              : <>Your profile is saved. It will appear on the housing map, with the <strong style={{ color: "rgb(52,211,153)" }}>✓ Verified</strong> badge, as soon as we have checked your ID. You can follow the check on your account page.</>}
           </p>
-          {!editing && (
+          {!liveNow && (
             <p style={{ fontSize: 13, color: "var(--text-3)", lineHeight: 1.6, marginBottom: 32 }}>
               This usually takes less than 24 hours.
             </p>
@@ -433,7 +457,7 @@ export default function CreateProfilePage() {
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>Your privacy is protected</div>
                 <p style={{ fontSize: 12, color: "var(--text-2)", margin: 0, lineHeight: 1.6 }}>
-                  Your ID is stored privately and used only to verify your identity. It is <strong>never shown to other users</strong>. Once verified, only the ✓ badge is visible on your profile. You can delete it any time by deleting your profile or account. <a href="/privacy" style={{ color: "var(--text-1)", textDecoration: "underline" }}>Privacy policy</a>
+                  Your ID is stored privately and seen only by the 4UNI team, to confirm who you are. It is <strong>never shown to other users</strong>, and we delete the file as soon as it has been checked: only the ✓ badge stays on your profile. Deleting your account deletes it too. <a href="/privacy" style={{ color: "var(--text-1)", textDecoration: "underline" }}>Privacy policy</a>
                 </p>
               </div>
             </div>

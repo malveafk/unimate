@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { saveApartmentListing, getExistingIdVerification } from "@/utils/housing";
+import { saveApartmentListing, getExistingIdVerification, idCheckCovers } from "@/utils/housing";
+import type { IdCheckStatus } from "@/utils/housing";
 import AuthModal from "../../components/AuthModal";
 
 const CITIES = [
@@ -104,7 +105,9 @@ export default function PostListingPage() {
   // True once we've checked whether the user already has an ID on file from
   // their roommate profile, so we can skip the upload step entirely.
   const [checkingVerification, setCheckingVerification] = useState(true);
-  const [reusedFromProfile, setReusedFromProfile] = useState(false);
+  // Set when the person's ID is already on file (waiting for review or
+  // verified), from their roommate profile or an earlier listing.
+  const [existingIdStatus, setExistingIdStatus] = useState<IdCheckStatus | null>(null);
   // The actual Files selected; uploaded to Supabase Storage on submit.
   const idFileRef = useRef<File | null>(null);
   const photoFileRef = useRef<File | null>(null);
@@ -116,9 +119,10 @@ export default function PostListingPage() {
   useEffect(() => {
     getExistingIdVerification()
       .then(existing => {
-        if (existing) {
-          setReusedFromProfile(true);
-          set("idFileName", "Reused from your roommate profile");
+        // A rejected document doesn't count: the upload step stays open.
+        if (idCheckCovers(existing)) {
+          setExistingIdStatus(existing!.status);
+          set("idFileName", "Already on file");
           set("idVerified", true);
         }
       })
@@ -263,8 +267,8 @@ export default function PostListingPage() {
 
             {checkingVerification ? (
               <div style={{ fontSize: 13, color: "var(--text-3)" }}>Checking your account…</div>
-            ) : reusedFromProfile ? (
-              /* Already verified via the roommate-profile flow — no need to re-upload */
+            ) : existingIdStatus ? (
+              /* ID already on file for this person: no need to re-upload */
               <div style={{ borderRadius: 14, border: "1px solid rgba(52,211,153,0.35)", background: "rgba(52,211,153,0.06)", padding: "20px 22px", display: "flex", alignItems: "center", gap: 16 }}>
                 <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(52,211,153,0.15)", border: "1px solid rgba(52,211,153,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -272,8 +276,14 @@ export default function PostListingPage() {
                   </svg>
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: "rgb(52,211,153)", marginBottom: 3 }}>You&rsquo;re already verified</div>
-                  <div style={{ fontSize: 12, color: "var(--text-3)" }}>Using the ID from your roommate profile — no need to upload it again.</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "rgb(52,211,153)", marginBottom: 3 }}>
+                    {existingIdStatus === "verified" ? "You\u2019re already verified" : "Your ID is already on file"}
+                  </div>
+                  <div style={{ fontSize: 12, color: "var(--text-3)" }}>
+                    {existingIdStatus === "verified"
+                      ? "Your ID has been checked, no need to upload it again."
+                      : "It is waiting for review, no need to upload it again."}
+                  </div>
                 </div>
               </div>
             ) : (

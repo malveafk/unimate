@@ -51,6 +51,24 @@ begin
   end if;
 end $$;
 
+-- When the admin made the current decision. Added 14 Nov 2026: until then the
+-- admin page showed updated_at as the decision time, but updated_at moves on
+-- every write to the row — an owner hiding their flat, or the ID-check trigger
+-- turning on the badge — so "decided at" drifted to the last unrelated change.
+-- Only the admin writes this column (app/admin/actions.ts); the trigger below
+-- keeps students from setting it and clears it when a listing goes back to
+-- the queue.
+alter table housing_listings add column if not exists reviewed_at timestamptz;
+
+-- Rows decided before the column existed: updated_at is the best estimate
+-- left. It is wrong for any listing touched after its decision, and the true
+-- time is not recorded anywhere else.
+update housing_listings
+   set reviewed_at = updated_at
+ where reviewed_at is null
+   and created_by is not null
+   and status in ('approved', 'rejected');
+
 -- ── The rule ─────────────────────────────────────────────────────────────────
 
 create or replace function public.enforce_housing_listing_review()
@@ -70,11 +88,13 @@ begin
   if tg_op = 'INSERT' then
     -- Whatever the client sent, a student listing starts in the queue.
     new.status := 'pending';
+    new.reviewed_at := null;
     return new;
   end if;
 
-  -- Only an admin moves a listing between states.
-  if new.status is distinct from old.status then
+  -- Only an admin moves a listing between states, or dates the decision.
+  if new.status is distinct from old.status
+     or new.reviewed_at is distinct from old.reviewed_at then
     raise exception 'housing_listings.status is set by an admin review, not by the owner';
   end if;
 
@@ -88,12 +108,15 @@ begin
   -- hiding and un-hiding your own listing is not a content change and must not
   -- cost you your approval. status and verified are excluded because they are
   -- the admin's own fields, handled above and in housing_verified_admin_only.
+  -- reviewed_at likewise: the check above already refuses any change to it.
   if old.status = 'approved'
-     and (to_jsonb(new) - 'status' - 'verified' - 'is_active' - 'updated_at')
+     and (to_jsonb(new) - 'status' - 'verified' - 'is_active' - 'updated_at' - 'reviewed_at')
          is distinct from
-         (to_jsonb(old) - 'status' - 'verified' - 'is_active' - 'updated_at')
+         (to_jsonb(old) - 'status' - 'verified' - 'is_active' - 'updated_at' - 'reviewed_at')
   then
     new.status := 'pending';
+    -- Back in the queue: the old decision no longer describes this content.
+    new.reviewed_at := null;
   end if;
 
   return new;
@@ -137,5 +160,5 @@ create index if not exists housing_listings_review_queue_idx
 --     from housing_listings where status = 'pending' order by created_at;
 --
 --   -- decide
---   update housing_listings set status = 'approved' where id = '<uuid>';
---   update housing_listings set status = 'rejected' where id = '<uuid>';
+--   update housing_listings set status = 'approved', reviewed_at = now() where id = '<uuid>';
+--   update housing_listings set status = 'rejected', reviewed_at = now() where id = '<uuid>';
