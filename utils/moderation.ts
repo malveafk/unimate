@@ -23,11 +23,14 @@ export { REPORT_REASONS, type ReportReason } from "@/utils/reportReasons";
 //   not-set-up        supabase/housing_reports_blocks.sql has not been run here
 
 const UNIQUE_VIOLATION = "23505";
-const UNDEFINED_TABLE = "42P01";
+// A missing table reaches us as PGRST205, not Postgres's 42P01: PostgREST
+// checks its schema cache and refuses the request before any SQL runs. 42P01
+// is kept for a query that does reach Postgres (e.g. through a function).
+const UNDEFINED_TABLE = new Set(["PGRST205", "42P01"]);
 
 function translate(error: { code?: string; message: string }): Error {
   if (error.code === UNIQUE_VIOLATION) return new Error("already-reported");
-  if (error.code === UNDEFINED_TABLE) return new Error("not-set-up");
+  if (error.code && UNDEFINED_TABLE.has(error.code)) return new Error("not-set-up");
   return new Error(error.message);
 }
 

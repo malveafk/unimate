@@ -167,15 +167,17 @@ export default async function AdminPage() {
 
   // ── Reports ────────────────────────────────────────────────────────────────
   // Same tolerance as the queue above: if supabase/housing_reports_blocks.sql
-  // has not been run here, 42P01 (undefined table) comes back and the section
-  // says so instead of taking the whole admin page down.
+  // has not been run here, the select fails with PGRST205 (PostgREST's "table
+  // not in schema cache", which it returns before any SQL reaches Postgres, so
+  // never 42P01 here) and the section says so instead of taking the whole admin
+  // page down.
   const reportsResult = await admin
     .from("housing_reports")
     .select("id, created_at, reporter_id, target_type, listing_id, profile_user_id, reason, details")
     .eq("status", "open")
     .order("created_at", { ascending: true });
 
-  const reportsMissing = reportsResult.error?.code === "42P01";
+  const reportsMissing = reportsResult.error?.code === "PGRST205" || reportsResult.error?.code === "42P01";
   const reportRows = (reportsResult.data ?? []) as Record<string, unknown>[];
 
   // Two lookups for the whole batch rather than one per report.
