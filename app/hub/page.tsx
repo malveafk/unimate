@@ -50,7 +50,7 @@ function ChatTab() {
     try {
       const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: next }) });
       const data = await res.json().catch(() => ({}));
-      setMessages([...next, { role: "assistant", content: data.message ?? "Something went wrong." }]);
+      setMessages([...next, { role: "assistant", content: data.message ?? data.error ?? "Something went wrong." }]);
     } catch { setMessages([...next, { role: "assistant", content: "Something went wrong." }]); }
     finally { setLoading(false); }
   };

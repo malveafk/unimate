@@ -60,6 +60,21 @@ export default function Chat() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // "Ask AI" links elsewhere on the site open /chat?q=<question> or
+  // /chat?news=<headline>. Prefill the box rather than auto-sending: for
+  // signed-in users the mount effect below restores the last conversation,
+  // and an automatic send would race it (and spend an API call unasked).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q")?.trim();
+    const headline = params.get("news")?.trim();
+    const prefill = q
+      || (headline ? `Tell me more about this news: "${headline}". What does it mean for international students?` : "");
+    if (!prefill) return;
+    setInput(prefill);
+    textareaRef.current?.focus();
+  }, []);
+
   // On mount, for logged-in users, resume the most recent conversation so the
   // assistant remembers the previous exchange. Anonymous users keep the
   // ephemeral welcome screen. Best-effort: failures only log to the console.
