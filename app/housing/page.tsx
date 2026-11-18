@@ -129,7 +129,7 @@ function EmptyList({ tab }: { tab: Tab }) {
         <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 20 }}>
           How it works
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, max(220px, (100% - 32px) / 3)), 1fr))", gap: 16 }}>
           {(isRoommates ? [
             { num: "01", color: "201,163,92", title: "Create your profile", desc: "Tell others who you are, where you're studying and what kind of flatmate situation you're looking for." },
             { num: "02", color: "201,163,92", title: "Browse other students", desc: "Filter by city, budget and move-in date. Read through profiles to find someone compatible." },
@@ -206,7 +206,7 @@ function PartnersSection({ cityFilter }: { cityFilter: string }) {
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))", gap: 20 }}>
         {PARTNERS.map(partner => {
           const p = { ...partner, color: partner.theme.primary };
           const inSelectedCity = p.cities.includes(cityFilter);
@@ -814,7 +814,7 @@ function HousingPageInner() {
         filteredRoommates.length === 0
           ? <EmptyList tab="roommates" />
           : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))", gap: 20 }}>
               {filteredRoommates.map(r => (
                 <div key={r.id} style={{
                   background: "var(--surface)", borderRadius: 18, border: "1px solid var(--border)",
@@ -879,7 +879,7 @@ function HousingPageInner() {
           : filteredApartments.length === 0
           ? <EmptyList tab="apartments" />
           : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))", gap: 20 }}>
               {shownApartments.map(a => {
                 // A partner's listing wears the partner's two colours on the whole card.
                 const theme = partnerTheme(a.source);

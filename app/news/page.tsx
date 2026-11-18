@@ -5,21 +5,22 @@ import { TransitionLink } from "../components/PageTransition";
 import { news, newsCountries, newsTags } from "../data/news";
 
 /* ─── Intersection Observer hook ─────────────────── */
-function useReveal() {
+function useReveal(deps: React.DependencyList = []) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
       { threshold: 0.08 }
     );
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    document.querySelectorAll(".reveal:not(.is-visible)").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 }
 
 export default function NewsPage() {
   const [selectedCountry, setSelectedCountry] = useState("all");
   const [selectedTag, setSelectedTag] = useState("All");
-  useReveal();
+  useReveal([selectedCountry, selectedTag]);
 
   const filtered = news.filter((n) => {
     const matchCountry = selectedCountry === "all" || n.country === selectedCountry;
@@ -27,7 +28,7 @@ export default function NewsPage() {
     return matchCountry && matchTag;
   });
   const lead = filtered[0];
-  const secondary = filtered.slice(1, 4);
+  const secondary = filtered.slice(1);
 
   return (
     <div style={{ position: "relative", zIndex: 10, background: "var(--bg)", minHeight: "100vh" }}>
@@ -110,9 +111,9 @@ export default function NewsPage() {
 
         {/* Lead story — FT style */}
         {lead && (
-          <div className="reveal" style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 40, paddingBottom: 36, borderBottom: "1px solid var(--border)", marginBottom: 36 }}>
+          <div className="reveal" style={{ display: "flex", flexWrap: "wrap", gap: 40, paddingBottom: 36, borderBottom: "1px solid var(--border)", marginBottom: 36 }}>
             {/* Text */}
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", flex: "1 1 420px", minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
                 <span style={{ padding: "2px 8px", borderRadius: 3, background: "var(--text-1)", color: "var(--bg)", fontSize: 9, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>
                   Top Story
@@ -130,7 +131,9 @@ export default function NewsPage() {
               </div>
 
               <h2 style={{ fontSize: "clamp(22px, 2.6vw, 36px)", fontWeight: 800, color: "var(--text-1)", lineHeight: 1.15, letterSpacing: "-0.8px", margin: "0 0 16px" }}>
-                {lead.title}
+                <TransitionLink href={`/news/${lead.id}`} style={{ color: "inherit", textDecoration: "none" }}>
+                  {lead.title}
+                </TransitionLink>
               </h2>
 
               <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.8, margin: "0 0 auto", paddingBottom: 20 }}>
@@ -150,7 +153,7 @@ export default function NewsPage() {
             </div>
 
             {/* Image */}
-            <div style={{ overflow: "hidden", borderRadius: 6 }}>
+            <div style={{ overflow: "hidden", borderRadius: 6, flex: "0 1 360px", minWidth: 0 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={lead.image} alt={lead.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.6s ease" }}
                 onMouseEnter={e => ((e.target as HTMLImageElement).style.transform = "scale(1.04)")}
@@ -161,14 +164,14 @@ export default function NewsPage() {
         )}
 
         {/* Secondary stories — FT list style */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))", gap: 0 }}>
           {secondary.map((item, i) => (
             <div
               key={item.id}
-              className={`reveal reveal-d${i + 1}`}
+              className={`reveal reveal-d${(i % 3) + 1}`}
               style={{
                 padding: "24px 20px",
-                borderRight: i < 2 ? "1px solid var(--border)" : "none",
+                borderBottom: "1px solid var(--border)",
                 display: "flex", flexDirection: "column", gap: 12,
               }}
             >
@@ -200,7 +203,9 @@ export default function NewsPage() {
               </div>
 
               <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", lineHeight: 1.4, letterSpacing: "-0.3px", margin: 0, flex: 1 }}>
-                {item.title}
+                <TransitionLink href={`/news/${item.id}`} style={{ color: "inherit", textDecoration: "none" }}>
+                  {item.title}
+                </TransitionLink>
               </h3>
 
               <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.65, margin: 0, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>

@@ -172,7 +172,9 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { messages } = await req.json();
+    // A body that isn't valid JSON is a bad request (400), not a server error.
+    const body = await req.json().catch(() => null);
+    const messages = body?.messages;
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json({ error: "Invalid request." }, { status: 400 });

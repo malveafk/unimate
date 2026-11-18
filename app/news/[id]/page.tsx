@@ -109,21 +109,15 @@ export default function ArticlePage() {
           {item.summary}
         </p>
 
-        {/* Placeholder body */}
-        <div style={{
-          padding: "24px 28px",
-          borderRadius: 14,
-          border: "1px dashed var(--border-strong)",
-          background: "var(--surface)",
-          marginBottom: 40,
-        }}>
-          <p style={{ fontWeight: 700, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 8px" }}>
-            Full article
+        {/* Source */}
+        {item.link && (
+          <p style={{ fontSize: 14, color: "var(--text-3)", margin: "0 0 40px" }}>
+            Source:{" "}
+            <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>
+              read the original announcement ↗
+            </a>
           </p>
-          <p style={{ fontSize: 14, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>
-            The full article content will appear here once the backend is connected.
-          </p>
-        </div>
+        )}
 
         {/* Ask AI CTA */}
         <div style={{

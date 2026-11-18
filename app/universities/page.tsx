@@ -168,8 +168,10 @@ export default function Universities() {
     return matchCountry && matchSearch && matchFaculty && matchTuition && matchLiving && matchDeadline;
   });
 
-  // Build country summary cards from static data
-  const countryGroups = universities.reduce((acc, u) => {
+  // Country summary cards, built from the filtered list so search and filters
+  // narrow the grid before a country is picked (with no country picked,
+  // `filtered` spans every country).
+  const countryGroups = filtered.reduce((acc, u) => {
     if (!acc[u.country]) acc[u.country] = { flag: u.flag, country: u.country, unis: [] };
     acc[u.country].unis.push(u);
     return acc;
@@ -387,7 +389,12 @@ export default function Universities() {
               Click a country to browse its universities
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, max(220px, (100% - 24px) / 3)), 1fr))", gap: 12 }}>
+            {countryList.length === 0 && (
+              <p style={{ fontSize: 14, color: "var(--text-3)", margin: 0, gridColumn: "1 / -1" }}>
+                No universities match these filters.
+              </p>
+            )}
             {countryList.map(({ country, flag, unis }) => {
               const avgTuition = getAvgTuition(unis);
               const topStrengths = getTopStrengths(unis);
@@ -475,7 +482,7 @@ export default function Universities() {
             </button>
             <span style={{ color: "var(--text-3)", fontSize: 14 }}>/</span>
             <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.2px" }}>
-              {countryGroups[browsingCountry]?.flag} {browsingCountry}
+              {universities.find(u => u.country === browsingCountry)?.flag} {browsingCountry}
             </span>
             <span style={{ fontSize: 12, color: "var(--text-3)" }}>— {filtered.length} {filtered.length === 1 ? "university" : "universities"}</span>
           </div>

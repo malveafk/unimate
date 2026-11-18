@@ -34,7 +34,7 @@ const SECTIONS: NavSection[] = [
       {
         href: "/universities",
         label: "All Universities",
-        desc: "Browse and filter 85+ universities across 18 European countries by tuition and faculty.",
+        desc: "Browse and filter universities across Europe by country, tuition and faculty.",
       },
       {
         href: "/apply",
