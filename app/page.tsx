@@ -150,6 +150,9 @@ export default function Home() {
         top: 100,
         left: "50%",
         transform: "translateX(-50%)",
+        // Explicit, so the global `main > * { width: 100% }` rule in
+        // globals.css cannot stretch this fixed bar across the screen.
+        width: "fit-content",
         zIndex: 200,
         opacity: 0,
         animation: "fadeIn 0.5s ease-out 0.5s forwards",

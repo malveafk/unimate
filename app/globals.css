@@ -34,7 +34,9 @@
    stretch in a flex column: it shrinks to its content, so one wide child
    (a nowrap breadcrumb, a fixed grid) pushed the whole page past the screen
    on mobile. Full width + min-width:0 keeps it inside the viewport; the
-   wrapper's own max-width still caps and centres it on desktop. */
+   wrapper's own max-width still caps and centres it on desktop.
+   Caveat: it also hits position:fixed/absolute children of <main> (the home
+   quick-action bar); give those an explicit inline width. */
 main > * { width: 100%; min-width: 0; }
 
 html { scroll-behavior: smooth; }
