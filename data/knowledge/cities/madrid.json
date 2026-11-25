@@ -1,0 +1,90 @@
+{
+  "city": "Madrid",
+  "slug": "madrid",
+  "country": "Spain",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Not found on a citable page",
+      "source_name": "IE University - Living in Madrid",
+      "source_url": "https://www.ie.edu/student-services/living-in-madrid/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "IE's page gives no prices (points to Idealista, Fotocasa, Enalquiler); UC3M accommodation page has no figures; Idealista reports returned 403."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~€ 1,415/month city centre, ~€ 1,106/month outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Madrid?displayCurrency=EUR",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page updated 25 Nov 2026, 234 contributors in the last 12 months. 1-bedroom flat, not a studio specifically."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "~€ 817/month for a single person excluding rent (Nov 2026); add rent",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Madrid?displayCurrency=EUR",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Crowd-sourced estimate for a general single adult, not a student budget."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Abono Joven (15-25): € 10 per 30 days, whole region (2026); standard 30-day zone A: € 32.70",
+      "source_name": "CRTM - 2026 fares (BOCM 31/12/2025)",
+      "source_url": "https://www.crtm.es/media/s1qi0nmo/bocm-20251231-precios_transporte.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.crtm.es/billetes-y-tarifas/"
+      ],
+      "notes": "Requires a personal TTP card (€ 4, appointment, padrón certificate)."
+    },
+    {
+      "field": "climate",
+      "value": "Continental: mean 15.0 °C/year; Jan mean 6.3 °C (min 2.7 °C), Jul mean 25.6 °C (max 32.1 °C); 421 mm rain/year (1981-2010)",
+      "source_name": "AEMET - climate normals, Madrid Retiro",
+      "source_url": "https://www.aemet.es/es/serviciosclimaticos/datosclimatologicos/valoresclimatologicos?l=3195&k=mad",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not assessed from a citable source",
+      "source_name": "IE University - Living in Madrid",
+      "source_url": "https://www.ie.edu/student-services/living-in-madrid/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Spanish for daily life and most public-university degrees; some degrees are fully English-taught (e.g. UC3M International Studies)",
+      "source_name": "UC3M - Bachelor in International Studies",
+      "source_url": "https://www.uc3m.es/bachelor-degree/international-studies",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "The page read concerns one English-taught degree; it does not state that Spanish is needed elsewhere. Confirm the language of each degree."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found on a citable page",
+      "source_name": "Comunidad de Madrid",
+      "source_url": "https://www.comunidad.madrid/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable average student wage found. Legal floor: SMI € 1,221/month full-time (14 payments, € 17,094/year), no youth rate (2026)",
+      "source_name": "BOE - Real Decreto 126/2026 (SMI 2026)",
+      "source_url": "https://www.boe.es/eli/es/rd/2026/02/18/126/con",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "This is the national legal minimum, not a measured typical student wage. The decree sets no general hourly rate."
+    }
+  ]
+}

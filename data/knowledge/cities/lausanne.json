@@ -1,0 +1,88 @@
+{
+  "city": "Lausanne",
+  "slug": "lausanne",
+  "country": "Switzerland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "About CHF 900/month for housing in EPFL's student budget",
+      "source_name": "EPFL - Financing your studies",
+      "source_url": "https://www.epfl.ch/education/studies/en/financing-study/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.fmel.ch/en/faq"
+      ],
+      "notes": "FMEL student housing adds a municipal visitor tax of about CHF 37/month and a CHF 1,200 deposit (fmel.ch FAQ)."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: CHF 1,934/month city centre, CHF 1,603 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Lausanne?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "EPFL budget excl. tuition: about CHF 2,107/month for foreign students, CHF 2,393 for Swiss/residents (~CHF 29,000/year advised)",
+      "source_name": "EPFL - Financing your studies",
+      "source_url": "https://www.epfl.ch/education/studies/en/financing-study/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "transport_pass",
+      "value": "About CHF 60/month in EPFL's student budget (tl/Mobilis fares page not reachable)",
+      "source_name": "EPFL - Financing your studies",
+      "source_url": "https://www.epfl.ch/education/studies/en/financing-study/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Numbeo lists CHF 78/month regular pass (Nov 2026)."
+    },
+    {
+      "field": "climate",
+      "value": "Pully (Lausanne) 1991-2020: Jan mean 2.7 C, July mean 20.5 C, about 1,132 mm rain/year",
+      "source_name": "Wikipedia (MeteoSwiss normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Lausanne",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing MeteoSwiss/NOAA 1991-2020 normals; MeteoSwiss station pages could not be fetched."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable source checked; the bot should not characterise student life here.",
+      "source_name": "none",
+      "source_url": "https://www.epfl.ch/education/studies/en/financing-study/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "French. EPFL Bachelor mostly in French (up to 50% English from year 2); most Master's mainly in English; C1 recommended",
+      "source_name": "EPFL - Langues d'enseignement",
+      "source_url": "https://www.epfl.ch/education/studies/reglement-et-procedure/langues_etudes/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "Student jobs advertised on EPFL's Junior Experience platform; foreign students max 15 h/week in term, full-time in holidays",
+      "source_name": "EPFL - Working",
+      "source_url": "https://www.epfl.ch/education/studies/en/financing-study/working/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "student_wage",
+      "value": "EPFL uses CHF 25/hour as an example average student wage; Vaud has no minimum wage verified",
+      "source_name": "EPFL - Working",
+      "source_url": "https://www.epfl.ch/education/studies/en/financing-study/working/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Illustrative figure from EPFL, not a statistic."
+    }
+  ]
+}

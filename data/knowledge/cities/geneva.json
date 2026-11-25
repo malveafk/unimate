@@ -1,0 +1,92 @@
+{
+  "city": "Geneva",
+  "slug": "geneva",
+  "country": "Switzerland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No official figure found (UNIGE pages blocked automated access)",
+      "source_name": "none",
+      "source_url": "https://www.unige.ch/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: CHF 2,422/month city centre, CHF 1,833 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Geneva?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Permit applicants must prove CHF 2,500/month (CHF 20,000/year); Numbeo single person excl. rent about CHF 1,391 (Nov 2026)",
+      "source_name": "Canton of Geneva OCPM FAQ",
+      "source_url": "https://www.ge.ch/en/ask-student-permit/frequently-asked-questions",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Geneva?displayCurrency=CHF"
+      ]
+    },
+    {
+      "field": "transport_pass",
+      "value": "unireso zone 10 (all Geneva): CHF 45/month ages 6-24, CHF 70 adults; free for under-25s in training via the State",
+      "source_name": "unireso",
+      "source_url": "https://www.unireso.com/titres-de-transport/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.unireso.com/prise-en-charge-6-24-ans/"
+      ]
+    },
+    {
+      "field": "climate",
+      "value": "Geneva-Cointrin 1991-2020: Jan mean 2.1 C, July mean 20.6 C, about 946 mm rain/year",
+      "source_name": "Wikipedia (MeteoSwiss normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Geneva",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing MeteoSwiss/NOAA 1991-2020 normals; MeteoSwiss station pages could not be fetched."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable source checked; the bot should not characterise student life here.",
+      "source_name": "none",
+      "source_url": "https://www.unige.ch/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "French is the official language of city and canton",
+      "source_name": "Wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Geneva",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "UNIGE language-of-instruction page not reachable."
+    },
+    {
+      "field": "job_market",
+      "value": "No citable data on student job availability found",
+      "source_name": "Canton of Geneva OCPM",
+      "source_url": "https://www.ge.ch/en/ask-student-permit/ancillary-activity",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "Cantonal minimum wage CHF 24.59/hour gross (2026); student summer jobs may be paid 75% = CHF 18.44/hour",
+      "source_name": "Canton of Geneva OCIRT",
+      "source_url": "https://www.ge.ch/appliquer-salaire-minimum-genevois",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.ge.ch/node/42971"
+      ]
+    }
+  ]
+}

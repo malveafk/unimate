@@ -1,0 +1,83 @@
+{
+  "city": "Basel",
+  "slug": "basel",
+  "country": "Switzerland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No official figure found (WoVe student housing site lists no prices)",
+      "source_name": "none",
+      "source_url": "https://www.wove.ch/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: CHF 1,681/month city centre, CHF 1,342 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Basel?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Single person excl. rent about CHF 1,386/month (Nov 2026); no university student budget found",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Basel?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "transport_pass",
+      "value": "TNW U-Abo: CHF 57/month under 25, CHF 86 adults; Jugend BS CHF 365/year with tax domicile in Basel-Stadt",
+      "source_name": "Tarifverbund Nordwestschweiz (TNW)",
+      "source_url": "https://www.tnw.ch/tickets-preise/abonnemente/das-u-abo",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Price table dated from 10.12.2023."
+    },
+    {
+      "field": "climate",
+      "value": "Basel-Binningen 1991-2020: Jan mean 3.0 C, July mean 20.5 C, about 842 mm rain/year",
+      "source_name": "Wikipedia (MeteoSwiss normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Basel",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing MeteoSwiss/NOAA 1991-2020 normals; MeteoSwiss station pages could not be fetched."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable source checked; the bot should not characterise student life here.",
+      "source_name": "none",
+      "source_url": "https://www.wove.ch/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "German (Basel German dialect spoken)",
+      "source_name": "Wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Basel",
+      "verified_at": "2026-11-25",
+      "status": "unverified"
+    },
+    {
+      "field": "job_market",
+      "value": "No citable data on student job availability found",
+      "source_name": "Canton Basel-Stadt",
+      "source_url": "https://www.bs.ch/themen/arbeit-und-steuern/arbeitsbewilligungen/ausbildung-der-schweiz",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "Cantonal minimum wage CHF 22.20/hour (2026), not in sectors with a binding collective agreement",
+      "source_name": "Canton Basel-Stadt AWA",
+      "source_url": "https://www.bs.ch/wsu/awa/arbeitsbeziehungen/loehne/mindestlohn",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    }
+  ]
+}

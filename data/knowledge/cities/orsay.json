@@ -1,0 +1,97 @@
+{
+  "city": "Orsay",
+  "slug": "orsay",
+  "country": "France",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.universite-paris-saclay.fr/en/vie-de-campus/accommodation",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Paris-Saclay lists CROUS residences near Orsay but not their prices."
+    },
+    {
+      "field": "rent_studio",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.universite-paris-saclay.fr/en/vie-de-campus/accommodation",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No figure found."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.universite-paris-saclay.fr/en/vie-de-campus/international-welcome-desk",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No figure found."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Navigo Mois all zones €90.80/month (2026); under-26 residents can take the imagine R annual student pass",
+      "source_name": "Sciences Po – Create a budget",
+      "source_url": "https://www.sciencespo.fr/students/en/fees-funding/budget-studies/",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Paris"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "IDFM pages refuse automated access; price confirmed by Numbeo (Nov 2026). imagine R price: see france/bureaucracy.json (unverified)."
+    },
+    {
+      "field": "climate",
+      "value": "Paris-Montsouris 1991–2020: January avg 3.2–7.6 °C, July avg 16.2–25.7 °C; about 634 mm rain/year",
+      "source_name": "Wikipedia (Climate of Paris, citing Météo-France normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Climate_of_Paris",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Paris-Montsouris normals used as a proxy (Orsay is in the south-western Paris suburbs); no station-specific source found."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.universite-paris-saclay.fr/en",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No citable source consulted.",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Many master's are taught in English; the university offers free weekly French integration workshops (Oct–Dec, Mar–May)",
+      "source_name": "Université Paris-Saclay – International welcome desk",
+      "source_url": "https://www.universite-paris-saclay.fr/en/vie-de-campus/international-welcome-desk",
+      "extra_sources": [
+        "https://www.universite-paris-saclay.fr/en/education/masters-programmes-taught-english"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "The page does not say how much French is needed for daily life."
+    },
+    {
+      "field": "job_market",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.universite-paris-saclay.fr/en/campus-life/student-support",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No citable source found today."
+    },
+    {
+      "field": "student_wage",
+      "value": "Legal floor: SMIC €12.31 gross/hour for adults (2026); typical student-job pay not published",
+      "source_name": "Service-Public.gouv.fr (SMIC)",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2300",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Only the statutory minimum is verified; no official source for typical student pay in this city."
+    }
+  ]
+}

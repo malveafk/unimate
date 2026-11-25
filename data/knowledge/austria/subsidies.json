@@ -1,0 +1,625 @@
+{
+  "country": "Austria",
+  "country_code": "AT",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    {
+      "key": "state_grant_loan",
+      "result": "found",
+      "note": "stipendium.at: Studienbeihilfe, Studienzuschuss, Mobilitätsstipendium, Auslandsbeihilfe. No state student loan found."
+    },
+    {
+      "key": "rent",
+      "result": "found",
+      "note": "No federal rent allowance for students found; Vienna Wohnbeihilfe (recorded under regional) and ÖH housing fund mentioned by oesterreich.gv.at."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found",
+      "note": "Reduced-rate ÖGK student self-insurance; Versicherungskostenbeitrag EUR 19/month for grant holders from 27."
+    },
+    {
+      "key": "transport",
+      "result": "found",
+      "note": "Wiener Linien Semesterticket (price page blocked, status missing); Fahrtkostenzuschuss for Studienbeihilfe holders (amount not stated)."
+    },
+    {
+      "key": "tax",
+      "result": "found",
+      "note": "Employee tax assessment refunds incl. social-security refund for low earners (BMF Tax Book 2026)."
+    },
+    {
+      "key": "student_work",
+      "result": "found",
+      "note": "Earnings limits that protect Studienbeihilfe (EUR 17,677/year 2026) and Familienbeihilfe (EUR 17,212/year)."
+    },
+    {
+      "key": "erasmus",
+      "result": "found",
+      "note": "Incoming: no general top-up found; University of Vienna refunds EUR 150 of the intensive German course (2026/27) and waives tuition. Outgoing: OeAD KA131 rates by host country (amounts in programme guide, not read)."
+    },
+    {
+      "key": "regional",
+      "result": "found",
+      "note": "Wohnbeihilfe Wien (MA 50). Other Länder not researched (assignment city is Vienna)."
+    },
+    {
+      "key": "university",
+      "result": "found",
+      "note": "Tuition-fee rules (Studienbeitrag) and scholarships at University of Vienna, TU Wien, CEU; OeAD scholarship programmes."
+    }
+  ],
+  "items": [
+    {
+      "id": "at-studienbeihilfe",
+      "category": "state_grant_loan",
+      "name_local": "Studienbeihilfe",
+      "name_it": "Borsa di studio statale (Studienbeihilfe)",
+      "authority": "Studienbeihilfenbehörde (Stipendienstelle)",
+      "description": "Monthly need-based federal grant for students at Austrian higher-education institutions, based on parents' income, own situation and study progress. Basic amount EUR 451/month in 2026/27 plus supplements (e.g. EUR 336 for living away from home, EUR 324 from age 24, EUR 40 from 27). Example on the page: about EUR 702/month for a student living away from home in a 4-person household.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "age": {
+          "max": 33
+        },
+        "income_test": "Parents' income (and spouse's) assessed; expected parental contribution 0% up to EUR 12,200 assessment base, rising to 25% above EUR 46,000",
+        "residence_requirement": "Austrians, or foreigners with equal status under § 4 StudFG: EEA citizens with permanent residence (5 years' continuous legal residence), who are (or whose parent is) a migrant worker, or with a genuine link to Austrian society; non-EU citizens only with permanent residence or as family members of EU workers/Austrians, or recognised refugees",
+        "other": [
+          "Programme must start before age 33 (master: 38 if bachelor started before 33)",
+          "Good study progress required"
+        ]
+      },
+      "amount": "Basic EUR 451/month (2026/27) + supplements; minimum payout EUR 5/month",
+      "how_to_apply": "Online with ID Austria or with downloadable forms; non-German income documents need certified translation. After the first two semesters renewal is automatic.",
+      "deadline": "Winter semester 20 September - 15 December; summer semester 20 February - 15 May (later applications count from the month filed)",
+      "stackable": "Can be combined with Studienzuschuss (tuition refund), Fahrtkostenzuschuss, Auslandsbeihilfe; earnings limit EUR 17,677/year (2026)",
+      "source_url": "https://www.stipendium.at/stipendien/studienbeihilfe",
+      "extra_sources": [
+        "https://www.stipendium.at/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Exchange students are not eligible (grant is for students admitted in Austria). The page says the list of equal-status cases is not exhaustive and changes with CJEU case law; what counts as a 'genuine link' or migrant-worker status (e.g. hours of work) is not defined there - contact the Stipendienstelle. Swiss citizens are not named on the page (only EEA citizens), so their status is not confirmed."
+    },
+    {
+      "id": "at-studienzuschuss",
+      "category": "state_grant_loan",
+      "name_local": "Studienzuschuss",
+      "name_it": "Rimborso delle tasse universitarie (Studienzuschuss)",
+      "authority": "Studienbeihilfenbehörde",
+      "description": "Studienbeihilfe recipients who paid tuition (Studienbeitrag) get it refunded: the amount paid for two semesters, capped at the statutory fee (currently EUR 363.36 per semester).",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "other": [
+          "Must receive Studienbeihilfe and have paid the tuition fee"
+        ]
+      },
+      "amount": "Up to EUR 363.36 per semester (2 semesters)",
+      "how_to_apply": "Together with the Studienbeihilfe application",
+      "deadline": "Same as Studienbeihilfe",
+      "stackable": "Only with Studienbeihilfe",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/2/Seite.160812",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "at-auslandsbeihilfe",
+      "category": "state_grant_loan",
+      "name_local": "Beihilfe für ein Auslandsstudium",
+      "name_it": "Contributo per studio all'estero (Auslandsbeihilfe)",
+      "authority": "Studienbeihilfenbehörde",
+      "description": "Extra monthly grant for Studienbeihilfe holders who study abroad for 1 to 20 months as part of their Austrian programme (not in the first two bachelor semesters), plus a distance-based travel allowance (EUR 56 to EUR 1,735) and 80% of language-course costs up to EUR 365.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "other": [
+          "Must receive Studienbeihilfe",
+          "Study abroad of at least 1 month; internships excluded (except clinical-practical year in medicine)",
+          "At least 3 ECTS per month abroad"
+        ]
+      },
+      "amount": "EUR 450/month (e.g. Germany, Italy, France, Netherlands) or EUR 250/month (e.g. Spain, Portugal, Poland, Czechia), from 1 March 2026; +EUR 180 if you receive only the basic Studienbeihilfe amount",
+      "how_to_apply": "Apply to the Stipendienstelle",
+      "deadline": "At the latest 3 months after the start of the study period abroad",
+      "stackable": "On top of Studienbeihilfe; combinable with Erasmus+ is not stated on the page",
+      "source_url": "https://www.stipendium.at/stipendien/studieren-im-ausland",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Relevant only for students enrolled in Austria going abroad (outgoing)."
+    },
+    {
+      "id": "at-mobilitaetsstipendium",
+      "category": "state_grant_loan",
+      "name_local": "Mobilitätsstipendium",
+      "name_it": "Borsa per un intero corso di laurea all'estero (Mobilitätsstipendium)",
+      "authority": "Studienbeihilfenbehörde",
+      "description": "Grant for students from Austria who take a whole bachelor, master or diploma degree in another EEA country, Switzerland or the UK. Social need, study progress and age limit as for Studienbeihilfe; the amount is calculated as for students living away from home (the page cites EUR 9,444, year not stated).",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "residence_requirement": "Austrian citizens or equal-status foreigners under § 4 StudFG; handled by the Stipendienstelle of the last residence in Austria",
+        "other": [
+          "No doctoral programmes",
+          "Study entirely in EEA/Switzerland/UK; no distance study from Austria"
+        ]
+      },
+      "amount": "Calculated like Studienbeihilfe at the away-from-home rate (EUR 9,444 cited on the page, year not stated)",
+      "how_to_apply": "Online with ID Austria or forms; from winter semester 2026/27 one application at the start, then automatic renewal",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.stipendium.at/stipendien/studieren-im-ausland",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Outgoing measure, not for students coming to Austria. No '5 years of residence' rule is stated on this page; the guidelines PDF (MOS-RL_2026) was not read."
+    },
+    {
+      "id": "at-oeh-housing-fund",
+      "category": "rent",
+      "name_local": "ÖH-Wohnfonds",
+      "name_it": "Fondo alloggio dell'ÖH",
+      "authority": "Österreichische Hochschüler_innenschaft (ÖH)",
+      "description": "Support for students with high housing costs, under the same criteria as the ÖH Social Fund; flat size and price per m2 must be appropriate for student housing.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "ÖH member",
+          "Social need and some study progress required"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Written application to the ÖH",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/2/Seite.160812",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "interpretations": [
+        {
+          "hypothesis": "A separate ÖH housing fund (Wohnfonds) exists, as described by oesterreich.gv.at.",
+          "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/2/Seite.160812"
+        },
+        {
+          "hypothesis": "The ÖH's current funding-pot list shows only the Social Fund (which asks for the rental agreement) and a Dormitory Fund for dorm-representative projects, so housing hardship is handled through the Social Fund.",
+          "source_url": "https://www.oeh.ac.at/en/service/funding-pots/social-fund/"
+        }
+      ]
+    },
+    {
+      "id": "at-wohnbeihilfe-wien",
+      "category": "regional",
+      "name_local": "Wohnbeihilfe (Wien)",
+      "name_it": "Contributo affitto della Città di Vienna (Wohnbeihilfe)",
+      "authority": "Stadt Wien, MA 50 - Wohnbeihilfenstelle",
+      "description": "Vienna housing allowance for tenants whose rent is unreasonably high relative to household income. The household must reach a minimum income and stay below a maximum income set in the Vienna housing-subsidy law, so students without income typically do not meet it.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss",
+          "non_eu"
+        ],
+        "income_test": "Household income between the legal minimum and maximum (amounts on a separate page, not read)",
+        "residence_requirement": "Main residence and centre of life in Vienna; non-EU citizens only after at least 5 years of continuous legal residence in Austria (or recognised refugees)",
+        "other": [
+          "Must be the tenant, not related to the owner",
+          "Not receiving minimum income support (Mindestsicherung)"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Online form (Stadt Wien account possible), or PDF by post/in person at MA 50; free. Documents for all household members.",
+      "deadline": "Apply by the 15th to receive it from the 1st of that month; max. 4 months retroactive",
+      "stackable": null,
+      "source_url": "https://www.wien.gv.at/amtswege/wohnbeihilfe-antrag",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page does not mention students specifically (neither excluded nor special rule)."
+    },
+    {
+      "id": "at-student-self-insurance-rate",
+      "category": "health_insurance",
+      "name_local": "Studentische Selbstversicherung",
+      "name_it": "Autoassicurazione sanitaria agevolata per studenti",
+      "authority": "Österreichische Gesundheitskasse (ÖGK)",
+      "description": "Reduced-rate health insurance for students without other cover: EUR 78.84/month in 2026. Income must stay below EUR 15,000/year; limited to planned study duration + 4 semesters and 2 programme changes.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "income_test": "Total income below EUR 15,000 per calendar year",
+        "residence_requirement": "Habitual residence in Austria",
+        "other": [
+          "Regular student; no other compulsory insurance"
+        ]
+      },
+      "amount": "EUR 78.84/month (2026)",
+      "how_to_apply": "Apply at the ÖGK with enrolment confirmation, passport and address registration",
+      "deadline": null,
+      "stackable": "Studienbeihilfe holders from 27 get EUR 19/month towards it (see at-versicherungskostenbeitrag)",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/4/1/Seite.160809",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Eligibility of exchange students: see interpretations on at-health-student-self-insurance in bureaucracy.json."
+    },
+    {
+      "id": "at-versicherungskostenbeitrag",
+      "category": "health_insurance",
+      "name_local": "Versicherungskostenbeitrag",
+      "name_it": "Contributo alle spese di assicurazione sanitaria",
+      "authority": "Studienbeihilfenbehörde",
+      "description": "Studienbeihilfe recipients get EUR 19 per month from the month after their 27th birthday for each month with qualifying voluntary health insurance; paid per semester in arrears, automatically.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "age": {
+          "min": 27
+        },
+        "other": [
+          "Must receive Studienbeihilfe and have voluntary self-insurance"
+        ]
+      },
+      "amount": "EUR 19/month",
+      "how_to_apply": "Automatic, no application",
+      "deadline": null,
+      "stackable": "With Studienbeihilfe",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/2/Seite.160812",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "at-semesterticket-vienna",
+      "category": "transport",
+      "name_local": "Semesterticket (Wiener Linien)",
+      "name_it": "Abbonamento semestrale studenti (Wiener Linien)",
+      "authority": "Wiener Linien",
+      "description": "Discounted semester pass for students on Vienna public transport. Price and whether it differs for students with or without main residence in Vienna could not be read on the official page.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "amount": null,
+      "how_to_apply": null,
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.wienerlinien.at/en/semester-ticket",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Official page blocked automated access (bot check)."
+    },
+    {
+      "id": "at-fahrtkostenzuschuss",
+      "category": "transport",
+      "name_local": "Fahrtkostenzuschuss",
+      "name_it": "Contributo per le spese di viaggio",
+      "authority": "Studienbeihilfenbehörde",
+      "description": "Studienbeihilfe recipients receive a contribution to daily travel to the institution and to trips between the study location and their home town.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "other": [
+          "Must receive Studienbeihilfe"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Via the Stipendienstelle",
+      "deadline": null,
+      "stackable": "With Studienbeihilfe",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/2/Seite.160812",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Amount not stated; the page refers to the Stipendienstelle."
+    },
+    {
+      "id": "at-employee-tax-assessment",
+      "category": "tax",
+      "name_local": "Arbeitnehmerveranlagung (inkl. SV-Rückerstattung)",
+      "name_it": "Dichiarazione dei redditi da lavoro dipendente con rimborso dei contributi",
+      "authority": "Bundesministerium für Finanzen / Finanzamt Österreich",
+      "description": "Students who worked only part of the year or earned little usually get wage tax back by filing an employee tax assessment, up to five years later. If income tax is below zero, 55% of social-security contributions are refunded, up to EUR 487/year (assessment year 2025; more with commuter allowance). For 2025 the first EUR 13,308 of income is taxed at 0%.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "Employees with Austrian wage tax deducted",
+          "Austrian tax residents (domicile or habitual residence); rules for non-residents with limited tax liability not verified"
+        ]
+      },
+      "amount": "Social-security refund up to EUR 487/year (2025 assessment); wage-tax refund varies",
+      "how_to_apply": "FinanzOnline (ID Austria), Form L 1 by post or in person at the Finanzamt; if not filed by 30 June an automatic assessment may pay refunds",
+      "deadline": "5 years (e.g. 2025 can be filed until end of December 2030)",
+      "stackable": null,
+      "source_url": "https://www.bmf.gv.at/dam/jcr:70fb6b30-d412-4ee7-b1c8-c49b8309f5f7/260204_Steuerbuch2026_EN_BF.pdf",
+      "extra_sources": [
+        "https://www.oesterreich.gv.at/en/themen/arbeit_beruf_und_pension/arbeitnehmerveranlagung/Seite.340000"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "at-studienbeihilfe-earnings-limit",
+      "category": "student_work",
+      "name_local": "Zuverdienstgrenze Studienbeihilfe",
+      "name_it": "Limite di reddito da lavoro per chi riceve la Studienbeihilfe",
+      "authority": "Studienbeihilfenbehörde",
+      "description": "Studienbeihilfe holders may earn alongside their studies up to EUR 17,677 per year (2026; 2025: EUR 17,212) without losing the grant.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "other": [
+          "Applies to Studienbeihilfe recipients"
+        ]
+      },
+      "amount": "Earnings limit EUR 17,677/year (2026)",
+      "how_to_apply": null,
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.stipendium.at/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "at-familienbeihilfe-students",
+      "category": "other",
+      "name_local": "Familienbeihilfe (Studierende)",
+      "name_it": "Assegno familiare per figli studenti (Familienbeihilfe)",
+      "authority": "Finanzamt Österreich",
+      "description": "Austrian family allowance can continue while a child studies. From the calendar year the student turns 20, their taxable income must not exceed EUR 17,212/year (stated as valid since 1 January 2025); any excess must be repaid.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "Student's own taxable income max EUR 17,212/year from the year they turn 20",
+        "other": [
+          "Paid to parents entitled to Austrian family allowance; age limit (24/25) and cross-border rules for families abroad not verified"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Application to the Finanzamt (by the entitled parent)",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/3/Seite.160305",
+      "extra_sources": [
+        "https://www.tuwien.at/en/studies/student-support/financial-support"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Income limit verified; monthly amounts, the age limit (TU Wien page: increased family allowance until 24, or 25 in some cases) and whether families living abroad qualify were not verified on an official page. Mostly relevant to families resident in Austria."
+    },
+    {
+      "id": "at-oeh-social-fund",
+      "category": "other",
+      "name_local": "ÖH-Sozialfonds",
+      "name_it": "Fondo sociale dell'ÖH",
+      "authority": "Österreichische Hochschüler_innenschaft (ÖH, Bundesvertretung)",
+      "description": "One-off grant every 12 months for ÖH members in particular financial hardship who receive no or less than the full Studienbeihilfe. Requires 16 ECTS (or 8 SWS) in the last academic year (none in the 1st semester) and not exceeding twice the minimum study duration.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "income_test": "Social need per the fund's guidelines (income limits in guidelines, not read)",
+        "other": [
+          "ÖH member at a cooperating institution",
+          "No or reduced Studienbeihilfe"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Since 1 July 2026 via the digital form at sozialfonds.oeh.ac.at; documents incl. student ID, study sheet, rental agreement, 3 months of bank statements",
+      "deadline": "No deadline; processing about 3 months",
+      "stackable": "Not for full Studienbeihilfe recipients",
+      "source_url": "https://www.oeh.ac.at/en/service/funding-pots/social-fund/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page does not say whether exchange or international students qualify; maximum amount not stated."
+    },
+    {
+      "id": "at-erasmus-incoming",
+      "category": "erasmus",
+      "name_local": "Erasmus+ incoming (Universität Wien)",
+      "name_it": "Erasmus+ in entrata (Università di Vienna)",
+      "authority": "University of Vienna, International Office",
+      "description": "Incoming exchange students are exempt from tuition and pay only the ÖH fee (EUR 26.20/semester, 2026/27). The university refunds EUR 150 (2026/27) of the September/February intensive German course if you attend regularly, pass the exam and finish before studies start; language-centre discounts of 20-25%. No general Austrian top-up to the Erasmus grant was found.",
+      "eligibility": {
+        "student_type": [
+          "exchange"
+        ],
+        "nationality": "any",
+        "other": [
+          "Nominated Erasmus+/exchange students of the University of Vienna"
+        ]
+      },
+      "amount": "EUR 150 German-course refund (2026/27); tuition waived",
+      "how_to_apply": "Via the International Office / course enrolment",
+      "deadline": null,
+      "stackable": "With the Erasmus+ grant from the home institution",
+      "source_url": "https://international.univie.ac.at/en/student-mobility/incoming-students/erasmus-student-exchange/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page does not state who pays the Erasmus grant; by programme design it comes from the home institution."
+    },
+    {
+      "id": "at-erasmus-outgoing",
+      "category": "erasmus",
+      "name_local": "Erasmus+ Studierendenmobilität (KA131)",
+      "name_it": "Borsa Erasmus+ per studenti in uscita dall'Austria",
+      "authority": "OeAD (Erasmus+ National Agency)",
+      "description": "Students of Austrian institutions going abroad receive a monthly living-cost grant that depends on host country and type of stay (study or traineeship), with a monthly top-up for students with fewer opportunities (e.g. with children, disabilities or health problems).",
+      "eligibility": {
+        "student_type": [
+          "exchange"
+        ],
+        "nationality": "any",
+        "other": [
+          "Enrolled at an Austrian institution and selected for Erasmus+ mobility"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Through the home institution's international office",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://erasmusplus.oead.at/en/hochschulbildung/mobilitaet/ka131/gefoerderte-kosten",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Rates are only in the Erasmus+ Programme Guide for the relevant call; not read today."
+    },
+    {
+      "id": "at-studienbeitrag-rules",
+      "category": "university",
+      "name_local": "Studienbeitrag und ÖH-Beitrag (öffentliche Universitäten)",
+      "name_it": "Tasse universitarie e quota ÖH (università pubbliche)",
+      "authority": "University of Vienna / TU Wien (public universities)",
+      "description": "EU/EEA/Swiss students pay only the ÖH fee (EUR 26.20/semester) during the programme's stipulated duration plus two tolerance semesters, then EUR 363.36/semester. Non-EU students pay EUR 726.72/semester from the first semester, unless exempt (citizens of listed developing countries pay only the ÖH fee; Ukrainians waived automatically; some non-student residence permits give equal status). Exchange students pay no tuition.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "amount": "EU/EEA: EUR 0 within duration + 2 semesters, then EUR 363.36/semester; non-EU: EUR 726.72/semester; ÖH fee EUR 26.20/semester (2026/27)",
+      "how_to_apply": "Pay each semester to re-enrol; waivers by application (TU Wien deadlines 31 October / 31 March)",
+      "deadline": "Each semester within the payment period",
+      "stackable": "Studienbeihilfe holders can get tuition refunded (Studienzuschuss)",
+      "source_url": "https://studieren.univie.ac.at/en/studying-and-learning/financial-matters/amount-of-the-tuition-fee/students-union-fee",
+      "extra_sources": [
+        "https://www.tuwien.at/en/studies/admission/students-union-fee-and-tuition-fee/tuition-fee"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "University of Vienna page gives amounts without a year; the ÖH fee 2026/27 is confirmed on the University of Vienna exchange pages. CEU is a private university with its own fees (not covered here)."
+    },
+    {
+      "id": "at-univie-scholarships",
+      "category": "university",
+      "name_local": "Leistungsstipendium / Förderungsstipendium (Universität Wien)",
+      "name_it": "Borse di merito e di ricerca dell'Università di Vienna",
+      "authority": "University of Vienna, Office of the Studienpräses",
+      "description": "Performance scholarship (based on weighted grade average) and support scholarship (for scientific work) under the Student Support Act, awarded by the University of Vienna.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "Eligibility and amounts are in the official call (Ausschreibung), not read; nationality rules not stated on the page"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Online application per the call; missing documents by e-mail to stipendium@univie.ac.at",
+      "deadline": "3 November 2026, 23:59 (documents until 5 November 2026, 16:00)",
+      "stackable": null,
+      "source_url": "https://studienpraeses.univie.ac.at/stipendien/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "at-tuwien-scholarships",
+      "category": "university",
+      "name_local": "Stipendien der TU Wien",
+      "name_it": "Borse di studio della TU Wien",
+      "authority": "TU Wien",
+      "description": "TU Wien offers a merit scholarship, a graduation scholarship for working students (apply October-November), foundation grants for students in social need (usually by February), funding grants for theses, and the Helmut Veith Stipend for women in English-taught computer-science master's programmes (apply in November).",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "Nationality requirements not stated on the page"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "See TU Wien financial-support page (e.g. stiftungs-stipendium@tuwien.ac.at for foundation grants)",
+      "deadline": "Varies: foundation grants usually February; Helmut Veith Stipend November; graduation scholarship October-November",
+      "stackable": null,
+      "source_url": "https://www.tuwien.at/en/studies/student-support/financial-support",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No amounts stated on the page."
+    },
+    {
+      "id": "at-ceu-financial-aid",
+      "category": "university",
+      "name_local": "CEU Financial Aid",
+      "name_it": "Aiuti finanziari della Central European University",
+      "authority": "Central European University (CEU), Vienna",
+      "description": "Merit-based aid open to applicants from any country: bachelor's Partial Tuition Awards (up to 50% of tuition, max EUR 4,000/year, few awards); master's Tuition Award (50-80% of tuition) and Stipend Award (EUR 300-750/month); doctoral scholarship with full tuition and EUR 2,002 gross/month for 48 months.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "Merit-based; most full-time programmes"
+        ]
+      },
+      "amount": "BA: up to 50% tuition, max EUR 4,000/year; MA stipend EUR 300-750/month; PhD EUR 2,002 gross/month",
+      "how_to_apply": "Tick the Funding section in the CEU application form and apply by the programme's deadline",
+      "deadline": "Programme admission deadlines (see CEU admissions)",
+      "stackable": null,
+      "source_url": "https://www.ceu.edu/admissions/financial-aid",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Stipends are taxable in Austria as self-employed income and require SVS insurance (PhD). Paid only after arrival in Vienna and registration of a SEPA EUR account."
+    },
+    {
+      "id": "at-oead-scholarships",
+      "category": "university",
+      "name_local": "OeAD-Stipendien (u. a. Ernst Mach, CEEPUS)",
+      "name_it": "Borse OeAD per studenti internazionali (Ernst Mach, CEEPUS, ecc.)",
+      "authority": "OeAD (Austria's Agency for Education and Internationalisation)",
+      "description": "OeAD runs incoming programmes such as CEEPUS, Ernst Mach Grant ASEA-UNINET (citizens of Indonesia, Malaysia, Philippines, Thailand, Vietnam), Ernst Mach Grant for universities of applied sciences, Aktion Austria-Czech Republic/Hungary and others; many target master's, PhD or postdoc level or specific countries. No programme aimed at regular EU bachelor/master degree students was found on the overview.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "Each programme has its own nationality, level and age rules (e.g. ASEA-UNINET max. age 35 for students)"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Per programme; search all grants on grants.at",
+      "deadline": "Per programme (e.g. ASEA-UNINET Music Practice 2027/28: 15 December 2026)",
+      "stackable": null,
+      "source_url": "https://oead.at/en/study-research-teaching/overview-grants-and-scholarships",
+      "extra_sources": [
+        "https://oead.at/en/study-research-teaching/overview-grants-and-scholarships/ernst-mach-grant/faq-ernst-mach-grant-asea-uninet"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Monthly grant rates not stated on the pages read."
+    }
+  ]
+}

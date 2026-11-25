@@ -1,0 +1,97 @@
+{
+  "city": "Gothenburg",
+  "slug": "gothenburg",
+  "country": "Sweden",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "SEK 4,000–7,500/month for student housing (University of Gothenburg); Chalmers estimates SEK 4,000–8,000/month.",
+      "source_name": "University of Gothenburg",
+      "source_url": "https://www.gu.se/en/study-in-gothenburg/prepare-for-your-arrival/living-costs-as-a-student-in-gothenburg",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.chalmers.se/en/education/study-at-chalmers/living-in-sweden/cost-of-living/"
+      ]
+    },
+    {
+      "field": "rent_studio",
+      "value": "SEK 6,000–10,000/month for a small apartment (University of Gothenburg estimate).",
+      "source_name": "University of Gothenburg",
+      "source_url": "https://www.gu.se/en/study-in-gothenburg/prepare-for-your-arrival/living-costs-as-a-student-in-gothenburg",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "SEK 10,525–17,525/month (University of Gothenburg); SEK 14,360–18,360/month incl. course books (Chalmers).",
+      "source_name": "University of Gothenburg; Chalmers",
+      "source_url": "https://www.gu.se/en/study-in-gothenburg/prepare-for-your-arrival/living-costs-as-a-student-in-gothenburg",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.chalmers.se/en/education/study-at-chalmers/living-in-sweden/cost-of-living/"
+      ]
+    },
+    {
+      "field": "transport_pass",
+      "value": "Västtrafik Zone A 30-day youth/student ticket SEK 670 (25% off adult); SEK 335 in the half-price offer until 2 Dec 2026. GU budget lists SEK 645.",
+      "source_name": "Västtrafik",
+      "source_url": "https://www.vasttrafik.se/en/Tickets/discounts/season-tickets-will-soon-cost-half-price/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.vasttrafik.se/en/Tickets/more-about-tickets/Student-discount/",
+        "https://www.gu.se/en/study-in-gothenburg/prepare-for-your-arrival/living-costs-as-a-student-in-gothenburg"
+      ],
+      "valid_until": "2026-12-02"
+    },
+    {
+      "field": "climate",
+      "value": "Mean temperature about 0.8 °C in January and 18.3 °C in July; about 912 mm precipitation/year, wettest of the four cities (SMHI 1991–2020).",
+      "source_name": "Wikipedia (citing SMHI)",
+      "source_url": "https://en.wikipedia.org/wiki/Gothenburg",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing SMHI 1991–2020 normals; SMHI's own tables were not reached."
+    },
+    {
+      "field": "social_life",
+      "value": "University of Gothenburg calls the whole city its campus: central, close to culture, the sea, cafés in Haga and Slottsskogen park.",
+      "source_name": "University of Gothenburg",
+      "source_url": "https://www.gu.se/en/study-in-gothenburg/campus-and-student-life/campus-and-facilities",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Swedish not needed for daily life (English widely spoken); learning some Swedish helps socially and for jobs.",
+      "source_name": "Study in Sweden (Swedish Institute)",
+      "source_url": "https://studyinsweden.se/moving-to-sweden/learn-swedish/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "A part-time job should not be assumed; budget to support yourself. Non-EU study-permit holders limited to 15 h/week in semesters (rule from June 2026).",
+      "source_name": "University of Gothenburg",
+      "source_url": "https://www.gu.se/en/study-in-gothenburg/prepare-for-your-arrival/living-costs-as-a-student-in-gothenburg",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "student_wage",
+      "value": "No city data. National example: hotel/restaurant agreement floor SEK 153.64–164.30/hour (from 1 Apr 2026, no experience; youth rates under 20). No statutory minimum wage.",
+      "source_name": "HRF (Hotel and Restaurant Workers' Union) – Gröna Riksavtalet",
+      "source_url": "https://www.hrf.net/lon-och-villkor/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "extra_sources": [
+        "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics"
+      ],
+      "notes": "A collective-agreement wage floor for one sector, not a measured typical student wage; no citable source for typical student pay found."
+    }
+  ]
+}

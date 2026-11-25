@@ -1,0 +1,82 @@
+{
+  "city": "Rome",
+  "slug": "rome",
+  "country": "Italy",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No citable figure found (room rent not read on an official or report page)",
+      "source_name": "DiSCo Lazio",
+      "source_url": "https://laziodisco.it/servizi-attivi/residenze-universitarie/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~€1,213/month city centre, ~€804 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Rome",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "~€903/month for a single person excluding rent (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Rome",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Not a student-specific budget."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Monthly pass ~€35 regular price (Nov 2026); student rate not verified",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Rome",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 4-13°C, Jul avg 22-32°C; hot humid July",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/climate/in/Rome",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "No citable figure found (no citable source read)",
+      "source_name": "Sapienza Università di Roma",
+      "source_url": "https://www.uniroma1.it/en/pagina/residence-permit-study-purposes",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "No citable figure found (no page read)",
+      "source_name": "Sapienza Università di Roma",
+      "source_url": "https://www.uniroma1.it/en/pagina/residence-permit-study-purposes",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "job_market",
+      "value": "No citable figure found (no page read on student jobs)",
+      "source_name": "Sapienza Università di Roma",
+      "source_url": "https://www.uniroma1.it/en/pagina/residence-permit-study-purposes",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable figure found (no typical student hourly pay found; Italy has no statutory minimum wage)",
+      "source_name": "Eurostat",
+      "source_url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    }
+  ]
+}

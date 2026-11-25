@@ -1,0 +1,94 @@
+{
+  "city": "Leiden / The Hague",
+  "slug": "leiden-the-hague",
+  "country": "Netherlands",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "The Hague € 745/month median (Kamernet Q2 2026); Leiden € 655/month median (Kamernet Q4 2025)",
+      "source_name": "Kamernet Rent Reports Q2 2026 and Q4 2025",
+      "source_url": "https://housinganywhere.com/quarterly-kamernet-rent-report",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://housinganywhere.com/quarterly-kamernet-rent-report-q4-2025",
+        "https://www.student.universiteitleiden.nl/en/support/money-matters/your-costs-as-a-student",
+        "https://universiteitleiden.nl/en/education/bachelors/student-life/the-hague-student-city/housing"
+      ],
+      "notes": "Kamernet median rent for rooms (max 30 m2) advertised on Kamernet by private landlords/tenants/agencies; social student housing excluded. Advertised asking rents, not what existing tenants pay. The Q2 2026 figures were read on a rolling URL that is overwritten by each new quarterly report. Leiden University budgets € 400-800/month rent incl. utilities and says The Hague non-furnished rooms average € 300-750."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Not found on an official/citable source",
+      "source_name": "Leiden University Housing Office",
+      "source_url": "https://universiteitleiden.nl/en/education/international-students/prepare-your-stay/housing/via-leiden-university-housing-office",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "University housing (DUWO, furnished) ranges € 425-1,200/month incl. utilities without room/studio split; private studio rents not found."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€ 1,214-1,644/month excl. tuition (Leiden University estimate, partly Nibud)",
+      "source_name": "Leiden University",
+      "source_url": "https://www.student.universiteitleiden.nl/en/support/money-matters/your-costs-as-a-student",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Items: rent 400-800, groceries 244, clothing 60, travel 70-100, health insurance 133, books 49, sport/social 239, phone 19. Same figures for Leiden and The Hague; year not stated."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No pass price found; Leiden University budgets € 70-100/month travel, more if commuting Leiden-The Hague",
+      "source_name": "Leiden University",
+      "source_url": "https://www.student.universiteitleiden.nl/en/support/money-matters/your-costs-as-a-student",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Budget estimate, not an HTM/Arriva pass price."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime: avg 4.4 °C in Jan, 18.0 °C in Jul; ~872 mm rain/yr; ~1887 h sun/yr (KNMI 1991-2020, Hoek van Holland)",
+      "source_name": "KNMI climate normals 1991-2020, station Hoek van Holland (330)",
+      "source_url": "https://cdn.knmi.nl/knmi/map/page/klimatologie/klimaatatlas/tabel/stationsdata/klimtab_9120_330.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Coastal station near The Hague. Leiden lies inland between Schiphol (Jan 3.8 °C, Jul 18.1 °C, 850 mm) and Rotterdam stations."
+    },
+    {
+      "field": "social_life",
+      "value": "Leiden: compact historic centre with student pubs and associations. The Hague: growing international student city with embassies and international courts.",
+      "source_name": "Leiden University - student life",
+      "source_url": "https://www.universiteitleiden.nl/en/education/bachelors/student-life",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "No Dutch needed for English-taught programmes; English is widely spoken. Dutch helps for part-time jobs/internships and is sometimes required.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/start-learning-dutch",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National source, applies to the whole country."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found on an official/citable source",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/working-while-studying",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No Leiden University page on student jobs could be opened (URLs tried returned 404)."
+    },
+    {
+      "field": "student_wage",
+      "value": "Statutory minimum from 1 Jul 2026: € 14.99/h gross at 21+; € 11.99 (age 20), € 8.99 (19), € 7.50 (18). Same nationwide.",
+      "source_name": "Government.nl - minimum wage amounts",
+      "source_url": "https://www.government.nl/topics/minimum-wage/minimum-wage-amounts",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Legal floor, not a measured 'typical' student wage for this city; many student jobs pay at or near this minimum. Rates from 1 Jan 2026 were € 14.71 (21+)."
+    }
+  ]
+}

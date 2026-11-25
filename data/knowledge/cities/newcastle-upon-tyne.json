@@ -1,0 +1,89 @@
+{
+  "city": "Newcastle upon Tyne",
+  "slug": "newcastle-upon-tyne",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "University-owned accommodation incl. bills: undergraduate £571–£970/month (University monthly estimates, Oct 2026).",
+      "source_name": "Newcastle University, cost of living",
+      "source_url": "https://www.ncl.ac.uk/study/student-life/cost/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "rent_studio",
+      "value": "£819/month average private rent, one-bedroom (Newcastle upon Tyne, Oct 2026); all private rents average £1,225/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E08000021/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "About £841–£1,288/month excl. travel: rent £571–£970, groceries £144, socialising £99, phone £16, course £11–£59 (University, Oct 2026).",
+      "source_name": "Newcastle University, cost of living",
+      "source_url": "https://www.ncl.ac.uk/study/student-life/cost/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Total is our sum of the University's monthly items; the page gives no total."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No price given; the University says student discounts exist on the Metro light rail and local buses.",
+      "source_name": "Newcastle University, cost of living",
+      "source_url": "https://www.ncl.ac.uk/study/student-life/cost/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 2.5–7.4°C, Jul avg 12.5–18.4°C (min–max); about 608 mm rain/year. Met Office Tynemouth station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcybg0mzy",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Tynemouth is a coastal station about 13 km east of the city centre."
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "Newcastle University",
+      "source_url": "https://www.ncl.ac.uk/study/student-life/cost/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "Newcastle University",
+      "source_url": "https://www.ncl.ac.uk/study/student-life/cost/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "city": "Lyon",
+  "slug": "lyon",
+  "country": "France",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Campus residence room €300–400/month; private housing €400–700/month",
+      "source_name": "ENS de Lyon – Fees and living expenses",
+      "source_url": "https://www.ens-lyon.fr/en/studies/student-information/fees-and-living-expenses",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Year not stated on the page."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: €830/month city centre, €605/month outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Lyon",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Rent €300–700 + food ~€350 + TCL pass €26 per month (ENS de Lyon estimates)",
+      "source_name": "ENS de Lyon – Fees and living expenses",
+      "source_url": "https://www.ens-lyon.fr/en/studies/student-information/fees-and-living-expenses",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Lyon"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No total given; Numbeo (Nov 2026): about €1,030/month excluding rent for a single person."
+    },
+    {
+      "field": "transport_pass",
+      "value": "TCL 18-25 or student 26-27: €26/month or €260/year zones 1-2 (from 1 Sept 2026); scholarship students: €11/month",
+      "source_name": "TCL tariff guide (Sept 2026)",
+      "source_url": "https://www.tcl.fr/sites/default/files/2026-05/TCL_Campagne_Unification_Guide_Tarifaire_Mai2026_W.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Lyon-Bron 1991–2020: January avg 1.1–7.1 °C, July avg 17.0–28.2 °C; about 821 mm rain/year",
+      "source_name": "Wikipedia (Lyon, citing Meteociel)",
+      "source_url": "https://en.wikipedia.org/wiki/Lyon",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Non-official page; climate table cites Meteociel, not Météo-France."
+    },
+    {
+      "field": "social_life",
+      "value": "About 130,000 students incl. 15,000 international; lively cultural life (Fête des Lumières, Nuits de Fourvière, Lumière festival)",
+      "source_name": "ENS de Lyon – Life in Lyon",
+      "source_url": "https://www.ens-lyon.fr/en/campus-life/life-lyon",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.univ-lyon2.fr/etudiant-e-international-e",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Not researched on an official page today."
+    },
+    {
+      "field": "job_market",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.univ-lyon2.fr/vie-des-campus/vie-pratique",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No citable source found today."
+    },
+    {
+      "field": "student_wage",
+      "value": "Legal floor: SMIC €12.31 gross/hour for adults (2026); typical student-job pay not published",
+      "source_name": "Service-Public.gouv.fr (SMIC)",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2300",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Only the statutory minimum is verified; no official source for typical student pay in this city."
+    }
+  ]
+}

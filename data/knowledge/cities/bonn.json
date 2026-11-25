@@ -1,0 +1,99 @@
+{
+  "city": "Bonn",
+  "slug": "bonn",
+  "country": "Germany",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "~€514/month warm (€432 cold) for a model 20 m² shared-flat (WG) room, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "rent_studio",
+      "value": "~€582/month warm (€459 cold) for a model 30 m² student flat, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "≈ €1,000/month, mostly rent (University of Bonn estimate)",
+      "source_name": "University of Bonn",
+      "source_url": "https://www.uni-bonn.de/en/studying/international-students/costs-and-financing-for-international-students",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page gives no year. Semester contribution €363.07 (WS 2026/27)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Deutschlandsemesterticket €226.80/semester (≈ €37.80/month), included in the €363.07 semester contribution, winter 2026/27",
+      "source_name": "University of Bonn (costs page)",
+      "source_url": "https://www.uni-bonn.de/en/studying/application-admission-and-enrollment/costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Summer 2026: €208.80 ticket in a €345.07 contribution."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate; mean Jan 3.2 °C, Jul 19.5 °C, year 11.0 °C, ~637 mm rain/yr, ~1,595 h sun/yr (DWD station Bonn, 1991–2020 normals)",
+      "source_name": "Deutscher Wetterdienst (DWD) climate normals 1991-2020",
+      "source_url": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Temperatur_1991-2020.txt",
+      "extra_sources": [
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Sonnenscheindauer_1991-2020.txt",
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Niederschlag_1991-2020.txt"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "DWD multi-annual means 1991-2020 for station 'Bonn'."
+    },
+    {
+      "field": "social_life",
+      "value": "~36,000 students (2025 est.) in Bonn, 11.4 per 100 inhabitants",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "Student counts from the MLP Studentenwohnreport 2026 (2025 values estimated by trend). Whether this makes a lively student scene is a judgement."
+    },
+    {
+      "field": "language_needed",
+      "value": "German is the teaching language of most degree programmes; English-taught international programmes usually need only English proof. German makes daily life and social life much easier.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/living-in-germany/german-language/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Germany-wide DAAD guidance, not city-specific; exchange stays of 1-2 semesters may be exempt from German proof."
+    },
+    {
+      "field": "job_market",
+      "value": "Germany-wide (DAAD): waiting tables, shops, offices, tutoring, trade fairs, industry, university student-assistant jobs.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "No city-specific student job-market data found; DAAD national guidance. Non-EU students: 140 full / 280 half days per year (student-assistant jobs exempt); EU/EEA/Swiss: unrestricted."
+    },
+    {
+      "field": "student_wage",
+      "value": "Min. €13.90/h gross (statutory, 2026; €14.60 from 2027). University student assistants (SHK): €15.20/h from summer semester 2026 (TdL guideline)",
+      "source_name": "TdL guideline for student assistants (30 Mar 2026) + Bundesregierung (minimum wage)",
+      "source_url": "https://www.uni-siegen.de/files/default/media/documents/2026-04/2026-04-01__rl__tdl_arbeitsbedingungen_whk_shk_april_2026.pdf",
+      "extra_sources": [
+        "https://www.bundesregierung.de/breg-de/aktuelles/mindestlohn-steigt-2391010",
+        "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "TdL guideline applies to state universities in TdL member Länder; check your university's own rate. DAAD: many side jobs pay at or a little above the minimum wage. North Rhine-Westphalia is a TdL member."
+    }
+  ]
+}

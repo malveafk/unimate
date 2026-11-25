@@ -1,0 +1,87 @@
+{
+  "city": "Cork",
+  "slug": "cork",
+  "country": "Ireland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Cork City: double room in a house €789/month (no ensuite), single room in a house €680 (Q3 2026)",
+      "source_name": "Daft.ie Rental Report 2026 Q3",
+      "source_url": "https://www.daft.ie/report/rental/daft-ie-rental-report-2026q3-update.pdf",
+      "extra_sources": ["https://www.ucc.ie/en/international/studentinfohub/beforeyouarrive/costofliving/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Average listed rents. UCC: private house share €700-€900/month bills excluded; on-campus €800-€1,030 (2026)."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Cork City studio €1,247/month; 1-bed apartment €1,783 (Q3 2026)",
+      "source_name": "Daft.ie Rental Report 2026 Q3",
+      "source_url": "https://www.daft.ie/report/rental/daft-ie-rental-report-2026q3-update.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€1,181-€2,923/month incl. accommodation; €481-€701 excluding accommodation (UCC estimate, 2026)",
+      "source_name": "UCC International Office - Cost of Living",
+      "source_url": "https://www.ucc.ie/en/international/studentinfohub/beforeyouarrive/costofliving/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page updated 12 November 2026."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Student/Young Adult Leap: weekly cap €10.20 (daily €2.55) on TFI Cork City buses; UCC budgets €26-€30/month",
+      "source_name": "TFI Leap Card - Fare capping",
+      "source_url": "https://about.leapcard.ie/fare-capping",
+      "extra_sources": ["https://www.ucc.ie/en/international/studentinfohub/beforeyouarrive/costofliving/"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Mild and wet: mean daily max 8.2°C in Jan, 18.6°C in Jul; 1,239 mm rain/year, ~162 days with ≥1 mm (Cork Airport 1991-2020)",
+      "source_name": "Met Éireann 1991-2020 averages",
+      "source_url": "https://www.met.ie/cms/assets/uploads/2023/09/www_met_ie_cork_9120.htm",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Described by UCC as a hub of culture and Ireland's food capital, hosting 24 major festivals a year",
+      "source_name": "UCC - Cork City and Region",
+      "source_url": "https://www.ucc.ie/en/discover/cork/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English: lectures are in English; UCC does not ask Erasmus students for a test but offers B2+ and C1 academic English courses",
+      "source_name": "UCC - English language proficiency (incoming Erasmus)",
+      "source_url": "https://www.ucc.ie/en/international/studyatucc/incomingerasmusstudents/englishlanguageproficiency/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "Casual and part-time jobs via the UCC student jobs portal, Students' Union site and notice boards; UCC says relying on part-time work to fund studies is not realistic",
+      "source_name": "UCC International Office - Working in Ireland",
+      "source_url": "https://www.ucc.ie/en/international/studentinfohub/afteryouarrive/workinginireland/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "No data on typical student pay found; legal floor €14.15/h (age 20+), €12.74 (19), €11.32 (18), €9.91 (under 18) in 2026",
+      "source_name": "Citizens Information - Minimum wage",
+      "source_url": "https://www.citizensinformation.ie/en/employment/employment-rights-and-conditions/pay-and-employment/minimum-wage/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Value is the statutory minimum, not an observed average student wage. Budget 2027: €14.94/h from 1 Jan 2027 (requires legislation)."
+    }
+  ]
+}

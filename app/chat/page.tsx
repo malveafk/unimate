@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { Linkified } from "@/app/components/Linkified";
 
 interface Message {
   role: "user" | "assistant";
@@ -341,7 +342,7 @@ export default function Chat() {
               letterSpacing: role === "assistant" ? "-0.1px" : "0",
             }}
           >
-            {seg.trim()}
+            {role === "assistant" ? <Linkified text={seg.trim()} /> : seg.trim()}
           </div>
         );
       }

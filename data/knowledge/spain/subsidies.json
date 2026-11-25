@@ -1,0 +1,399 @@
+{
+  "country": "Spain",
+  "country_code": "ES",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    {
+      "key": "state_grant_loan",
+      "result": "found",
+      "note": "Becas de carácter general (Ministerio): eligibility from RD 1721/2007 on BOE. The ministry site (educacionfpydeportes.gob.es) did not respond and the 2026-27 thresholds/amounts decree was not located, so amounts are missing. No state student loan searched."
+    },
+    {
+      "key": "rent",
+      "result": "found",
+      "note": "Plan Estatal de Vivienda 2026-2030 (RD 326/2026, BOE) youth rent aid; Bono Alquiler Joven of the 2022-2025 plan (RD 42/2022). mivau.gob.es and comunidad.madrid pages returned 403/404, so regional calls were not read."
+    },
+    {
+      "key": "health_insurance",
+      "result": "none_found",
+      "note": "No subsidy for students' health insurance found on the pages read (Comunidad de Madrid TSI page, Barcelona healthcare page). Not searched further: web search budget ran out."
+    },
+    {
+      "key": "transport",
+      "result": "found",
+      "note": "Madrid Abono Joven with 50% state discount (CRTM resolution, BOCM 31/12/2025); Barcelona T-jove (TMB)."
+    },
+    {
+      "key": "tax",
+      "result": "not_researched",
+      "note": "Web search budget ran out before this category could be researched (e.g. regional rent deductions for young people in Madrid/Catalonia)."
+    },
+    {
+      "key": "student_work",
+      "result": "none_found",
+      "note": "No subsidy tied to student work found; work rules are in bureaucracy.json. Not searched in depth."
+    },
+    {
+      "key": "erasmus",
+      "result": "found",
+      "note": "European Commission Erasmus+ page (incoming students: grant via sending/receiving institution agreement, tuition waived at host); Catalonia MOBINT-MIF top-up for students of Catalan universities going abroad. SEPIE site had a certificate error. No host top-up for incoming Erasmus students found."
+    },
+    {
+      "key": "regional",
+      "result": "found",
+      "note": "Catalonia: Beca Equitat (tuition reduction by income). Comunidad de Madrid grants (e.g. excellence scholarships) could not be read: guessed URLs returned 404."
+    },
+    {
+      "key": "university",
+      "result": "found",
+      "note": "IE University awards (verified); UC3M Alumni Scholarship (page shows an old 2019 call: unverified); UPF website returned 403 on every page (missing)."
+    }
+  ],
+  "items": [
+    {
+      "id": "es-beca-general-mec",
+      "category": "state_grant_loan",
+      "name_local": "Becas de carácter general (Ministerio de Educación)",
+      "name_it": "Borse di studio generali del Ministero dell'Istruzione",
+      "authority": "Ministerio de Educación, Formación Profesional y Deportes",
+      "description": "Means-tested state grant for official bachelor's and master's students; in Catalonia it gives full tuition exemption plus other components depending on enrolment and income threshold. EU citizens qualify only if they are permanent residents in Spain or are employed or self-employed; this condition does not apply to the tuition-only grant (beca de matrícula).",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "income_test": "family income and asset thresholds set each academic year",
+        "residence_requirement": "EU citizens: permanent residence in Spain, or working as employee/self-employed (except for beca de matrícula). Non-EU: per Spanish immigration law (not detailed in the article)",
+        "other": [
+          "Spanish nationals also eligible",
+          "academic performance requirements"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Online application each year (in Catalonia also listed on universitats.gencat.cat as 'Beca General').",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.boe.es/eli/es/rd/2007/12/21/1721/con",
+      "extra_sources": [
+        "https://universitats.gencat.cat/ca/acces-universitat/sobre-preus-beques/beques-ajuts-disponibles/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Verified: nationality rule (art. 4.1.d RD 1721/2007). NOT verified: 2026-27 amounts, thresholds and deadline (the annual decree and the ministry page could not be read). Swiss nationals are not mentioned in what we read. Exchange students cannot apply (grant is for students enrolled in official Spanish degrees).",
+      "interpretations": [
+        {
+          "hypothesis": "An EU degree student who is not a worker and has not reached permanent residence (normally after 5 years) can still get the tuition-fee component (beca de matrícula), because art. 4.1.d excludes it from the residence/work condition.",
+          "source_url": "https://www.boe.es/eli/es/rd/2007/12/21/1721/con"
+        }
+      ]
+    },
+    {
+      "id": "es-rent-youth-plan-2026-2030",
+      "category": "rent",
+      "name_local": "Ayudas al alquiler para personas jóvenes (Plan Estatal de Vivienda 2026-2030)",
+      "name_it": "Contributo affitto per giovani (Piano statale per la casa 2026-2030)",
+      "authority": "Ministerio de Vivienda y Agenda Urbana; managed by each comunidad autónoma",
+      "description": "Rent aid for people up to 35 for their habitual and permanent home: up to € 300/month for a home or € 200/month for a room, never more than 60% of the rent. Lasts up to two years, extendable by the region for two more. Calls are opened by each region.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "max": 35
+        },
+        "income_test": "annual income up to 5 x IPREM (higher for disability)",
+        "residence_requirement": "Spanish, EU/EEA or Swiss nationals; non-EU nationals must have 'residencia legal' in Spain",
+        "other": [
+          "rent cap € 1,000/month for a home, € 600/month for a room (€ 500 / € 250 in towns of 10,000 inhabitants or fewer); regions may raise caps",
+          "must not own a home in Spain (with exceptions)",
+          "landlord must not be a relative or partner",
+          "regions may add their own requirements"
+        ]
+      },
+      "amount": "up to € 300/month (home) or € 200/month (room), max 60% of rent (plan 2026-2030)",
+      "how_to_apply": "Through your comunidad autónoma's call (Comunidad de Madrid, Generalitat de Catalunya).",
+      "deadline": null,
+      "stackable": "Not combinable with other rent aid of the plan or other public rent aid for the same purpose, except listed exceptions for vulnerable groups (art. 136).",
+      "source_url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-8872",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "RD 326/2026 of 22 April 2026, arts. 8, 132-139. Regional calls for Madrid and Catalonia were not read, so we do not know whether a call is open now. The plan text we read sets no employment requirement and does not mention students. Whether a non-EU student with a TIE for studies counts as 'residencia legal' is our legal reading, not stated in the text: confirm with the regional call.",
+      "interpretations": [
+        {
+          "hypothesis": "Non-EU students on a 'estancia por estudios' are excluded, because art. 8.2.a requires 'residencia legal' and a study stay is legally a stay (estancia), not a residence.",
+          "source_url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-8872"
+        }
+      ]
+    },
+    {
+      "id": "es-rent-bono-alquiler-joven-2022",
+      "category": "rent",
+      "name_local": "Bono Alquiler Joven (Plan 2022-2025)",
+      "name_it": "Bonus affitto giovani (piano 2022-2025)",
+      "authority": "Ministerio de Vivienda; managed by comunidades autónomas",
+      "description": "Previous scheme: € 250/month for two years for people aged 18-35 with a regular income source, household income up to 3 x IPREM, rent up to € 600/month (regions could raise to € 900; rooms € 300, up to € 450). Not available in the Basque Country or Navarra. It belongs to the 2022-2025 plan, which RD 326/2026 has replaced.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 18,
+          "max": 35
+        },
+        "income_test": "household income up to 3 x IPREM (4 x if moving to another province/region)",
+        "residence_requirement": "Spanish, EU/EEA/Swiss nationals; non-EU in regular stay or residence",
+        "other": [
+          "must have a regular source of income",
+          "habitual residence in the rented home"
+        ]
+      },
+      "amount": "€ 250/month for 24 months (plan 2022-2025)",
+      "how_to_apply": "Regional calls (closed for the 2022-2025 plan in the regions we could not check).",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.boe.es/eli/es/rd/2022/01/18/42/con",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Kept for context: students may still hear about it. Whether any regional call under this scheme remains open in 2026 was not checked. For new applications see es-rent-youth-plan-2026-2030."
+    },
+    {
+      "id": "es-transport-abono-joven-madrid",
+      "category": "transport",
+      "name_local": "Abono Transporte Joven (Madrid)",
+      "name_it": "Abbonamento giovani (Madrid)",
+      "authority": "Consorcio Regional de Transportes de Madrid; 50% discount funded by the State (RD-ley 17/2025)",
+      "description": "30-day unlimited pass for young people valid across the Madrid regional network at a flat price of € 10 in 2026 (after the 50% state discount for youth passes). Loaded on the personal Tarjeta Transporte Público.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 15,
+          "max": 25
+        },
+        "other": [
+          "first card issue requires a padrón certificate (see es-transport-card-madrid)"
+        ]
+      },
+      "amount": "€ 10 per 30 days (from 1/1/2026); annual pass = 10 x the 30-day price",
+      "how_to_apply": "Get a personal TTP card (€ 4) by appointment, then load the Abono Joven.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.crtm.es/media/s1qi0nmo/bocm-20251231-precios_transporte.pdf",
+      "extra_sources": [
+        "https://www.crtm.es/billetes-y-tarifas/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "CRTM page shows profile 'Joven de 15 a 25 años'. The BOCM resolution says the state 50% discount applies to youth passes for people born between 2000 and 2011. The flat-zone reading ('all zones') comes from the single price in the table, which has no zone breakdown for JOVEN."
+    },
+    {
+      "id": "es-transport-t-jove-barcelona",
+      "category": "transport",
+      "name_local": "T-jove (Barcelona)",
+      "name_it": "T-jove (Barcellona)",
+      "authority": "ATM / TMB Barcelona",
+      "description": "Youth travel card: unlimited integrated journeys in all fare zones for 90 consecutive days from first validation, for people under 30. Personal, on T-mobilitat card or NFC phone.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "max": 29
+        },
+        "other": [
+          "T-mobilitat registration with Young profile"
+        ]
+      },
+      "amount": "€ 45.50 per 90 days (TMB fares page, 2026-11-25)",
+      "how_to_apply": "Register on T-mobilitat before turning 30 and buy the T-jove.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.tmb.cat/en/barcelona-fares-metro-bus",
+      "extra_sources": [
+        "https://www.tmb.cat/en/barcelona-fares-metro-bus/single-and-integrated/t-jove"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "If validated before your 30th birthday you can use it until it expires. The fares page shows no year; price read on 2026-11-25."
+    },
+    {
+      "id": "es-erasmus-incoming",
+      "category": "erasmus",
+      "name_local": "Erasmus+ (incoming students in Spain)",
+      "name_it": "Erasmus+ (studenti in arrivo in Spagna)",
+      "authority": "European Commission; sending institution",
+      "description": "Incoming Erasmus+ students sign their grant agreement with their sending (or receiving) institution, and the grant contributes to travel and living costs. They pay no tuition, registration or exam fees at the Spanish host university. No Spanish top-up for incoming students was found.",
+      "eligibility": {
+        "student_type": [
+          "exchange"
+        ],
+        "nationality": "any",
+        "stay_duration": "2-12 months per study cycle (up to 24 months for one-cycle degrees)"
+      },
+      "amount": null,
+      "how_to_apply": "Through the Erasmus+ coordinator of your home university.",
+      "deadline": null,
+      "stackable": "The EC page says other grants from your institution or a government may be added.",
+      "source_url": "https://erasmus-plus.ec.europa.eu/opportunities/opportunities-for-individuals/students/studying-abroad",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "es-erasmus-mobint-catalonia",
+      "category": "erasmus",
+      "name_local": "MOBINT-MIF (Generalitat de Catalunya)",
+      "name_it": "MOBINT-MIF (contributo mobilità internazionale, Catalogna)",
+      "authority": "Generalitat de Catalunya (Departament de Recerca i Universitats)",
+      "description": "Extra grant for students of Catalan universities who go abroad on an international mobility programme: € 200/month for up to 6 months. Requires a good academic record and B2 in the language of the host course.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "enrolled at a Catalan university (e.g. UB, UPF, UAB)",
+          "outgoing mobility",
+          "B2 language level"
+        ]
+      },
+      "amount": "€ 200/month, up to 6 months",
+      "how_to_apply": "Online tràmit on the Generalitat website (via universitats.gencat.cat).",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://universitats.gencat.cat/ca/acces-universitat/sobre-preus-beques/beques-ajuts-disponibles/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Relevant only to full-degree students in Barcelona going on exchange, not to incoming exchange students. Academic year of the call not stated on the page."
+    },
+    {
+      "id": "es-regional-beca-equitat-catalonia",
+      "category": "regional",
+      "name_local": "Beca Equitat (Generalitat de Catalunya)",
+      "name_it": "Borsa Equitat (riduzione delle tasse universitarie, Catalogna)",
+      "authority": "Generalitat de Catalunya / AGAUR",
+      "description": "Income-based percentage reduction of university tuition for official bachelor's and qualifying master's students at Catalan public universities (UB, UAB, UPC, UPF, UdG, UdL, URV, UOC) and INEFC/ISPC. Not for students who already hold an equivalent or higher degree.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "family income bracket (tram de renda familiar)",
+        "other": [
+          "nationality/residence rules are in the AGAUR call, not read"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Single online form (also used to certify the family income bracket), with a digital ID in the applicant's name (idCat Mòbil recommended).",
+      "deadline": "2026-27 call (Resolució REU/2545/2026): 15 September - 30 October 2026, 14:00",
+      "stackable": null,
+      "source_url": "https://tramits.gencat.cat/ca/tramits/tramits-temes/Beques-Equitat-i-acreditacio-del-tram-de-renda-familiar-EQUITAT?category=77405924-a82c-11e3-a972-000c29052e2c",
+      "extra_sources": [
+        "https://universitats.gencat.cat/ca/acces-universitat/sobre-preus-beques/preus-estudis-universitaris/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Reduction percentages by bracket were not shown on the page (AGAUR site not read). Context: 2026-27 public bachelor price in Catalonia is € 17.69 per credit (first enrolment)."
+    },
+    {
+      "id": "es-regional-madrid-grants",
+      "category": "regional",
+      "name_local": "Becas de la Comunidad de Madrid para estudiantes universitarios",
+      "name_it": "Borse della Comunità di Madrid per studenti universitari",
+      "authority": "Comunidad de Madrid",
+      "description": "Regional university grants (for example excellence scholarships) exist in the Madrid region, but we could not open an official page to confirm names, amounts or eligibility.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any"
+      },
+      "amount": null,
+      "how_to_apply": null,
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.comunidad.madrid/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Guessed comunidad.madrid URLs returned 404 and web search budget was exhausted. Needs a human check."
+    },
+    {
+      "id": "es-university-ie-awards",
+      "category": "university",
+      "name_local": "IE University undergraduate awards (Direct Awards, IE Awards, IE Foundation scholarships)",
+      "name_it": "Borse IE University per bachelor",
+      "authority": "IE University / IE Foundation",
+      "description": "Three channels: Direct Awards (merit, granted automatically at admission); IE Awards (merit and need) covering 10% to 60% of tuition via the IE Financial Aid Application; IE Foundation scholarships from partner organisations with their own criteria.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "IE Awards consider financial need",
+        "other": [
+          "all undergraduate programmes"
+        ]
+      },
+      "amount": "IE Awards: 10%-60% of tuition (2026 academic year)",
+      "how_to_apply": "IE Financial Aid Application (my.ie.edu/applyunifaid); some Foundation scholarships need an extra essay.",
+      "deadline": "IE Awards: by the programme start date",
+      "stackable": null,
+      "source_url": "https://www.ie.edu/financial-aid/undergraduate/awardsandscholarships/",
+      "extra_sources": [
+        "https://www.ie.edu/financial-aid/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Meeting minimum criteria does not guarantee an award. IE says about 35% of its students receive support."
+    },
+    {
+      "id": "es-university-uc3m-alumni",
+      "category": "university",
+      "name_local": "Becas Alumni UC3M",
+      "name_it": "Borse Alumni UC3M",
+      "authority": "Universidad Carlos III de Madrid / Fundación UC3M",
+      "description": "Scholarship for new bachelor students with good academic records and limited financial resources: € 3,000 per year for the duration of the degree.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "limited financial resources",
+        "other": [
+          "new students",
+          "good academic record"
+        ]
+      },
+      "amount": "€ 3,000/year (as shown on the page, 2019 call)",
+      "how_to_apply": "Application in the call window (2019 call: 6 May - 10 June).",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.uc3m.es/bachelor-degree/admission/application/enrollment/scolarships",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "The UC3M page still shows the 2019 call; a 2026 news item mentions 12 new UC3M Alumni Scholarships but the current amount and dates were not confirmed."
+    },
+    {
+      "id": "es-university-upf",
+      "category": "university",
+      "name_local": "UPF ajuts i beques propis",
+      "name_it": "Borse e aiuti propri della UPF",
+      "authority": "Universitat Pompeu Fabra",
+      "description": "UPF's own grants for bachelor students could not be checked: the university website refused automated access.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any"
+      },
+      "amount": null,
+      "how_to_apply": null,
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.upf.edu/en/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Every upf.edu page returned HTTP 403. Needs a human check."
+    }
+  ]
+}

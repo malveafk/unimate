@@ -1,0 +1,97 @@
+{
+  "city": "Tartu",
+  "slug": "tartu",
+  "country": "Estonia",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "UT residence, place in shared twin room: ~€ 175–182/month incl. utilities (2026). Short-term exchange: € 276 (bed in twin) or € 431 (twin, single use) from 1 Jul 2026.",
+      "source_name": "University of Tartu – Cost of living in Tartu",
+      "source_url": "https://ut.ee/en/content/cost-living-tartu",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Exchange-room deposits: € 552 (bed) or € 862 (single use). Private accommodation: ~€ 300–700+/month incl. utilities per the same page."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat ~€ 579/month in centre, ~€ 416 outside centre (Nov 2026). UT: private flats ~€ 300–700+/month incl. utilities.",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Tartu",
+      "extra_sources": ["https://ut.ee/en/content/cost-living-tartu"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Numbeo: 694 entries from 29 contributors in the past 12 months, last update 20 Nov 2026."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "UT advises budgeting ~€ 600–800/month incl. rent (2026 estimates); food € 250–400/month.",
+      "source_name": "University of Tartu – Cost of living in Tartu",
+      "source_url": "https://ut.ee/en/content/cost-living-tartu",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "€ 600–800/month (UT, 2026 estimates).", "source_url": "https://ut.ee/en/content/cost-living-tartu" },
+        { "hypothesis": "€ 300–500/month average (Study in Estonia, national, no year; based on a 2019 survey) — likely outdated.", "source_url": "https://www.studyinestonia.ee/living/living-costs" }
+      ]
+    },
+    {
+      "field": "transport_pass",
+      "value": "30-day city bus ticket: € 14.90 youth 20–26 registered in Tartu (€ 22.30 non-resident); full fare € 21.30 resident / € 31.90 non-resident (2026). No student category.",
+      "source_name": "City of Tartu – Bus ticket prices",
+      "source_url": "https://tartu.ee/hinnad-ja-soodustused",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Discounts need a bus card personalised with an Estonian ID code. Bike-share 30-day: € 14 resident."
+    },
+    {
+      "field": "climate",
+      "value": "Tartu-Tõravere 1991–2020 normals: January −4.1 °C, February −4.4 °C, July 18.0 °C, annual mean 6.3 °C.",
+      "source_name": "Estonian Environment Agency (Ilmateenistus) – climate normals",
+      "source_url": "https://www.ilmateenistus.ee/kliima/kliimanormid/ohutemperatuur/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Tõravere station is about 20 km from central Tartu. Winters bring icy pavements (Tartu Welcome Centre)."
+    },
+    {
+      "field": "social_life",
+      "value": "Compact student city called 'student capital' and 'City of Youth' by UT; European Capital of Culture 2024; ESN and many student discounts.",
+      "source_name": "University of Tartu – Top reasons to choose UT",
+      "source_url": "https://ut.ee/en/content/top-reasons-choose-university-tartu",
+      "extra_sources": ["https://ut.ee/en/content/cost-living-tartu"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English for English-taught programmes; Estonian not required day to day ('Estonians generally do not expect foreigners to know it'). Estonian courses offered.",
+      "source_name": "Study in Estonia – Language; University of Tartu",
+      "source_url": "https://www.studyinestonia.ee/estonia/language",
+      "extra_sources": ["https://ut.ee/en/getting-started-international-students"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "No official statement found on how much Estonian is needed for part-time jobs in Tartu."
+    },
+    {
+      "field": "job_market",
+      "value": "UT advises not to rely on finding a job after arrival. Job channels: Töötukassa, CV Keskus, CV.ee, GoWorkaBit, UT career centre (Futulab).",
+      "source_name": "University of Tartu – Cost of living; Tartu Welcome Centre",
+      "source_url": "https://ut.ee/en/content/cost-living-tartu",
+      "extra_sources": ["https://tartuwelcomecentre.ee/resources-for-newcomers/living-in-tartu/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable figure for typical student-job pay in Tartu. Legal floor: € 5.67/hour gross (€ 946/month full-time) from 1 Apr 2026.",
+      "source_name": "Working Life Portal (Labour Inspectorate) – Wages",
+      "source_url": "https://www.tooelu.ee/en/175/wages",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Only the statutory minimum is verified; typical student wages are missing."
+    }
+  ]
+}

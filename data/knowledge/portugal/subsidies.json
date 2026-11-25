@@ -1,0 +1,496 @@
+{
+  "country": "Portugal",
+  "country_code": "PT",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    {
+      "key": "state_grant_loan",
+      "result": "found",
+      "note": "New framework DL 148/2026 + Portaria 331-B/2026/1 (Portaria text not readable). No state student loan checked."
+    },
+    {
+      "key": "rent",
+      "result": "found"
+    },
+    {
+      "key": "health_insurance",
+      "result": "none_found",
+      "note": "No student health-insurance subsidy found; SNS access rules are in bureaucracy.json. University health services (e.g. SASUP 'Saúde') not researched."
+    },
+    {
+      "key": "transport",
+      "result": "found"
+    },
+    {
+      "key": "tax",
+      "result": "found"
+    },
+    {
+      "key": "student_work",
+      "result": "found",
+      "note": "Only the grant rule on holiday income; university paid-collaboration schemes are under 'university'."
+    },
+    {
+      "key": "erasmus",
+      "result": "none_found",
+      "note": "IES Erasmus+ page checked: no host-side top-up for incoming students; outgoing grant amounts not stated there (erasmusmais.pt not checked)."
+    },
+    {
+      "key": "regional",
+      "result": "not_researched",
+      "note": "Municipal (Lisbon, Porto) and Azores/Madeira regional grants were not searched (web search budget exhausted)."
+    },
+    {
+      "key": "university",
+      "result": "found",
+      "note": "ULisboa, NOVA, U.Porto checked; SAS ULisboa site not readable."
+    }
+  ],
+  "items": [
+    {
+      "id": "pt-state-grant-eligibility",
+      "category": "state_grant_loan",
+      "name_local": "Bolsa de estudo de ação social (ensino superior)",
+      "name_it": "Borsa di studio statale per l'università (azione sociale)",
+      "authority": "IES - Instituto para o Ensino Superior, I.P. (former DGES) with the universities' social services (SAS)",
+      "description": "Annual, non-repayable needs-based grant for students enrolled in Portuguese higher education, paid monthly. From the new framework (DL 148/2026) the amount equals the gap between the real local cost of study and the family's available income; the full new calculation applies from 2027/2028, with transitional rules in 2026/2027.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "income_test": "Available family income below the estimated cost of study in the territory; family movable assets not above 240 x IAS",
+        "residence_requirement": "See 'other': most EU and non-EU students qualify only with permanent residence, worker status or protection status",
+        "other": [
+          "Portuguese citizens and their family members (Lei 37/2006)",
+          "EU citizens only if they have permanent residence in Portugal OR are employed/self-employed workers (or kept that status), and their family members",
+          "Non-EU citizens only with a permanent residence permit, EU long-term resident status, or from states with a cooperation agreement or reciprocity",
+          "Stateless persons, beneficiaries of international or temporary protection, students in humanitarian emergency",
+          "Must not already hold a degree of the same or higher level",
+          "Continuing students must show academic success",
+          "Tax and social-security situation regularised"
+        ]
+      },
+      "amount": "Varies with income and local cost of study (2026/2027 transitional rules; tables in Portaria 331-B/2026/1, not read)",
+      "how_to_apply": "Online on the BeOn platform (student private area on the IES/DGES portal), with documents for every household member; help from the university's SAS/GAS.",
+      "deadline": "2026/2027: 14 August - 2 October 2026 (20 working days after enrolment if later); late applications until 31 May are pro-rated",
+      "stackable": null,
+      "source_url": "https://www.madeira.gov.pt//Portals/10/Documentos/DL_148_2026_20%20de%20julho.pdf",
+      "extra_sources": [
+        "https://iesuperior.pt/bolsas-de-estudo/",
+        "https://iesuperior.pt/abertura-das-candidaturas-a-bolsa-de-estudo-para-o-ensino-superior-e-nova-bolsa-de-incentivo/",
+        "https://diariodarepublica.pt/dr/detalhe/portaria/331-b-2026-1155188919"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "An EU degree student who has a real part-time job in Portugal counts as a 'trabalhador subordinado' and is therefore eligible; DL 148/2026 sets no minimum hours, so where the line falls is decided case by case (EU free-movement case law).",
+          "source_url": "https://www.madeira.gov.pt//Portals/10/Documentos/DL_148_2026_20%20de%20julho.pdf"
+        },
+        {
+          "hypothesis": "An EU student who only studies (no job, under 5 years of residence, so no permanent residence) is not eligible for the bolsa.",
+          "source_url": "https://www.madeira.gov.pt//Portals/10/Documentos/DL_148_2026_20%20de%20julho.pdf"
+        }
+      ],
+      "notes": "DL 148/2026 (20 July 2026) replaced DL 129/93. The source is the DL text as republished by the Madeira regional government; the Diário da República page could not be read. Exchange students are enrolled at their home institution and are not covered (our inference)."
+    },
+    {
+      "id": "pt-state-grant-incentive",
+      "category": "state_grant_loan",
+      "name_local": "Bolsa de incentivo",
+      "name_it": "Borsa di incentivo",
+      "authority": "IES, I.P.",
+      "description": "New fixed grant (transitional regime 2026/2027) for students entering higher education for the first time who belong to the 1st income bracket of the Portuguese child benefit (abono de família) / Escalão A of school social action.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "First-time entrants in higher education",
+          "1st bracket of the Portuguese abono de família (in practice families already in the Portuguese benefits system)",
+          "Later years: final grade in the top 25% of the previous year (per government communiqué)"
+        ]
+      },
+      "amount": "€ 1,075 (fixed, 2026/2027)",
+      "how_to_apply": "Form on the BeOn platform",
+      "deadline": "31 May 2027",
+      "stackable": null,
+      "source_url": "https://iesuperior.pt/abertura-das-candidaturas-a-bolsa-de-estudo-para-o-ensino-superior-e-nova-bolsa-de-incentivo/",
+      "extra_sources": [
+        "https://portugal.gov.pt/pt/gc25/comunicacao/comunicados/novo-sistema-de-acao-social-no-ensino-superior-aplicado-de-forma-gradual-a-partir-de-20262027"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationality is not restricted on the page, but the abono de família condition limits it in practice to families resident and receiving benefits in Portugal."
+    },
+    {
+      "id": "pt-rent-housing-supplement-grantees",
+      "category": "rent",
+      "name_local": "Complemento de alojamento para bolseiros deslocados",
+      "name_it": "Integrazione alloggio per borsisti fuori sede",
+      "authority": "IES, I.P. / university social services",
+      "description": "Displaced grant holders (studying away from home, distance rule set by IES despacho) receive a monthly housing supplement. In 2026/2027 it is 30% of the IAS (about € 161/month), up from 17.5%; they keep priority for university residences but may choose private housing and keep the support.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "income_test": "Must be a bolsa holder (same income/asset tests)",
+        "other": [
+          "Must be 'estudante deslocado' (distance criterion, IES despacho under art. 14(3) of the regulation)",
+          "Same nationality/residence conditions as the state grant"
+        ]
+      },
+      "amount": "≈ € 161/month (30% of IAS, 2026/2027)",
+      "how_to_apply": "Within the bolsa application on BeOn",
+      "deadline": "Same as bolsa (2026/2027: 14 Aug - 2 Oct 2026)",
+      "stackable": "Paid together with the bolsa",
+      "source_url": "https://portugal.gov.pt/pt/gc25/comunicacao/comunicados/novo-sistema-de-acao-social-no-ensino-superior-aplicado-de-forma-gradual-a-partir-de-20262027",
+      "extra_sources": [
+        "https://iesuperior.pt/bolsas-de-estudo/",
+        "https://www.up.pt/portal/pt/sasup/alojamento/precos/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "When no residence place is available, a higher municipal cap applies for private housing (reported: Lisbon € 500, Porto € 419, Coimbra € 338 per month) and no rental contract is required, only proof of having applied for a residence.",
+          "source_url": "https://www.rtp.pt/noticias/pais/bolsas-de-alojamento-para-estudantes-universitarios-com-novas-regras_n1759222"
+        }
+      ],
+      "notes": "Municipal caps come only from an RTP news article (13 Aug 2026), not from the Portaria text, which could not be read. U.Porto residence rent for SASUP grant holders in 2026/2027 is € 161.14/month, matching 30% of IAS."
+    },
+    {
+      "id": "pt-rent-housing-supplement-non-grantees",
+      "category": "rent",
+      "name_local": "Complemento de alojamento para não bolseiros",
+      "name_it": "Integrazione alloggio per non borsisti",
+      "authority": "IES, I.P.",
+      "description": "In 2026/2027 students without a bolsa can still receive a housing supplement, capped at 50% of the amounts set for grant holders.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "Displaced student",
+          "Conditions not read in the Portaria; income limits not verified"
+        ]
+      },
+      "amount": "Up to 50% of the grant-holder amounts (2026/2027)",
+      "how_to_apply": null,
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.rtp.pt/noticias/pais/bolsas-de-alojamento-para-estudantes-universitarios-com-novas-regras_n1759222",
+      "extra_sources": [
+        "https://iesuperior.pt/apoio-ao-estudante/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "IES confirms that non-grantee housing support exists ('complemento de alojamento (não bolseiros)') but gives no amounts; the 50% cap is from RTP news. Nationality conditions for non-grantees not verified."
+    },
+    {
+      "id": "pt-rent-porta65",
+      "category": "rent",
+      "name_local": "Porta 65 Jovem",
+      "name_it": "Porta 65 Jovem (contributo affitto giovani)",
+      "authority": "IHRU - Instituto da Habitação e da Reabilitação Urbana",
+      "description": "Monthly subsidy covering a percentage of the rent for young people renting a whole dwelling as permanent residence. Room rentals are not accepted; rent must not exceed 60% of household gross income and income must not exceed 4 x the minimum wage.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 18,
+          "max": 35
+        },
+        "income_test": "Corrected monthly income ≤ 4 x RMMG and ≤ 4 x local maximum reference rent; rent ≤ 60% of gross income; proof via last IRS return or 3 payslips",
+        "stay_duration": "12-month approvals, renewable up to 5 years",
+        "other": [
+          "Room rentals not accepted",
+          "Must live permanently in the dwelling",
+          "Not combinable with other public housing support"
+        ]
+      },
+      "amount": "Percentage of rent by income bracket (table not read)",
+      "how_to_apply": "Online on Portal da Habitação during application periods",
+      "deadline": "Periodic application windows",
+      "stackable": "Not combinable with other public housing financial support",
+      "source_url": "https://www.portaldahabitacao.pt/porta-65-jovem1",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page does not state nationality rules; the income-proof requirement (Portuguese IRS or payslips) makes it relevant mainly for working students renting a full flat."
+    },
+    {
+      "id": "pt-transport-free-youth-lisbon",
+      "category": "transport",
+      "name_local": "Gratuitidade jovem (passe Navegante)",
+      "name_it": "Abbonamento gratuito per giovani (Navegante, Lisbona)",
+      "authority": "Metropolitano de Lisboa / TML",
+      "description": "Young people aged 4 to 23 travel free on public transport in the whole Lisbon metropolitan area with a personalised Navegante card.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 4,
+          "max": 23
+        },
+        "other": [
+          "Personalised Navegante card",
+          "ID document and Portuguese NIF required"
+        ]
+      },
+      "amount": "Free (saves € 40/month Metropolitano pass)",
+      "how_to_apply": "Request at Metro/operator customer spaces or Espaços navegante with ID and NIF",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.metrolisboa.pt/comprar/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-transport-sub23-plus1-lisbon",
+      "category": "transport",
+      "name_local": "Sub23+1",
+      "name_it": "Sub23+1 (corsi lunghi, Lisbona)",
+      "authority": "Metropolitano de Lisboa / TML",
+      "description": "Higher-education students in Architecture and Urbanism, Pharmaceutical Sciences, Medicine, Dentistry and Veterinary Medicine keep the youth benefit up to age 24 inclusive.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "age": {
+          "max": 24
+        },
+        "other": [
+          "Enrolled in one of the listed courses; proof of enrolment"
+        ]
+      },
+      "amount": "Same as youth benefit",
+      "how_to_apply": "Present enrolment proof at customer spaces",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.metrolisboa.pt/comprar/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-transport-free-youth-porto",
+      "category": "transport",
+      "name_local": "Andante Jovem (gratuito)",
+      "name_it": "Andante Giovani gratuito (Porto)",
+      "authority": "STCP / Transportes Metropolitanos do Porto",
+      "description": "The 'Jovem' Andante monthly pass profile is free for the Metropolitano and Metropolitano IR passes in the Porto metropolitan area.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "Age limit not stated on the STCP page"
+        ]
+      },
+      "amount": "Free (regular Metropolitano € 40/month)",
+      "how_to_apply": "Personalised Andante card (ID + photo)",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://stcp.pt/pt/tarifario",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Age limit for Porto is not stated on the STCP page and was not confirmed on an Andante/TMP page: the bot must say the age limit is unknown and point to stcp.pt. (Lisbon's limit is a different scheme and is not evidence for Porto.)"
+    },
+    {
+      "id": "pt-tax-irs-jovem",
+      "category": "tax",
+      "name_local": "IRS Jovem",
+      "name_it": "IRS Jovem (esenzione fiscale giovani)",
+      "authority": "Autoridade Tributária e Aduaneira",
+      "description": "Partial income-tax exemption on employment/self-employment income for young people up to 35 in their first 10 years of earning income: 100% in year 1, 75% years 2-4, 50% years 5-7, 25% years 8-10, capped at 55 x IAS (€ 28,737.50 in 2025). No degree requirement since 2025.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "max": 35
+        },
+        "other": [
+          "Not a dependant in a household's tax return",
+          "Income from employment (cat. A) or self-employment (cat. B)",
+          "Tax situation regularised",
+          "Not combined with NHR/IFICI or ex-resident regime"
+        ]
+      },
+      "amount": "100%/75%/50%/25% of income exempt by year, capped at 55 x IAS (€ 28,737.50 in 2025)",
+      "how_to_apply": "Choose the option in the annual IRS return (Modelo 3)",
+      "deadline": "Annual IRS filing period",
+      "stackable": "Not with NHR/IFICI or ex-resident regime",
+      "source_url": "https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/Folhetos_informativos/Documents/Folheto_IRS_jovem_2025.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Leaflet refers to income from 2025; 2026 cap (55 x 2026 IAS) not stated on the leaflet. It applies to those filing Portuguese IRS (our reading: tax residents); students declared as dependants on their parents' Portuguese return do not qualify."
+    },
+    {
+      "id": "pt-tax-displaced-student-rent",
+      "category": "tax",
+      "name_local": "Dedução de rendas de estudante deslocado",
+      "name_it": "Detrazione affitto studente fuori sede",
+      "authority": "Autoridade Tributária e Aduaneira",
+      "description": "Households filing Portuguese IRS can deduct 30% of the rent of a student aged up to 25 studying more than 50 km from the family's permanent residence, up to € 400/year, as an education expense.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "max": 25
+        },
+        "residence_requirement": "Family files Portuguese IRS; school > 50 km from family's permanent residence",
+        "other": [
+          "School within the Portuguese national education system",
+          "Rental contract as 'estudante deslocado' and electronic rent receipts",
+          "Annual registration as 'Estudante Deslocado' on Portal das Finanças"
+        ]
+      },
+      "amount": "30% of rent, max € 400/year",
+      "how_to_apply": "Register as Estudante Deslocado on Portal das Finanças; associate rent receipts to 'Educação' in e-Fatura",
+      "deadline": "Registration annually; deduction in the IRS return",
+      "stackable": null,
+      "source_url": "https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/Folhetos_informativos/Documents/estudantes_deslocados_eletronico.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Relevant mainly for students whose families are Portuguese taxpayers."
+    },
+    {
+      "id": "pt-student-work-grant-holiday-income",
+      "category": "student_work",
+      "name_local": "Rendimentos de trabalho em férias não contam para a bolsa",
+      "name_it": "Redditi da lavoro estivo esclusi dal calcolo della borsa",
+      "authority": "Governo de Portugal (DL 148/2026, art. 13(4))",
+      "description": "Employment income earned by an enrolled student during school holidays may be excluded from the income used to assess bolsa eligibility.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "other": [
+          "Applies to bolsa applicants (same nationality conditions)",
+          "Income from dependent work during school holidays"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Handled within the bolsa assessment",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.madeira.gov.pt//Portals/10/Documentos/DL_148_2026_20%20de%20julho.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The law says 'podem não ser contabilizados' (may be excluded); details are in the Portaria, not read."
+    },
+    {
+      "id": "pt-university-ulisboa-alumni",
+      "category": "university",
+      "name_local": "Bolsas Alumni Solidárias (ULisboa)",
+      "name_it": "Borse Alumni Solidárias (Università di Lisbona)",
+      "authority": "Associação dos Antigos Alunos - Alumni ULisboa",
+      "description": "Annual merit-and-need scholarships for 1st-cycle (bachelor) students of the University of Lisbon who show good academic results and economic difficulty.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "Proven economic difficulty",
+        "other": [
+          "1st-cycle students at ULisboa",
+          "Academic merit"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Annual call; latest window shown on the page: 15 Jan - 12 Feb 2024",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.ulisboa.pt/info/bolsas-alumni-solidarias",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Page is official but the most recent call shown is 2024; amount and current call not stated. SAS ULisboa pages (social fund) could not be read (JavaScript-only)."
+    },
+    {
+      "id": "pt-university-nova-fas",
+      "category": "university",
+      "name_local": "Fundo de Apoio Social (SASNOVA)",
+      "name_it": "Fondo di sostegno sociale (NOVA Lisbona)",
+      "authority": "Serviços de Ação Social da Universidade NOVA de Lisboa",
+      "description": "Need-based fund complementary to state grants for NOVA bachelor and integrated-master students: emergency subsidies (for cases not covered by the state system) and paid student collaboration in university activities.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "Economic situation assessed, plus academic performance",
+        "other": [
+          "Enrolled in 1st cycle or integrated master at NOVA"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Via SASNOVA (see regulation on the page)",
+      "deadline": null,
+      "stackable": "Complementary to state (IES/DGES) grants",
+      "source_url": "https://sas.unl.pt/_fundo-de-apoio-social/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-university-uporto-fas",
+      "category": "university",
+      "name_local": "Fundo de Apoio Social da U.Porto (FAS)",
+      "name_it": "Fondo di sostegno sociale (Università di Porto)",
+      "authority": "SASUP - Serviços de Ação Social da Universidade do Porto",
+      "description": "Support for U.Porto students in proven economic need: emergency subsidies when the case cannot be covered by state grants, and the 'Bolsa de Colaboradores' paying students per hour for part-time collaboration with university units (not an employment contract).",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "Proven economic need (art. 8 of the FAS regulation)",
+        "other": [
+          "U.Porto students"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Through SASUP (regulation linked on the page)",
+      "deadline": null,
+      "stackable": "Emergency subsidies are for cases outside the state grant system",
+      "source_url": "https://www.up.pt/portal/pt/sasup/bolsas/fundo-apoio-social/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-university-uporto-residence",
+      "category": "university",
+      "name_local": "Residências SASUP - preços 2026/2027",
+      "name_it": "Residenze universitarie U.Porto - prezzi 2026/2027",
+      "authority": "SASUP",
+      "description": "Subsidised U.Porto residence prices from 1 Oct 2026 to 30 Sep 2027: grant holders € 161.14/month, non-grantees and mobility (exchange) students € 198/month; international master/PhD students and researchers pay € 212.50-490/month depending on room type.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "Places subject to SASUP application and availability; grant holders have priority"
+        ]
+      },
+      "amount": "€ 161.14/month (grant holders), € 198/month (non-grantees, mobility students), 2026/2027",
+      "how_to_apply": "SASUP accommodation application",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.up.pt/portal/pt/sasup/alojamento/precos/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    }
+  ]
+}

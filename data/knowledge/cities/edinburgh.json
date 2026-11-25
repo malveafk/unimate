@@ -1,0 +1,93 @@
+{
+  "city": "Edinburgh",
+  "slug": "edinburgh",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "University self-catered halls avg £925/month rent incl. bills (£414–£1,348); private flat room avg £688/month + bills (2026-27).",
+      "source_name": "University of Edinburgh, undergraduate living costs",
+      "source_url": "https://study.ed.ac.uk/undergraduate/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Catered halls avg £1,169/month; private student accommodation avg £1,227/month (range £659–£1,781). Figures calculated March 2026."
+    },
+    {
+      "field": "rent_studio",
+      "value": "£1,038/month average private rent, one-bedroom (Lothian rental area, Oct 2026); all private rents average £1,409/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/S12000036/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy. Figure covers the Lothian rental market area, which includes Edinburgh."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "£1,546/month for a single undergraduate (University estimate 2026-27): £13,914 per 39-week year, £18,552 per 52 weeks.",
+      "source_name": "University of Edinburgh, undergraduate living costs",
+      "source_url": "https://study.ed.ac.uk/undergraduate/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Excludes tuition, study and visa costs; assumes self-catered average accommodation."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Lothian Buses student pass £58/month or £570 for 9 months (2026-27). Under-22s living in Scotland can travel free with a Young Scot NEC.",
+      "source_name": "University of Edinburgh, undergraduate living costs",
+      "source_url": "https://study.ed.ac.uk/undergraduate/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.transport.gov.scot/concessionary-travel/young-persons-free-bus-travel-scheme/"
+      ],
+      "notes": "Transport Scotland: free bus scheme is for ages 5–21 who live in Scotland; its page does not say how this applies to students from abroad."
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 1.7–7.3°C, Jul avg 11.6–19.3°C (min–max); about 728 mm rain/year. Met Office Edinburgh Royal Botanic Garden station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcvwr3yre",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Edinburgh",
+      "source_url": "https://study.ed.ac.uk/undergraduate/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Edinburgh",
+      "source_url": "https://study.ed.ac.uk/undergraduate/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

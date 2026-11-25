@@ -1,0 +1,89 @@
+{
+  "city": "Prague",
+  "slug": "prague",
+  "country": "Czech Republic",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Room in a shared apartment EUR 400-520/month; CU dormitory EUR 180 (shared room) or EUR 260 (private room) per month (CU estimate, page updated Feb 2026)",
+      "source_name": "Charles University - Costs of Living",
+      "source_url": "https://cuni.cz/UKEN-1619.html",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "rent_studio",
+      "value": "Private apartment EUR 720-1,000/month (CU estimate, 2026); 1-bedroom flat approx. CZK 22,000 (outside centre) to CZK 26,300 (centre) per month (Numbeo, Nov 2026)",
+      "source_name": "Charles University - Costs of Living; Numbeo (crowd-sourced)",
+      "source_url": "https://cuni.cz/UKEN-1619.html",
+      "extra_sources": ["https://www.numbeo.com/cost-of-living/in/Prague?displayCurrency=CZK"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "CU says 'private apartment' without specifying size; Numbeo figure is crowd-sourced (2,673 entries in 12 months, last update 23 Nov 2026)."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "About EUR 400-600/month living in a dormitory, EUR 600-1,000/month in private accommodation, rent included (CU estimate, 2026)",
+      "source_name": "Charles University - Costs of Living",
+      "source_url": "https://cuni.cz/UKEN-1619.html",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "transport_pass",
+      "value": "Student (18-26, full-time) Prague pass CZK 130/month, CZK 360/3 months, CZK 1,280/year; full price CZK 550/month (PID tariff valid from 10 Dec 2023)",
+      "source_name": "PID - Tickets and fare",
+      "source_url": "https://pid.cz/en/tickets-and-fare/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Continental: average lows about -2 C and highs 2 C in January, highs about 26 C in July; winters mostly cloudy",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/climate/in/Prague",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Not checked against the Czech Hydrometeorological Institute (CHMI)."
+    },
+    {
+      "field": "social_life",
+      "value": "Large international community: Charles University alone has over 11,000 international students, with buddy programmes and international student clubs",
+      "source_name": "Charles University - Incoming Students",
+      "source_url": "https://cuni.cz/UKEN-142.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English is enough for English-taught (fee-paying) programmes; tuition-free study requires Czech-taught programmes. Many job portals listed by the city are Czech-only",
+      "source_name": "Charles University - Tuition Fees; Prague for All (City of Prague)",
+      "source_url": "https://cuni.cz/UKEN-372.html",
+      "extra_sources": ["https://metropolevsech.eu/en/potrebuji-resit/zamestnani/kde-hledat-praci/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "job_market",
+      "value": "Student jobs are usually on DPP agreements (max 300 h/year per employer); CU points to jobs.cz, faculty job boards and expat groups; CU recommends about 20 h/week during term",
+      "source_name": "Charles University - Work and Study",
+      "source_url": "https://cuni.cz/UKEN-1625.html",
+      "extra_sources": ["https://ppropo.mpsv.cz/VII2Dohodaoprovedeniprace"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable source for typical student pay found. Legal floor: CZK 134.40/hour (2026), CZK 148.30/hour from 1 Jan 2027 (40-hour week)",
+      "source_name": "MPSV (statutory minimum wage only)",
+      "source_url": "https://mpsv.gov.cz/minimalni-mzda-v-roce-2027-vzroste-na-24-900-korun",
+      "extra_sources": ["https://mpsv.gov.cz/minimalni-mzda-od-ledna-2026-vzroste-o-1-600-korun-na-22-400-korun-mesicne"],
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "CU case study assumes EUR 400/month from a part-time job (cuni.cz/UKEN-1619.html), which is an illustration, not a wage statistic."
+    }
+  ]
+}

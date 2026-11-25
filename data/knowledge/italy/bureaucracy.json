@@ -1,0 +1,287 @@
+{
+  "country": "Italy",
+  "country_code": "IT",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "EU short/long stay (Ministry of the Interior, Your Europe, PoliTO) and non-EU study visa + permesso di soggiorno per studio (Sapienza, PoliTO). Polizia di Stato pages returned 404." },
+    { "key": "registration", "result": "found", "note": "Anagrafe registration for EU citizens (Ministry of the Interior; Turin practice via PoliTO). Non-EU anagrafe registration not researched separately." },
+    { "key": "tax_id", "result": "found", "note": "Agenzia delle Entrate English page + official brochure." },
+    { "key": "health_insurance", "result": "found", "note": "University of Bologna health page (official university page). salute.gov.it was behind a bot check and could not be read." },
+    { "key": "bank_account", "result": "not_researched", "note": "Banca d'Italia 'conto di base' page could not be located/opened (web search budget exhausted)." },
+    { "key": "transport_card", "result": "found", "note": "ATM Milano (PDF Jan 2026) and GTT Torino verified; TPER Bologna, ATAC Roma and Padua student prices not found on official pages." },
+    { "key": "student_work", "result": "found", "note": "Non-EU 20h/week, 1,040h/year (PoliTO, Sapienza). EU students' right to work not confirmed on an opened page." },
+    { "key": "minimum_wage", "result": "found", "note": "Eurostat: Italy has no national minimum wage (reference 1 July 2026)." }
+  ],
+  "items": [
+    {
+      "id": "it-residence-eu-short",
+      "topic": "residence_permit",
+      "title": "EU/EEA/Swiss students: stays up to 3 months",
+      "title_it": "Studenti UE/SEE/svizzeri: soggiorni fino a 3 mesi",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "stay_duration": "up to 3 months" },
+      "summary": "No permit or registration is needed for stays up to three months; you only need an identity card or passport valid for the whole stay.",
+      "authority": "Comune (municipality) / Ministero dell'Interno",
+      "source_url": "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/permessi-e-requisiti-di-soggiorno",
+      "extra_sources": ["https://www.unibo.it/en/study/enrolment-fees-and-other-procedures/degree-programmes/visa-and-rules-for-residence-in-italy"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Swiss citizens are grouped with EU/EEA by the University of Bologna exchange page; PoliTO speaks only of EU students."
+    },
+    {
+      "id": "it-residence-eu-long",
+      "topic": "residence_permit",
+      "title": "EU students staying more than 3 months: register at the anagrafe",
+      "title_it": "Studenti UE oltre 3 mesi: iscrizione anagrafica",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea"], "stay_duration": "more than 3 months" },
+      "summary": "EU citizens studying in Italy for more than three months register at the anagrafe of the municipality where they live (in person or online). Students must show enrolment at a recognised institution, comprehensive health insurance valid in Italy and sufficient resources (self-certifiable, benchmarked on the annual assegno sociale). The Ministry says there is no time limit for registering.",
+      "steps": [
+        "Find the anagrafe office (or online service) of the municipality where you live",
+        "Bring ID/passport, proof of enrolment, health insurance and a declaration of sufficient resources",
+        "Keep the receipt/certificate the municipality issues"
+      ],
+      "deadline": "No time limit according to the Ministry of the Interior",
+      "cost": null,
+      "authority": "Comune (Ufficio Anagrafe) / Ministero dell'Interno",
+      "source_url": "https://sdg.interno.gov.it/en/d1-residence-another-member-state-moving-temporarily-or-permanently-another-member-state",
+      "extra_sources": [
+        "https://europa.eu/youreurope/citizens/residence/residence-rights/students/index_en.htm",
+        "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/permessi-e-requisiti-di-soggiorno"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Whether the EHIC alone satisfies the health-insurance condition is not stated by the Ministry; in Turin PoliTO says the EHIC (TEAM) or a private policy is accepted. Practice varies by municipality."
+    },
+    {
+      "id": "it-registration-eu-temporary-turin",
+      "topic": "registration",
+      "title": "Temporary vs ordinary residence for EU students (Turin practice)",
+      "title_it": "Residenza temporanea o ordinaria per studenti UE (prassi di Torino)",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea"], "stay_duration": "3 to 12 months (temporary) or more than 12 months (ordinary)", "other": ["Described for the City of Turin; other municipalities may differ"] },
+      "summary": "In Turin, EU students staying 3-12 months register as temporary residents from their fourth month (valid one year, cancelled automatically after 12 months). For stays over 12 months you must register in the ordinary resident population register; applications can be filed free of charge via authorised CAF offices.",
+      "deadline": null,
+      "cost": "Free via authorised CAF (per PoliTO)",
+      "authority": "Comune di Torino - Anagrafe",
+      "source_url": "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/permessi-e-requisiti-di-soggiorno",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "it-visa-non-eu-study",
+      "topic": "residence_permit",
+      "title": "Non-EU degree students: study visa and Universitaly pre-enrolment",
+      "title_it": "Studenti extra-UE: visto per studio e preiscrizione Universitaly",
+      "applies_to": { "student_type": ["degree"], "nationality": ["non_eu"], "residence_requirement": "living abroad" },
+      "summary": "Non-EU citizens living abroad who want to enrol in an Italian degree must complete pre-enrolment on the Universitaly portal and obtain a study entry visa from the Italian embassy/consulate in their country. Permits issued for language courses or short exchange/mobility are not valid for degree enrolment.",
+      "authority": "Italian embassy/consulate (Ministero degli Affari Esteri) + university",
+      "source_url": "https://www.uniroma1.it/en/pagina/residence-permit-study-purposes",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "it-residence-non-eu-permit",
+      "topic": "residence_permit",
+      "title": "Non-EU students: permesso di soggiorno per studio",
+      "title_it": "Studenti extra-UE: permesso di soggiorno per motivi di studio",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "stay_duration": "study stay in Italy (visa for study)", "other": ["Students with Italian or EU dual citizenship are exempt"] },
+      "summary": "After arrival, request the 'yellow kit' at a Poste Italiane 'Sportello Amico' office and file it with passport and visa copies, enrolment/admission proof, proof of financial means and health insurance covering the whole permit period. The permit cannot outlast your insurance/SSN cover; renewal requires passed exams (one for the first renewal, then two per year).",
+      "steps": [
+        "Collect the kit at a Poste Italiane 'Sportello Amico' office",
+        "Attach passport/visa copies, enrolment certificate, proof of means, health insurance, €16 revenue stamp",
+        "Submit at the post office and keep the receipt (it contains credentials to track the case on the Portale Immigrazione)",
+        "Attend the Questura appointment (fingerprints)"
+      ],
+      "deadline": "Within 8 days of arrival (see interpretations)",
+      "cost": "€16 revenue stamp + €30 postage + €70.46 electronic permit (PoliTO, 2026)",
+      "authority": "Questura / Polizia di Stato (via Poste Italiane)",
+      "source_url": "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/permessi-e-requisiti-di-soggiorno",
+      "extra_sources": ["https://www.uniroma1.it/en/pagina/residence-permit-study-purposes"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "8 working days from arrival", "source_url": "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/permessi-e-requisiti-di-soggiorno" },
+        { "hypothesis": "8 days from arrival (calendar days not specified)", "source_url": "https://www.uniroma1.it/en/pagina/residence-permit-study-purposes" }
+      ],
+      "notes": "Polizia di Stato pages could not be opened (404). Sapienza says renewal cannot extend beyond three years past the programme's legal duration and should be requested at least two months before expiry; PoliTO says up to 90 days before expiry."
+    },
+    {
+      "id": "it-tax-id-codice-fiscale",
+      "topic": "tax_id",
+      "title": "Codice fiscale (tax code) for foreign students",
+      "title_it": "Codice fiscale per studenti stranieri",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "The codice fiscale is a 16-character code needed e.g. to register with the SSN. Non-EU citizens applying for or renewing a residence permit get it from the Questura; non-residents abroad can ask the Italian consulate; otherwise apply at any Agenzia delle Entrate office with form AA4/8 and a valid ID/passport (by appointment, in person for a first code). Codes generated by unofficial software are not valid.",
+      "steps": [
+        "Fill in form AA4/8",
+        "Book an appointment at an Agenzia delle Entrate office (or use the consulate if abroad)",
+        "Bring passport/ID (non-EU: visa or residence permit proving right to stay)"
+      ],
+      "cost": null,
+      "authority": "Agenzia delle Entrate",
+      "source_url": "https://agenziaentrate.gov.it/portale/web/english/nse/individuals/tax-identification-number-for-foreign-citizens",
+      "extra_sources": ["https://www.agenziaentrate.gov.it/portale/documents/20143/233505/BrochureCF_Cittadini.pdf/a92a77e5-0427-ef5f-541a-3f07cdceb2a5"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No fee is stated on the pages read. The brochure also allows filing AA4/8 by PEC or online with SPID/CIE/CNS."
+    },
+    {
+      "id": "it-health-eu",
+      "topic": "health_insurance",
+      "title": "Health cover for EU/EEA students: EHIC, voluntary SSN, work",
+      "title_it": "Copertura sanitaria per studenti UE/SEE: TEAM, iscrizione volontaria, lavoro",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea"] },
+      "summary": "With a valid EHIC (TEAM) you get medically necessary care from public/contracted providers, paying only the non-refundable ticket. Without it you need private insurance valid in Italy, or voluntary SSN registration (residents only, at least €700/year, calendar-year coverage). If you are employed or self-employed and pay taxes in Italy, SSN registration is mandatory and free.",
+      "cost": "Voluntary SSN: from €700/year (calendar year, 2026)",
+      "authority": "Servizio Sanitario Nazionale / local AUSL-ASL",
+      "source_url": "https://www.unibo.it/it/studiare/vivere-luniversita-e-la-citta/salute-e-assistenza/assistenza-sanitaria-e-cure-mediche-a-bologna-cesena-forli-ravenna-e-rimini/assistenza-sanitaria-per-gli-studenti-internazionali",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Source is the University of Bologna (Emilia-Romagna procedures); the Ministry of Health site was behind a bot check. The EHIC does not cover planned treatment abroad (e.g. non-urgent dental)."
+    },
+    {
+      "id": "it-health-non-eu",
+      "topic": "health_insurance",
+      "title": "Health cover for non-EU students: voluntary SSN or private policy",
+      "title_it": "Copertura sanitaria per studenti extra-UE: iscrizione volontaria SSN o polizza privata",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["Voluntary SSN requires residence in Italy"] },
+      "summary": "Health cover (illness, accident, maternity) is required for the study permit. Options: voluntary SSN registration at a minimum of €700/year per student (€2,000/year for dependants), valid only for the calendar year (1 Jan-31 Dec, no partial years), paid by F24 and then activated at the ASL; or a private policy in your name valid in Italy for the whole stay (usually pay and claim back, no family doctor).",
+      "steps": [
+        "Pay the contribution by F24 (region code + tax code 8846 in Emilia-Romagna)",
+        "Attach the receipt to your permit application/renewal",
+        "Activate the registration at the AUSL/ASL office and choose a family doctor"
+      ],
+      "cost": "From €700/year (calendar year, 2026); €2,000/year for dependants",
+      "authority": "Servizio Sanitario Nazionale / local AUSL-ASL",
+      "source_url": "https://www.unibo.it/it/studiare/vivere-luniversita-e-la-citta/salute-e-assistenza/assistenza-sanitaria-e-cure-mediche-a-bologna-cesena-forli-ravenna-e-rimini/assistenza-sanitaria-per-gli-studenti-internazionali",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "A Ministry of Health FAQ (seen only as a search snippet, page blocked) also states €700/year for study-permit holders. Payment alone does not activate coverage."
+    },
+    {
+      "id": "it-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a bank account",
+      "title_it": "Aprire un conto corrente",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Not verified: we could not open an official page on the right to a basic payment account (conto di base) or on banks' requirements for foreign students. Ask your university's international office or the bank.",
+      "authority": "Banca d'Italia",
+      "source_url": "https://www.bancaditalia.it/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "id": "it-transport-card-milan",
+      "topic": "transport_card",
+      "title": "Milan: ATM youth passes (under 27 / under 30)",
+      "title_it": "Milano: abbonamenti ATM giovani (under 27 / under 30)",
+      "applies_to": { "student_type": "any", "nationality": "any", "age": { "max": 26 }, "other": ["Under-30 version requires ISEE below €28,000"] },
+      "summary": "Urban passes for under-27s cost €22/month or €200/year (ordinary €39 and €330), no income limit. Under-30s pay the same reduced rate with ISEE below €28,000. Loaded on the ATM app (digital) or a physical card (€10).",
+      "cost": "€22/month or €200/year (ATM tariff guide, January 2026)",
+      "authority": "ATM Milano",
+      "source_url": "https://www.atm.it/it/ViaggiaConNoi/Documents/ATM%20PER%20I%20GIOVANI.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Valid until the 27th birthday at the start date of validity. Separate STIBM passes for under-26s cover the wider metro area (Mi1-Mi3: €37.50/month vs €50)."
+    },
+    {
+      "id": "it-transport-card-turin",
+      "topic": "transport_card",
+      "title": "Turin: GTT Under 26 passes",
+      "title_it": "Torino: abbonamenti GTT Under 26",
+      "applies_to": { "student_type": "any", "nationality": "any", "age": { "max": 25 }, "other": ["ISEE-based annual rates need Turin residence, or domicile with a registered lease or in a university residence"] },
+      "summary": "Under-26 monthly pass €25; annual pass €258 (urban + suburban, also SFM trains in Turin). With a valid ISEE the annual pass costs €158 (ISEE up to €12,000), €178 (up to €20,000) or €208 (up to €50,000).",
+      "cost": "€25/month; €258/year (ISEE rates €158-208)",
+      "authority": "GTT Torino",
+      "source_url": "https://www.gtt.to.it/cms/biglietti-abbonamenti/7326-abbonamenti-under-26",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Monthly student pass about €26 for the whole network", "source_url": "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/costo-della-vita" },
+        { "hypothesis": "Monthly Under 26 pass €25", "source_url": "https://www.gtt.to.it/cms/biglietti-abbonamenti/7326-abbonamenti-under-26" }
+      ],
+      "notes": "GTT also mentions the Regione Piemonte 'Piemove' bonus for university students under 26 (amount not read)."
+    },
+    {
+      "id": "it-transport-card-bologna",
+      "topic": "transport_card",
+      "title": "Bologna: reduced TPER passes for Unibo students",
+      "title_it": "Bologna: abbonamenti TPER agevolati per studenti Unibo",
+      "applies_to": { "student_type": "any", "nationality": "any", "other": ["Enrolled at the University of Bologna"] },
+      "summary": "University of Bologna students can buy TPER (Bologna) and Start Romagna passes at a reduced price. The price was not shown on the pages we could read.",
+      "cost": null,
+      "authority": "TPER / Università di Bologna",
+      "source_url": "https://www.unibo.it/it/studiare/vivere-luniversita-e-la-citta/trasporti-e-mobilita/trasporti-e-mobilita",
+      "extra_sources": ["https://www.tper.it/biglietti-abbonamenti/abbonamenti-annuali-bacino-di-bologna"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Existence verified; amount missing."
+    },
+    {
+      "id": "it-transport-card-rome",
+      "topic": "transport_card",
+      "title": "Rome: student passes (Metrebus/ATAC)",
+      "title_it": "Roma: abbonamenti studenti (Metrebus/ATAC)",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Not verified: ATAC's site only showed the Under 19 annual pass (€50); a university-student/under-26 rate could not be confirmed (main ticket pages blocked automated access).",
+      "authority": "ATAC Roma",
+      "source_url": "https://www.atac.roma.it/biglietti-e-abbonamenti/under-19",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "id": "it-transport-card-padua",
+      "topic": "transport_card",
+      "title": "Padua: student passes",
+      "title_it": "Padova: abbonamenti studenti",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Not verified: the University of Padua mentions agreements and discounts with transport companies for its community but gives no prices; the operator's student fare was not read.",
+      "authority": "Università di Padova / local operator (Busitalia Veneto)",
+      "source_url": "https://www.unipd.it/en/trasporti-mobilita",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "id": "it-student-work-non-eu",
+      "topic": "student_work",
+      "title": "Non-EU students: work limit on a study permit",
+      "title_it": "Studenti extra-UE: limite di lavoro con permesso per studio",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["Holder of a permesso di soggiorno per studio"] },
+      "summary": "A study permit allows paid work up to 20 hours per week, with an annual cap of 1,040 hours. No conversion of the permit is needed, but the contract must be compatible with student status. Working more requires converting the permit to a work permit.",
+      "authority": "Questura / Ispettorato Nazionale del Lavoro",
+      "source_url": "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/permessi-e-requisiti-di-soggiorno",
+      "extra_sources": ["https://www.uniroma1.it/en/pagina/residence-permit-study-purposes"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "20 hours per week 'cumulative over 52 weeks' (may suggest averaging across the year)", "source_url": "https://www.polito.it/didattica/studenti-internazionali/informazioni-pratiche/permessi-e-requisiti-di-soggiorno" },
+        { "hypothesis": "20 hours is a hard weekly cap that cannot be exceeded in any week, even in summer (INL note of 24 May 2022; known only from a search summary, PDF could not be opened)", "source_url": "https://portist-int.ispettorato.gov.it/files/2023/01/INL-DCGiuridica-nota-24052022-permesso-soggiorno-per-studio-e-attivita-lavorativa.pdf" }
+      ]
+    },
+    {
+      "id": "it-student-work-eu",
+      "topic": "student_work",
+      "title": "EU/EEA students: working while studying",
+      "title_it": "Studenti UE/SEE: lavorare durante gli studi",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "We believe EU/EEA citizens can work in Italy on the same terms as Italians without a permit, but no page opened today states it explicitly for students. If you work, SSN registration becomes mandatory (see health insurance).",
+      "authority": "European Commission (Your Europe)",
+      "source_url": "https://europa.eu/youreurope/citizens/residence/residence-rights/students/index_en.htm",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "The Your Europe students page does not address work; check Your Europe 'working while studying'. Swiss status not confirmed."
+    },
+    {
+      "id": "it-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "No statutory minimum wage in Italy",
+      "title_it": "In Italia non esiste un salario minimo legale",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Italy is one of the five EU countries without a national (statutory) minimum wage (with Denmark, Austria, Finland and Sweden), Eurostat, reference date 1 July 2026.",
+      "authority": "Eurostat",
+      "source_url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "How wages are set instead (e.g. collective agreements) was not verified on an official page."
+    }
+  ]
+}

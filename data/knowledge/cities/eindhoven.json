@@ -1,0 +1,92 @@
+{
+  "city": "Eindhoven",
+  "slug": "eindhoven",
+  "country": "Netherlands",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 540/month median room rent (Kamernet, Q2 2026; +22.7% y/y)",
+      "source_name": "Kamernet Rent Report Q2 2026",
+      "source_url": "https://housinganywhere.com/quarterly-kamernet-rent-report",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.tue.nl/en/education/become-a-tue-student/tuition-fees-and-other-study-costs/"
+      ],
+      "notes": "Kamernet median rent for rooms (max 30 m2) advertised on Kamernet by private landlords/tenants/agencies; social student housing excluded. Advertised asking rents, not what existing tenants pay. The Q2 2026 figures were read on a rolling URL that is overwritten by each new quarterly report. TU/e says rooms start from about € 400/month."
+    },
+    {
+      "field": "rent_studio",
+      "value": "From about € 700/month for a studio (TU/e estimate)",
+      "source_name": "Eindhoven University of Technology",
+      "source_url": "https://www.tue.nl/en/education/become-a-tue-student/tuition-fees-and-other-study-costs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Lower bound given by TU/e; year not stated."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "At least € 10,000-12,000/year (≈ € 830-1,000/month) for rent, insurance, living, books, local transport (TU/e)",
+      "source_name": "Eindhoven University of Technology",
+      "source_url": "https://www.tue.nl/en/education/become-a-tue-student/tuition-fees-and-other-study-costs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Monthly figure is our division by 12; TU/e calls it a minimum."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Not found on an official/citable source",
+      "source_name": "Eindhoven University of Technology",
+      "source_url": "https://www.tue.nl/en/education/become-a-tue-student/tuition-fees-and-other-study-costs/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No separate transport figure found."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime: avg 3.4 °C in Jan, 18.6 °C in Jul; ~750 mm rain/yr; ~1732 h sun/yr (KNMI 1991-2020, Eindhoven)",
+      "source_name": "KNMI climate normals 1991-2020, station Eindhoven (370)",
+      "source_url": "https://cdn.knmi.nl/knmi/map/page/klimatologie/klimaatatlas/tabel/stationsdata/klimtab_9120_370.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Student life largely revolves around student and study associations (sports, culture, academic), plus pubs and city events.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/student-life",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "subjective": true,
+      "notes": "National description; no city-specific official page checked for this city."
+    },
+    {
+      "field": "language_needed",
+      "value": "No Dutch needed for English-taught programmes; English is widely spoken. Dutch helps for part-time jobs/internships and is sometimes required.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/start-learning-dutch",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National source, applies to the whole country."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found on an official/citable source",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/working-while-studying",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No TU/e page on student jobs found."
+    },
+    {
+      "field": "student_wage",
+      "value": "Statutory minimum from 1 Jul 2026: € 14.99/h gross at 21+; € 11.99 (age 20), € 8.99 (19), € 7.50 (18). Same nationwide.",
+      "source_name": "Government.nl - minimum wage amounts",
+      "source_url": "https://www.government.nl/topics/minimum-wage/minimum-wage-amounts",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Legal floor, not a measured 'typical' student wage for this city; many student jobs pay at or near this minimum. Rates from 1 Jan 2026 were € 14.71 (21+)."
+    }
+  ]
+}

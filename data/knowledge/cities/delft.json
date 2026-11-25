@@ -1,0 +1,94 @@
+{
+  "city": "Delft",
+  "slug": "delft",
+  "country": "Netherlands",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 490/month median room rent (Kamernet, Q3 2025)",
+      "source_name": "Kamernet Rent Report Q3 2025",
+      "source_url": "https://housinganywhere.com/kamernet-rent-report-q3-2025",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://housinganywhere.com/quarterly-kamernet-rent-report-q4-2025",
+        "https://www.tudelft.nl/en/education/study-programme-orientation/practical-matters/housing"
+      ],
+      "notes": "Kamernet median rent for rooms (max 30 m2) advertised on Kamernet by private landlords/tenants/agencies; social student housing excluded. Advertised asking rents, not what existing tenants pay. Most recent published Delft figure found; Q4 2025 report says Delft rents rose 9.8% y/y, Q1/Q2 2026 reports give no Delft figure, so the current value is likely higher."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Not found on an official/citable source",
+      "source_name": "TU Delft",
+      "source_url": "https://www.tudelft.nl/en/education/study-programme-orientation/practical-matters/housing",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "TU Delft housing page gives no rents; notes most offers are unfurnished and often exclude utilities."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "≈ € 909/month for a student in student housing (TU Delft average estimate)",
+      "source_name": "TU Delft",
+      "source_url": "https://tudelft.nl/en/education/programmes/bachelors/nb/bsc-nanobiology/from-application-to-enrolment/tuition-and-fees",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "TU Delft also gives € 290/month for a student living at home. Year of the estimate not stated (page shows 2025-2026 tuition)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Not found on an official/citable source",
+      "source_name": "TU Delft",
+      "source_url": "https://tudelft.nl/en/education/programmes/bachelors/nb/bsc-nanobiology/from-application-to-enrolment/tuition-and-fees",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No transport budget or local pass price found on TU Delft pages checked."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime: avg 4.0 °C in Jan, 18.2 °C in Jul; ~882 mm rain/yr; ~1752 h sun/yr (KNMI 1991-2020, Rotterdam)",
+      "source_name": "KNMI climate normals 1991-2020, station Rotterdam (344)",
+      "source_url": "https://cdn.knmi.nl/knmi/map/page/klimatologie/klimaatatlas/tabel/stationsdata/klimtab_9120_344.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No KNMI station in Delft; Rotterdam The Hague Airport station is about 8 km away."
+    },
+    {
+      "field": "social_life",
+      "value": "Student life largely revolves around student and study associations (sports, culture, academic), plus pubs and city events.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/student-life",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "subjective": true,
+      "notes": "National description; no city-specific official page checked for this city."
+    },
+    {
+      "field": "language_needed",
+      "value": "No Dutch needed for English-taught programmes; English is widely spoken. Dutch helps for part-time jobs/internships and is sometimes required.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/start-learning-dutch",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National source, applies to the whole country."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found on an official/citable source",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/working-while-studying",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No TU Delft or municipality page on student jobs found."
+    },
+    {
+      "field": "student_wage",
+      "value": "Statutory minimum from 1 Jul 2026: € 14.99/h gross at 21+; € 11.99 (age 20), € 8.99 (19), € 7.50 (18). Same nationwide.",
+      "source_name": "Government.nl - minimum wage amounts",
+      "source_url": "https://www.government.nl/topics/minimum-wage/minimum-wage-amounts",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Legal floor, not a measured 'typical' student wage for this city; many student jobs pay at or near this minimum. Rates from 1 Jan 2026 were € 14.71 (21+)."
+    }
+  ]
+}

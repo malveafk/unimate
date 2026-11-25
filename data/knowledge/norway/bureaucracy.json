@@ -1,0 +1,456 @@
+{
+  "country": "Norway",
+  "country_code": "NO",
+  "currency": "NOK",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    {
+      "key": "residence_permit",
+      "result": "found",
+      "note": "UDI pages for EU/EEA students (registration) and non-EU study permit; UiO police-registration page."
+    },
+    {
+      "key": "registration",
+      "result": "found",
+      "note": "Skatteetaten 'Study in Norway' page: report a move (National Registry) for stays of 6 months or more; non-EU registered via police."
+    },
+    {
+      "key": "tax_id",
+      "result": "found",
+      "note": "Skatteetaten: national identity number vs D number; tax deduction card needed to work."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found",
+      "note": "Helsenorge (EHIC), UiO health insurance page, Nav membership rules."
+    },
+    {
+      "key": "bank_account",
+      "result": "found",
+      "note": "Ny i Norge (government newcomer portal) arrival checklist. No bank-specific page checked."
+    },
+    {
+      "key": "transport_card",
+      "result": "found",
+      "note": "Ruter student discount page and Ruter price list from 1 August 2026 (Oslo city file covers the price)."
+    },
+    {
+      "key": "student_work",
+      "result": "found",
+      "note": "UDI study permit page (20 h/week, full time in holidays); UiO part-time work page."
+    },
+    {
+      "key": "minimum_wage",
+      "result": "found",
+      "note": "Arbeidstilsynet: no general statutory minimum wage; minimum rates only in ten sectors via generally applicable collective agreements."
+    },
+    {
+      "key": "other",
+      "result": "found",
+      "note": "Tuition fees for non-EU/EEA/Swiss students (UiO page)."
+    }
+  ],
+  "items": [
+    {
+      "id": "no-residence-eu",
+      "topic": "residence_permit",
+      "title": "EU/EEA students: register with the police (UDI) if staying more than 3 months",
+      "title_it": "Studenti UE/SEE: registrazione presso la polizia (UDI) per soggiorni oltre 3 mesi",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "stay_duration": "more than 3 months",
+        "other": [
+          "Nordic citizens (Denmark, Sweden, Finland, Iceland) do not need to register",
+          "Swiss citizens: listed together with EU/EEA on UiO's health-insurance page; the UDI student page checked only names EU/EEA nationals - confirm with UDI"
+        ]
+      },
+      "summary": "No visa or permit is needed, but EU/EEA nationals who will study in Norway for more than three months must register. You register an application online via UDI and then attend a police appointment (in Oslo: the SUA service centre) within 3 months of arrival; you can start studying before the appointment.",
+      "steps": [
+        "Once in Oslo, register an application in the UDI online portal and choose Oslo as municipality",
+        "Book the first available appointment at Oslo Police, Servicesenteret for utenlandske arbeidstakere (SUA)",
+        "Bring passport or national ID card, EHIC or private health insurance valid for the whole stay, admission letter, a personal declaration of sufficient funds and the UDI application receipt",
+        "If staying 6 months or more, report the move to Norway to the Tax Administration at the same SUA visit (see no-registration-eu)"
+      ],
+      "deadline": "Within 3 months of arrival (UiO advises booking the first available slot even if it falls after the 3 months)",
+      "cost": null,
+      "authority": "UDI (Norwegian Directorate of Immigration) / Police",
+      "source_url": "https://udi.no/en/want-to-apply/residence-under-the-eueeu-regulations/student-who-are-eueea-national",
+      "extra_sources": [
+        "https://www.uio.no/english/studies/international-students/policeregistration-eu.html",
+        "https://www.udi.no/en/answer-pages/answers-eueea/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Steps and documents come from UiO's page (official university source). Cost not stated on the pages read; secondary university pages say registration is free but this was not confirmed on a UDI page today."
+    },
+    {
+      "id": "no-residence-non-eu",
+      "topic": "residence_permit",
+      "title": "Non-EU students: study permit with proof of funds",
+      "title_it": "Studenti extra-UE: permesso di studio con prova dei mezzi economici",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "Admitted to a university or university college and studying full time",
+          "Must have somewhere to live"
+        ]
+      },
+      "summary": "Non-EU/EEA students need a study permit from UDI. You must document NOK 15,488/month or NOK 170,368/year for living costs (2026-2027), plus tuition if you have to pay it, held in a Norwegian bank account or the institution's deposit account. After arrival you book a police appointment to get the residence card.",
+      "steps": [
+        "Apply to UDI after admission and pay the application fee",
+        "Document funds: NOK 170,368 for a year, or NOK 77,440 (autumn 2026) / NOK 92,928 (spring 2027) for one semester, plus tuition fees if applicable",
+        "After arrival, book a police appointment via UDI immediately; the police notify the Tax Administration"
+      ],
+      "deadline": null,
+      "cost": "NOK 5,400 application fee for applicants over 18 (UDI fees table; the table shows no validity date)",
+      "authority": "UDI (Norwegian Directorate of Immigration)",
+      "source_url": "https://www.udi.no/en/want-to-apply/studies/studietillatelse/university-college-or-university/",
+      "extra_sources": [
+        "https://www.udi.no/en/word-definitions/fees/",
+        "https://www.uio.no/english/studies/admission/tuition/",
+        "https://www.skatteetaten.no/en/person/to-from-norway/to/study/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The UDI page lists the amounts without naming the year; UiO's tuition page confirms NOK 170,368 is the 2026/2027 figure. The UDI page's tuition paragraph still mentions fees 'for the 2025/2026 academic year' (apparently not updated)."
+    },
+    {
+      "id": "no-registration-eu",
+      "topic": "registration",
+      "title": "EU/EEA students staying 6+ months: report a move to Norway (National Registry)",
+      "title_it": "Studenti UE/SEE con soggiorno di almeno 6 mesi: notifica di trasferimento all'anagrafe (Folkeregister)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea"
+        ],
+        "stay_duration": "6 months or more",
+        "other": [
+          "Students staying only one semester (under 6 months) and not working do not get an ID number from the Tax Administration"
+        ]
+      },
+      "summary": "If you will stay 6 months or more, you book an appointment with the Tax Administration to report a move to Norway; if approved you receive a permanent national identity number (fødselsnummer). In Oslo, if you booked the police appointment at SUA, you are passed to the Tax Administration after it.",
+      "steps": [
+        "Book a Tax Administration appointment, or use the SUA police appointment in Oslo",
+        "Bring your rental agreement, the completed form RF-1401 'Notification of a move to Norway' and the documents for the police appointment",
+        "UiO: students enrolled for 2 semesters or more can book the Tax Administration appointment at SUA without a police appointment"
+      ],
+      "deadline": null,
+      "cost": null,
+      "authority": "Skatteetaten (Norwegian Tax Administration) - National Registry",
+      "source_url": "https://www.skatteetaten.no/en/person/to-from-norway/to/study/",
+      "extra_sources": [
+        "https://www.uio.no/english/studies/international-students/on-arrival/id-number/index.html",
+        "https://www.uio.no/english/studies/international-students/policeregistration-eu.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-registration-non-eu",
+      "topic": "registration",
+      "title": "Non-EU students: registration happens through the police appointment",
+      "title_it": "Studenti extra-UE: la registrazione avviene tramite l'appuntamento con la polizia",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ]
+      },
+      "summary": "Non-EU/EEA students do not need a separate Tax Administration appointment: the police notify the Tax Administration after your residence-card appointment. With a study permit of more than 9 months you are registered as resident and get a national identity number; otherwise the letter explains next steps (often a D number).",
+      "deadline": "Book the police appointment via UDI immediately after arrival",
+      "cost": null,
+      "authority": "Police / Skatteetaten (Norwegian Tax Administration)",
+      "source_url": "https://www.skatteetaten.no/en/person/to-from-norway/to/study/",
+      "extra_sources": [
+        "https://www.uio.no/english/studies/international-students/on-arrival/id-number/index.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-tax-id",
+      "topic": "tax_id",
+      "title": "National identity number vs D number",
+      "title_it": "Numero d'identità nazionale (fødselsnummer) vs D-number",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Norway has two ID numbers: the permanent national identity number (for people with a right of residence staying 6 months or more) and the temporary D number. You cannot apply for a D number yourself; an authority or enterprise (e.g. the Tax Administration for people liable to tax, Nav, banks) requests it. A D number becomes 'inactive' 5 years after it was assigned.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Skatteetaten (Norwegian Tax Administration)",
+      "source_url": "https://www.skatteetaten.no/en/person/national-registry/identitetsnummer-og-elektronisk-id/d-nummer/",
+      "extra_sources": [
+        "https://www.skatteetaten.no/en/person/to-from-norway/to/study/",
+        "https://www.nyinorge.no/en/arrival/checklist/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Ny i Norge adds that if you have no ID number, the Tax Administration issues a D number when you apply for a tax deduction card."
+    },
+    {
+      "id": "no-tax-deduction-card",
+      "topic": "tax_id",
+      "title": "Tax deduction card needed before you work",
+      "title_it": "Tax deduction card (skattekort) necessaria prima di lavorare",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "Only for students who work (non-EU: only if the permit allows work)"
+        ]
+      },
+      "summary": "Any student who works in Norway must have a tax deduction card. With a Norwegian ID number you apply online; without one you book an appointment with the Tax Administration (an ID check). A European eID (eIDAS) cannot be used to apply.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Skatteetaten (Norwegian Tax Administration)",
+      "source_url": "https://www.skatteetaten.no/en/person/to-from-norway/to/study/",
+      "extra_sources": [
+        "https://www.skatteetaten.no/en/person/foreign/are-you-intending-to-work-in-norway/tax-deduction-cards/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-health-insurance-eu",
+      "topic": "health_insurance",
+      "title": "EU/EEA/Swiss students: bring your EHIC (or private insurance)",
+      "title_it": "Studenti UE/SEE/svizzeri: porta la tessera TEAM (EHIC) o un'assicurazione privata",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ]
+      },
+      "summary": "Students are in principle not considered resident in Norway, so EU/EEA/Swiss students use their home-country EHIC for necessary care, paying the same co-payment as Norwegian patients; without a valid EHIC you pay the full cost. EHIC or private insurance valid for the whole stay is also needed for the police registration. Private travel insurance is recommended on top.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Helsenorge / Helfo; SiO Health",
+      "source_url": "https://www.helsenorge.no/en/foreigners-in-norway/students-from-the-eu-eea-or-switzerland/",
+      "extra_sources": [
+        "https://www.uio.no/english/studies/international-students/health-insurance.html",
+        "https://www.sio.no/en/health/international-student"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-health-insurance-work",
+      "topic": "health_insurance",
+      "title": "Working in Norway makes you a compulsory member of the National Insurance Scheme",
+      "title_it": "Lavorare in Norvegia comporta l'iscrizione obbligatoria alla previdenza nazionale (folketrygden)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "min_work_hours": "any employment with a Norwegian employer (no minimum stated)"
+      },
+      "summary": "Under Nav's rules, non-residents who work in Norway are compulsory members of the National Insurance Scheme (folketrygden); the employer must be liable for the Norwegian employer's contribution. Helsenorge tells students who take a job to check with Nav how it affects their rights.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Nav (Norwegian Labour and Welfare Administration)",
+      "source_url": "https://www.nav.no/en/home/rules-and-regulations/membership-of-the-national-insurance-scheme",
+      "extra_sources": [
+        "https://www.helsenorge.no/en/foreigners-in-norway/students-from-the-eu-eea-or-switzerland/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The Nav page does not say explicitly from which day membership starts for workers, nor how it interacts with the EHIC for part-time student jobs; a human should confirm with Nav."
+    },
+    {
+      "id": "no-health-insurance-non-eu",
+      "topic": "health_insurance",
+      "title": "Non-EU students: National Insurance membership depends on length of stay",
+      "title_it": "Studenti extra-UE: l'iscrizione alla previdenza nazionale dipende dalla durata del soggiorno",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ]
+      },
+      "summary": "Under 3 months: no membership, you need private or home-country cover. 3-12 months: you can apply to Nav for voluntary membership (processing can take months, so insure yourself meanwhile). Over 12 months: membership is automatic once you are registered as resident in the National Registry.",
+      "steps": [
+        "3-12 months: send Nav's voluntary-membership form with admission letter, passport, residence card and ID/D number to the Nav office of your municipality"
+      ],
+      "deadline": null,
+      "cost": null,
+      "authority": "Nav (Norwegian Labour and Welfare Administration)",
+      "source_url": "https://www.uio.no/english/studies/international-students/health-insurance.html",
+      "extra_sources": [
+        "https://www.nav.no/en/home/rules-and-regulations/membership-of-the-national-insurance-scheme"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Synthesis from UiO's page; Nav's own foreign-students page returned 404 today."
+    },
+    {
+      "id": "no-bank-account",
+      "topic": "bank_account",
+      "title": "Bank account: you need a Norwegian ID number (national ID or D number)",
+      "title_it": "Conto bancario: serve un numero d'identità norvegese (fødselsnummer o D-number)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "To open a bank account in Norway you must be resident, show valid ID (passport or national ID card) and have a Norwegian identity number, either a national identity number or a D number. If you have neither, the Tax Administration issues a D number when you apply for a tax deduction card.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Ny i Norge (Norwegian government portal for newcomers)",
+      "source_url": "https://www.nyinorge.no/en/arrival/checklist/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Individual banks' requirements were not checked. Non-EU students must keep their documented funds in a Norwegian bank account or the institution's deposit account (UDI)."
+    },
+    {
+      "id": "no-transport-card-oslo",
+      "topic": "transport_card",
+      "title": "Ruter student 30-day ticket (Oslo and Akershus)",
+      "title_it": "Abbonamento studenti Ruter da 30 giorni (Oslo e Akershus)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "max": 29
+        },
+        "other": [
+          "Full-time student at an institution that qualifies for Lånekassen support",
+          "Course of at least 3 months and at least 30 credits per term (part-time and 'visiting' students excluded)",
+          "Must carry valid student ID for the current term"
+        ]
+      },
+      "summary": "Ruter gives a 40% discount on the 30-day ticket (only that ticket) to full-time students under 30. Buy it in the Ruter app (Period ticket > 30-day > student). Price: see the Oslo city file.",
+      "deadline": "Must be activated at the latest the day before you turn 30",
+      "cost": "NOK 393 per 30 days, zone 1 (price list from 1 August 2026)",
+      "authority": "Ruter (Oslo and Akershus public transport)",
+      "source_url": "https://ruter.no/en/about-our-tickets/season-ticket/student-discount",
+      "extra_sources": [
+        "https://ruter.no/en/practical-information/student",
+        "https://cdn.sanity.io/files/5a84xxkm/prod/f31c1f6b1c977698d935fccd5fd7570cab027b26.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Ruter's page says 'Norwegian student'; read as enrolled full-time at a Norwegian institution, so foreign degree and full-time exchange students (30 credits/term) qualify.",
+          "source_url": "https://ruter.no/en/about-our-tickets/season-ticket/student-discount"
+        },
+        {
+          "hypothesis": "The price list footnote says 'Fulltime students 20-29 years old qualifying for support from Lånekassen', which could be read as requiring personal Lånekassen eligibility (most foreign students are not eligible).",
+          "source_url": "https://cdn.sanity.io/files/5a84xxkm/prod/f31c1f6b1c977698d935fccd5fd7570cab027b26.pdf"
+        }
+      ],
+      "notes": "Ruter's page lists 'visiting students' among those excluded; whether that covers exchange students is not defined. Vy reported on 28 Oct 2026 that the student ticket became NOK 100 cheaper from 1 Nov 2026 - see Oslo city file."
+    },
+    {
+      "id": "no-student-work-eu",
+      "topic": "student_work",
+      "title": "EU/EEA students can work without a permit",
+      "title_it": "Gli studenti UE/SEE possono lavorare senza permesso",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea"
+        ]
+      },
+      "summary": "EU/EEA students need no work permit and can work and study from day one, with no hour limit stated. They must still register with the police within 3 months and get a tax deduction card.",
+      "deadline": null,
+      "cost": null,
+      "authority": "University of Oslo (international student information)",
+      "source_url": "https://www.uio.no/english/student-life/part-time-work/",
+      "extra_sources": [
+        "https://www.skatteetaten.no/en/person/to-from-norway/to/study/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-student-work-non-eu",
+      "topic": "student_work",
+      "title": "Non-EU students: up to 20 hours/week in term, full time in holidays",
+      "title_it": "Studenti extra-UE: fino a 20 ore/settimana durante i corsi, a tempo pieno nelle vacanze",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ]
+      },
+      "summary": "A granted study permit automatically allows part-time work up to 20 hours per week (remote work included) and full-time work in holidays. Self-employment or running your own business is not allowed.",
+      "deadline": null,
+      "cost": null,
+      "authority": "UDI (Norwegian Directorate of Immigration)",
+      "source_url": "https://www.udi.no/en/want-to-apply/studies/studietillatelse/university-college-or-university/",
+      "extra_sources": [
+        "https://www.uio.no/english/student-life/part-time-work/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "UDI: the right to work 20 h/week follows automatically from the study permit, with no further condition stated.",
+          "source_url": "https://www.udi.no/en/want-to-apply/studies/studietillatelse/university-college-or-university/"
+        },
+        {
+          "hypothesis": "UiO: 20 h/week applies 'during your first year of study'; the work permission is not renewed automatically and you must document satisfactory study progress to keep working.",
+          "source_url": "https://www.uio.no/english/student-life/part-time-work/"
+        }
+      ]
+    },
+    {
+      "id": "no-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "No general statutory minimum wage; sector minimums only",
+      "title_it": "Nessun salario minimo legale generale; minimi solo in alcuni settori",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Norway has no general statutory minimum wage. Legal minimum rates apply in ten sectors through generally applicable collective agreements, e.g. from 6 Nov 2026: hospitality NOK 215.29/h (over 20, or 18+ after 4 months; lower rates at 17-18), cleaning NOK 247.29/h (18+), construction unskilled NOK 250.63/h.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Arbeidstilsynet (Norwegian Labour Inspection Authority)",
+      "source_url": "https://www.arbeidstilsynet.no/en/pay-and-engagement-of-employees/pay-and-minimum-rates-of-pay/minimum-wage/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Youth rates: hospitality under 17 NOK 153.08, 17 NOK 162.58, 18 NOK 176.84; cleaning under 18 NOK 196.05. Other sectors: automotive, electricians, fish processing, road freight, agriculture, tour buses, maritime construction."
+    },
+    {
+      "id": "no-tuition-non-eu",
+      "topic": "other",
+      "title": "Tuition fees for non-EU/EEA/Swiss students (since 2023)",
+      "title_it": "Tasse universitarie per studenti extra-UE/SEE/Svizzera (dal 2023)",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "Exchange students from partner universities are not affected",
+          "Exemptions based on residence or close ties to Norway"
+        ]
+      },
+      "summary": "At the University of Oslo, citizens of countries outside the EU/EEA and Switzerland pay tuition fees unless exempt; students admitted before 2023 are not affected. EU/EEA and Swiss students pay no tuition, only the semester fee. 2026/2027 master's fees at UiO range from NOK 136,000 to NOK 295,000 per year.",
+      "deadline": "Payment due two weeks after the invoice is issued; full year in advance (second-year students may pay per semester)",
+      "cost": "NOK 136,000-295,000 per year for UiO master's programmes (2026/2027)",
+      "authority": "University of Oslo",
+      "source_url": "https://www.uio.no/english/studies/admission/tuition/",
+      "extra_sources": [
+        "https://www.uio.no/english/studies/admission/tuition/table-of-costs/index.html",
+        "https://www.uio.no/english/studies/admission/tuition/exemptions.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National legal basis (government page) not opened today because the search budget ran out; the UiO page is the source. Other Norwegian institutions set their own amounts."
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "city": "Copenhagen",
+  "slug": "copenhagen",
+  "country": "Denmark",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "DKK 4,000-10,000/month (and higher); deposit up to 3 months + 3 months prepaid rent",
+      "source_name": "University of Copenhagen (housing page)",
+      "source_url": "https://www.ku.dk/studies/student-life/housing",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Range given for exchange students' housing; no year stated, read Nov 2026."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: DKK 13,935/month centre, DKK 10,588 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Copenhagen?displayCurrency=DKK",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Single person ~DKK 8,969 (~€1,200)/month excluding rent (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Copenhagen?displayCurrency=DKK",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "General single-person estimate, not a student budget; add rent. No official UCPH budget figure found."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Ungdomskort: DKK 718/30 days (2026) for SU-approved full-time students; regular monthly pass ~DKK 675 (Numbeo)",
+      "source_name": "Ungdomskort.dk",
+      "source_url": "https://ungdomskort.dk/priser-og-satser/ungdomskort-priser",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Numbeo regular pass figure: https://www.numbeo.com/cost-of-living/in/Copenhagen?displayCurrency=DKK"
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime; Denmark national mean 8.3 °C/year, 746 mm rain/year (DMI 1981-2010 normal)",
+      "source_name": "DMI (Danish Meteorological Institute)",
+      "source_url": "https://www.dmi.dk/vejrarkiv/normaler-danmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National figures, not city-specific. DMI states the 1991-2020 normals will be released at the end of 2026."
+    },
+    {
+      "field": "social_life",
+      "value": "University describes a 'great student culture', cosy student-priced cafes, a safe environment and very bike-friendly city",
+      "source_name": "University of Copenhagen",
+      "source_url": "https://www.ku.dk/studies/student-life/living-in-copenhagen",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English is enough to study and get by (over 90% of Danes speak English); Danish courses free with a CPR number (deposit required)",
+      "source_name": "DTU Student Guide",
+      "source_url": "https://www.dtu.dk/english/education/student-guide/living-in-denmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://international.kk.dk/live/learn-danish"
+      ],
+      "notes": "Statement is national. Danish helps for many student jobs (see AU guidance) - not quantified."
+    },
+    {
+      "field": "job_market",
+      "value": "No citable figures on student-job availability found; UCPH points to its job portals (ucph.jobteaser.com, employment.ku.dk)",
+      "source_name": "University of Copenhagen",
+      "source_url": "https://www.ku.dk/studies/job-and-career",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No statutory minimum wage; SU office cites approved student jobs at DKK 120-125/hour + 12.5% holiday pay (checked 2026)",
+      "source_name": "su.dk (SU office) / lifeindenmark.dk",
+      "source_url": "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules/you-work-in-denmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://lifeindenmark.borger.dk/working/work-rights/working-conditions/pay"
+      ],
+      "notes": "National examples used to assess EU-worker status, not a city average."
+    }
+  ]
+}

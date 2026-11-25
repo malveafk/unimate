@@ -1,0 +1,418 @@
+{
+  "country": "Germany",
+  "country_code": "DE",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    { "key": "state_grant_loan", "result": "found", "note": "BAföG (§§8, 10, 13, 13a, 17, 18 BAföG), Studienstarthilfe (§56 BAföG), KfW-Studienkredit, BAföG reform bill 21/8405 (Bundestag, not adopted on 2026-11-25)." },
+    { "key": "rent", "result": "found", "note": "Wohngeld (§§3, 20 WoGG) and its interaction with §2(3) AufenthG. No federal student rent subsidy other than the BAföG housing rate." },
+    { "key": "health_insurance", "result": "found", "note": "BAföG health and care insurance supplements (§13a BAföG)." },
+    { "key": "transport", "result": "found", "note": "Deutschlandsemesterticket (bundesregierung.de)." },
+    { "key": "tax", "result": "found", "note": "Basic tax-free allowance §32a EStG. No student-specific tax credit researched." },
+    { "key": "student_work", "result": "found", "note": "Werkstudent social-insurance privilege (TK). Minijob rules are in bureaucracy.json." },
+    { "key": "erasmus", "result": "none_found", "note": "No German top-up for incoming Erasmus+ students was found; incoming students are paid by their home institution. The KIT international office lists Erasmus+ incomers among those exempt from the Baden-Württemberg tuition fee (see de-bw-tuition-non-eu). Outgoing grants for students from German universities were not researched (search budget exhausted)." },
+    { "key": "regional", "result": "found", "note": "Baden-Württemberg tuition for non-EU students (LHGebG, via KIT page). Bavaria lets universities charge non-EU students (see TUM record). Other Länder schemes not researched (search budget exhausted)." },
+    { "key": "university", "result": "found", "note": "Deutschlandstipendium (all catalogue universities), TUM waivers and scholarship, KIT completion grant (DAAD STIBET), Studierendenwerk Berlin hardship aid (Humboldt, FU, TU Berlin). Other catalogue universities' own funds not researched." }
+  ],
+  "items": [
+    {
+      "id": "de-bafoeg-eu",
+      "category": "state_grant_loan",
+      "name_local": "BAföG (Bundesausbildungsförderung) – EU/EEA citizens",
+      "name_it": "BAföG (sussidio statale tedesco allo studio) – cittadini UE/SEE",
+      "authority": "Amt für Ausbildungsförderung (at the local Studierendenwerk); federal law",
+      "description": "Germany's main means-tested study grant/loan. EU/EEA citizens qualify only in specific cases (§8(1) Nr. 2-5 BAföG): permanent right of residence (normally after 5 years), free-movement right as a worker or self-employed person (and their family members), or employment in Germany before the course that is related in content to it. Half is a grant and half an interest-free loan; repayment is at least €130/month starting 5 years after the maximum funding period, and any debt left after 77 monthly instalments is cancelled.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea"],
+        "age": { "max": 44 },
+        "income_test": "means-tested on own, spouse's and parents' income and assets",
+        "residence_requirement": "permanent right of residence, OR worker/self-employed status (or family member), OR prior job in Germany related to the course",
+        "other": ["age limit: under 45 at the start of the course, with exceptions (§10 BAföG)"]
+      },
+      "amount": "up to €992/month (2026): €475 basic need + €380 housing if not living with parents + €102 health + €35 care insurance supplements, if insured as a student",
+      "how_to_apply": "Online via BAföG Digital or at the Amt für Ausbildungsförderung of the Studierendenwerk of your university.",
+      "deadline": null,
+      "stackable": "Studienstarthilfe is not counted against BAföG. Wohngeld is generally excluded for BAföG-eligible students.",
+      "source_url": "https://www.gesetze-im-internet.de/baf_g/__8.html",
+      "extra_sources": [
+        "https://www.gesetze-im-internet.de/baf_g/__13.html",
+        "https://www.gesetze-im-internet.de/baf_g/__13a.html",
+        "https://www.gesetze-im-internet.de/baf_g/__17.html",
+        "https://www.gesetze-im-internet.de/baf_g/__18.html",
+        "https://www.gesetze-im-internet.de/baf_g/__10.html",
+        "https://www.bundesregierung.de/breg-de/service/fragen-und-anworten/faq-bafoeg-reform-2436150",
+        "https://www.bundestag.de/dokumente/textarchiv/2026/kw46-pa-forschung-1230884"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "An EU student who comes to Germany only to study and does not work is normally NOT eligible: none of the §8(1) routes applies.", "source_url": "https://www.gesetze-im-internet.de/baf_g/__8.html" },
+        { "hypothesis": "An EU student who also works in Germany may qualify as a 'worker' under §8(1) Nr. 3 BAföG (§2(2) Nr. 1 FreizügG/EU). The statute sets no minimum number of hours; the BAföG office decides case by case.", "source_url": "https://www.gesetze-im-internet.de/baf_g/__8.html" }
+      ],
+      "notes": "The €992 maximum is the sum of §13 and §13a amounts. The higher supplements (€185 health + €48 care) apply to voluntarily insured students, e.g. from age 30. Planned reform (bill Drucksache 21/8405, still in committee on 2026-11-25): housing rate €440 from summer semester 2027, basic need €503 from winter semester 2027/28 and €563 from summer semester 2029. Do not quote these as law yet. The bafoeg.de portal refused connections today, so the statute was used instead."
+    },
+    {
+      "id": "de-bafoeg-non-eu",
+      "category": "state_grant_loan",
+      "name_local": "BAföG – non-EU nationals",
+      "name_it": "BAföG – cittadini extra-UE",
+      "authority": "Amt für Ausbildungsförderung (at the local Studierendenwerk); federal law",
+      "description": "Non-EU nationals are eligible only with a settlement permit or EU long-term residence permit, certain humanitarian or family residence permits (some only after 15 months of lawful stay), or if they themselves lived and worked legally in Germany for 5 years, or a parent lived in Germany for 3 of the last 6 years and worked legally. A student residence permit (§16b AufenthG) is not among the qualifying permits, so students who came to Germany to study are not eligible.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["non_eu"],
+        "age": { "max": 44 },
+        "income_test": "means-tested on own, spouse's and parents' income and assets",
+        "residence_requirement": "qualifying permit under §8(2) BAföG, or 5 years of own residence + legal work, or a parent with 3 of the last 6 years' residence + legal work (§8(3))",
+        "other": ["not available with a §16b study permit"]
+      },
+      "amount": "same rates as for Germans: up to €992/month (2026)",
+      "how_to_apply": "Online via BAföG Digital or at the Amt für Ausbildungsförderung of the Studierendenwerk.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.gesetze-im-internet.de/baf_g/__8.html",
+      "extra_sources": ["https://www.gesetze-im-internet.de/baf_g/__13.html", "https://www.gesetze-im-internet.de/baf_g/__13a.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Recognised refugees and stateless persons are covered by §8(1) Nr. 6-7."
+    },
+    {
+      "id": "de-studienstarthilfe",
+      "category": "state_grant_loan",
+      "name_local": "Studienstarthilfe",
+      "name_it": "Aiuto per l'inizio degli studi (Studienstarthilfe)",
+      "authority": "Amt für Ausbildungsförderung; federal law (§56 BAföG)",
+      "description": "One-off grant of €1,000 for first-time students under 25 who, in the month before starting, received certain social benefits (e.g. Bürgergeld, social assistance, asylum-seeker benefits, Kinderzuschlag or Wohngeld, also via parents or household; Kindergeld does not count). It does not need to be repaid. The BAföG nationality rule (§8) does not apply.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "age": { "max": 24 },
+        "income_test": "receipt of a listed German social benefit in the month before studies began",
+        "other": ["first enrolment", "full-time first degree"]
+      },
+      "amount": "€1,000 one-off",
+      "how_to_apply": "Online via BAföG Digital with proof of the benefit (notice no older than 6 months) and enrolment.",
+      "deadline": "By the end of the month after studies begin (end of the 2nd study month)",
+      "stackable": "Yes: not counted against BAföG or income-dependent benefits.",
+      "source_url": "https://www.gesetze-im-internet.de/baf_g/__56.html",
+      "extra_sources": ["https://www.stw.berlin/finanzierung/bafög-faq/18.studienstarthilfe.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "In practice this mainly reaches students who already lived in Germany, because it requires a German social benefit in the month before studies."
+    },
+    {
+      "id": "de-kfw-studienkredit",
+      "category": "state_grant_loan",
+      "name_local": "KfW-Studienkredit (174)",
+      "name_it": "Prestito per studenti KfW",
+      "authority": "KfW (state-owned development bank)",
+      "description": "Loan for living costs during a degree at a recognised German university, independent of income and collateral, with a variable interest rate reset every 1 April and 1 October. EU citizens qualify only after at least 3 years of continuous residence in Germany with main residence registered there. Family members of German/EU citizens living with them in Germany and Bildungsinländer also qualify; other foreign students do not.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea", "non_eu"],
+        "age": { "min": 18, "max": 44 },
+        "residence_requirement": "EU citizens: 3 years of continuous residence in Germany + registered main residence; non-EU: only as family member of a German/EU citizen living in Germany, or Bildungsinländer with German main residence",
+        "other": ["age counted at the start of studies"]
+      },
+      "amount": "€100-€650/month (flexible); interest rate variable, not shown on the page today",
+      "how_to_apply": "Online through a KfW sales partner (Vertriebspartner), not directly at KfW.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.kfw.de/inlandsfoerderung/Privatpersonen/Studieren-Qualifizieren/Förderprodukte/KfW-Studienkredit-(174)/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "It is a loan, not a grant. Swiss citizens are not mentioned on the page."
+    },
+    {
+      "id": "de-wohngeld-students",
+      "category": "rent",
+      "name_local": "Wohngeld",
+      "name_it": "Contributo per l'affitto (Wohngeld)",
+      "authority": "Municipal Wohngeld office; federal law (WoGG)",
+      "description": "Housing benefit towards rent. Students are excluded if they are eligible for BAföG in principle (dem Grunde nach), even when they get €0 because of parental income. The exclusion does not apply if BAföG is paid only as a full loan. Foreigners can claim it if they actually live in Germany with a free-movement right, a residence permit or similar. Study permits are not among the excluded permit types, but see interpretations.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "income_test": "means-tested on household income and rent",
+        "other": [
+          "not if eligible for BAföG in principle (§20(2) WoGG)",
+          "foreigners: lawful residence under §3(5) WoGG"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Apply at the Wohngeld office of your city or district. A BAföG refusal notice is usually needed as proof.",
+      "deadline": null,
+      "stackable": "Not with BAföG (except BAföG paid only as a full loan).",
+      "source_url": "https://www.gesetze-im-internet.de/wogg/__20.html",
+      "extra_sources": ["https://www.gesetze-im-internet.de/wogg/__3.html", "https://www.gesetze-im-internet.de/aufenthg_2004/__2.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "A non-EU student excluded from BAföG only because of nationality (§8 BAföG) is not 'eligible in principle', so Wohngeld is legally possible (secondary source on the administrative guideline VwV 20.21: personal reasons that exclude BAföG do not block Wohngeld).", "source_url": "https://www.wohngeld.org/wohngeldgesetz-wogg/paragraph20/" },
+        { "hypothesis": "For a non-EU student, claiming Wohngeld is risky: §2(3) AufenthG does not list Wohngeld among benefits that do NOT count as public funds, so it may count against the proof of sufficient means needed to renew the study permit. Ask the Ausländerbehörde before applying.", "source_url": "https://www.gesetze-im-internet.de/aufenthg_2004/__2.html" }
+      ],
+      "notes": "The amount depends on rent, income, household size and local rent level; no single figure. wohngeld.org is not an official source."
+    },
+    {
+      "id": "de-bafoeg-health-supplement",
+      "category": "health_insurance",
+      "name_local": "Kranken- und Pflegeversicherungszuschlag (BAföG)",
+      "name_it": "Supplemento BAföG per assicurazione sanitaria e di cura",
+      "authority": "Amt für Ausbildungsförderung; federal law (§13a BAföG)",
+      "description": "BAföG recipients get a monthly supplement towards health and long-term care insurance. It is part of BAföG, so only BAföG-eligible students get it.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "other": ["only for BAföG recipients (see de-bafoeg-eu / de-bafoeg-non-eu)"]
+      },
+      "amount": "€102/month health + €35/month care if insured as a student (2026); €185 + €48 if voluntarily insured",
+      "how_to_apply": "Included automatically in the BAföG application.",
+      "deadline": null,
+      "stackable": "Part of BAföG",
+      "source_url": "https://www.gesetze-im-internet.de/baf_g/__13a.html",
+      "extra_sources": ["https://gesund.bund.de/en/krankenversicherung-studierende"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "de-deutschlandsemesterticket",
+      "category": "transport",
+      "name_local": "Deutschlandsemesterticket",
+      "name_it": "Deutschlandsemesterticket (abbonamento nazionale per studenti)",
+      "authority": "Federal government and Länder; contracts by universities/student bodies with transport operators",
+      "description": "Student version of the Deutschlandticket (local and regional public transport across Germany) at 60% of the regular price, available since summer semester 2024 where the university has an agreement.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["enrolled at a university that offers it"]
+      },
+      "amount": "60% of the Deutschlandticket price: about €37.80/month in 2026 (Deutschlandticket €63); Deutschlandticket €66.80 from 1 Jan 2027",
+      "how_to_apply": "Through your university, usually with the semester contribution; check your university/AStA.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.bundesregierung.de/breg-de/aktuelles/deutschlandticket-2134074",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "€37.80 is our calculation (60% x €63), not stated on the page. Whether exchange students get it depends on the university."
+    },
+    {
+      "id": "de-tax-basic-allowance",
+      "category": "tax",
+      "name_local": "Grundfreibetrag (Einkommensteuer)",
+      "name_it": "Soglia di esenzione dall'imposta sul reddito (Grundfreibetrag)",
+      "authority": "Finanzamt; federal law (§32a EStG)",
+      "description": "Taxable income up to the basic allowance is taxed at zero. Many students with part-time jobs therefore owe no income tax for the year.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["applies to taxable income in Germany"]
+      },
+      "amount": "€12,348 taxable income per year (2026)",
+      "how_to_apply": null,
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.gesetze-im-internet.de/estg/__32a.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "How to get back wage tax withheld during the year (tax return) was not researched today."
+    },
+    {
+      "id": "de-werkstudent-privilege",
+      "category": "student_work",
+      "name_local": "Werkstudentenprivileg",
+      "name_it": "Agevolazione contributiva per studenti lavoratori (Werkstudent)",
+      "authority": "Statutory social insurance (Krankenkassen / Deutsche Rentenversicherung)",
+      "description": "Students working up to 20 hours a week in lecture periods pay only pension insurance, with no health, care or unemployment contributions, so they keep more of their gross pay than other employees.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "min_work_hours": "more than a Minijob; max 20 hours/week in lecture periods (more allowed up to 26 weeks/year in evenings, weekends or breaks)",
+        "other": ["regular enrolled students; not language-course or Studienkolleg participants, not on leave of absence"]
+      },
+      "amount": null,
+      "how_to_apply": "Automatic via your employer; show your enrolment certificate.",
+      "deadline": null,
+      "stackable": "Non-EU students must also respect the 140-day limit of §16b AufenthG.",
+      "source_url": "https://www.tk.de/firmenkunden/versicherung/versicherung-faq/haeufige-fragen-zu-studenten-und-praktikanten/werkstudentenprivileg-2036666",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "de-bw-tuition-non-eu",
+      "category": "regional",
+      "name_local": "Studiengebühren für internationale Studierende (Baden-Württemberg, LHGebG)",
+      "name_it": "Tasse universitarie per studenti internazionali (Baden-Württemberg)",
+      "authority": "Land Baden-Württemberg (Landeshochschulgebührengesetz); collected by the universities",
+      "description": "Baden-Württemberg charges non-EU/EEA students €1,500 per semester in bachelor, teacher-training and consecutive master programmes (since winter 2017/18). Affects Heidelberg, Tübingen, Freiburg and KIT in our catalogue. Exempt: EU/EEA citizens, holders of a German school-leaving certificate, exchange/partner-programme students (e.g. Erasmus+), doctoral students. Exemption on application: strong ties to Germany (§5 LHGebG), certain refugees, disability. Hardship waiver (§7) only after the first semester for unforeseeable emergencies.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["non_eu"],
+        "other": ["exchange/partner-programme students are exempt", "EU/EEA citizens are exempt"]
+      },
+      "amount": "€1,500/semester (cost to the student); second-degree fee €650/semester applies to others, not on top of the €1,500",
+      "how_to_apply": "Exemption for strong ties: submit the university's form by 15 Sept (winter) / 15 March (summer), as at KIT. Hardship waiver: apply to the university by 1 July (winter) / 15 January (summer), as at KIT.",
+      "deadline": "KIT deadlines: domestic-ties exemption 15.09 / 15.03; hardship 01.07 / 15.01",
+      "stackable": null,
+      "source_url": "https://www.intl.kit.edu/istudent/12606.php",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Read on the KIT international office page, not on the Land's legal portal (state ministry pages returned 404 today). Deadlines may differ at Heidelberg, Tübingen and Freiburg. Swiss citizens are not mentioned on the page."
+    },
+    {
+      "id": "de-deutschlandstipendium",
+      "category": "university",
+      "name_local": "Deutschlandstipendium",
+      "name_it": "Borsa di studio Deutschlandstipendium",
+      "authority": "Federal government + private sponsors; awarded by each university",
+      "description": "Merit-based scholarship funded jointly by the federal government and private sponsors, awarded by the universities to first-semester and continuing students of all nationalities at public or state-recognised universities.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "income_test": null,
+        "other": ["selected on outstanding achievement"]
+      },
+      "amount": "€300/month (§5 StipG); more only if the private share exceeds €150",
+      "how_to_apply": "Apply directly to your university during its call (dates set by each university).",
+      "deadline": null,
+      "stackable": "Disregarded as income for social benefits up to €300 (§5(3) StipG); effect on BAföG not stated on the pages read.",
+      "source_url": "https://www.deutschlandstipendium.de/deutschlandstipendium/de/home/home_node.html",
+      "extra_sources": ["https://www.gesetze-im-internet.de/stipg/__5.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Offered at the universities in our catalogue that take part; check each university's page for the call."
+    },
+    {
+      "id": "de-tum-tuition-waivers",
+      "category": "university",
+      "name_local": "TUM tuition fees, waivers and scholarship for international students",
+      "name_it": "TUM: tasse per studenti internazionali, esoneri e borse",
+      "authority": "Technical University of Munich (TUM)",
+      "description": "TUM charges non-EU/EEA students tuition, usually €2,000 or €3,000 per semester for bachelor's and €4,000 or €6,000 for master's, rising to €2,300/3,400 and €4,600/6,800 from winter 2027/28 (enrolled students keep their starting rate). Exempt: EU/EEA citizens, exchange students, doctoral candidates, holders of a German Abitur, people with established domestic ties under §8 BAföG, among others. Waivers exist for high achievers and financial need, plus a TUM scholarship of €500-1,800 per semester credited against tuition.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["non_eu"],
+        "other": ["waivers: academic merit or financial need, limited places"]
+      },
+      "amount": "Waivers cover tuition; TUM scholarship €500-€1,800 per semester (credited to tuition, no cash)",
+      "how_to_apply": "Online form in the TUM scholarship portal during the application windows (e.g. need-based bachelor waiver: 15 May-15 July for winter semester).",
+      "deadline": "Varies by waiver; see TUM page",
+      "stackable": null,
+      "source_url": "https://www.tum.de/en/studies/fees/tuition/scholarships-and-waivers",
+      "extra_sources": ["https://www.tum.de/en/studies/fees/tuition"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Swiss, Turkish and UK citizens may be exempt under special rules. LMU and other Bavarian universities in the catalogue were not checked."
+    },
+    {
+      "id": "de-kit-completion-grant",
+      "category": "university",
+      "name_local": "Studienabschlussbeihilfe (KIT, DAAD STIBET I)",
+      "name_it": "Contributo per il completamento degli studi (KIT)",
+      "authority": "Karlsruhe Institute of Technology (KIT) International Students Office, funded by DAAD STIBET I and Baden-Württemberg MWK",
+      "description": "Short-term support for international students in their final phase (thesis) facing a sudden financial emergency that is not their fault.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["non_eu", "eu_eea", "swiss"],
+        "income_test": "cannot cover next month's living costs",
+        "other": ["exchange and guest students not eligible", "grade average 2.5 or better", "registered or about to register for the thesis", "German tax ID needed"]
+      },
+      "amount": "at least €250/month, for max 6 months",
+      "how_to_apply": "Form from the KIT page, sent by encrypted email to the International Students Office.",
+      "deadline": "2026: 1 Feb, 1 Apr, 1 Jun, 1 Sep, 15 Oct",
+      "stackable": null,
+      "source_url": "https://www.intl.kit.edu/istudent/12592.php",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page addresses 'international students' and does not spell out the nationality rule; we assumed all foreign degree students. Other universities in the catalogue run similar DAAD STIBET grants, but they were not checked."
+    },
+    {
+      "id": "de-stw-berlin-hardship",
+      "category": "university",
+      "name_local": "Finanzielle Unterstützung in Härtefällen (studierendenWERK BERLIN)",
+      "name_it": "Aiuto economico d'emergenza (studierendenWERK BERLIN)",
+      "authority": "studierendenWERK BERLIN (serves Humboldt, FU Berlin, TU Berlin)",
+      "description": "One-off emergency aid for students in financial hardship. The graduation grant (Zuschuss zum Studienabschluss) is no longer funded from 2026. Amounts and eligibility (including for international students) were not shown on the page read today.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "income_test": "financial hardship (details not found)"
+      },
+      "amount": null,
+      "how_to_apply": "Contact the studierendenWERK Berlin financing and social counselling service.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.stw.berlin/beratung/beratung-finanzierung-und-soziales/studienfinanzierung-im-überblick/einmalige-unterstützungsmöglichkeiten-des-studierendenwerks-berlin/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "We confirmed the aid exists; amount and eligibility are missing. The nationality value 'any' is an assumption. Other Studierendenwerke (Munich, Hamburg, Heidelberg...) have their own emergency funds; not checked."
+    },
+    {
+      "id": "de-daad-scholarships",
+      "category": "other",
+      "name_local": "DAAD-Stipendien (Stipendiendatenbank)",
+      "name_it": "Borse di studio DAAD",
+      "authority": "Deutscher Akademischer Austauschdienst (DAAD)",
+      "description": "The DAAD scholarship database lists about 147 DAAD and partner programmes for international students and researchers, filtered by the country you live in and apply from and by degree level. Many are for graduates (people who already have a first degree). Amounts depend on the programme.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["depends on the programme and on the country you apply from"]
+      },
+      "amount": null,
+      "how_to_apply": "Search the DAAD database and follow each programme's own procedure and deadline.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/",
+      "extra_sources": ["https://www.daad.de/en/studying-in-germany/scholarships/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "DAAD scholarship holders get health insurance through the DAAD (DAAD health insurance page)."
+    },
+    {
+      "id": "de-broadcast-fee-exemption",
+      "category": "other",
+      "name_local": "Befreiung vom Rundfunkbeitrag",
+      "name_it": "Esenzione dal canone radiotelevisivo",
+      "authority": "ARD ZDF Deutschlandradio Beitragsservice",
+      "description": "BAföG recipients who do not live with their parents can be exempted from the €18.36/month fee (also covering spouse or partner, not other flatmates). Students excluded from BAföG can get a hardship exemption only exceptionally and if needy. EU students usually cannot, because they must show sufficient funds, unless they get a BAföG-like grant from home. International students and Erasmus or other scholarship students generally pay. Not automatic: you must apply.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "income_test": "BAföG receipt, or need below the basic welfare level for the hardship route",
+        "other": ["Erasmus and scholarship students generally liable", "non-EU students generally cannot get the hardship exemption"]
+      },
+      "amount": "exemption from €18.36/month",
+      "how_to_apply": "Online form on rundfunkbeitrag.de with the BAföG notice.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.rundfunkbeitrag.de/buergerinnen-und-buerger/informationen/informationen-fuer-studierende",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "de-kindergeld-students",
+      "category": "other",
+      "name_local": "Kindergeld für Kinder im Studium",
+      "name_it": "Assegno familiare (Kindergeld) per figli che studiano",
+      "authority": "Familienkasse (Bundesagentur für Arbeit); §§32, 62, 66 EStG",
+      "description": "Kindergeld is paid to the parent, not the student, and requires the parent to live in Germany or be fully taxable there (§62 EStG). Children in education count until they turn 25; after a first degree only if they work at most 20 hours/week or have a Minijob. EU/EEA parents who move to Germany generally wait 3 months unless they earn income there; non-EU parents need specific permits.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": { "max": 24 },
+        "residence_requirement": "parent (claimant) resident or fully taxable in Germany",
+        "other": ["paid to the parent"]
+      },
+      "amount": "€259/month per child (current §66 EStG)",
+      "how_to_apply": "The parent applies to the Familienkasse.",
+      "deadline": null,
+      "stackable": "Studienstarthilfe does not count Kindergeld as a qualifying benefit.",
+      "source_url": "https://www.gesetze-im-internet.de/estg/__62.html",
+      "extra_sources": ["https://www.gesetze-im-internet.de/estg/__66.html", "https://www.gesetze-im-internet.de/estg/__32.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Typical case for 4UNI users: a student whose parents live in another EU country, where family benefits are normally handled by the parents' country under EU social-security coordination. This could NOT be confirmed on an official page today, so the bot should not state it as fact. §66 does not say since when €259 applies."
+    }
+  ]
+}

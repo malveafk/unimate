@@ -1,0 +1,91 @@
+{
+  "city": "Barcelona",
+  "slug": "barcelona",
+  "country": "Spain",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Not found on a citable page",
+      "source_name": "Ajuntament de Barcelona - International Welcome (housing)",
+      "source_url": "https://www.barcelona.cat/internationalwelcome/en/live-and-settle/what-you-need/housing",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "University budget pages (UPF 403) and Idealista reports (403) could not be read; the city housing page gives no figures."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~€ 1,503/month city centre, ~€ 1,181/month outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Barcelona?displayCurrency=EUR",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page updated 22 Nov 2026, 262 contributors in the last 12 months. 1-bedroom flat, not a studio specifically."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "~€ 834/month for a single person excluding rent (Nov 2026); add rent",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Barcelona?displayCurrency=EUR",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Crowd-sourced estimate for a general single adult, not a student budget."
+    },
+    {
+      "field": "transport_pass",
+      "value": "T-jove (under 30): € 45.50 per 90 days, all zones, unlimited; T-usual 30 days from € 22.80",
+      "source_name": "TMB - fares",
+      "source_url": "https://www.tmb.cat/en/barcelona-fares-metro-bus",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.tmb.cat/en/barcelona-fares-metro-bus/single-and-integrated/t-jove"
+      ],
+      "notes": "Prices read 2026-11-25; the page shows no year."
+    },
+    {
+      "field": "climate",
+      "value": "Mild Mediterranean: mean 16.1 °C/year; Jan mean 9.2 °C, Jul mean 23.9 °C (max 28.0 °C); 588 mm rain/year (1981-2010)",
+      "source_name": "AEMET - climate normals, Barcelona Airport",
+      "source_url": "https://www.aemet.es/es/serviciosclimaticos/datosclimatologicos/valoresclimatologicos?l=0076&k=cat",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not assessed from a citable source",
+      "source_name": "Ajuntament de Barcelona - International Welcome",
+      "source_url": "https://www.barcelona.cat/internationalwelcome/en",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "UAB says it has a 'varied and extensive' offer of English-taught courses; the rest of teaching is mainly in Catalan and Spanish",
+      "source_name": "UAB - Academic offer in English",
+      "source_url": "https://www.uab.cat/web/international/academic-offer-in-english-1345839089227.html",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Only the English-offer statement is on the page. 'Mainly Catalan and Spanish' is not stated there: confirm per degree (UB Medicine, for example, is taught in Catalan and Spanish per our catalogue)."
+    },
+    {
+      "field": "job_market",
+      "value": "City-promoted sectors: health & life sciences, digital/tech, creative and cultural industries, science & innovation, blue economy, care economy",
+      "source_name": "Ajuntament de Barcelona - Work and business",
+      "source_url": "https://www.barcelona.cat/internationalwelcome/en/live-and-settle/what-you-need/work-and-business",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "These are the city's strategic economic sectors, not data on student-job availability; no figures and no language requirements on the page."
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable average student wage found. Legal floor: SMI € 1,221/month full-time (14 payments, € 17,094/year), no youth rate (2026)",
+      "source_name": "BOE - Real Decreto 126/2026 (SMI 2026)",
+      "source_url": "https://www.boe.es/eli/es/rd/2026/02/18/126/con",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "This is the national legal minimum, not a measured typical student wage. The decree sets no general hourly rate."
+    }
+  ]
+}

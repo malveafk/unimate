@@ -1,0 +1,96 @@
+{
+  "city": "Kongens Lyngby",
+  "slug": "kongens-lyngby",
+  "country": "Denmark",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Campus dorm/apartment: €800-900/month incl. heat, power, water, internet, furniture",
+      "source_name": "DTU budget sheet 'Examples on living expenses'",
+      "source_url": "https://www.dtu.dk/english/-/media/dtu-endk/education/student-guide/living-in-denmark/budget-living-expenses.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "PDF metadata shows it was created in July 2022; still linked from DTU's student guide in Nov 2026. Figures may be outdated."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Off-campus rent: €1,100-1,700/month + €50-110 utilities",
+      "source_name": "DTU budget sheet 'Examples on living expenses'",
+      "source_url": "https://www.dtu.dk/english/-/media/dtu-endk/education/student-guide/living-in-denmark/budget-living-expenses.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Housing type not specified as studio. Document created July 2022."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€1,244-1,840/month living on campus; €1,650-2,800/month off campus (rent included)",
+      "source_name": "DTU budget sheet 'Examples on living expenses'",
+      "source_url": "https://www.dtu.dk/english/-/media/dtu-endk/education/student-guide/living-in-denmark/budget-living-expenses.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Document created July 2022."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Ungdomskort: DKK 718/30 days (2026) for SU-approved full-time students; DTU sheet: ~€10/day Lyngby-Copenhagen return with Rejsekort (2022)",
+      "source_name": "Ungdomskort.dk",
+      "source_url": "https://ungdomskort.dk/priser-og-satser/ungdomskort-priser",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.dtu.dk/english/-/media/dtu-endk/education/student-guide/living-in-denmark/budget-living-expenses.pdf"
+      ]
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime; Denmark national mean 8.3 °C/year, 746 mm rain/year (DMI 1981-2010 normal)",
+      "source_name": "DMI (Danish Meteorological Institute)",
+      "source_url": "https://www.dmi.dk/vejrarkiv/normaler-danmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National figures, not city-specific. DMI states the 1991-2020 normals will be released at the end of 2026."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable description of student/social life in Kongens Lyngby found on DTU pages opened",
+      "source_name": "DTU Student Guide",
+      "source_url": "https://www.dtu.dk/english/education/student-guide/living-in-denmark",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English is enough to study and get by (over 90% of Danes speak English); Danish courses free with a CPR number (deposit required)",
+      "source_name": "DTU Student Guide",
+      "source_url": "https://www.dtu.dk/english/education/student-guide/living-in-denmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://international.kk.dk/live/learn-danish"
+      ],
+      "notes": "Statement is national. Danish helps for many student jobs (see AU guidance) - not quantified."
+    },
+    {
+      "field": "job_market",
+      "value": "No citable figures on student-job availability; DTU points to the A State of Denmark job database and DTU Career Hub",
+      "source_name": "DTU Student Guide",
+      "source_url": "https://www.dtu.dk/english/education/student-guide/living-in-denmark",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No statutory minimum wage; SU office cites approved student jobs at DKK 120-125/hour + 12.5% holiday pay (checked 2026)",
+      "source_name": "su.dk (SU office) / lifeindenmark.dk",
+      "source_url": "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules/you-work-in-denmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://lifeindenmark.borger.dk/working/work-rights/working-conditions/pay"
+      ],
+      "notes": "National examples used to assess EU-worker status, not a city average."
+    }
+  ]
+}

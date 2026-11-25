@@ -1,0 +1,99 @@
+{
+  "city": "Esch-sur-Alzette",
+  "slug": "esch-sur-alzette",
+  "country": "Luxembourg",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "University of Luxembourg housing: from € 450/month (2026), deposit = 2 months' rent; private-market rooms are 'significantly more expensive'. Housing not guaranteed.",
+      "source_name": "University of Luxembourg – Cost of living & budget",
+      "source_url": "https://www.uni.lu/life-en/financial-support/cost-of-living/",
+      "extra_sources": ["https://www.uni.lu/life-en/accommodation/offer/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Minimum university rent is € 450/month (cost-of-living page).", "source_url": "https://www.uni.lu/life-en/financial-support/cost-of-living/" },
+        { "hypothesis": "Minimum monthly rental budget to state in the housing request is € 400 for Bachelor, Master and incoming exchange students (€ 800 for salaried doctoral students).", "source_url": "https://www.uni.lu/life-en/accommodation/offer/" }
+      ],
+      "notes": "University residences are spread over Esch-sur-Alzette, Belvaux and other towns; a specific residence cannot be chosen. No citable private-room figure for Esch found."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat ~€ 1,233/month outside centre, ~€ 1,633 in centre (Nov 2026; only 13 entries from 1 contributor).",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/city_result.jsp?country=Luxembourg&city=Esch-sur-Alzette",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Very thin sample (1 contributor) and it is a 1-bedroom, not a studio. University studios (Type 3, ~24 m²) exist but their rent is not published on the pages read."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Uni.lu estimates: rent from € 450 + canteen meals € 360 + phone € 40 + leisure € 150 per month; immigration requires ≥ € 18,652 per academic year (2026).",
+      "source_name": "University of Luxembourg – Cost of living & budget",
+      "source_url": "https://www.uni.lu/life-en/financial-support/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Uni.lu gives no single monthly total. Also: registration € 400/semester (may vary by programme), study materials € 400/year, starting budget ≥ € 2,700 on arrival."
+    },
+    {
+      "field": "transport_pass",
+      "value": "€ 0: buses, trams and 2nd-class trains are free nationwide since 1 March 2020 (1st class and cross-border trips excluded).",
+      "source_name": "transports.public.lu (Ministry of Mobility)",
+      "source_url": "https://transports.public.lu/en/se-deplacer/transports-publics/mobilite-gratuite.html",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Temperate: mean 1.4 °C in January, 18.7 °C in July, 9.8 °C yearly; 831 mm rain/year (Luxembourg-Findel, normals 1991–2020).",
+      "source_name": "MeteoLux – Normales et extrêmes",
+      "source_url": "https://www.meteolux.lu/fr/climat/normales-et-extremes/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Station is Luxembourg-Findel (about 20 km from Esch), not Esch itself."
+    },
+    {
+      "field": "social_life",
+      "value": "Esch, next to the Belval campus, is described as growing in popularity, with venues such as Kulturfabrik and Rockhal; Luxembourg City is a free train ride away.",
+      "source_name": "Luxembourg.lu – Student life in Luxembourg",
+      "source_url": "https://luxembourg.public.lu/en/work-and-study/studying-in-luxembourg/student-life-luxembourg.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Admin languages: Luxembourgish, French, German. French is the main work language; English is the lingua franca of the international community and finance. Check your programme's language.",
+      "source_name": "Luxembourg.lu – Languages spoken in Luxembourg",
+      "source_url": "https://luxembourg.public.lu/en/society-and-culture/languages/languages-spoken-luxembourg.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Country-level page; 2018 study cited there: 98% speak French, 80% English, 78% German, 77% Luxembourgish."
+    },
+    {
+      "field": "job_market",
+      "value": "All uni.lu students may work (15 h/week in term, holiday contracts). Jobs via Jugendinfo.lu, Moovijob, uni.lu Career Centre, Unicareers fair; many listings in French/German.",
+      "source_name": "Luxembourg.lu – Jobs and internships for pupils and students; University of Luxembourg",
+      "source_url": "https://luxembourg.public.lu/en/work-and-study/studying-in-luxembourg/jobs-internships-for-pupils-students.html",
+      "extra_sources": ["https://www.uni.lu/life-en/moving-to-luxembourg/working-as-a-student/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "No sector breakdown or availability data found for Esch. Non-EU first-year Bachelor students: see the conflicting rules in luxembourg/bureaucracy.json (lu-student-work-non-eu)."
+    },
+    {
+      "field": "student_wage",
+      "value": "Term-time student contract: ≥ minimum wage, € 16.0192/h gross for 18+ unskilled (from 1 June 2026). Holiday contract: ≥ 80% of it, i.e. € 12.8154/h at 18+.",
+      "source_name": "Guichet.lu – Social parameters; Guichet.lu – student contracts",
+      "source_url": "https://guichet.public.lu/en/citoyens/outils/parametres-sociaux.html",
+      "extra_sources": [
+        "https://guichet.public.lu/en/citoyens/famille-education/etudes-superieures/activite-professionnelle/contrat-etudiant.html",
+        "https://guichet.public.lu/en/citoyens/travail/conditions-travail/contrat-jeunes-actifs/contrat-etudiant-cdd.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "These are legal floors, not typical market pay (none found). The € 12.8154/h holiday figure is 80% of € 16.0192, which is also the official 17–18 rate in the table. Luxembourg.lu's student wage table is still at the 1 Jan 2024 index."
+    }
+  ]
+}

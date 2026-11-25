@@ -1,0 +1,95 @@
+{
+  "city": "Aarhus",
+  "slug": "aarhus",
+  "country": "Denmark",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Average student rent €475/month; examples €335-696 (shared flat, dorms, Basecamp)",
+      "source_name": "Aarhus University (cost of living page, revised 26.06.2026)",
+      "source_url": "https://international.au.dk/life/lifeindenmark/costofliving",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: DKK 8,926/month centre, DKK 6,833 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Aarhus-Denmark?displayCurrency=DKK",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Average student budget €1,000/month incl. rent (2026)",
+      "source_name": "Aarhus University (cost of living page, revised 26.06.2026)",
+      "source_url": "https://international.au.dk/life/lifeindenmark/costofliving",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Listed lines (rent 475, food+utilities 300, phone 45, transport 30, books 25, extras 100) add up to €975."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Ungdomskort: DKK 718/30 days (2026) for SU-approved full-time students; AU average budget €30/month local transport",
+      "source_name": "Ungdomskort.dk",
+      "source_url": "https://ungdomskort.dk/priser-og-satser/ungdomskort-priser",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://international.au.dk/life/lifeindenmark/costofliving"
+      ]
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime; Denmark national mean 8.3 °C/year, 746 mm rain/year (DMI 1981-2010 normal)",
+      "source_name": "DMI (Danish Meteorological Institute)",
+      "source_url": "https://www.dmi.dk/vejrarkiv/normaler-danmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National figures, not city-specific. DMI states the 1991-2020 normals will be released at the end of 2026."
+    },
+    {
+      "field": "social_life",
+      "value": "AU: 4,000+ international students from 120+ nationalities, informal study environment, Danish students speak good English",
+      "source_name": "Aarhus University",
+      "source_url": "https://international.au.dk/life/studentscomingtoau/student-life",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English is enough for study; AU says knowing a bit of Danish makes a big difference for social life and job hunting",
+      "source_name": "Aarhus University",
+      "source_url": "https://international.au.dk/life/studentscomingtoau/futureandcareer",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.dtu.dk/english/education/student-guide/living-in-denmark"
+      ]
+    },
+    {
+      "field": "job_market",
+      "value": "Student testimonials: student assistant jobs at AU, warehouse and kitchen work; income depends on shifts",
+      "source_name": "Aarhus University (cost of living page, student testimonials)",
+      "source_url": "https://international.au.dk/life/lifeindenmark/costofliving",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "Anecdotal, 6 student profiles; no availability statistics."
+    },
+    {
+      "field": "student_wage",
+      "value": "Example: warehouse job DKK 138.67/hour + 9% (~DKK 151/hour); no statutory minimum wage",
+      "source_name": "Aarhus University (cost of living page, student testimonial)",
+      "source_url": "https://international.au.dk/life/lifeindenmark/costofliving",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules/you-work-in-denmark"
+      ],
+      "notes": "Single testimonial; SU office cites approved examples of DKK 120-125/hour + 12.5% holiday pay."
+    }
+  ]
+}
