@@ -28,38 +28,10 @@ export const housingCityCoords: Record<string, { lat: number; lng: number; count
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-export type RoommatePin = {
-  id: string;
-  // Set for real profiles loaded from Supabase; demo pins have no account.
-  userId?: string;
-  name: string;
-  initials: string;
-  avatarColor: string;   // RGB string, e.g. "201,163,92"
-  city: string;
-  lat: number;
-  lng: number;
-  budgetMin: number;
-  budgetMax: number;
-  moveIn: string;        // human-readable, e.g. "September 2025"
-  university: string;
-  flag: string;          // nationality flag emoji
-  // Extended profile fields (for detail panel)
-  age?: number;
-  gender?: "Male" | "Female" | "Non-binary" | "Prefer not to say";
-  nationality?: string;
-  programme?: string;
-  year?: number;
-  bio?: string;
-  lifestyle?: string[];
-  languages?: string[];
-  lookingFor?: string;
-  verified?: boolean;
-};
-
 export type ApartmentPin = {
   id: string;
   // The account that posted it. Unset on demo pins and on partner imports,
-  // which belong to nobody; used to drop a blocked person's listings.
+  // which belong to nobody.
   createdBy?: string;
   title: string;
   city: string;
@@ -74,7 +46,6 @@ export type ApartmentPin = {
   availableFrom?: string;
   description?: string;
   photo?: string;        // public URL of a photo of the place, if provided
-  verified?: boolean;    // poster completed ID verification
   // Partner-listing extras (see housing_listings partner columns)
   image?: string[];      // photo gallery URLs; first is the hero image
   address?: string;
@@ -89,8 +60,6 @@ export type ApartmentPin = {
 };
 
 // ── Demo data (replace with Supabase rows in production) ──────────────────────
-
-export const roommatePins: RoommatePin[] = [];
 
 export const apartmentPins: ApartmentPin[] = [
   {

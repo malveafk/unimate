@@ -2,26 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { type RoommatePin, type ApartmentPin } from "../data/housing-cities";
+import { type ApartmentPin } from "../data/housing-cities";
 import { PARTNER_THEMES, partnerTheme, partnerTint, partnerStripe } from "../data/housing-partners";
-import { studyYearLabel } from "@/utils/housing";
-import { blockUser, reportListing, reportProfile, type ReportReason } from "@/utils/moderation";
+import { reportListing, type ReportReason } from "@/utils/moderation";
 import ReportDialog from "./ReportDialog";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export type ActivePin =
-  | { pinType: "roommate";  data: RoommatePin }
   | { pinType: "apartment"; data: ApartmentPin }
-  | { pinType: "city"; cityName: string; cityFlag: string; cityCountry: string; roommateCount: number; apartmentCount: number };
+  | { pinType: "city"; cityName: string; cityFlag: string; cityCountry: string; apartmentCount: number };
 
 type Props = {
   pin:       ActivePin | null;
   onClose:   () => void;
-  onMessage: (profile: RoommatePin) => void; // opens the chat panel
-  // Called after the signed-in user blocks someone, so the page can drop that
-  // person's pin instead of leaving it on the map until the next reload.
-  onBlocked?: (userId: string) => void;
 };
 
 // Platform brand colours (subtle)
@@ -50,33 +44,15 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Tag({ label, color = "255,255,255" }: { label: string; color?: string }) {
-  return (
-    <span style={{
-      padding: "3px 10px", borderRadius: 6, fontSize: 12, fontWeight: 500,
-      background: `rgba(${color},0.08)`,
-      border: `1px solid rgba(${color},0.2)`,
-      color: `rgb(${color})`,
-    }}>{label}</span>
-  );
-}
-
-// ── Report / block footer ─────────────────────────────────────────────────────
+// ── Report footer ─────────────────────────────────────────────────────────────
 //
 // Deliberately quiet: a small line of grey text at the bottom, not a button
-// competing with "Message". Almost nobody needs it, and a prominent red
-// control on every profile would make the whole site feel like a place where
+// competing with the contact links. Almost nobody needs it, and a prominent red
+// control on every listing would make the whole site feel like a place where
 // people get scammed. The ones who do need it go looking, and it is where
 // every other site puts it.
-//
-// Reporting and blocking answer different questions, so they are two controls,
-// not one. Reporting asks an admin to look at something; blocking needs
-// nobody's approval and takes effect at once. Blocking confirms first, because
-// it changes what the person can do — undoing it means finding them again.
 
-function FooterAction({ children, onClick, danger }: {
-  children: React.ReactNode; onClick: () => void; danger?: boolean;
-}) {
+function FooterAction({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
@@ -84,245 +60,35 @@ function FooterAction({ children, onClick, danger }: {
         display: "inline-flex", alignItems: "center", gap: 6,
         background: "none", border: "none", padding: "4px 0", cursor: "pointer",
         fontFamily: "inherit", fontSize: 12, fontWeight: 600,
-        color: danger ? "rgba(248,113,113,0.85)" : "var(--text-3)",
+        color: "var(--text-3)",
         textDecoration: "underline", textUnderlineOffset: 3,
         transition: "color 0.12s",
       }}
-      onMouseEnter={e => (e.currentTarget.style.color = danger ? "#f87171" : "var(--text-1)")}
-      onMouseLeave={e => (e.currentTarget.style.color = danger ? "rgba(248,113,113,0.85)" : "var(--text-3)")}
+      onMouseEnter={e => (e.currentTarget.style.color = "var(--text-1)")}
+      onMouseLeave={e => (e.currentTarget.style.color = "var(--text-3)")}
     >
       {children}
     </button>
   );
 }
 
-function ModerationFooter({ target, onReport, blockable }: {
-  // How the thing is named in the dialog: "this listing", "Marta".
+function ModerationFooter({ target, onReport }: {
+  // How the thing is named in the dialog: "this listing".
   target: string;
   onReport: (reason: ReportReason, details: string) => Promise<void>;
-  // Absent for apartments and for demo pins, which belong to no account.
-  blockable?: { name: string; onConfirm: () => Promise<void> };
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [confirmingBlock, setConfirmingBlock] = useState(false);
-  const [blockState, setBlockState] = useState<"idle" | "working" | "done" | "error">("idle");
-
-  async function doBlock() {
-    if (!blockable) return;
-    setBlockState("working");
-    try {
-      await blockable.onConfirm();
-      setBlockState("done");
-    } catch {
-      setBlockState("error");
-    }
-  }
-
-  if (blockState === "done") {
-    return (
-      <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.6 }}>
-        Blocked. They can&apos;t message you and you won&apos;t see them on the map.
-        You can undo this under <Link href="/account" style={{ color: "var(--accent)" }}>My account</Link>.
-      </div>
-    );
-  }
 
   return (
     <>
       <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-        {confirmingBlock && blockable ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <p style={{ margin: 0, fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.6 }}>
-              Block {blockable.name}? Neither of you will be able to message the
-              other, and their profile disappears from your map. Messages you
-              already exchanged stay where they are, and you can undo this under
-              My account.
-            </p>
-            {blockState === "error" && (
-              <p style={{ margin: 0, fontSize: 12, color: "#f87171" }}>
-                That didn&apos;t work. Please try again.
-              </p>
-            )}
-            <div style={{ display: "flex", gap: 14 }}>
-              <FooterAction danger onClick={doBlock}>
-                {blockState === "working" ? "Blocking…" : `Yes, block ${blockable.name}`}
-              </FooterAction>
-              <FooterAction onClick={() => { setConfirmingBlock(false); setBlockState("idle"); }}>
-                Cancel
-              </FooterAction>
-            </div>
-          </div>
-        ) : (
-          <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
-            <FooterAction onClick={() => setDialogOpen(true)}>⚑ Report {target}</FooterAction>
-            {blockable && (
-              <FooterAction danger onClick={() => setConfirmingBlock(true)}>
-                Block {blockable.name}
-              </FooterAction>
-            )}
-          </div>
-        )}
+        <FooterAction onClick={() => setDialogOpen(true)}>⚑ Report {target}</FooterAction>
       </div>
 
       {dialogOpen && (
         <ReportDialog target={target} onSubmit={onReport} onClose={() => setDialogOpen(false)} />
       )}
     </>
-  );
-}
-
-// ── Roommate detail ───────────────────────────────────────────────────────────
-
-function RoommateDetail({ data, onMessage, onBlocked }: {
-  data: RoommatePin; onMessage: (p: RoommatePin) => void; onBlocked?: (userId: string) => void;
-}) {
-  const firstName = data.name.split(" ")[0];
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20, padding: "20px 22px 24px" }}>
-
-      {/* Avatar + identity */}
-      <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-        <div style={{
-          width: 56, height: 56, borderRadius: 16, flexShrink: 0,
-          background: `rgba(${data.avatarColor},0.18)`,
-          border: `1.5px solid rgba(${data.avatarColor},0.35)`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 20, fontWeight: 800, color: `rgb(${data.avatarColor})`,
-          letterSpacing: "-0.5px",
-        }}>
-          {data.initials}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-            <span style={{ fontSize: 18, fontWeight: 800, color: "var(--text-1)", letterSpacing: "-0.3px" }}>{data.name}</span>
-            <span style={{ fontSize: 18 }}>{data.flag}</span>
-            {data.verified && (
-              <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 4, background: "rgba(52,211,153,0.12)", border: "1px solid rgba(52,211,153,0.3)", color: "rgb(52,211,153)", fontWeight: 700, fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}>✓ ID VERIFIED</span>
-            )}
-          </div>
-          <div style={{ fontSize: 13, color: "var(--text-3)" }}>
-            {[data.age && `${data.age} y.o.`, data.gender, data.nationality].filter(Boolean).join(" · ")}
-          </div>
-        </div>
-      </div>
-
-      {/* University */}
-      <div style={{ padding: "14px 16px", borderRadius: 12, background: "var(--surface)", border: "1px solid var(--border)" }}>
-        <SectionLabel>University</SectionLabel>
-        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 2 }}>{data.university}</div>
-        {(data.programme || data.year) && (
-          <div style={{ fontSize: 13, color: "var(--text-3)" }}>
-            {[data.programme, studyYearLabel(data.year)].filter(Boolean).join(" · ")}
-          </div>
-        )}
-      </div>
-
-      {/* Budget + move-in */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <div style={{ padding: "12px 14px", borderRadius: 12, background: "var(--surface)", border: "1px solid var(--border)" }}>
-          <SectionLabel>Budget / mo</SectionLabel>
-          <div style={{ fontSize: 16, fontWeight: 800, color: "rgb(52,211,153)", letterSpacing: "-0.3px" }}>
-            €{data.budgetMin}–€{data.budgetMax}
-          </div>
-        </div>
-        <div style={{ padding: "12px 14px", borderRadius: 12, background: "var(--surface)", border: "1px solid var(--border)" }}>
-          <SectionLabel>Move-in</SectionLabel>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", lineHeight: 1.4 }}>{data.moveIn}</div>
-        </div>
-      </div>
-
-      {/* Bio */}
-      {data.bio && (
-        <div>
-          <SectionLabel>About</SectionLabel>
-          <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.75, margin: 0 }}>{data.bio}</p>
-        </div>
-      )}
-
-      {/* Lifestyle tags */}
-      {data.lifestyle && data.lifestyle.length > 0 && (
-        <div>
-          <SectionLabel>Lifestyle</SectionLabel>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {data.lifestyle.map(t => <Tag key={t} label={t} />)}
-          </div>
-        </div>
-      )}
-
-      {/* Languages */}
-      {data.languages && data.languages.length > 0 && (
-        <div>
-          <SectionLabel>Languages</SectionLabel>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {data.languages.map(l => <Tag key={l} label={l} color="96,165,250" />)}
-          </div>
-        </div>
-      )}
-
-      {/* Looking for */}
-      {data.lookingFor && (
-        <div style={{ padding: "14px 16px", borderRadius: 12, background: "rgba(201,163,92,0.05)", border: "1px solid rgba(201,163,92,0.15)" }}>
-          <SectionLabel>Looking for</SectionLabel>
-          <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>{data.lookingFor}</p>
-        </div>
-      )}
-
-      {/* ── Contact box ──────────────────────────────────────────────────────── */}
-      <div style={{
-        padding: "18px 18px",
-        borderRadius: 14,
-        border: "1px solid rgba(107,159,255,0.25)",
-        background: "rgba(107,159,255,0.05)",
-        display: "flex", flexDirection: "column", gap: 12,
-      }}>
-        <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>
-            Interested? Send a message
-          </div>
-          <p style={{ fontSize: 12, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>
-            Messages are private between you and this student, and only visible to the two of you.
-          </p>
-        </div>
-        <button
-          onClick={() => onMessage(data)}
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-            padding: "13px 0", borderRadius: 12, border: "none",
-            background: "#6B9FFF", color: "#fff",
-            fontSize: 14, fontWeight: 700, cursor: "pointer",
-            fontFamily: "inherit", transition: "opacity 0.15s, transform 0.15s",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-          onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          Message {data.name.split(" ")[0]}
-        </button>
-        {!data.verified && (
-          <p style={{ fontSize: 11, color: "var(--text-3)", margin: 0, textAlign: "center" }}>
-            ⚠️ This profile is not yet ID-verified
-          </p>
-        )}
-      </div>
-
-      {/* Demo pins carry no userId: there is no account to report or block. */}
-      {data.userId && (
-        <ModerationFooter
-          target={firstName}
-          onReport={(reason, details) => reportProfile(data.userId!, reason, details)}
-          blockable={{
-            name: firstName,
-            onConfirm: async () => {
-              await blockUser(data.userId!);
-              onBlocked?.(data.userId!);
-            },
-          }}
-        />
-      )}
-    </div>
   );
 }
 
@@ -531,7 +297,7 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
         ) : data.partial ? null : (
           <div style={{ padding: "14px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)", fontSize: 13, color: "var(--text-3)", textAlign: "center" }}>
             {data.platform === "4UNI"
-              ? "Posted directly by a student on 4UNI"
+              ? "Published on 4UNI"
               : <>Listed on <strong style={{ color: "var(--text-2)" }}>{data.platform}</strong> — link coming soon</>}
           </div>
         )}
@@ -577,8 +343,8 @@ function ApartmentDetail({ data }: { data: ApartmentPin }) {
 
 // ── City ghost detail ─────────────────────────────────────────────────────────
 
-function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentCount }: {
-  cityName: string; cityFlag: string; cityCountry: string; roommateCount: number; apartmentCount: number;
+function CityDetail({ cityName, cityFlag, cityCountry, apartmentCount }: {
+  cityName: string; cityFlag: string; cityCountry: string; apartmentCount: number;
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20, padding: "20px 22px 24px" }}>
@@ -592,18 +358,14 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <div style={{ padding: "14px", borderRadius: 12, border: "1px solid rgba(107,159,255,0.2)", background: "rgba(107,159,255,0.05)" }}>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#6B9FFF", letterSpacing: "-0.5px" }}>{roommateCount}</div>
-          <div style={{ fontWeight: 700, fontSize: 11, color: "var(--text-3)", marginTop: 3, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Roommates</div>
-        </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
         <div style={{ padding: "14px", borderRadius: 12, border: "1px solid rgba(248,113,113,0.2)", background: "rgba(248,113,113,0.05)" }}>
           <div style={{ fontSize: 24, fontWeight: 800, color: "#F87171", letterSpacing: "-0.5px" }}>{apartmentCount}</div>
           <div style={{ fontWeight: 700, fontSize: 11, color: "var(--text-3)", marginTop: 3, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Apartments</div>
         </div>
       </div>
 
-      {roommateCount === 0 && apartmentCount === 0 ? (
+      {apartmentCount === 0 ? (
         <>
           <div style={{ padding: "18px", borderRadius: 14, border: "1px dashed rgba(255,255,255,0.12)", textAlign: "center" }}>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 10, color: "var(--text-3)" }}>
@@ -613,11 +375,11 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
             </div>
             <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-1)", marginBottom: 6 }}>No listings in {cityName} yet</div>
             <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0, lineHeight: 1.6 }}>
-              Be the first student to post a roommate profile or apartment listing here.
+              Have a place to rent here? Email us the details and we&apos;ll publish it.
             </p>
           </div>
           <Link
-            href="/housing/create-profile"
+            href="/housing/post-listing"
             style={{
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
               padding: "14px 0", borderRadius: 12, textDecoration: "none",
@@ -627,12 +389,12 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
             onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.85")}
             onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
           >
-            Post your profile in {cityName} →
+            List an apartment in {cityName} →
           </Link>
         </>
       ) : (
         <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>
-          Use the filters above the map to browse roommates and apartments in {cityName}.
+          Use the filters above the map to browse apartments in {cityName}.
         </div>
       )}
     </div>
@@ -641,11 +403,11 @@ function CityDetail({ cityName, cityFlag, cityCountry, roommateCount, apartmentC
 
 // ── Main panel ────────────────────────────────────────────────────────────────
 
-export default function PinDetailPanel({ pin, onClose, onMessage, onBlocked }: Props) {
+export default function PinDetailPanel({ pin, onClose }: Props) {
   const isOpen = !!pin;
 
-  // Apartment previews take two thirds of the screen; roommate and city panels
-  // keep the narrow drawer. The width is remembered while the drawer slides
+  // Apartment previews take two thirds of the screen; city panels keep the
+  // narrow drawer. The width is remembered while the drawer slides
   // out (pin is null by then) so it does not snap narrower mid-animation.
   const [wide, setWide] = useState(false);
   if (pin && (pin.pinType === "apartment") !== wide) setWide(pin.pinType === "apartment");
@@ -675,13 +437,11 @@ export default function PinDetailPanel({ pin, onClose, onMessage, onBlocked }: P
   // Derive header label
   const headerLabel =
     !pin         ? ""
-    : pin.pinType === "roommate"  ? "Roommate profile"
     : pin.pinType === "apartment" ? "Apartment listing"
     : `${pin.cityName}`;
 
   const headerColor =
     !pin         ? "255,255,255"
-    : pin.pinType === "roommate"  ? "107,159,255"
     : pin.pinType === "apartment" ? "248,113,113"
     : "255,255,255";
 
@@ -764,9 +524,6 @@ export default function PinDetailPanel({ pin, onClose, onMessage, onBlocked }: P
         {/* Scrollable content — overscroll contained so reaching the end of the
             drawer never hands the wheel over to the page behind it */}
         <div style={{ flex: 1, overflowY: "auto", minHeight: 0, overscrollBehavior: "contain" }}>
-          {pin?.pinType === "roommate" && (
-            <RoommateDetail data={pin.data} onMessage={onMessage} onBlocked={onBlocked} />
-          )}
           {pin?.pinType === "apartment" && (
             <ApartmentDetail key={pin.data.id} data={pin.data} />
           )}
@@ -775,7 +532,6 @@ export default function PinDetailPanel({ pin, onClose, onMessage, onBlocked }: P
               cityName={pin.cityName}
               cityFlag={pin.cityFlag}
               cityCountry={pin.cityCountry}
-              roommateCount={pin.roommateCount}
               apartmentCount={pin.apartmentCount}
             />
           )}

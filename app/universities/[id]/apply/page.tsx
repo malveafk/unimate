@@ -457,7 +457,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         </div>
         {[
           { icon: "🏫", title: "University housing", desc: `Check ${uni.name}'s official student housing portal first. It's usually cheaper, safer, and easier for first-arrivals.`, color: "52,211,153" },
-          { icon: "🤝", title: "Find a roommate on 4UNI", desc: "Browse student profiles looking for a flatmate in the same city and budget range. Verified profiles only.", color: "201,163,92", link: `/housing?city=${uni.city}` },
+          { icon: "🤝", title: "Find an apartment on 4UNI", desc: "Browse rooms and flats in the same city, filtered by budget and move-in date. We check every listing before it goes on the map.", color: "201,163,92", link: `/housing?city=${uni.city}` },
           { icon: "🏠", title: "Private platforms", desc: "HousingAnywhere and local Facebook groups everywhere; Kamernet in the Netherlands, WG-Gesucht in Germany and Austria. Never pay a deposit before viewing.", color: "96,165,250" },
         ].map(({ icon, title, desc, color, link }) => (
           <div key={title} style={{ display: "flex", gap: 14, padding: "16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
@@ -465,7 +465,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>
               <p style={{ fontSize: 13, color: "var(--text-2)", margin: "0 0 8px", lineHeight: 1.6 }}>{desc}</p>
-              {link && <Link href={link} style={{ fontSize: 12, fontWeight: 700, color: `rgb(${color})`, textDecoration: "none" }}>Browse roommates →</Link>}
+              {link && <Link href={link} style={{ fontSize: 12, fontWeight: 700, color: `rgb(${color})`, textDecoration: "none" }}>Browse apartments →</Link>}
             </div>
           </div>
         ))}

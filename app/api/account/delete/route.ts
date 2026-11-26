@@ -7,14 +7,13 @@ import { createAdminClient } from "@/utils/supabase/admin";
 // user cannot delete their own auth record from the browser.
 //
 // What goes, in order:
-//   1. Files in the private ID bucket and the public photo bucket
-//      (both are stored under a folder named after the user id).
+//   1. Their listing photos (stored under a folder named after the user id).
 //   2. Their apartment listings. The foreign key is ON DELETE SET NULL, so
 //      without this step the listings would stay on the map with no owner.
-//   3. Their roommate profile and AI-chat quota row.
+//   3. Their AI-chat quota row.
 //   4. The auth user itself. Everything else that points at auth.users
-//      (profiles, AI chats, housing conversations and messages, activity)
-//      is ON DELETE CASCADE and disappears with it.
+//      (profiles, AI chats, activity) is ON DELETE CASCADE and disappears
+//      with it.
 export async function POST() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -26,21 +25,16 @@ export async function POST() {
   const uid = user.id;
 
   try {
-    for (const bucket of ["housing-ids", "housing-photos"]) {
-      const { data: files, error } = await admin.storage.from(bucket).list(uid, { limit: 1000 });
-      if (error) throw error;
-      const paths = (files ?? []).map((f) => `${uid}/${f.name}`);
-      if (paths.length > 0) {
-        const { error: removeError } = await admin.storage.from(bucket).remove(paths);
-        if (removeError) throw removeError;
-      }
+    const { data: files, error } = await admin.storage.from("housing-photos").list(uid, { limit: 1000 });
+    if (error) throw error;
+    const paths = (files ?? []).map((f) => `${uid}/${f.name}`);
+    if (paths.length > 0) {
+      const { error: removeError } = await admin.storage.from("housing-photos").remove(paths);
+      if (removeError) throw removeError;
     }
 
     const { error: listingsError } = await admin.from("housing_listings").delete().eq("created_by", uid);
     if (listingsError) throw listingsError;
-
-    const { error: profileError } = await admin.from("housing_profiles").delete().eq("user_id", uid);
-    if (profileError) throw profileError;
 
     // Not linked to auth.users by a foreign key, so it would not cascade.
     // Best-effort: the table may not exist in every environment.

@@ -180,7 +180,7 @@ export default function Home() {
           },
           {
             label: "Housing",
-            sub: "Rooms & roommates across Europe",
+            sub: "Rooms & apartments across Europe",
             href: "/housing",
             icon: (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -393,7 +393,6 @@ export default function Home() {
                   { filters: null, title: "Best Platforms by Country", desc: "Kamernet, HousingAnywhere, Uniplaces, student halls — we'll tell you which ones are actually worth your time in each country, and which ones are full of scams." },
                   { filters: null, title: "Waiting Lists & Timelines", desc: "Some student housing waitlists run 6 to 12 months. We tell you exactly when to sign up so you're not still hunting for a room the week before term starts." },
                   { filters: ["City", "Budget", "Size", "Furnished", "Distance to uni"], title: "Find an Apartment — with Filters", desc: "Filter by city, budget, size, furnished or not, and how far you're willing to be from campus. We only show listings from platforms we actually trust." },
-                  { filters: ["University", "Nationality", "Budget", "Lifestyle", "Language"], title: "Find a Roommate — with Filters", desc: "Splitting rent changes everything. Filter by university, nationality, lifestyle and budget to find someone you'll actually get along with — not just whoever replied first." },
                 ].map(({ filters, title, desc }) => (
                   <div key={title} style={{ padding: "18px 0", borderTop: "1px solid var(--border)" }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>

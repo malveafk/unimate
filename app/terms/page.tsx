@@ -26,12 +26,12 @@ export default function TermsPage() {
         Terms of Service
       </h1>
       <p style={{ fontSize: 13, color: "var(--text-3)", marginBottom: 32 }}>
-        Last updated: 14 November 2026
+        Last updated: 25 November 2026
       </p>
 
       <p style={body}>
         These terms govern your use of 4UNI, a platform that helps students explore
-        universities abroad, get guidance from an AI assistant, and find housing and roommates.
+        universities abroad, get guidance from an AI assistant, and find housing.
         4UNI is run by Lorenzo Distefano and Nicolo Malvezzi, based in Luxembourg. By
         using 4UNI you agree to these terms.
       </p>
@@ -39,17 +39,15 @@ export default function TermsPage() {
       <h2 style={sectionTitle}>1. The service</h2>
       <p style={body}>
         4UNI provides information about universities, study programs, costs and student life,
-        an AI-powered assistant, and a housing section where students can publish profiles and
-        listings and message each other. The service is free; some features may become paid in the
+        an AI-powered assistant, and a housing section with apartment listings across European
+        student cities. The service is free; some features may become paid in the
         future, in which case pricing will be clearly communicated before you are charged.
       </p>
 
       <h2 style={sectionTitle}>2. Eligibility</h2>
       <p style={body}>
-        You must be at least 16 years old to use 4UNI. If you are under 18 and cannot provide
-        your own photo ID for housing verification, we accept a photo ID from a parent or legal
-        guardian along with their confirmation that they consent to your use of the housing
-        features. We may suspend accounts where we cannot confirm eligibility.
+        You must be at least 16 years old to use 4UNI. We may suspend accounts where we cannot
+        confirm eligibility.
       </p>
 
       <h2 style={sectionTitle}>3. Information accuracy — no guarantees</h2>
@@ -61,15 +59,14 @@ export default function TermsPage() {
         competent authority before making decisions.
       </p>
 
-      <h2 style={sectionTitle}>4. Housing and interactions between users</h2>
+      <h2 style={sectionTitle}>4. Housing listings</h2>
       <p style={body}>
-        Roommate profiles and apartment listings are published by users and by our housing
-        partners. To make the community safer, we ask users to upload a photo ID, and we review
-        apartment listings before they appear on the map. These checks reduce risk but cannot rule
-        it out: we cannot guarantee that every person, listing or description is genuine or
-        accurate, and the ✓ Verified badge only means we have checked an ID document.
+        Apartment listings come from our housing partners and from owners who send us their
+        details by email, which we publish on their behalf. We review every listing before it
+        appears on the map. This reduces risk but cannot rule it out: we cannot guarantee that
+        every listing or description is genuine or accurate.
         <br />
-        4UNI is not a party to any agreement you make with other users or with housing partners.
+        4UNI is not a party to any agreement you make with a landlord or with housing partners.
         Bookings made through a partner&apos;s website or WhatsApp are between you and that partner.
         Never send money to someone before you have viewed the room or apartment (in person or by
         live video) and signed a contract.

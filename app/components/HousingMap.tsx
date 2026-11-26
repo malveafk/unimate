@@ -1,41 +1,36 @@
 "use client";
 
 import { useRef, useEffect, useCallback } from "react";
-import { housingCityCoords, type RoommatePin, type ApartmentPin } from "../data/housing-cities";
+import { housingCityCoords, type ApartmentPin } from "../data/housing-cities";
 
 type Props = {
-  roommatePins: RoommatePin[];
   apartmentPins: ApartmentPin[];
-  /** "all" | "roommates" | "apartments" */
-  filter: "all" | "roommates" | "apartments";
 };
 
-export default function HousingMap({ roommatePins, apartmentPins, filter }: Props) {
+export default function HousingMap({ apartmentPins }: Props) {
   const iframeRef  = useRef<HTMLIFrameElement>(null);
   const readyRef   = useRef(false);
 
   // Always keep a ref to the current props so listeners never go stale
-  const propsRef = useRef({ roommatePins, apartmentPins, filter });
-  propsRef.current = { roommatePins, apartmentPins, filter };
+  const propsRef = useRef({ apartmentPins });
+  propsRef.current = { apartmentPins };
 
   /* ── Build derived data ──────────────────────────────────────────── */
   function buildPayload() {
-    const { roommatePins, apartmentPins, filter } = propsRef.current;
+    const { apartmentPins } = propsRef.current;
 
     const cities = Object.entries(housingCityCoords).map(([name, c]) => ({
       name, ...c,
-      roommateCount: roommatePins.filter(p => p.city === name).length,
       apartmentCount: apartmentPins.filter(p => p.city === name).length,
     }));
 
-    const visibleRoommates  = filter !== "apartments" ? roommatePins : [];
     // The map only draws and identifies apartment pins: send it just that, not
     // thousands of full listing objects.
-    const visibleApartments = filter !== "roommates"
-      ? apartmentPins.map(({ id, city, lat, lng }) => ({ id, city, lat, lng }))
-      : [];
+    const apts = apartmentPins.map(({ id, city, lat, lng }) => ({ id, city, lat, lng }));
 
-    return { type: "init-map", cities, roommates: visibleRoommates, apts: visibleApartments, filter };
+    // public/housing-map.html still takes a roommates list and a filter from
+    // when the map showed roommate profiles too; it gets an empty list.
+    return { type: "init-map", cities, roommates: [], apts, filter: "apartments" };
   }
 
   /* ── Send current data to the iframe ────────────────────────────── */
@@ -65,7 +60,7 @@ export default function HousingMap({ roommatePins, apartmentPins, filter }: Prop
   // the arrays themselves would rebuild every marker each time anything on the
   // page changes (typing in the search box, opening a listing…). With thousands
   // of pins that is a visible stutter: compare what is actually on the map.
-  const pinsKey = `${filter}|${roommatePins.map(p => p.id).join(",")}|${apartmentPins.map(p => p.id).join(",")}`;
+  const pinsKey = apartmentPins.map(p => p.id).join(",");
   useEffect(() => {
     if (readyRef.current) sendMapData();
   }, [pinsKey, sendMapData]);
@@ -83,10 +78,6 @@ export default function HousingMap({ roommatePins, apartmentPins, filter }: Prop
     }
   }, [sendMapData]);
 
-  /* ── Derived counts for legend ──────────────────────────────────── */
-  const visibleRoommateCount  = filter !== "apartments" ? roommatePins.length  : 0;
-  const visibleApartmentCount = filter !== "roommates"  ? apartmentPins.length : 0;
-
   return (
     <div style={{ position: "relative" }}>
 
@@ -102,22 +93,12 @@ export default function HousingMap({ roommatePins, apartmentPins, filter }: Prop
         padding: "10px 14px",
         pointerEvents: "none",
       }}>
-        {(filter === "all" || filter === "roommates") && (
-          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#6B9FFF", flexShrink: 0 }} />
-            <span style={{ fontSize: 11, color: "rgba(0,0,0,0.65)", fontWeight: 600, fontFamily: "Arial, sans-serif" }}>
-              Roommates ({visibleRoommateCount})
-            </span>
-          </div>
-        )}
-        {(filter === "all" || filter === "apartments") && (
-          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#F87171", flexShrink: 0 }} />
-            <span style={{ fontSize: 11, color: "rgba(0,0,0,0.65)", fontWeight: 600, fontFamily: "Arial, sans-serif" }}>
-              Apartments ({visibleApartmentCount})
-            </span>
-          </div>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#F87171", flexShrink: 0 }} />
+          <span style={{ fontSize: 11, color: "rgba(0,0,0,0.65)", fontWeight: 600, fontFamily: "Arial, sans-serif" }}>
+            Apartments ({apartmentPins.length})
+          </span>
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(0,0,0,0.18)", border: "1px solid rgba(0,0,0,0.25)", flexShrink: 0 }} />
           <span style={{ fontSize: 11, color: "rgba(0,0,0,0.35)", fontWeight: 600, fontFamily: "Arial, sans-serif" }}>

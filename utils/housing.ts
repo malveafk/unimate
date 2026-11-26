@@ -1,19 +1,11 @@
-// Data layer for the real housing feature (tables created by supabase/housing.sql).
-// Maps DB rows to the RoommatePin/ApartmentPin shapes the map and panels
-// already consume, so real and demo pins render identically.
+// Data layer for the housing map (tables created by supabase/housing.sql).
+// Maps DB rows to the ApartmentPin shape the map and panels consume.
 
 import { createClient } from "@/utils/supabase/client";
-import { fetchBlockedUserIds } from "@/utils/moderation";
 import {
   housingCityCoords,
-  type RoommatePin,
   type ApartmentPin,
 } from "@/app/data/housing-cities";
-
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
-];
 
 // Spread pins from the same city apart a little (~±500m) so they don't stack
 // on the exact same spot. Deterministic per id, so pins don't jump on reload.
@@ -23,67 +15,9 @@ function jitter(id: string, axis: 0 | 1): number {
   return ((h % 1000) / 1000 - 0.5) * 0.012;
 }
 
-type ProfileRow = {
-  id: string;
-  user_id: string;
-  first_name: string;
-  age: number | null;
-  gender: string | null;
-  nationality: string | null;
-  flag: string | null;
-  avatar_color: string | null;
-  university: string | null;
-  programme: string | null;
-  study_year: number | null;
-  city: string;
-  lat: number | null;
-  lng: number | null;
-  budget_min: number | null;
-  budget_max: number | null;
-  move_in_month: number | null;
-  move_in_year: number | null;
-  bio: string | null;
-  lifestyle: string[];
-  languages: string[];
-  looking_for: string | null;
-  verified: boolean;
-};
-
-function profileToPin(row: ProfileRow): RoommatePin {
-  const cityCoords = housingCityCoords[row.city];
-  return {
-    id: row.id,
-    userId: row.user_id,
-    name: row.first_name,
-    initials: (row.first_name[0] ?? "?").toUpperCase(),
-    avatarColor: row.avatar_color ?? "167,139,250",
-    city: row.city,
-    lat: row.lat ?? (cityCoords ? cityCoords.lat + jitter(row.id, 0) : 0),
-    lng: row.lng ?? (cityCoords ? cityCoords.lng + jitter(row.id, 1) : 0),
-    budgetMin: row.budget_min ?? 0,
-    budgetMax: row.budget_max ?? 0,
-    moveIn: row.move_in_month && row.move_in_year
-      ? `${MONTHS[row.move_in_month - 1]} ${row.move_in_year}`
-      : "Flexible",
-    university: row.university ?? "",
-    flag: row.flag ?? "🌍",
-    age: row.age ?? undefined,
-    gender: (row.gender as RoommatePin["gender"]) ?? undefined,
-    nationality: row.nationality ?? undefined,
-    programme: row.programme ?? undefined,
-    year: row.study_year ?? undefined,
-    bio: row.bio ?? undefined,
-    lifestyle: row.lifestyle ?? [],
-    languages: row.languages ?? [],
-    lookingFor: row.looking_for ?? undefined,
-    verified: row.verified,
-  };
-}
-
 type ListingRow = {
   id: string;
-  // Null on partner imports, which belong to no account and so can never be
-  // hidden by a block.
+  // Null on partner imports, which belong to no account.
   created_by?: string | null;
   title: string;
   city: string;
@@ -99,7 +33,6 @@ type ListingRow = {
   rooms?: number | null;
   description?: string | null;
   link?: string | null;
-  verified?: boolean;
   // Partner-listing columns (may not be migrated yet — see the 42703 fallback).
   image?: string[] | null;
   address?: string | null;
@@ -131,7 +64,6 @@ function listingToPin(row: ListingRow, partial: boolean): ApartmentPin {
     photo: row.photo_path
       ? createClient().storage.from("housing-photos").getPublicUrl(row.photo_path).data.publicUrl
       : undefined,
-    verified: row.verified ?? false,
     image: row.image ?? undefined,
     address: row.address ?? undefined,
     bathrooms: row.bathrooms ?? undefined,
@@ -140,31 +72,6 @@ function listingToPin(row: ListingRow, partial: boolean): ApartmentPin {
     whatsapp: row.contact_whatsapp ?? undefined,
     ...(partial ? { partial: true } : {}),
   };
-}
-
-// ── Reads (public — RLS shows only active rows) ──────────────────────────────
-
-// Blocked people are filtered out here rather than in the database, because
-// RLS cannot express it: housing_profiles is readable by anonymous visitors
-// too, and a policy that consulted auth.uid() would have to be written to let
-// that case through anyway. Hiding is cosmetic — the rule with teeth ("they
-// cannot contact me") is enforced by the policies in
-// supabase/housing_reports_blocks.sql, where leaving it out would matter.
-export async function fetchRoommatePins(): Promise<RoommatePin[]> {
-  const supabase = createClient();
-  const [{ data, error }, blocked] = await Promise.all([
-    supabase
-      .from("housing_profiles")
-      .select("id, user_id, first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, lat, lng, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, verified")
-      .order("created_at", { ascending: false }),
-    fetchBlockedUserIds(),
-  ]);
-  if (error) throw error;
-
-  const hidden = new Set(blocked);
-  return (data as ProfileRow[])
-    .filter(row => !hidden.has(row.user_id))
-    .map(profileToPin);
 }
 
 // ── Listings: a light list for everything, full rows on demand ───────────────
@@ -180,19 +87,16 @@ export async function fetchRoommatePins(): Promise<RoommatePin[]> {
 //
 // Only the core columns are guaranteed on every deployed DB (original
 // supabase/housing.sql schema). Later migrations add optionals:
-//   - photo_path, verified   → listing ID-verification feature (in housing.sql)
+//   - photo_path             → listing photos (in housing.sql)
 //   - image, address, …      → supabase/housing_partner_listings.sql
 //   - contact_whatsapp       → supabase/housing_clubhouse_whatsapp.sql
 // Any of them may be unapplied on a given DB, so we try progressively narrower
 // column sets and stop at the first that isn't an "undefined column" error. This
 // way whichever optionals ARE migrated still load, and a deploy and its ALTER
 // TABLEs can land in any order without ever breaking the live apartment feed.
-// created_by is in the original schema, so unlike the optionals below it is
-// safe in the narrowest attempt: every deployed database has it. It is here so
-// a blocked person's listings can be left off the map.
 const LISTING_LIST_COLS = "id, created_by, title, city, lat, lng, price, furnished, available_from, platform";
 const LISTING_CORE_COLS = `${LISTING_LIST_COLS}, rooms, description, link`;
-const LISTING_VERIFY_COLS = "photo_path, verified";
+const LISTING_PHOTO_COLS = "photo_path";
 const LISTING_PARTNER_COLS = "image, address, bathrooms, size_sqm, source";
 const LISTING_CONTACT_COLS = "contact_whatsapp";
 
@@ -205,10 +109,10 @@ const LIST_ATTEMPTS = [
   LISTING_LIST_COLS,
 ];
 const DETAIL_ATTEMPTS = [
-  `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}, ${LISTING_PARTNER_COLS}, ${LISTING_CONTACT_COLS}`,
-  `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}, ${LISTING_PARTNER_COLS}`,
+  `${LISTING_CORE_COLS}, ${LISTING_PHOTO_COLS}, ${LISTING_PARTNER_COLS}, ${LISTING_CONTACT_COLS}`,
+  `${LISTING_CORE_COLS}, ${LISTING_PHOTO_COLS}, ${LISTING_PARTNER_COLS}`,
   `${LISTING_CORE_COLS}, ${LISTING_PARTNER_COLS}`,
-  `${LISTING_CORE_COLS}, ${LISTING_VERIFY_COLS}`,
+  `${LISTING_CORE_COLS}, ${LISTING_PHOTO_COLS}`,
   LISTING_CORE_COLS,
 ];
 
@@ -279,10 +183,7 @@ export async function fetchApartmentPins(pageSize: number = LISTING_PAGE_SIZE): 
       .order("id")
       .range(from, from + pageSize - 1);
 
-  const [first, blocked] = await Promise.all([
-    selectListings(LIST_ATTEMPTS, (columns) => page(columns, 0, true)),
-    fetchBlockedUserIds(),
-  ]);
+  const first = await selectListings(LIST_ATTEMPTS, (columns) => page(columns, 0, true));
   const byId = new Map(first.rows.map((row) => [row.id, row]));
   // Keep asking until we hold as many rows as the table says it has. Advancing
   // by what actually arrived (not by pageSize) stays correct even if the server
@@ -297,12 +198,7 @@ export async function fetchApartmentPins(pageSize: number = LISTING_PAGE_SIZE): 
     fetched += rows.length;
   }
 
-  const hidden = new Set(blocked);
-  return spreadStackedPins(
-    [...byId.values()]
-      .filter((row) => !(row.created_by && hidden.has(row.created_by)))
-      .map((row) => listingToPin(row, true)),
-  );
+  return spreadStackedPins([...byId.values()].map((row) => listingToPin(row, true)));
 }
 
 // Full rows (description, photo gallery, address, contact…) for a few listings.
@@ -313,278 +209,4 @@ export async function fetchApartmentDetails(ids: string[]): Promise<ApartmentPin
     supabase.from("housing_listings").select(columns).in("id", ids),
   );
   return rows.map((row) => listingToPin(row, false));
-}
-
-// Profiles of specific users (e.g. the people you're chatting with).
-export async function fetchRoommatePinsByUserIds(userIds: string[]): Promise<RoommatePin[]> {
-  if (userIds.length === 0) return [];
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("housing_profiles")
-    .select("id, user_id, first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, lat, lng, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, verified")
-    .in("user_id", userIds);
-  if (error) throw error;
-  return (data as ProfileRow[]).map(profileToPin);
-}
-
-// ── Profile save (Create profile form) ───────────────────────────────────────
-
-export type ProfileFormInput = {
-  firstName: string;
-  age: string;
-  gender: string;
-  nationality: string;
-  flag: string;
-  avatarColor: string;
-  university: string;
-  programme: string;
-  studyYear: string;
-  city: string;
-  budgetMin: string;
-  budgetMax: string;
-  moveInMonth: string;
-  moveInYear: string;
-  bio: string;
-  lifestyle: string[];
-  languages: string[];
-  lookingFor: string;
-  genderPreference: string;
-  smokingOk: boolean;
-  petsOk: boolean;
-};
-
-// Year-of-study options shown in the Create profile form. The database stores
-// the position in this list (1-based) because study_year is an integer column.
-export const STUDY_YEARS = ["1st year", "2nd year", "3rd year", "4th year", "Master's", "PhD", "Exchange"];
-
-export function studyYearToNumber(label: string): number | null {
-  const i = STUDY_YEARS.indexOf(label);
-  return i >= 0 ? i + 1 : null;
-}
-
-export function studyYearLabel(n: number | null | undefined): string | null {
-  return n && n >= 1 && n <= STUDY_YEARS.length ? STUDY_YEARS[n - 1] : null;
-}
-
-// The signed-in user's own roommate profile, shaped like the Create profile
-// form so the form can be pre-filled for editing. Null if there's no
-// signed-in user or they haven't created a profile yet.
-export async function getMyRoommateProfile(): Promise<{ form: ProfileFormInput } | null> {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data, error } = await supabase
-    .from("housing_profiles")
-    .select("first_name, age, gender, nationality, flag, avatar_color, university, programme, study_year, city, budget_min, budget_max, move_in_month, move_in_year, bio, lifestyle, languages, looking_for, gender_preference, smoking_ok, pets_ok")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (error || !data) return null;
-
-  const str = (v: unknown) => (v === null || v === undefined ? "" : String(v));
-  return {
-    form: {
-      firstName: str(data.first_name),
-      age: str(data.age),
-      gender: str(data.gender),
-      nationality: str(data.nationality),
-      flag: str(data.flag),
-      avatarColor: str(data.avatar_color),
-      university: str(data.university),
-      programme: str(data.programme),
-      studyYear: studyYearLabel(data.study_year) ?? "",
-      city: str(data.city),
-      budgetMin: str(data.budget_min),
-      budgetMax: str(data.budget_max),
-      moveInMonth: data.move_in_month ? MONTHS[data.move_in_month - 1] : "",
-      moveInYear: str(data.move_in_year),
-      bio: str(data.bio),
-      lifestyle: data.lifestyle ?? [],
-      languages: data.languages ?? [],
-      lookingFor: str(data.looking_for),
-      genderPreference: str(data.gender_preference) || "no preference",
-      smokingOk: !!data.smoking_ok,
-      petsOk: !!data.pets_ok,
-    },
-  };
-}
-
-// ── ID checks (supabase/housing_id_checks.sql) ───────────────────────────────
-//
-// An ID is checked once per PERSON, not per profile or listing: one row in
-// housing_id_checks, decided by an admin, drives the badge on the person's
-// roommate profile and on every listing they post. The database derives
-// `verified` from that row, so nothing here ever sends it.
-
-export type IdCheckStatus = "pending" | "verified" | "rejected";
-
-// The signed-in user's ID check, or null if they never submitted one (or
-// aren't signed in). A 'rejected' check means they must upload a new document.
-export async function getExistingIdVerification(): Promise<{ status: IdCheckStatus } | null> {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data, error } = await supabase
-    .from("housing_id_checks")
-    .select("status")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (error || !data) return null;
-
-  return { status: data.status as IdCheckStatus };
-}
-
-// True when the person has a document on file that still counts: waiting for
-// review or already verified. A rejected one has to be replaced.
-export function idCheckCovers(check: { status: IdCheckStatus } | null): boolean {
-  return check?.status === "pending" || check?.status === "verified";
-}
-
-// Uploads a new ID document and puts the person (back) in the review queue.
-// Any document they had waiting is replaced, and its file deleted.
-async function submitIdDocument(
-  supabase: ReturnType<typeof createClient>,
-  userId: string,
-  idFile: File
-): Promise<void> {
-  // One folder per user, enforced by the bucket's RLS policies and by the
-  // housing_id_checks_own_folder constraint.
-  const path = `${userId}/${Date.now()}-${idFile.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-  const { error: uploadError } = await supabase.storage
-    .from("housing-ids")
-    .upload(path, idFile, { upsert: true });
-  if (uploadError) throw uploadError;
-
-  const { data: previous } = await supabase
-    .from("housing_id_checks")
-    .select("file_path")
-    .eq("user_id", userId)
-    .maybeSingle();
-
-  // status is sent explicitly because the insert policy demands it; the
-  // database trigger would force 'pending' anyway.
-  const { error } = await supabase
-    .from("housing_id_checks")
-    .upsert({ user_id: userId, file_path: path, status: "pending" }, { onConflict: "user_id" });
-  if (error) {
-    // Don't leave an ID document in storage that no review points at.
-    await supabase.storage.from("housing-ids").remove([path]);
-    throw error;
-  }
-
-  if (previous?.file_path && previous.file_path !== path) {
-    await supabase.storage.from("housing-ids").remove([previous.file_path]);
-  }
-}
-
-// Uploads the ID document (if provided) and upserts the caller's profile.
-// Throws on failure; returns nothing the UI needs beyond success.
-export async function saveRoommateProfile(form: ProfileFormInput, idFile: File | null): Promise<void> {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("not-signed-in");
-
-  // The ID check comes first: the profile reads its badge from it on insert.
-  if (idFile) {
-    await submitIdDocument(supabase, user.id, idFile);
-  } else if (!idCheckCovers(await getExistingIdVerification())) {
-    throw new Error("id-required");
-  }
-
-  const monthIndex = MONTHS.indexOf(form.moveInMonth);
-  const { error } = await supabase.from("housing_profiles").upsert(
-    {
-      user_id: user.id,
-      first_name: form.firstName.trim(),
-      age: form.age ? Number(form.age) : null,
-      gender: form.gender || null,
-      nationality: form.nationality || null,
-      flag: form.flag || null,
-      avatar_color: form.avatarColor || null,
-      university: form.university || null,
-      programme: form.programme || null,
-      study_year: studyYearToNumber(form.studyYear),
-      city: form.city,
-      budget_min: form.budgetMin ? Number(form.budgetMin) : null,
-      budget_max: form.budgetMax ? Number(form.budgetMax) : null,
-      move_in_month: monthIndex >= 0 ? monthIndex + 1 : null,
-      move_in_year: form.moveInYear ? Number(form.moveInYear) : null,
-      bio: form.bio || null,
-      lifestyle: form.lifestyle,
-      languages: form.languages,
-      looking_for: form.lookingFor || null,
-      gender_preference: form.genderPreference || null,
-      smoking_ok: form.smokingOk,
-      pets_ok: form.petsOk,
-      // is_active is not sent: a new profile gets the column default (visible),
-      // and editing an existing one keeps whatever the user chose on the
-      // account page (visible or hidden).
-    },
-    { onConflict: "user_id" }
-  );
-  if (error) throw error;
-}
-
-// ── Listing save (Post an apartment form) ────────────────────────────────────
-
-export type ListingFormInput = {
-  title: string;
-  city: string;
-  price: string;
-  rooms: string;
-  furnished: boolean;
-  availableFrom: string; // yyyy-mm-dd, from an <input type="date">
-  description: string;
-  link?: string; // full https URL (already normalized by the form) or ""
-};
-
-// Uploads the ID document + listing photo (if provided) and inserts the
-// caller's listing. A person whose ID is already on file (waiting for review
-// or verified, from a profile or an earlier listing) doesn't upload it again.
-// Throws on failure; returns nothing the UI needs beyond success.
-export async function saveApartmentListing(form: ListingFormInput, idFile: File | null, photoFile: File | null): Promise<void> {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("not-signed-in");
-
-  // The ID check comes first: the listing reads its badge from it on insert.
-  if (idFile) {
-    await submitIdDocument(supabase, user.id, idFile);
-  } else if (!idCheckCovers(await getExistingIdVerification())) {
-    throw new Error("id-required");
-  }
-
-  let photoPath: string | undefined;
-  if (photoFile) {
-    // One folder per user (enforced by the bucket's RLS policies).
-    photoPath = `${user.id}/${Date.now()}-${photoFile.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-    const { error: uploadError } = await supabase.storage
-      .from("housing-photos")
-      .upload(photoPath, photoFile, { upsert: true });
-    if (uploadError) throw uploadError;
-  }
-
-  const { error } = await supabase.from("housing_listings").insert({
-    created_by: user.id,
-    title: form.title.trim(),
-    city: form.city,
-    price: Number(form.price),
-    rooms: form.rooms ? Number(form.rooms) : null,
-    furnished: form.furnished,
-    available_from: form.availableFrom || null,
-    description: form.description || null,
-    link: form.link || null,
-    // `verified` is not sent: the database copies it from the person's ID
-    // check (supabase/housing_id_checks.sql), and only an admin decides that.
-    ...(photoPath ? { photo_path: photoPath } : {}),
-    is_active: true,
-    // A listing is a REQUEST to publish: it waits in the queue until an admin
-    // approves it (supabase/housing_listing_review.sql). The trigger there
-    // forces this value anyway, but the insert policy also demands it, and
-    // sending it explicitly means we don't depend on whether the policy's
-    // WITH CHECK is evaluated before or after that BEFORE INSERT trigger.
-    status: "pending",
-  });
-  if (error) throw error;
 }
