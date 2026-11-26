@@ -97,7 +97,7 @@ function clip(text: string, max: number): string {
   return text.length <= max ? text : `${text.slice(0, max - 1).trimEnd()}…`;
 }
 
-const BED_LABEL: Record<string, string> = { single: "single bed", double: "double bed", twin: "two single beds" };
+const BED_LABEL: Record<string, string> = { single: "a single bed", double: "a double bed", twin: "two single beds" };
 
 /**
  * What is actually for rent. Place to Stay lets rooms inside shared flats and
@@ -108,7 +108,7 @@ const BED_LABEL: Record<string, string> = { single: "single bed", double: "doubl
  */
 function factsLine(l: PlacetostayListing): string {
   const parts: string[] = [];
-  const bed = l.bed_type && BED_LABEL[l.bed_type] ? ` with a ${BED_LABEL[l.bed_type]}` : "";
+  const bed = l.bed_type && BED_LABEL[l.bed_type] ? ` with ${BED_LABEL[l.bed_type]}` : "";
   if (l.type === "studio") parts.push("Studio: the whole unit is yours.");
   else if (l.type === "apartment") parts.push("Whole apartment.");
   else parts.push(`Private room${bed}${l.bedrooms && l.bedrooms > 1 ? ` in a shared flat with ${l.bedrooms} rooms` : ""}.`);
@@ -123,7 +123,8 @@ function factsLine(l: PlacetostayListing): string {
 export function toRow(l: PlacetostayListing): Row {
   // Nineteen studios share the title "Studio Bedroom": add the flat's name
   // (or the parish) so two cards never read the same.
-  const place = l.flat_name ?? l.zone;
+  // Some flat names carry the door after a comma ("Ajuda 4, 2D(422)"): keep the name only.
+  const place = l.flat_name?.split(",")[0].trim() || l.zone;
   const generic = /^studio bedroom$/i.test(l.title.trim());
   const title = clip(generic && place ? `${l.title.trim()} · ${place}` : l.title, 120);
 

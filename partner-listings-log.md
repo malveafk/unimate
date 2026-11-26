@@ -1,5 +1,9 @@
 # Partner listings data log
 
+## 2026-11-26 12:45 — IMPORT (source: placetostay)
+
+Run: `npx tsx scripts/placetostay/import.ts --apply` → **housing_listings**. 0 nuovi, 17 aggiornati, 218 invariati, 0 disattivati (scomparsi dal sito). Catalogo: 235 attivi (Lisbon 235), scrape del 2026-11-26T11:52:07.881Z.
+
 ## 2026-11-26 12:15 — IMPORT (source: placetostay)
 
 Run: `npx tsx scripts/placetostay/import.ts --apply` → **housing_listings**. 235 nuovi, 0 aggiornati, 0 invariati, 0 disattivati (scomparsi dal sito). Catalogo: 235 attivi (Lisbon 235), scrape del 2026-11-26T11:52:07.881Z.

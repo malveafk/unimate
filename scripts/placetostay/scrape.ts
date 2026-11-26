@@ -478,6 +478,15 @@ function parseRoomPage(html: string, sid: string): RoomDetail | null {
 
 // ── Normalisation ──────────────────────────────────────────────────────────
 
+/**
+ * A room without pictures gets the site's own stand-in image
+ * (/assets/photos/_placeholder.jpg). That is not a photo of the room: drop it,
+ * so our card shows "no photo" instead of a picture that means nothing.
+ */
+function realPhotos(urls: string[]): string[] {
+  return urls.filter((url) => !/\/_placeholder\.[a-z]+$/i.test(url));
+}
+
 function listingType(bed: string | null): ListingType {
   if (bed === "studio") return "studio";
   if (bed === "all") return "apartment"; // the whole flat is let as one
@@ -545,7 +554,7 @@ function normalise(
     flat_name: flat?.name ?? null,
     amenities,
     description,
-    photos: detail?.photos.length ? detail.photos : card.cover ? [card.cover] : [],
+    photos: realPhotos(detail?.photos.length ? detail.photos : card.cover ? [card.cover] : []),
     contact_whatsapp: CONTACT_WHATSAPP,
     source: "placetostay",
     source_url: `${BASE_URL}/rooms/${encodeURIComponent(card.sid)}/`,
