@@ -13,6 +13,7 @@
 import { universities } from "./app/data/universities";
 import { universityMeta } from "./app/data/universityMeta";
 import { bachelorSources } from "./app/data/bachelorSources";
+import { costSources } from "./app/data/costSources";
 import { getUniversityCosts } from "./utils/universityCosts";
 
 let flags = 0;
@@ -155,6 +156,20 @@ const undocumented = universities.flatMap((u) =>
 const withCourses = universities.reduce((n, u) => n + u.bachelors.filter((b) => b.courses.length).length, 0);
 console.log(`  ${withCourses - undocumented.length} of ${withCourses} programmes with courses have a documented source`);
 if (undocumented.length) console.log(`  to do (${undocumented.length}): ${undocumented.join(", ")}`);
+
+/* 7. Cost sources (app/data/costSources.ts) -------------------------------- */
+section("7. Tuition and living-cost sources");
+const uniIds = new Set(universities.map((u) => u.id));
+for (const [uid, s] of Object.entries(costSources)) {
+  if (!uniIds.has(uid)) flag(`${uid}: cost source for a university that does not exist`);
+  for (const e of [...(s.tuition ?? []), ...(s.livingCost ?? [])]) {
+    if (!dateRe.test(e.checkedOn)) flag(`${uid}: cost checkedOn "${e.checkedOn}" is not "D Month YYYY"`);
+    if (!/^https:\/\//.test(e.url)) flag(`${uid}: cost source URL not https: ${e.url}`);
+  }
+}
+const withTuition = universities.filter((u) => costSources[u.id]?.tuition?.length).length;
+const withLiving = universities.filter((u) => costSources[u.id]?.livingCost?.length).length;
+console.log(`  tuition: ${withTuition} of ${universities.length} documented, living cost: ${withLiving} of ${universities.length}`);
 
 section(flags ? `${flags} flag(s)` : "No flags.");
 process.exit(flags ? 1 : 0);

@@ -5,6 +5,28 @@ import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { getUniversity, type University } from "../../../utils/universities";
 import { trackUniversityView } from "../../../utils/activity";
+import { costSources, type CostSource } from "../../data/costSources";
+
+// Small line under a figure: where it comes from and when it was checked.
+function SourceLine({ sources }: { sources?: CostSource[] }) {
+  if (!sources?.length) {
+    return <div className="mt-3 text-[11px] text-zinc-600 leading-relaxed">Source not yet documented</div>;
+  }
+  return (
+    <div className="mt-3 text-[11px] text-zinc-500 leading-relaxed">
+      {sources.map((s, i) => (
+        <span key={s.url}>
+          {i > 0 && " · "}
+          <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline decoration-zinc-700 underline-offset-2 hover:text-zinc-300">
+            {s.label}
+          </a>
+          {s.note && <> ({s.note})</>}
+        </span>
+      ))}
+      {" "}· checked {sources[0].checkedOn}
+    </div>
+  );
+}
 
 export default function UniversityDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -87,13 +109,14 @@ export default function UniversityDetail({ params }: { params: Promise<{ id: str
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16">
         {[
-          { label: "Tuition", value: uni.tuition, color: "text-emerald-400" },
-          { label: "Living Cost", value: uni.livingCost, color: "text-white" },
-          { label: "Teaching", value: uni.teaching, color: "text-white" },
+          { label: "Tuition", value: uni.tuition, color: "text-emerald-400", sources: costSources[uni.id]?.tuition, sourced: true },
+          { label: "Living Cost", value: uni.livingCost, color: "text-white", sources: costSources[uni.id]?.livingCost, sourced: true },
+          { label: "Teaching", value: uni.teaching, color: "text-white", sources: undefined, sourced: false },
         ].map((stat, i) => (
           <div key={i} className="bg-zinc-900/50 border border-white/5 rounded-2xl p-6">
             <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-2">{stat.label}</div>
             <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
+            {stat.sourced && <SourceLine sources={stat.sources} />}
           </div>
         ))}
       </div>

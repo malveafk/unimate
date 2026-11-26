@@ -1,87 +1,63 @@
 ---
 name: university-data-curator
-description: Ricerca, aggiunge e verifica dati su università, bachelor e corsi per il sito Unimate/4UNI, lavorando sul file app/data/universities.ts (fonte di verità, da cui seed.ts popola le tabelle Supabase universities, bachelors e courses). Usa SEMPRE questa skill quando Nicolò chiede di aggiungere nuove università al sito, espandere l'elenco di bachelor o corsi, controllare/aggiornare/verificare i dati già presenti, o fare un giro di ricerca periodico sulle università europee — anche con frasi brevi e informali come "aggiungi e revisiona uni", "aggiungi uni", "revisiona le uni", "aggiorna le università", "trova nuove uni da aggiungere", senza nominare esplicitamente il file o Supabase. Questa è la routine mattutina fissa di Nicolò per il catalogo università di Unimate — quando digita qualcosa di simile a "aggiungi e revisiona uni" intende esattamente il flusso ADD + VERIFY descritto in questa skill, con i default della sezione "Se non ti viene detto altro" se non specifica quantità.
+description: Ricerca, aggiunge e verifica dati su università, bachelor, corsi, tasse e costo della vita per il sito Unimate/4UNI (app/data/universities.ts, da cui seed.ts popola Supabase), con fonte e data visibili per ogni dato (app/data/bachelorSources.ts, app/data/costSources.ts). Usa SEMPRE questa skill quando Nicolò chiede di aggiungere università, controllare/aggiornare/verificare i dati, o quando parte il controllo giornaliero automatico — anche con frasi brevi come "aggiungi e revisiona uni", "revisiona le uni", "aggiorna le università", "controllo giornaliero uni". Senza istruzioni specifiche esegui il "Controllo giornaliero" descritto qui.
 ---
 
 # University Data Curator (Unimate/4UNI)
 
-Questa skill automatizza il lavoro più noioso di Unimate: tenere il catalogo di università, bachelor e corsi aggiornato, corretto e in crescita. È pensata per essere invocata sia manualmente ("aggiungi 3 università olandesi") sia in modo ricorrente (es. un job giornaliero che lancia Claude Code con questa skill, senza istruzioni specifiche — in quel caso usa i default della sezione "Se non ti viene detto altro").
+Regola numero uno: **la veridicità viene prima di tutto.** Ogni dato del sito deve essere verificabile su una pagina ufficiale, con la data del controllo. Se un dato non è verificabile, si toglie o si scrive che la fonte non è documentata: mai riempire un vuoto con un dato plausibile.
 
-## Come funzionano i dati (leggi prima di tutto)
+## Dove stanno i dati
 
-Il sito **non** scrive a mano su Supabase. La fonte di verità è il file TypeScript:
+| Cosa | File | Arriva al sito |
+|---|---|---|
+| Università, bachelor, corsi, tasse, costo della vita, descrizioni | `app/data/universities.ts` | tramite il seed su Supabase |
+| Fonte + data di ogni piano di studi | `app/data/bachelorSources.ts` | letto direttamente dalla pagina |
+| Fonte + data di tasse e costo della vita | `app/data/costSources.ts` | letto direttamente dalla pagina |
+| Requisiti di ammissione, scadenze, link | `app/data/universityMeta.ts` | letto direttamente dalla pagina |
+| Registro di ogni modifica, con la fonte | `university-data-log.md` | non pubblicato: serve a Nicolò |
 
-```
-app/data/universities.ts
-```
+Non scrivere mai a mano su Supabase. Dopo aver cambiato `universities.ts` si lancia il seed:
+`DOTENV_CONFIG_PATH=.env.local node -r dotenv/config node_modules/.bin/tsx seed.ts`
 
-Da lì, `seed.ts` legge l'array e lo scrive in Supabase (tabelle `universities`, `bachelors`, `courses`), gestendo da solo le trasformazioni verso il formato DB (id composti, join degli array in stringhe). **Il tuo lavoro è editare `universities.ts` correttamente — non toccare mai Supabase direttamente.** Per lo schema TS completo, le regole di conversione DB↔TS e un esempio di record completo, leggi `references/schema.md` prima di scrivere qualsiasi dato: è facile sbagliare un dettaglio (array vs stringa, id "nudo" vs prefissato) e questo romperebbe il fallback statico o il seed.
+Schema completo: `references/schema.md`.
 
-## Due modalità
+## Regole sui dati
 
-### Modalità ADD — aggiungere nuove università
+- **Nomi dei corsi**: il nome ufficiale, esattamente come lo scrive l'università.
+  - Corso che l'università chiama in inglese → nome in inglese, nessuna traduzione.
+  - Corso con nome solo nella lingua locale (tedesco, svedese, ...) → resta in quella lingua, con la traduzione inglese in `nameEn` (compare piccola sotto il nome).
+  - Non copiare i refusi dell'università (es. "Bilogía"): scrivi il nome corretto e annotalo nel log.
+- **Se non trovi il nome ufficiale di un corso, toglilo.** Meglio un piano incompleto che un nome sbagliato.
+- **Crediti e anno** solo se scritti sulla fonte; altrimenti si lasciano vuoti.
+- **Tasse** in inglese semplice, cifra UE per prima, anno accademico subito dopo (`"€2,771/year, 2027-28"`); regole di formato in `references/schema.md` (le legge `utils/universityCosts.ts`).
+- **Costo della vita**: dal budget ufficiale dell'ateneo; se il numero è ricavato (conversione di valuta, settimanale → mensile, totale meno tasse) in `costSources.ts` vanno `figures` (i numeri come li scrive la fonte) e `note` (come è stato ricavato).
+- **Descrizioni**: niente superlativi non verificabili ("la più prestigiosa", "una delle migliori"); solo fatti con fonte.
+- **Siti con verifiche anti-bot** (Cloudflare, Anubis, CAPTCHA): non aggirarle. Si cerca un altro documento ufficiale o si lascia la voce "da controllare".
 
-1. Prima di cercare, apri `app/data/universities.ts` e leggi quali `id` (slug) esistono già, per non creare doppioni.
-2. Scegli università coerenti con l'ambito attuale (Europa, focus su programmi in inglese per studenti internazionali — Unimate si rivolge a loro).
-3. Per ciascuna università, cerca sul web informazioni dalla fonte più affidabile disponibile, in quest'ordine di preferenza:
-   - Sito ufficiale dell'università (pagine "programme"/"study" per bachelor, tuition, lingua d'insegnamento)
-   - Ranking riconosciuti (QS, Times Higher Education) per il campo `ranking`
-   - Portali ufficiali del paese (es. Studyinholland, DAAD per la Germania) per costi di vita e tasse quando l'ateneo non li specifica
-   - Evita aggregatori generici di bassa qualità (forum, siti "top 10 università" senza fonte) — se è l'unica fonte disponibile per un dato, meglio ometterlo che inventarlo
-4. Costruisci l'oggetto TS seguendo esattamente lo schema in `references/schema.md`. Alcuni campi meritano attenzione:
-   - `id`: slug minuscolo, trattini, univoco (es. `"amsterdam"`, `"vu-amsterdam"` se città già usata da un altro ateneo)
-   - `flag`: emoji della bandiera del paese
-   - `tuition` / `livingCost`: **sempre in inglese semplice** (il sito è per studenti internazionali), nel formato `"€X/year"`, `"€X/semester"`, `"€X–€Y/month"`. Regole, perché `utils/universityCosts.ts` legge i numeri da questo testo: la cifra UE va per prima; un intervallo usa il trattino lungo `–`; la cifra non-UE va dopo `;` oppure ` / `; se la tassa è semestrale scrivi `/semester`; se è gratuita scrivi `"Free (EU/EEA)"` senza numeri. Note brevi tra parentesi (es. `(EU)`, `(based on family income)`), niente dettagli tecnici come prezzo a credito o nomi di tasse locali. Converti sempre in EUR se la fonte usa un'altra valuta, indicandolo se è una stima **Etichetta sempre l'anno accademico** subito dopo la cifra UE, nella forma `", 2026-27"` (es. `"€2,771/year, 2027-28"`, `"Free for EU students, 2026-27"`): serve a chi consulta il sito, perché chi guarda a novembre si iscrive per l'autunno successivo, e permette allo script `check-universities.ts` di segnalare da solo i record rimasti indietro. L'anno va **dentro il primo segmento**, quello che `universityCosts.ts` legge, e usa il trattino corto (`2026-27`) per non essere confuso con un intervallo di prezzo, che usa il trattino lungo `–`.
-   - `languages` / `strengths`: array di stringhe (non stringa unita — quella è solo la forma DB)
-   - Nomi di bachelor e corsi, `teaching`, `description`: **sempre in inglese**. Se il nome ufficiale è in un'altra lingua (es. "Diritto Costituzionale", "Volkswirtschaftslehre"), scrivi solo la traduzione inglese ("Constitutional Law", "Economics"), senza il nome originale accanto. I nomi propri delle università restano come sono.
-   - `ranking`: opzionale, ometti se non trovi un dato verificabile invece di stimarlo
-   - Per ogni bachelor: `id` "nudo" (senza prefisso università, es. `"international-business"`, non `"amsterdam__international-business"`)
-   - Per ogni corso: prova a recuperare almeno i nomi dei corsi del primo anno da una pagina programma ufficiale; `credits` e `year` sono opzionali se non trovati, ma includili quando disponibili
-5. Aggiungi il nuovo oggetto in fondo all'array (o raggruppato per paese se noti che il file è già organizzato così — controlla prima di decidere).
-6. Registra l'aggiunta nel log (vedi sotto).
+## Controllo giornaliero (default senza istruzioni)
 
-### Modalità VERIFY — ricontrollare dati esistenti
+Gira ogni mattina sul Mac di Nicolò. Obiettivo: un giro completo di tutti i bachelor circa ogni due settimane, e intanto documentare le fonti mancanti.
 
-1. Scegli un sottoinsieme di università già presenti nel file (vedi default sotto per quante).
-2. Per ciascuna, ricerca sul sito ufficiale per confermare che tuition, lingua, bachelor offerti e corsi siano ancora accurati (le università cambiano tasse e programmi ogni anno accademico).
-3. Applica un criterio di cautela: aggiorna un campo solo se hai trovato una fonte che lo contraddice chiaramente. Non riscrivere campi solo per riformularli — il lavoro utile è correggere errori o dati obsoleti, non "levigare" testo già corretto.
-4. Se un campo non è più verificabile (es. pagina rimossa) lascialo invariato ma segnalalo nel log per revisione umana, invece di cancellarlo o indovinare.
-5. Registra ogni modifica nel log, incluso cosa è cambiato e la fonte.
+1. **Preparazione**: `git pull --ff-only` su `main`. Se ci sono modifiche non committate di altre sessioni nei file dati, fermati e scrivilo nel riepilogo.
+2. **Piani di studio**: `python3 scripts/uni-check/check.py curricula --limit 15 --update-dates`
+   - `PASS`: tutto coincide, la data è già aggiornata. Niente altro da fare.
+   - `NEEDS-BROWSER`: apri le fonti nel browser integrato e confronta (le pagine JavaScript o bloccate da riga di comando). Se coincide, aggiorna a mano `checkedOn` in `bachelorSources.ts`.
+   - `MISMATCH`: il piano potrebbe essere cambiato. Cerca la versione dell'anno in corso o del prossimo (regolamento, guida, catalogo ufficiale), confronta voce per voce, poi ricostruisci con `python3 scripts/uni-check/setcourses.py spec.json` e aggiorna fonte e data.
+   - `NO-SOURCE`: trova la pagina ufficiale del piano e aggiungila.
+3. **Tasse e costo della vita**: `python3 scripts/uni-check/check.py costs --limit 10 --update-dates`, stessa logica: documenta le voci `NO-SOURCE` (pagina tasse ufficiale; per il costo della vita il budget dell'ateneo o, se non esiste, la fonte nazionale con `figures` e `note`) e correggi le cifre cambiate.
+4. **Scadenze**: se una scadenza in `universityMeta.ts` è passata o scritta come "Expected" e ora è pubblicata, aggiornala.
+5. **Controlli**: `npx tsx check-universities.ts` e `npx tsc --noEmit` (ignora gli errori in `.next/`). Nessuna nuova segnalazione ammessa.
+6. **Registro**: aggiungi in cima a `university-data-log.md` una sezione con la data: cosa è stato controllato, cosa è cambiato e perché, con la fonte, cosa resta da fare.
+7. **Pubblicazione** (vedi sotto: piccole dirette, grandi in revisione), poi il seed. Il sito resta in pausa su Vercel: **mai riattivarlo**; dopo ogni push controlla che `https://www.4uni.online` risponda 503.
+8. **Riepilogo** a Nicolò in italiano, senza emoji, in poche righe: quanti controllati, cosa è cambiato, link alla pull request se c'è, cosa serve da lui.
 
-## Se non ti viene detto altro (default per esecuzioni automatiche/periodiche)
+### Piccole e grandi modifiche (fase di prova, finché Nicolò non dice altrimenti)
 
-Quando la skill viene invocata senza istruzioni specifiche (es. da un trigger giornaliero), esegui in un solo passaggio:
-- **ADD**: 3 nuove università europee non ancora presenti
-- **VERIFY**: 5 università scelte a rotazione tra quelle presenti nel file (privilegia quelle verificate da più tempo, se il log lo permette di dedurre)
+- **Piccole → commit diretto su `main`**: solo date di controllo aggiornate, fonti aggiunte a dati che coincidono, nomi corretti nella forma (maiuscole, "&"/"and", punteggiatura), refusi.
+- **Grandi → pull request da approvare**: corsi aggiunti o tolti, piano ricostruito, crediti cambiati, tasse o costo della vita cambiati, scadenze spostate, nuove università. Lavora su un branch `uni-check/AAAA-MM-GG`, apri la PR con `gh pr create` e scrivi nella descrizione, per ogni modifica, prima/dopo e la fonte. Nicolò approva facendo Merge; dopo il merge si lancia il seed.
+- Nel dubbio una modifica è grande.
 
-Questo tiene il carico di lavoro gestibile e revisionabile in un colpo d'occhio da Nicolò, invece di riscrivere tutto il file ogni volta.
+## Aggiungere università (solo se richiesto)
 
-## Log delle modifiche
-
-Ad ogni esecuzione, aggiungi (non sovrascrivere) una sezione a `university-data-log.md` nella root del progetto (crealo se non esiste), con questo formato:
-
-```markdown
-## 2026-07-19
-
-### Aggiunte
-- **vu-amsterdam** (Vrije Universiteit Amsterdam) — bachelor: International Business Administration. Fonte: vu.nl/en/education/bachelor/...
-
-### Verifiche
-- **maastricht**: tuition confermata (€2,601/year, invariata). Fonte: maastrichtuniversity.nl/...
-- **groningen**: ranking aggiornato da "Top 300 QS" a "Top 250 QS (#233, 2026)". Fonte: topuniversities.com/...
-
-### Da controllare a mano
-- **utrecht**: pagina "programme fees" non raggiungibile, tuition non riverificata questo giro.
-```
-
-Questo log è il modo in cui Nicolò controlla il lavoro fatto senza dover guardare il diff di `universities.ts` riga per riga — è importante non saltarlo.
-
-## Dopo aver editato il file
-
-1. Controlla che il file sia sintatticamente valido (nessuna virgola mancante, oggetti ben chiusi) — se hai un modo per compilare/lintare il progetto, usalo.
-2. Cerca in `package.json` lo script di seed (probabilmente qualcosa come `"seed": "tsx scripts/seed.ts"` o simile) ed eseguilo per popolare Supabase dal file aggiornato, invece di scrivere su Supabase a mano.
-3. Se non hai accesso a un terminale in questa sessione (es. sei in una chat Claude.ai senza il repo aperto), consegna comunque il blocco di codice TS pronto da incollare, e ricorda a Nicolò di lanciare lo script di seed dopo aver incollato le modifiche.
-
-## Riferimenti
-
-- `references/schema.md` — schema TS completo, differenze DB↔TS, esempio di record completo. Leggilo sempre prima di generare o modificare dati.
+Per ogni nuova università: tutti i campi di `universities.ts`, la voce in `universityMeta.ts`, la fonte del piano in `bachelorSources.ts`, le fonti di tasse e costo della vita in `costSources.ts`, la voce nel log. Il catalogo è per studenti internazionali di tutta Europa: requisiti scritti per qualsiasi diploma, con il link alla pagina ufficiale dei requisiti per paese. È sempre una modifica grande.

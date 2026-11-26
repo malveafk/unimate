@@ -72,3 +72,6 @@ scripts/clubhouse/output/
 
 # helpHousing scraper output (large raw API responses, not source code)
 scripts/helphousing/output/
+
+# university checks: pages downloaded by scripts/uni-check/check.py
+scripts/uni-check/.cache/
