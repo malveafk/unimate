@@ -1,5 +1,57 @@
 # University data log
 
+## 2026-11-26 — Fonte e data visibili per ogni piano di studi
+
+### Cosa cambia sul sito
+- Nuovo file `app/data/bachelorSources.ts`: per ogni bachelor, una o più pagine ufficiali e il giorno in cui la lista dei corsi è stata confrontata con quelle pagine.
+- La pagina del bachelor mostra sotto "Curriculum": "Compared with the official source on <data>: <link>".
+- Se la fonte non è ancora documentata, la pagina lo dice ("Official source for this course list not yet documented..."). Se il piano è vuoto, spiega che non è stato possibile verificarlo.
+- File statico (come `universityMeta.ts`): nessuna modifica al database, nessun seed necessario.
+- `check-universities.ts`, sezione 6: segnala le fonti riferite a bachelor inesistenti, le date in formato sbagliato e gli URL non https; elenca i bachelor con corsi ma senza fonte.
+
+### Metodo
+1. Raccolti i 1.049 URL di pagine ufficiali consultate nelle sessioni di novembre (trascrizioni + questo log); 911 attribuiti a un ateneo per dominio, scaricati oggi.
+2. Per ogni bachelor, una pagina è accettata come fonte se contiene almeno l'80% dei nomi dei nostri corsi. Nel conteggio sono esclusi i nomi generici (Elective, Thesis, Statistics...); si possono unire fino a 3 pagine dello stesso ateneo.
+3. Esito: 139 abbinati automaticamente. Ricontrollati a occhio gli URL (Bocconi Management puntava alla pagina di un altro corso con gli stessi esami: corretto). 7 casi accettati a mano perché i "mancanti" erano etichette di struttura scritte da noi (es. "Civilrätt (termin 2)").
+4. I restanti controllati uno per uno, aprendo le pagine nel browser quando il sito blocca le richieste da riga di comando o carica l'elenco via JavaScript (KTH, Tilburg, siti UK).
+5. La data mostrata è quella del confronto: 26 novembre 2026 per i controlli di oggi; 25 novembre per CBS, Leiden, Erasmus IBA e WU, verificati a mano ieri.
+
+### Correzioni trovate durante il controllo
+- **birmingham/economics**: il primo anno 2027/28 è stato rifatto. I nostri 6 moduli erano la versione precedente; sostituiti con gli 8 attuali (Applied Economics and Statistics, Contemporary Economic Challenges A/B, Principles of Economics, Professional and Academic Skills Development for Economists A/B, The Global Economy, modulo di matematica in base al voto d'ingresso). Aggiunti gli opzionali di anno 2 e 3. Descrizione aggiornata.
+- **ucl/computer-science**: i 4 corsi del secondo anno ("Computer Science Mathematics & Theory 1", "Intelligent Data Systems", "Computing Systems", "Software Engineering Team Project") non compaiono né sulla pagina del corso né nel catalogo moduli UCL: tolti. Restano i 4 del primo anno, confermati. Descrizione allineata al testo ufficiale.
+- **utrecht/liberal-arts-sciences**: "Research in Context" compare per nome solo nel regolamento 2024-25; quello 2026-27 riporta solo il codice. Sostituito con "General academic skills courses", come scrive la pagina ufficiale. Tesi (15 crediti) e requisito di metodologia confermati dal regolamento 2026-27.
+- **kings-college-london/law**: tutti e 9 confermati (ingresso 2027); "Jurisprudence and Legal Theory" scritto come l'ufficiale; aggiunti crediti di anno 2-3 e moduli opzionali.
+- **lse/economics** e **lse/international-relations**: confermati sul Calendar 2026/27. Titoli con "and" come l'ufficiale; aggiunta la LSE100; a IR aggiunte le scelte di anno 1 e 2.
+- **oxford/ppe**: "Mathematical and Statistical Techniques used in Economics" (era "for Economics").
+- **oxford/engineering-science**: "Major Research Project" → "Major project"; aggiunti i corsi opzionali di anno 3, i 6 corsi specialistici di anno 4 e il lavoro pratico di anno 2 e 3.
+- Confermati senza modifiche ai nomi: Cardiff x2, UCL Economics, Warwick Economics, Bristol Economics (catalogo 2027/28, crediti inclusi), KTH x3 (utbildningsplan HT2026, 64 corsi su 64), Tilburg x3.
+
+### Secondo giro (stesso giorno): i 40 rimanenti
+Esito: **206 bachelor su 207 hanno una fonte documentata**. Resta solo leipzig/psychology: il sito della facoltà è stato ristrutturato e pagine, PDF e orario dei corsi danno 404 o non rispondono (26/11).
+
+Metodo aggiunto: un secondo confronto che ignora spazi e a capo, perché molti PDF a tabella spezzano i nomi su più righe (Göttingen, FAU, TUM, ENS Lyon, Wageningen). I siti che caricano l'elenco via JavaScript o bloccano le richieste da riga di comando sono stati letti nel browser. Non sono state aggirate verifiche anti-bot: med.fau.de e la pagina del piano UB (Cloudflare) sono state evitate, usando altri documenti ufficiali.
+
+**Correzioni sostanziali (curriculum cambiato o nomi inesistenti):**
+- **tu-delft/aerospace-engineering**: TU Delft ha rinnovato il bachelor per chi inizia a settembre 2027. La pagina ufficiale avverte che il nuovo curriculum è ancora in definizione. Ricostruito: 28 voci, anni 1-3. La descrizione dice che è il curriculum dal 2027. Il nostro elenco precedente era il curriculum vecchio, confermato dal Course list 2024-2025.
+- **tu-delft/computer-science**: ricostruito dalla pagina "Wat ga ik leren?". Esempi: "CSE Project" → "Collaborative Development Project"; "Automata, Computability and Complexity" → "Theoretical Foundations of Computer Science"; nuovi Introduction to AI, Operating Systems, Computer Security, Software Design and Engineering, HCI and AI-Assisted Prototyping; Computer Graphics ora è un elettivo.
+- **maastricht/european-law-school**: il terzo anno nel catalogo 2026-2027 è "Bachelor European Law School electives", "Bachelor internship European Law School", "Final Legal Challenge European Law School". Non più Moot Court Training e Bachelor's Essay. Anni 1-2 confermati con i crediti (60 + 60).
+- **maastricht/econometrics-operations-research**: curriculum cambiato. Via Philosophy of Science, Finance, Responsible Econometrics, Economics of Uncertainty and Information. Dentro Orientation, Reflections on Academic Discourse, "Information, Markets, and Organisations", e anno 3 con study abroad, software, due corsi avanzati a scelta, elettivo e tesi.
+- **stockholm/international-business-politics**: semestre 1 = Principles of Marketing / Accounting / Management / Finance. Semestre 3 = World Economic History, Economic Thought in World History, Business and Financial Crises, Globalization and International Political Economy (mancavano 2 corsi).
+- **stockholm/political-science**: ricostruito dalla pagina SPOCK (Political theory in English, Approaches to Politics, The Study of Democracy, percorso regionale nell'anno 2, metodi qualitativi e quantitativi, tesi).
+- **semmelweis/general-medicine**: ricostruito dal curriculum ufficiale 2026/2027 (XLSX del registrar), primi tre anni con crediti (17 → 45 voci). Esempi: "Macroscopic Anatomy I" → "Macroscopic Anatomy and Embryology I", "Hungarian Medical Terminology I" → "Medical Hungarian I", "Medical Sociology — Health Care" → "Medical Sociology".
+- **helsinki/liberal-arts-sciences**: i corsi comuni hanno codici e nomi ufficiali diversi (LAS-001: Orientation, LAS-101: Introduction to Liberal Arts and Sciences, KK-ENLAS: Academic and Professional Communication, LAS-211: Interdisciplinary project, LAS-291/295/299). Anno tolto: la pagina non lo indica.
+- **aarhus/computer-science**: da 2 corsi al piano completo (16 voci, nomi danesi + inglese, crediti) dalla pagina "studiets opbygning".
+- **tartu** x2: nomi ufficiali dei moduli da ÕIS (curriculum 80995 e 144918, versione 2026/2027). Anno tolto ai moduli (il curriculum non lo indica), così sparisce anche la segnalazione "anno 3 = 84 ECTS". L'indirizzo si chiama "Bioengineering and Robotics".
+
+**Nomi corretti senza cambiare il piano:** bocconi/international-politics-government (formato "Law (Module I - Comparative Public Law)"), ie-university/business-administration ("Strategies in Disruptive World"), pompeu-fabra/global-studies ("Economics and International Finance"), sorbonne/medicine ("Biochimie, Chimie (Bioénergétique, Métabolisme)"; fonte: MCC PASS 2025-2026, delibera CFVU del 25/09/2025, perché il PDF della facoltà ora dà 404).
+
+**Confermati:**
+- con l'abbinamento a pagine ufficiali: ETH CS (titoli nel VVZ primavera 2027), EPFL GM (plan d'études FR), Polimi Design (regolamento 2026/27), Göttingen, FAU (PO aggiornata all'11/07/2025), TUM ME (FPSO 2024), ENS Lyon x2, Charles, Wageningen x2, Bochum (MHB SoSe 2026, 26/26), Tübingen (MHB 1/10/2026);
+- verificati nel browser: IE x3, Nova x2, Barcelona x2 (guida 2026/27: Medicina 45/46, Economia 31/31), Paris-Saclay, Luxembourg (35/35), Liverpool x2, LMU Law.
+- Refusi dell'ufficiale non riprodotti: Nova "Human Bheavior...", UB "Bilogía Celular...".
+
+**Da fare:** leipzig/psychology (riprovare quando il sito torna raggiungibile). **Seed:** le correzioni ai corsi sono solo in `universities.ts`; finché non si lancia il seed, le pagine mostrano la fonte nuova ma l'elenco dei corsi vecchio (letto da Supabase).
+
 ## 2026-11-25 — ADD WU Wien, Copenhagen Business School, Radboud + VERIFY Leiden, Erasmus, Groningen, Lund, CEU
 
 ### Aggiunte

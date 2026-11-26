@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { getUniversity, type University, type Bachelor } from "../../../../utils/universities";
+import { bachelorSources } from "../../../data/bachelorSources";
 
 export default function BachelorDetail({ params }: { params: Promise<{ id: string; bachelor: string }> }) {
   const { id, bachelor: bachelorId } = use(params);
@@ -47,6 +48,7 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
     acc[year] = [...(acc[year] ?? []), course];
     return acc;
   }, {});
+  const source = bachelorSources[`${uni.id}/${bachelor.id}`];
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
@@ -88,7 +90,30 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
 
       {Object.keys(coursesByYear).length > 0 && (
         <div className="mb-16">
-          <h3 className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-6">Curriculum</h3>
+          <h3 className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-2">Curriculum</h3>
+          <p className="text-[11px] text-zinc-500 mb-6 leading-relaxed">
+            {source ? (
+              <>
+                Compared with the official{" "}
+                {source.sources.length > 1 ? "sources" : "source"} on {source.checkedOn}:{" "}
+                {source.sources.map((s, i) => (
+                  <span key={s.url}>
+                    {i > 0 && " · "}
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-zinc-700 underline-offset-2 hover:text-zinc-300"
+                    >
+                      {s.label}
+                    </a>
+                  </span>
+                ))}
+              </>
+            ) : (
+              "Official source for this course list not yet documented: check the university's website before relying on it."
+            )}
+          </p>
           <div className="flex flex-col gap-8">
             {Object.entries(coursesByYear)
               .sort(([a], [b]) => Number(a) - Number(b))
@@ -121,6 +146,12 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
               ))}
           </div>
         </div>
+      )}
+
+      {courses.length === 0 && (
+        <p className="text-[11px] text-zinc-500 mb-16 leading-relaxed">
+          Course list not shown: we could not verify it against an official source. See the university&apos;s website for the current study plan.
+        </p>
       )}
 
       <div className="mt-16 pt-12 border-t border-white/5 flex flex-wrap gap-4">
