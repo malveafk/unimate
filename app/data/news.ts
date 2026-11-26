@@ -169,9 +169,9 @@ export const news: NewsItem[] = [
   {
     id: "9",
     title: "Denmark: free tuition for EU students, plus SU grants of DKK 7,426/month for those who work",
-    summary: "EU/EEA students pay no tuition at Danish universities. On top of that, the SU state grant pays DKK 7,426 per month before tax in 2026 (about €1,000) — but EU students aren't automatically eligible: you generally qualify by holding 'worker status', meaning around 10–12 hours of paid work per week. An optional student loan of up to DKK 3,799/month is available alongside the grant.",
+    summary: "EU/EEA students pay no tuition at Danish universities. The SU state grant pays DKK 7,426/month before tax in 2026 (about €1,000), but EU students aren't automatically eligible — you generally qualify through 'worker status', meaning roughly 10–12 hours of paid work per week. Note a 2027 SU reform: from January 2027 a new student's grant is capped to their programme's nominal length, so fewer total grant months.",
     date: "18 April 2025",
-    updated: "18 August 2026",
+    updated: "25 November 2026",
     country: "Denmark",
     flag: "🇩🇰",
     tag: "Grants",
