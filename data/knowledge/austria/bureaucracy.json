@@ -1,0 +1,385 @@
+{
+  "country": "Austria",
+  "country_code": "AT",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "EU/EEA/Swiss Anmeldebescheinigung; non-EU Visa C/D (<= 6 months) and Aufenthaltsbewilligung Student (> 6 months, regular and mobility-programme versions)." },
+    { "key": "registration", "result": "found", "note": "Meldezettel / Meldegesetz: 3-day deadline, free, Magistratisches Bezirksamt in Vienna." },
+    { "key": "tax_id", "result": "found", "note": "No separate tax ID needed to start a job; the key number is the 10-digit social insurance number (SVNR). Tax number (Steuernummer) rules for students not confirmed on an official page." },
+    { "key": "health_insurance", "result": "found", "note": "EHIC, ÖGK student self-insurance (EUR 78.84/month 2026), agreement countries (A3 forms), insurance when working above EUR 551.10/month." },
+    { "key": "bank_account", "result": "found", "note": "EU basic payment account right (Your Europe) + BOKU guidance on documents. No Austria-specific fee cap found." },
+    { "key": "transport_card", "result": "found", "note": "Vienna passes from BOKU page; Wiener Linien Semesterticket page blocked automated access, price not verified." },
+    { "key": "student_work", "result": "found", "note": "EU/EEA/Swiss free access; non-EU residence-permit holders need AMS employment permit, up to 20 h/week without labour-market test; no work on Visa C/D." },
+    { "key": "minimum_wage", "result": "found", "note": "No national statutory minimum wage (Eurostat, 1 July 2026); sector minimums set by collective agreements. Sector rates not researched." }
+  ],
+  "items": [
+    {
+      "id": "at-residence-eu",
+      "topic": "residence_permit",
+      "title": "Registration certificate (Anmeldebescheinigung) for EU/EEA and Swiss students",
+      "title_it": "Attestato di registrazione (Anmeldebescheinigung) per studenti UE/SEE e svizzeri",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "more than 3 months (up to 3 months: no steps beyond the address registration)"
+      },
+      "summary": "No visa is needed. If you stay longer than three months you must apply in person for an Anmeldebescheinigung at the residence authority within four months of entry; in Vienna this is MA 35 (Referat EWR). Students must show a valid ID/passport, proof of enrolment, comprehensive health insurance and a declaration or proof of sufficient funds.",
+      "steps": [
+        "Register your address (Meldezettel) within 3 days of moving in",
+        "Apply in person at MA 35 (Vienna) within 4 months of entry; some offices require an appointment",
+        "Bring ID/passport, university admission/enrolment confirmation, proof of comprehensive health insurance (e.g. EHIC or ÖGK self-insurance) and a declaration of sufficient funds",
+        "Optional afterwards: apply for the photo ID card for EEA citizens (Lichtbildausweis für EWR-Bürger)"
+      ],
+      "deadline": "Within 4 months of entry into Austria",
+      "cost": "EUR 44 (oesterreich.gv.at); OeAD states approx. EUR 22 - see interpretations",
+      "authority": "Niederlassungs- und Aufenthaltsbehörde; in Vienna: MA 35 (Einwanderung, Referat EWR)",
+      "source_url": "https://www.oesterreich.gv.at/themen/menschen_aus_anderen_staaten/aufenthalt/4/2/Seite.120810.html",
+      "extra_sources": [
+        "https://www.wien.gv.at/verwaltung/einwanderung/ewr/",
+        "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/1/2/Seite.160208",
+        "https://oead.at/en/to-austria/entry-and-residence/confirmation-of-registration"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "The application fee is EUR 44.", "source_url": "https://www.oesterreich.gv.at/themen/menschen_aus_anderen_staaten/aufenthalt/4/2/Seite.120810.html" },
+        { "hypothesis": "The application fee is approx. EUR 22.", "source_url": "https://oead.at/en/to-austria/entry-and-residence/confirmation-of-registration" }
+      ],
+      "notes": "OeAD says not applying can lead to a fine of up to EUR 250; the oesterreich.gv.at page does not mention a penalty. Neither page states a fixed amount for 'sufficient funds' for EU students."
+    },
+    {
+      "id": "at-visa-non-eu-short-stay",
+      "topic": "residence_permit",
+      "title": "Visa C or D for non-EU students staying up to 6 months",
+      "title_it": "Visto C o D per studenti extra-UE fino a 6 mesi",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "stay_duration": "up to 6 months (Visa C: up to 90 days; Visa D: 91 days to 6 months)",
+        "other": ["Nationals entitled to visa-free entry need no visa for stays under 90 days"]
+      },
+      "summary": "Non-EU students staying less than six months (e.g. one-semester exchange) apply for a Visa C (up to 90 days) or Visa D (91 days to 6 months) in person at the Austrian representation in their country of residence. Travel health insurance valid in the whole Schengen area with cover well over EUR 30,000 is required. No paid or unpaid work, internships included, is allowed on a visa-free stay or a Visa C/D.",
+      "steps": [
+        "Get the admission letter from the host university (University of Vienna issues it by 15 June for winter / 15 December for summer semester)",
+        "Apply in person at the Austrian embassy/consulate: up to 6 months before travel, not later than 15 calendar days before (OeAD recommends at least 4 weeks)",
+        "Register your address within 3 days of moving in"
+      ],
+      "deadline": "Apply no later than 15 calendar days before travel (OeAD recommends at least 4 weeks)",
+      "cost": null,
+      "authority": "Austrian representation authority (embassy/consulate) in the country of residence",
+      "source_url": "https://oead.at/en/to-austria/entry-and-residence/visa-c-or-visa-d",
+      "extra_sources": [
+        "https://international.univie.ac.at/en/student-mobility/incoming-students/non-eu-student-exchange-program/entry-and-residence-regulations/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Visa fee not stated on the OeAD English page; not verified. Holders of a residence title from another Schengen state apply at Austrian authorities in Bratislava, Ljubljana or Munich."
+    },
+    {
+      "id": "at-residence-permit-non-eu-degree",
+      "topic": "residence_permit",
+      "title": "Residence permit - Student (Aufenthaltsbewilligung Student) for non-EU degree students",
+      "title_it": "Permesso di soggiorno per studenti (Aufenthaltsbewilligung Student) per studenti extra-UE di corso di laurea",
+      "applies_to": {
+        "student_type": ["degree"],
+        "nationality": ["non_eu"],
+        "stay_duration": "more than 6 months",
+        "income_test": "Means of subsistence 2026: EUR 722.58/month under 24, EUR 1,308.39/month from 24, proven 12 months in advance; extra funds if housing costs exceed EUR 386.43/month"
+      },
+      "summary": "Non-EU students admitted to a degree programme (or certain extraordinary studies of at least 40 ECTS) need an Aufenthaltsbewilligung Student for stays over six months. Apply in person at the Austrian embassy/consulate in your country of residence (visa-free nationals may apply in Austria after lawful entry; in Vienna MA 35 decides). Fee EUR 218 (2026); you need all-risk health insurance and proof of means; the permit is usually valid 12 months.",
+      "steps": [
+        "Apply at least 3 months before entry (OeAD recommends 6) at the Austrian representation; book the appointment early",
+        "Submit passport, photo (45x35 mm), admission letter, proof of means for 12 months, all-risk health insurance; a criminal-record extract may be requested",
+        "After a positive decision apply for a Visa D (valid 4 months), enter and collect the permit card in Austria",
+        "For entry, travel insurance with at least EUR 30,000 cover is a bridge; after arrival take ÖGK student self-insurance (EUR 78.84/month, 2026) or a private all-risk policy",
+        "Renew in person at the residence authority no earlier than 3 months before expiry, with proof of study progress (16 ECTS or 8 semester hours per study year)"
+      ],
+      "deadline": "No legal deadline for the first application; authority decides within 90 days (extendable by 90 days if documents are missing). Renewal: before expiry, at most 3 months before.",
+      "cost": "EUR 218 one-time application fee (2026), non-refundable",
+      "authority": "Austrian embassy/consulate (application); residence authority, in Vienna MA 35 (decision); AMS for work permits",
+      "source_url": "https://oead.at/de/nach-oesterreich/einreise-und-aufenthalt/aufenthaltsbewilligung-student-kein-mobilitaetsprogramm",
+      "extra_sources": [
+        "https://www.oesterreich.gv.at/de/themen/menschen_aus_anderen_staaten/aufenthalt/3/2/1/1/Seite.120121",
+        "https://www.migration.gv.at/en/types-of-immigration/temporary-residence/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Applying inside Austria does not allow you to stay beyond your visa-free period or visa while the decision is pending. A late renewal is treated as a first application. After graduation a one-time 12-month extension to look for work is possible."
+    },
+    {
+      "id": "at-residence-permit-non-eu-mobility",
+      "topic": "residence_permit",
+      "title": "Residence permit - Student for mobility/exchange programmes (more than 6 months)",
+      "title_it": "Permesso di soggiorno per studenti in programmi di mobilità/scambio (oltre 6 mesi)",
+      "applies_to": {
+        "student_type": ["exchange"],
+        "nationality": ["non_eu"],
+        "stay_duration": "more than 6 months",
+        "income_test": "Means of subsistence 2026: EUR 722.58/month under 24, EUR 1,308.39/month from 24; extra if housing costs exceed EUR 386.43/month",
+        "other": ["Enrolled under a Union or multilateral mobility programme or an agreement between institutions"]
+      },
+      "summary": "Non-EU exchange students staying more than six months under a mobility programme or inter-institutional agreement get a residence permit - Student valid for two years. Fee EUR 218; means must be held in an account in your name accessible from Austria. Application route is the same as for degree students (embassy, Visa D, collect in Austria; visa-free nationals may apply in Austria).",
+      "steps": [
+        "Apply in person at the Austrian representation with confirmation of admission/participation in the mobility programme",
+        "Prove means of subsistence (OeAD: for two years in advance) and health insurance",
+        "After approval, enter with Visa D (4 months) and collect the permit"
+      ],
+      "deadline": "Processing 90 days (+90 if documents missing); apply early",
+      "cost": "EUR 218 (2026), non-refundable",
+      "authority": "Austrian embassy/consulate; residence authority (MA 35 in Vienna)",
+      "source_url": "https://oead.at/en/to-austria/entry-and-residence/residence-permit-student-mobility-programme",
+      "extra_sources": [
+        "https://www.oesterreich.gv.at/de/themen/menschen_aus_anderen_staaten/aufenthalt/3/2/1/1/Seite.120121"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "oesterreich.gv.at confirms 2-year validity for Union/multilateral mobility programmes or inter-institutional agreements, 1 year otherwise."
+    },
+    {
+      "id": "at-registration-meldezettel",
+      "topic": "registration",
+      "title": "Address registration (Meldezettel) within 3 days",
+      "title_it": "Registrazione della residenza (Meldezettel) entro 3 giorni",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Everyone who moves into a flat, room or dorm in Austria, whatever their nationality, must register within three days at the registration office (in Vienna: Magistratisches Bezirksamt). You need the Meldezettel form signed by the landlord/main tenant and your passport or ID. Registration is free; it can also be done online with ID Austria or EU Login, but not by fax or e-mail.",
+      "steps": [
+        "Fill in the Meldezettel (one per person) and have the accommodation provider sign it",
+        "Go to the Magistratisches Bezirksamt with passport/ID (or register online with ID Austria / EU Login)",
+        "Report a change of address within 3 days; de-register between 3 days before and 3 days after moving out"
+      ],
+      "deadline": "Within 3 days of moving in",
+      "cost": "Free (a processing fee may apply when a travel document is first presented, per University of Vienna)",
+      "authority": "Meldebehörde (Gemeindeamt / Magistrat); in Vienna the Magistratisches Bezirksamt",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/persoenliche_dokumente_und_bestaetigungen/an__abmeldung_des_wohnsitzes/Seite.1180200",
+      "extra_sources": [
+        "https://international.univie.ac.at/en/student-mobility/incoming-students/non-eu-student-exchange-program/entry-and-residence-regulations/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "The deadline is three (calendar) days after moving in.", "source_url": "https://www.oesterreich.gv.at/de/themen/persoenliche_dokumente_und_bestaetigungen/an__abmeldung_des_wohnsitzes/Seite.1180200" },
+        { "hypothesis": "OeAD words it as 'within three working days of arrival'.", "source_url": "https://oead.at/en/to-austria/entry-and-residence/confirmation-of-registration" }
+      ],
+      "notes": "Missing the registration is an administrative offence: fine up to EUR 726, up to EUR 2,180 for repeat offences."
+    },
+    {
+      "id": "at-tax-id-social-insurance-number",
+      "topic": "tax_id",
+      "title": "Social insurance number (Sozialversicherungsnummer) and e-card",
+      "title_it": "Numero di previdenza sociale (Sozialversicherungsnummer) ed e-card",
+      "applies_to": { "student_type": "any", "nationality": "any", "other": ["Relevant when you take a job or Austrian health insurance"] },
+      "summary": "Austria's key personal number for work, health care and taxes is the 10-digit social insurance number (SVNR; last six digits = date of birth). When you are employed, the employer registers you with social insurance from day one - you do not apply yourself; the e-card then arrives by post. Newcomers without an Austrian ID or driving licence must have their photo registered in person before the e-card is mailed.",
+      "steps": [
+        "Employer registers you with social insurance (or you take ÖGK self-insurance)",
+        "Receive the e-card by post; if no Austrian photo ID is on file, visit a photo registration office first"
+      ],
+      "deadline": null,
+      "cost": null,
+      "authority": "Social insurance (Dachverband / ÖGK); employer registration",
+      "source_url": "https://careers.univie.ac.at/en/welcome-compass/living-in-austria/social-security-and-healthcare",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Source is written for University of Vienna staff. University of Graz says the insurance number also appears in the ÖGK confirmation letter for self-insured students (https://orientation.uni-graz.at/de/immediately-after-arrival/health-insurance/), not opened today."
+    },
+    {
+      "id": "at-tax-id-tax-number",
+      "topic": "tax_id",
+      "title": "Tax number (Steuernummer): not needed to start a job",
+      "title_it": "Codice fiscale austriaco (Steuernummer): non serve per iniziare a lavorare",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "For an ordinary employment contract the employer withholds income tax and pays it to the tax office, so a student does not need to request a tax number before starting work. With a contract for work (Werkvertrag, self-employment) you must handle tax and social insurance yourself. Filing a voluntary employee tax assessment is done via FinanzOnline (ID Austria) or by post.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Finanzamt Österreich / Federal Ministry of Finance",
+      "source_url": "https://oead.at/fileadmin/Dokumente/oead.at/OeAD_Stamm/Nach_Oesterreich/Einreise_und_Aufenthalt/Datenbank_Einreise_Aufenthalt/Infoblaetter/Englisch/Allgemeine_Info_-_Arbeiten_en.pdf",
+      "extra_sources": ["https://www.oesterreich.gv.at/en/themen/arbeit_beruf_und_pension/arbeitnehmerveranlagung/Seite.340000"],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Withholding by employer is stated in the OeAD info sheet (April 2025). How and when a 9-digit Steuernummer is assigned to an employee was not confirmed on an official page today."
+    },
+    {
+      "id": "at-health-ehic-eu",
+      "topic": "health_insurance",
+      "title": "EHIC for EU/EEA and Swiss students",
+      "title_it": "Tessera europea (TEAM/EHIC) per studenti UE/SEE e svizzeri",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "other": ["Active statutory health insurance in the home country"] },
+      "summary": "If you have active statutory health insurance at home, it covers you in Austria: bring your European Health Insurance Card. It covers medically necessary treatment, not routine check-ups or screenings, so extra travel insurance is advised. Without active home insurance you must take Austrian insurance (student self-insurance or voluntary self-insurance).",
+      "deadline": null,
+      "cost": null,
+      "authority": "Home-country health insurer; ÖGK in Austria",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/1/2/Seite.160221",
+      "extra_sources": [
+        "https://www.wu.ac.at/en/programs/international-and-exchange-students/incoming-exchange-students/exchange-semester/your-semester-at-wu-from-start-to-finish/health-care-and-emergencies",
+        "https://oead.at/en/to-austria/entry-and-residence/confirmation-of-registration"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "OeAD: for the Anmeldebescheinigung the EHIC must show an expiry date on the back. Effect of a job in Austria: see at-health-insurance-work."
+    },
+    {
+      "id": "at-health-student-self-insurance",
+      "topic": "health_insurance",
+      "title": "ÖGK student self-insurance (studentische Selbstversicherung)",
+      "title_it": "Autoassicurazione sanitaria per studenti presso l'ÖGK",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "income_test": "Total income below EUR 15,000 per calendar year",
+        "other": [
+          "No other health insurance cover; habitual residence in Austria",
+          "Regular student (ordentliche/r Hörer/in) or preparatory course; max. planned study duration + 4 semesters; max. 2 changes of programme"
+        ]
+      },
+      "summary": "Students without other cover can insure themselves with the Austrian Health Insurance Fund (ÖGK) at a reduced rate of EUR 78.84/month (2026). It is the usual option for non-EU students and for EU students without home insurance. University of Vienna tells exchange students they can apply from 1 October / 1 March with the form, enrolment confirmation, passport and address registration; check-ups and preventive exams are not covered.",
+      "steps": [
+        "Register your address and complete university enrolment (pay the ÖH fee)",
+        "Submit the ÖGK application with enrolment confirmation (Studienblatt), passport/ID and registration confirmation",
+        "Wait for the e-card at your registered address"
+      ],
+      "deadline": null,
+      "cost": "EUR 78.84/month (2026)",
+      "authority": "Österreichische Gesundheitskasse (ÖGK)",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/4/1/Seite.160809",
+      "extra_sources": [
+        "https://international.univie.ac.at/en/student-mobility/incoming-students/non-eu-student-exchange-program/entry-and-residence-regulations/",
+        "https://oead.at/de/nach-oesterreich/einreise-und-aufenthalt/aufenthaltsbewilligung-student-kein-mobilitaetsprogramm"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Only regular (ordentliche) students qualify, which could exclude non-degree exchange students.", "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/4/1/Seite.160809" },
+        { "hypothesis": "Exchange students at the University of Vienna can take it (the university's exchange page lists it at EUR 78.84/month).", "source_url": "https://international.univie.ac.at/en/student-mobility/incoming-students/non-eu-student-exchange-program/entry-and-residence-regulations/" }
+      ],
+      "notes": "Start of cover: OeAD says one day after application, University of Graz says once the complete application is processed - unresolved. WU's exchange page still shows an older figure of about EUR 73/month."
+    },
+    {
+      "id": "at-health-agreement-countries",
+      "topic": "health_insurance",
+      "title": "Students from social-security agreement countries (form A3)",
+      "title_it": "Studenti da paesi con convenzione di sicurezza sociale (modulo A3)",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["Citizens insured in Bosnia and Herzegovina, North Macedonia, Montenegro, Serbia or Turkey"] },
+      "summary": "Students insured in Bosnia and Herzegovina, North Macedonia, Montenegro, Serbia or Turkey are generally covered in Austria through social-security agreements. Bring form A3 from your home insurer and collect an e-card replacement document (e-card-Ersatzbeleg) from the ÖGK.",
+      "deadline": null,
+      "cost": null,
+      "authority": "ÖGK; home-country insurer",
+      "source_url": "https://www.oesterreich.gv.at/de/themen/bildung_und_ausbildung/hochschulen/universitaet/1/1/Seite.160223",
+      "extra_sources": ["https://international.univie.ac.at/en/student-mobility/incoming-students/non-eu-student-exchange-program/entry-and-residence-regulations/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "oesterreich.gv.at also lists Croatia (now EU, EHIC applies)."
+    },
+    {
+      "id": "at-health-insurance-work",
+      "topic": "health_insurance",
+      "title": "Insurance when you work: marginal threshold EUR 551.10/month (2026)",
+      "title_it": "Assicurazione se lavori: soglia minijob EUR 551,10/mese (2026)",
+      "applies_to": { "student_type": "any", "nationality": "any", "min_work_hours": "Any employment; threshold is by earnings, not hours" },
+      "summary": "If you earn more than EUR 551.10/month (2026, unchanged from 2025) the employer insures you for accident, health, pension and unemployment. At or below that limit (geringfügige Beschäftigung) only accident insurance applies; health and pension cover can be added voluntarily for EUR 83.49/month (2026). Several marginal jobs are added together.",
+      "deadline": null,
+      "cost": "Voluntary opt-in for marginal jobs: EUR 83.49/month (2026)",
+      "authority": "ÖGK / employer",
+      "source_url": "https://www.usp.gv.at/themen/mitarbeiter-und-gesundheit/einstellung-mitarbeiter-und-arten-der-beschaeftigung/geringfuegig-beschaeftigte.html",
+      "extra_sources": ["https://www.oesterreich.gv.at/themen/bildung_und_ausbildung/hochschulen/universitaet/3/Seite.160307.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Whether an EHIC from another EU country remains valid once you work in Austria above the threshold was not verified on an official page (EU coordination normally moves cover to the country of work)."
+    },
+    {
+      "id": "at-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a bank account",
+      "title_it": "Aprire un conto bancario",
+      "applies_to": { "student_type": "any", "nationality": "any", "other": ["Basic payment account right: anyone legally resident in the EU"] },
+      "summary": "Anyone legally resident in the EU has the right to a basic payment account (card, transfers, online banking) and cannot be refused only for not living in the country; refusal is possible under anti-money-laundering rules. In Vienna most banks offer free student accounts; bring passport, student ID and your registration confirmation (Meldebestätigung); students over 25 may need an enrolment confirmation.",
+      "deadline": null,
+      "cost": "Student accounts often free; basic-account fees vary by bank",
+      "authority": "Banks; EU Payment Accounts Directive",
+      "source_url": "https://boku.ac.at/en/international/themen/international-students-coming-to-boku/wie-plane-ich-mein-leben-in-wien/wie-plane-ich-mein-leben-wien-nach-der-ankunft/geld-bankkonto",
+      "extra_sources": ["https://europa.eu/youreurope/citizens/consumers/financial-products-and-services/bank-accounts-eu/index_en.htm"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Some scholarship payers (e.g. CEU stipends) require a SEPA-eligible EUR account."
+    },
+    {
+      "id": "at-transport-vienna-passes",
+      "topic": "transport_card",
+      "title": "Vienna public transport passes for students",
+      "title_it": "Abbonamenti ai mezzi pubblici di Vienna per studenti",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Wiener Linien sells a Semesterticket for students (price not verified, see at-transport-vienna-semesterticket). Youth tickets (Jugendticket / Top-Jugendticket) are not valid for university students. For short stays or students over 26, BOKU points to the '31 Tage Wien' pass: EUR 75, or EUR 65.20 digital.",
+      "deadline": null,
+      "cost": "31 Tage Wien: EUR 75 (EUR 65.20 digital), BOKU page 2026",
+      "authority": "Wiener Linien",
+      "source_url": "https://boku.ac.at/en/international/themen/international-students-coming-to-boku/wie-plane-ich-mein-leben-in-wien/wie-plane-ich-mein-leben-wien-nach-der-ankunft/fortbewegungsmittel-in-wien",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "BOKU also mentions a 'Jahreskarte Jugend' for up to 26-year-olds at EUR 294/year, but in the same page says youth tickets are not valid for students - unclear, so not used. Prices not dated on the page (footer 2026)."
+    },
+    {
+      "id": "at-transport-vienna-semesterticket",
+      "topic": "transport_card",
+      "title": "Wiener Linien Semesterticket",
+      "title_it": "Semesterticket di Wiener Linien",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Vienna's public transport operator offers a semester ticket for students; price, eligibility and any difference for students with or without main residence in Vienna could not be read on the official page today.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Wiener Linien",
+      "source_url": "https://www.wienerlinien.at/en/semester-ticket",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Official page blocked automated access (bot check). Check on wienerlinien.at."
+    },
+    {
+      "id": "at-work-eu",
+      "topic": "student_work",
+      "title": "Working as an EU/EEA or Swiss student",
+      "title_it": "Lavorare come studente UE/SEE o svizzero",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "EU/EEA and Swiss citizens need no work permit to work in Austria and have no weekly hour limit set by immigration law. Earnings above EUR 551.10/month (2026) bring full social insurance; grant holders must watch the Studienbeihilfe earnings limit.",
+      "deadline": null,
+      "cost": null,
+      "authority": "AMS / OeAD information",
+      "source_url": "https://oead.at/fileadmin/Dokumente/oead.at/OeAD_Stamm/Nach_Oesterreich/Einreise_und_Aufenthalt/Datenbank_Einreise_Aufenthalt/Infoblaetter/Englisch/Allgemeine_Info_-_Arbeiten_en.pdf",
+      "extra_sources": ["https://www.usp.gv.at/themen/mitarbeiter-und-gesundheit/einstellung-mitarbeiter-und-arten-der-beschaeftigung/geringfuegig-beschaeftigte.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "OeAD info sheet dated April 2025."
+    },
+    {
+      "id": "at-work-non-eu",
+      "topic": "student_work",
+      "title": "Working with a non-EU student residence permit",
+      "title_it": "Lavorare con permesso di soggiorno per studenti extra-UE",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["Holder of Aufenthaltsbewilligung Student; Visa C/D holders may not work"] },
+      "summary": "Employment needs a work permit (Beschäftigungsbewilligung) that the employer must obtain from the AMS before you start, also for marginal jobs. For up to 20 hours/week it is granted without a labour-market test; studies must remain the main purpose. Genuine self-employment on a contract for work (Werkvertrag) needs no permit but you handle tax and insurance yourself; required curricular internships and some EU programme/academic activities are exempt but must be notified.",
+      "deadline": "Employer applies before work starts; internships notified to AMS at least 3 weeks before",
+      "cost": null,
+      "authority": "Arbeitsmarktservice (AMS)",
+      "source_url": "https://www.migration.gv.at/en/types-of-immigration/temporary-residence/",
+      "extra_sources": [
+        "https://oead.at/fileadmin/Dokumente/oead.at/OeAD_Stamm/Nach_Oesterreich/Einreise_und_Aufenthalt/Datenbank_Einreise_Aufenthalt/Infoblaetter/Englisch/Allgemeine_Info_-_Arbeiten_en.pdf",
+        "https://oead.at/de/nach-oesterreich/einreise-und-aufenthalt/aufenthaltsbewilligung-student-kein-mobilitaetsprogramm"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No separate term-time vs holiday rule was found; the 20 h/week figure is the threshold for the permit without labour-market test. Breaking the rules risks fines or loss of the residence permit (OeAD)."
+    },
+    {
+      "id": "at-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "No statutory minimum wage - collective agreements set minimum pay",
+      "title_it": "Nessun salario minimo legale - i minimi sono fissati dai contratti collettivi",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Austria has no national statutory minimum wage (Eurostat, situation at 1 July 2026). Minimum pay is laid down by collective agreements (Kollektivverträge) for specific sectors, so the minimum hourly rate depends on the sector of your job.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Social partners (collective agreements); Eurostat",
+      "source_url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Sector collective-agreement rates were not researched; check the applicable Kollektivvertrag (AK/WKO)."
+    }
+  ]
+}

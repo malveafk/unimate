@@ -1,0 +1,93 @@
+{
+  "city": "Enschede",
+  "slug": "enschede",
+  "country": "Netherlands",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 388/month median room rent (Kamernet, Q2 2026; +10.2% y/y) - cheapest of the 17 cities analysed",
+      "source_name": "Kamernet Rent Report Q2 2026",
+      "source_url": "https://housinganywhere.com/quarterly-kamernet-rent-report",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.utwente.nl/en/education/student-services/upcoming-students/money-matters/cost-of-living/"
+      ],
+      "notes": "Kamernet median rent for rooms (max 30 m2) advertised on Kamernet by private landlords/tenants/agencies; social student housing excluded. Advertised asking rents, not what existing tenants pay. The Q2 2026 figures were read on a rolling URL that is overwritten by each new quarterly report. UT says housing in Enschede is generally cheaper than in other Dutch student cities."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Not found on an official/citable source",
+      "source_name": "University of Twente",
+      "source_url": "https://www.utwente.nl/en/education/student-services/upcoming-students/money-matters/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "UT gives one rent figure (€ 561, national Nibud average) without studio split."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "≈ € 1,311/month excl. tuition (Nibud averages as listed by UT, incl. € 561 rent)",
+      "source_name": "University of Twente (Nibud)",
+      "source_url": "https://www.utwente.nl/en/education/student-services/upcoming-students/money-matters/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National Nibud averages, not Enschede-specific; with Enschede room rents (~€ 388) the real figure is likely lower. Year not stated."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No pass price found; UT budgets € 67/month transport excl. a railcard (Nibud national average)",
+      "source_name": "University of Twente (Nibud)",
+      "source_url": "https://www.utwente.nl/en/education/student-services/upcoming-students/money-matters/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Budget estimate, not a local pass price."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime: avg 2.8 °C in Jan, 18.1 °C in Jul; ~784 mm rain/yr; ~1685 h sun/yr (KNMI 1991-2020, Twenthe)",
+      "source_name": "KNMI climate normals 1991-2020, station Twenthe (290)",
+      "source_url": "https://cdn.knmi.nl/knmi/map/page/klimatologie/klimaatatlas/tabel/stationsdata/klimtab_9120_290.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Twenthe station is a few km north-west of Enschede."
+    },
+    {
+      "field": "social_life",
+      "value": "Student life largely revolves around student and study associations (sports, culture, academic), plus pubs and city events.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/student-life",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "subjective": true,
+      "notes": "National description; no city-specific official page checked for this city."
+    },
+    {
+      "field": "language_needed",
+      "value": "No Dutch needed for English-taught programmes; English is widely spoken. Dutch helps for part-time jobs/internships and is sometimes required.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/start-learning-dutch",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National source, applies to the whole country."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found on an official/citable source",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/working-while-studying",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No UT page on student jobs found."
+    },
+    {
+      "field": "student_wage",
+      "value": "Statutory minimum from 1 Jul 2026: € 14.99/h gross at 21+; € 11.99 (age 20), € 8.99 (19), € 7.50 (18). Same nationwide.",
+      "source_name": "Government.nl - minimum wage amounts",
+      "source_url": "https://www.government.nl/topics/minimum-wage/minimum-wage-amounts",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Legal floor, not a measured 'typical' student wage for this city; many student jobs pay at or near this minimum. Rates from 1 Jan 2026 were € 14.71 (21+)."
+    }
+  ]
+}

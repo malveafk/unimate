@@ -1,0 +1,249 @@
+{
+  "country": "Hungary",
+  "country_code": "HU",
+  "currency": "HUF",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    { "key": "state_grant_loan", "result": "found", "note": "Stipendium Hungaricum (Tempus Public Foundation: about page and 2026/27 BA/MA call PDF); Diákhitel1 and Diákhitel2 (diakhitel.hu product pages and English page). No means-tested state grant for foreign students found." },
+    { "key": "rent", "result": "none_found", "note": "No state rent allowance for students found. Semmelweis allocates dormitory places on social and financial need (no prices published); Stipendium Hungaricum includes a free dorm place or HUF 40,000/month (in hu-stipendium-hungaricum)." },
+    { "key": "health_insurance", "result": "found", "note": "NEAK page on persons entitled to health care only (full-time students, scholarship holders)." },
+    { "key": "transport", "result": "found", "note": "BKK student monthly pass (bkk.hu prices and discounts)." },
+    { "key": "tax", "result": "found", "note": "Under-25 personal income tax allowance (NAV)." },
+    { "key": "student_work", "result": "not_researched", "note": "Partly checked: NAV says student-cooperative work (diákszövetkezet) is excluded from the general contribution rules, but leaflet 72 with the details was not read. Work rules are in bureaucracy.json." },
+    { "key": "erasmus", "result": "found", "note": "Semmelweis mobility pages: Erasmus+ shown as currently unavailable. No Hungarian top-up for incoming Erasmus students found. Tempus Public Foundation (national agency) pages for outgoing grants not researched." },
+    { "key": "regional", "result": "not_researched", "note": "Budapest municipal or district measures for students were not searched." },
+    { "key": "university", "result": "found", "note": "Semmelweis scholarships page and Pannonia In Excellence Scholarship page with Appendix 1 country list." }
+  ],
+  "items": [
+    {
+      "id": "hu-stipendium-hungaricum",
+      "category": "state_grant_loan",
+      "name_local": "Stipendium Hungaricum",
+      "name_it": "Borsa di studio Stipendium Hungaricum",
+      "authority": "Tempus Public Foundation, for the Hungarian Government",
+      "description": "Government scholarship for students nominated by a Sending Partner (partner country) under a bilateral agreement. Bachelor/master: tuition-free, HUF 43,700/month stipend (12 months/year), free dorm place or HUF 40,000/month for housing, Hungarian public health care plus supplementary insurance up to HUF 65,000/year. No EU member state appears in the 2026/27 Sending Partner list.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "other": [
+          "citizen of a Sending Partner country/territory listed in the call, and nominated by it",
+          "not eligible: Hungarian citizens (including dual citizens), refugees, stateless persons, long-term residents",
+          "must apply through the sending partner of your own citizenship",
+          "exchange (partial) study only from the partners listed for partial programmes"
+        ]
+      },
+      "amount": "Tuition-free + HUF 43,700/month + dorm or HUF 40,000/month (BA/MA, per the SH about page, EUR rates of 13 Oct 2025); PhD stipend HUF 140,000–180,000/month",
+      "how_to_apply": "Online application on the Stipendium Hungaricum system and nomination by your country's Sending Partner.",
+      "deadline": "2026/27 call: 15 January 2026, 2 p.m. CET (closed). 2027/28 deadline not published on the pages read.",
+      "stackable": null,
+      "source_url": "https://stipendiumhungaricum.hu/about",
+      "extra_sources": [
+        "https://stipendiumhungaricum.hu/wp-content/uploads/2025/10/BA_MA_OTM_Call_for_Applications_2026_27.pdf",
+        "https://stipendiumhungaricum.hu/apply"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Semmelweis lists Stipendium Hungaricum among its scholarships. The Semmelweis Pannonia In scholarship excludes SH holders."
+    },
+    {
+      "id": "hu-diakhitel1",
+      "category": "state_grant_loan",
+      "name_local": "Diákhitel1",
+      "name_it": "Prestito studentesco Diákhitel1 (uso libero)",
+      "authority": "Diákhitel Központ (Student Loan Centre)",
+      "description": "State student loan for any use: HUF 15,000–150,000 per month (up to HUF 750,000 per semester). Variable interest, set per half-year period; the page shows a current rate of 8.18%. Repayment starts after studies and depends on income.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "age": { "max": 44 },
+        "residence_requirement": "registered address in Hungary",
+        "other": [
+          "active student status at a higher-education institution",
+          "Hungarian citizen, recognised refugee, holder of long-term residence, or person with a right of free movement and residence in Hungary as defined by the regulation",
+          "last disbursement in the semester in which you turn 45"
+        ]
+      },
+      "amount": "HUF 15,000–150,000/month; max HUF 750,000/semester; interest 8.18% (rate shown Nov 2026)",
+      "how_to_apply": "Online with an electronic signature via the Government Portal (Ügyfélkapu).",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://diakhitel.hu/diakhitel1/",
+      "extra_sources": ["https://diakhitel.hu/english-page/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "EU/EEA students with a Hungarian registration certificate and registered address are eligible ('right of free movement and residence').", "source_url": "https://diakhitel.hu/diakhitel1/" },
+        { "hypothesis": "Only 'certain' EEA citizens qualify (the English page's wording), i.e. those whose free-movement status meets the regulation's legal basis, which may exclude students who are only in Hungary to study. Confirm with Diákhitel customer service (+36 1 999 99 44).", "source_url": "https://diakhitel.hu/english-page/" }
+      ],
+      "notes": "Requires access to the Hungarian Ügyfélkapu e-government login, which a foreign student may not have."
+    },
+    {
+      "id": "hu-diakhitel2",
+      "category": "state_grant_loan",
+      "name_local": "Diákhitel2",
+      "name_it": "Prestito studentesco Diákhitel2 (per le tasse universitarie)",
+      "authority": "Diákhitel Központ (Student Loan Centre)",
+      "description": "Interest-free (0%, 100% state interest subsidy) loan that pays the fee of a self-financed (önköltséges) programme at a Hungarian higher-education institution, up to the full fee, paid directly to the institution.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "age": { "max": 44 },
+        "residence_requirement": "registered address in Hungary",
+        "other": [
+          "studying in a self-financed programme in Hungary",
+          "same citizenship/status conditions as Diákhitel1 (Hungarian citizen, refugee, long-term resident, or person with free-movement right as defined by the regulation)"
+        ]
+      },
+      "amount": "Up to the full tuition of the self-financed programme; 0% interest",
+      "how_to_apply": "Online with an electronic signature via the Government Portal (Ügyfélkapu).",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://diakhitel.hu/diakhitel2/",
+      "extra_sources": ["https://diakhitel.hu/english-page/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "EU/EEA students with a registration certificate and registered address in Hungary can use it for self-financed tuition (e.g. Semmelweis English programmes).", "source_url": "https://diakhitel.hu/diakhitel2/" },
+        { "hypothesis": "Only 'certain' EEA citizens qualify; eligibility of EU students who are in Hungary only to study is not confirmed.", "source_url": "https://diakhitel.hu/english-page/" }
+      ],
+      "notes": "No page confirmed whether English-language, EUR-priced programmes count as 'önköltséges' for Diákhitel2."
+    },
+    {
+      "id": "hu-health-care-students",
+      "category": "health_insurance",
+      "name_local": "Kizárólag egészségügyi szolgáltatásra jogosultak – nappali tagozatos hallgatók",
+      "name_it": "Diritto all'assistenza sanitaria per studenti a tempo pieno",
+      "authority": "National Health Insurance Fund (NEAK)",
+      "description": "Free entitlement to Hungarian public health care (not cash benefits) for adult full-time students who are Hungarian citizens, refugees or protected persons, and for foreign nationals studying under an international agreement or a scholarship granted by the education or foreign-affairs minister. Students must count as 'domestic' for social security.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "other": [
+          "full-time (nappali) student",
+          "Hungarian citizen / refugee / protected person, OR foreign national studying under an international agreement or ministerial scholarship (e.g. Stipendium Hungaricum)"
+        ]
+      },
+      "amount": "Free public health care",
+      "how_to_apply": "Through student status; TAJ card from the government office.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/jogosultsag_az_ellatasra/az_egsszsegbiztositas_szolgaltatasaira_jogosultak/kizarolag_egeszsegugyi_ellatasra/kizarolag_eu_ellatasra_jogosultak",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Self-financed EU/EEA students are not covered: the page names Hungarian citizens, refugees and protected persons only, so they rely on their EHIC/home insurance.", "source_url": "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/jogosultsag_az_ellatasra/az_egsszsegbiztositas_szolgaltatasaira_jogosultak/kizarolag_egeszsegugyi_ellatasra/kizarolag_eu_ellatasra_jogosultak" },
+        { "hypothesis": "EU/EEA students with registered residence over 3 months count as 'domestic', and equal treatment may extend the student entitlement to them; the page does not say so explicitly. Confirm with NEAK/government office.", "source_url": "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/jogosultsag_az_ellatasra/az_egsszsegbiztositas_szolgaltatasaira_jogosultak/kizarolag_egeszsegugyi_ellatasra/kizarolag_eu_ellatasra_jogosultak" }
+      ]
+    },
+    {
+      "id": "hu-bkk-student-pass",
+      "category": "transport",
+      "name_local": "Budapest-bérlet tanulóknak / diákoknak (havi)",
+      "name_it": "Abbonamento mensile studenti BKK Budapest",
+      "authority": "Budapest Közlekedési Központ (BKK)",
+      "description": "Discounted monthly Budapest-wide pass for students: HUF 3,450 vs HUF 8,950 full price. BKK lists it as available to EU citizens with an EU student ID and proof of address in Hungary.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "other": [
+          "day or evening course (not correspondence)",
+          "valid student ID; foreign EU/EEA/Swiss student IDs need an official Hungarian address document or accommodation certificate (from 15 June 2026)",
+          "ISIC accepted only if it names a school based outside Hungary"
+        ]
+      },
+      "amount": "HUF 3,450/month (2026; full price HUF 8,950)",
+      "how_to_apply": "Buy at BKK sales points/app and carry the student ID (and address document) when travelling.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://bkk.hu/en/tickets-and-passes/prices/",
+      "extra_sources": ["https://bkk.hu/en/tickets-and-passes/discounts/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Non-EU students are not entitled (BKK: discounts are for EEA and Swiss citizens).", "source_url": "https://bkk.hu/en/tickets-and-passes/discounts/" },
+        { "hypothesis": "Non-EU students holding a Hungarian student ID from a Hungarian university may be entitled; BKK's English pages do not address this case. Confirm with BKK.", "source_url": "https://bkk.hu/en/tickets-and-passes/discounts/" }
+      ],
+      "notes": "Swiss eligibility comes from the discounts page; the prices page mentions EU citizens only."
+    },
+    {
+      "id": "hu-pit-under-25",
+      "category": "tax",
+      "name_local": "25 év alatti fiatalok kedvezménye",
+      "name_it": "Agevolazione IRPEF per giovani sotto i 25 anni",
+      "authority": "National Tax and Customs Administration (NAV)",
+      "description": "Under-25s pay no personal income tax on employment (and some self-employment) income up to HUF 715,765 per month in 2026, saving up to HUF 107,365/month. The employer applies it automatically. Foreign individuals qualify if they are EEA citizens, or citizens of a non-EEA state bordering Hungary (e.g. Ukraine, Serbia), and meet the other conditions.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": ["eu_eea"],
+        "age": { "max": 24 },
+        "other": [
+          "applies up to and including the month you turn 25",
+          "also open to citizens of non-EEA states bordering Hungary (e.g. Ukraine, Serbia), not to other non-EU citizens",
+          "income from employment or listed self-employment in Hungary"
+        ]
+      },
+      "amount": "Tax base allowance up to HUF 715,765/month (2026) = up to HUF 107,365/month PIT saved",
+      "how_to_apply": "Automatic via the employer; unused allowance can be claimed in the annual tax return.",
+      "deadline": null,
+      "stackable": "Can be combined with other PIT allowances in a fixed order (after the mothers-of-four allowance, before the personal and family allowances).",
+      "source_url": "https://nav.gov.hu/Elethelyzetek-adozasa/diakevek/Diakmunka",
+      "extra_sources": ["https://nav.gov.hu/ado/szja/szja-kedvezmenyek/25-ev-alatti-fiatalok-kedvezmenye"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The 2026 cap is from the NAV student-work page (dated 2026-10-14); the dedicated allowance page still shows the 2025 figure (HUF 656,785). Swiss eligibility not stated. Social-security contributions are still due."
+    },
+    {
+      "id": "hu-semmelweis-erasmus-status",
+      "category": "erasmus",
+      "name_local": "Erasmus+ at Semmelweis University",
+      "name_it": "Erasmus+ alla Semmelweis University",
+      "authority": "Semmelweis University, Directorate of International Relations / Mobility Office",
+      "description": "Semmelweis's mobility pages currently say the Erasmus+ programme 'will be available again soon' and that applications will be announced. The page gives no reason and no specific notice for incoming students. No Hungarian or Semmelweis top-up for incoming Erasmus students was found.",
+      "eligibility": {
+        "student_type": ["exchange"],
+        "nationality": "any"
+      },
+      "amount": null,
+      "how_to_apply": "Contact the Semmelweis mobility office before planning an Erasmus+ exchange.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://semmelweis.hu/mobilitas/en/student-mobility/",
+      "extra_sources": ["https://semmelweis.hu/mobilitas/en/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Whether incoming Erasmus+ exchanges to Semmelweis are currently possible is not confirmed. A human should check the reason with the university."
+    },
+    {
+      "id": "hu-semmelweis-pannonia-in",
+      "category": "university",
+      "name_local": "Semmelweis Pannonia In Excellence Scholarship",
+      "name_it": "Borsa di eccellenza Pannonia In della Semmelweis",
+      "authority": "Semmelweis University",
+      "description": "Merit-based scholarship for foreign students already enrolled in English or German programmes, after at least 2 completed semesters. Per academic year: Medicine and Dentistry HUF 2,000,000; Pharmacy HUF 1,300,000; Health Sciences HUF 900,000; András Pető Faculty HUF 2,900,000; paid in 12 monthly instalments. Italy is in category 1 (preferred) of the 2024/25 country appendix.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "other": [
+          "citizen of a country in the call's appendix (2024/25 appendix: category 1 includes most EU/EEA states, Switzerland, UK, USA; category 2 others)",
+          "foreign national enrolled in an English/German programme at Medicine, Dentistry, Pharmacy, Health Sciences or András Pető Faculty",
+          "studies started in or after the first semester of 2024/25",
+          "at least 2 completed active semesters",
+          "not a Stipendium Hungaricum or Hungarian Diaspora Scholarship holder",
+          "HUF bank account set in Neptun"
+        ]
+      },
+      "amount": "HUF 900,000–2,900,000 per academic year depending on faculty (Medicine HUF 2,000,000)",
+      "how_to_apply": "Via the Neptun Requests interface during the call window.",
+      "deadline": "Latest call: 1–15 October 2026",
+      "stackable": "Not combinable with Stipendium Hungaricum or the Hungarian Diaspora Scholarship.",
+      "source_url": "https://semmelweis.hu/mobilitas/en/pannonia-in-scholarship/",
+      "extra_sources": [
+        "https://semmelweis.hu/registrar/files/2025/01/Pannonia-In_2024_25_palyazati-felhivas_EN_Appendix-1.pdf",
+        "https://semmelweis.hu/admission/scholarships/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The country appendix linked on the page is labelled 2024/25 while the call is 2025/26; the current list may differ. For reference, General Medicine (English) tuition is EUR 9,340/semester plus one-time fees for the September 2027 intake (semmelweis.hu/admission/programs/medicine/)."
+    }
+  ]
+}

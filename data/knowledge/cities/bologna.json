@@ -1,0 +1,87 @@
+{
+  "city": "Bologna",
+  "slug": "bologna",
+  "country": "Italy",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No citable figure found (Unibo housing page gives no rent figures)",
+      "source_name": "Università di Bologna - Alloggi",
+      "source_url": "https://www.unibo.it/it/studiare/vivere-luniversita-e-la-citta/alloggi-e-sportello-registrazione-affitti/alloggi",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~€1,037/month city centre, ~€795 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Bologna",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "~€960/month for a single person excluding rent (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Bologna",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Not a student-specific budget."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Monthly pass ~€39 regular price (Nov 2026); Unibo students get reduced TPER passes (price not found)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Bologna",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.unibo.it/it/studiare/vivere-luniversita-e-la-citta/trasporti-e-mobilita/trasporti-e-mobilita"
+      ]
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 0-8°C, Jul avg 20-32°C; cold winters, hot humid summers",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/climate/in/Bologna",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "No citable figure found (no citable source read)",
+      "source_name": "Università di Bologna",
+      "source_url": "https://www.unibo.it/it/studiare/vivere-luniversita-e-la-citta",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Non-Italian students need an A2 Italian certificate for Unibo's 150-hour campus jobs",
+      "source_name": "Università di Bologna - Bando 150 ore 2026/27",
+      "source_url": "https://www.unibo.it/it/studiare/borse-di-studio-e-agevolazioni/bando-per-attivita-di-collaborazione-150-ore/bando-per-lattivita-di-collaborazione-degli-studenti",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Only covers campus jobs; Italian needs for daily life not sourced."
+    },
+    {
+      "field": "job_market",
+      "value": "Unibo offers 1,371 part-time campus collaborations (max 150 h) in 2026/27",
+      "source_name": "Università di Bologna - Bando 150 ore 2026/27",
+      "source_url": "https://www.unibo.it/it/studiare/borse-di-studio-e-agevolazioni/bando-per-attivita-di-collaborazione-150-ore/bando-per-lattivita-di-collaborazione-degli-studenti",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "student_wage",
+      "value": "Unibo 150-hour collaborations: €8.50/hour, max €1,275 tax-free (2026/27)",
+      "source_name": "Università di Bologna - Bando 150 ore 2026/27",
+      "source_url": "https://www.unibo.it/it/studiare/borse-di-studio-e-agevolazioni/bando-per-attivita-di-collaborazione-150-ore/bando-per-lattivita-di-collaborazione-degli-studenti",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Campus collaborations only, not private-sector pay."
+    }
+  ]
+}

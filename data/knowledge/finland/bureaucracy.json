@@ -1,0 +1,296 @@
+{
+  "country": "Finland",
+  "country_code": "FI",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "Migri pages on EU registration and residence permit for studies, plus InfoFinland and University of Helsinki pages." },
+    { "key": "registration", "result": "found", "note": "DVV pages on foreigner registration and municipality of residence." },
+    { "key": "tax_id", "result": "found", "note": "Finland uses the personal identity code (henkilötunnus) for tax purposes; tax card from the Tax Administration (vero.fi)." },
+    { "key": "health_insurance", "result": "found", "note": "Kela page for people moving to Finland, FSHS/YTHS eligibility and EHIC pages, Migri and University of Helsinki insurance requirements." },
+    { "key": "bank_account", "result": "found", "note": "Only university guidance (Aalto) found; no government page on opening a bank account was found." },
+    { "key": "transport_card", "result": "found", "note": "hsl.fi returned HTTP 403 to automated fetches; conditions taken from Aalto and University of Helsinki pages. Prices in the city files." },
+    { "key": "student_work", "result": "found", "note": "Migri (non-EU 30 h/week average) and InfoFinland (EU/EEA no limit)." },
+    { "key": "minimum_wage", "result": "found", "note": "Finnish Occupational Safety and Health Administration (tyosuojelu.fi): no minimum wage law; collective agreements." }
+  ],
+  "items": [
+    {
+      "id": "fi-residence-eu",
+      "topic": "residence_permit",
+      "title": "Registering an EU citizen's right of residence (stays over 3 months)",
+      "title_it": "Registrazione del diritto di soggiorno per cittadini UE (soggiorni oltre 3 mesi)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "more than 3 months in a row (counted from the last time you were outside Finland)",
+        "other": ["Nordic citizens (Denmark, Iceland, Norway, Sweden) do not register with Migri: they register with DVV instead"]
+      },
+      "summary": "EU, Liechtenstein and Swiss citizens staying more than 3 months must register their right of residence with the Finnish Immigration Service (Migri) within 3 months of arrival. Students need proof of studies (certificate of attendance; an admission letter is not enough) and an assurance of sufficient resources, and can apply only after studies have started. The registration is valid until further notice; if approved you also get a personal identity code and are entered in the Population Information System.",
+      "steps": [
+        "Apply online in Enter Finland (choose right of residence, not the residence permit for studies) or on paper",
+        "Pay the fee",
+        "Book an appointment at a Migri service point to prove your identity with passport/ID card and original attachments"
+      ],
+      "deadline": "Within 3 months of entry into Finland",
+      "cost": "€ 53 (online or paper application, as of 2026-11-25)",
+      "authority": "Finnish Immigration Service (Migri)",
+      "source_url": "https://migri.fi/registration-of-right-of-residence",
+      "extra_sources": [
+        "https://www.infofinland.fi/en/moving-to-finland/eu-citizens/registration-of-an-eu-citizens-right-of-residence",
+        "https://studies.helsinki.fi/instructions/article/register-authorities-exchange-and-visiting-studies"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The 3-month deadline is stated by InfoFinland and the University of Helsinki; the Migri page itself does not state a deadline. University of Helsinki says no specific amount of funds is required for EU exchange students, only a document showing they can support themselves without social assistance."
+    },
+    {
+      "id": "fi-residence-non-eu",
+      "topic": "residence_permit",
+      "title": "Residence permit for studies (non-EU students)",
+      "title_it": "Permesso di soggiorno per studio (studenti extra-UE)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "stay_duration": "studies requiring a stay in Finland (degree or exchange); distance studies do not qualify",
+        "income_test": "at least € 800/month at your disposal; € 9,600 on your bank account for studies of one year or more (first permit)"
+      },
+      "summary": "Non-EU students admitted to a Finnish higher education institution (degree or exchange) apply for the first residence permit for studies from abroad. Degree students in higher education get a continuous (A) permit; exchange students a temporary (B) permit. You must show € 800/month (€ 9,600 for a year or more) plus any unpaid tuition fee; work income cannot count for the first permit, but scholarships covering living costs reduce the amount. Private health insurance valid on arrival is required.",
+      "steps": [
+        "Apply online in Enter Finland after admission, with bank statement (last 6 months) and insurance certificate",
+        "Visit a Finnish mission abroad to prove identity",
+        "Optionally apply for a 100-day D visa at the same time if you can travel within 2 weeks of the decision"
+      ],
+      "deadline": "Apply from abroad after receiving the admission letter; extensions only from within Finland",
+      "cost": "€ 600 online / € 750 paper (first permit, as of 2026-11-25)",
+      "authority": "Finnish Immigration Service (Migri)",
+      "source_url": "https://migri.fi/en/residence-permit-application-for-studies",
+      "extra_sources": ["https://migri.fi/en/income-requirement-for-students"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Funds can be lower if the institution provides free housing (€ 400/month) or free housing and meals (€ 270/month)."
+    },
+    {
+      "id": "fi-residence-non-eu-insurance",
+      "topic": "health_insurance",
+      "title": "Health insurance required for a non-EU student residence permit",
+      "title_it": "Assicurazione sanitaria richiesta per il permesso di studio (extra-UE)",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"] },
+      "summary": "Non-EU students need private insurance covering medical and medicine costs, valid for the whole stay. University of Helsinki states the minimum: medical expenses up to at least € 40,000 for studies of 2 years or more; sickness and accident costs up to at least € 120,000 for studies under 2 years. Travel insurance limited to 90 days per trip is not accepted. Holders of a Kela card, EHIC or UK GHIC do not need separate insurance.",
+      "deadline": "Must be valid on arrival and attached to the permit application",
+      "cost": null,
+      "authority": "Finnish Immigration Service (Migri) / University of Helsinki",
+      "source_url": "https://studies.helsinki.fi/instructions/article/residence-permit-degree-students",
+      "extra_sources": ["https://migri.fi/en/residence-permit-application-for-studies"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The € 40,000 / € 120,000 amounts were read on the University of Helsinki page; the Migri application page opened today did not list amounts."
+    },
+    {
+      "id": "fi-registration-dvv-pic",
+      "topic": "registration",
+      "title": "Registering with DVV and getting a Finnish personal identity code",
+      "title_it": "Registrazione al DVV e codice identificativo personale finlandese",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["Must reside in Finland legally and have a registration ground (studies, work, residence permit or EU registration)"]
+      },
+      "summary": "Foreign students who need a Finnish personal identity code (henkilötunnus) submit DVV's online foreigner registration form and then must visit DVV in person within 1 month. Non-EU students may already have the code on the residence permit card; EU students usually get it with Migri's EU registration. University of Helsinki requires the code for stays of at least 3 months; exchange students generally do not need one unless they open a bank account or work. Free of charge; processing 2-3 weeks for study or work.",
+      "steps": [
+        "Fill in DVV's online 'registration of a foreigner' form",
+        "Book a DVV appointment (or attend the university Check-In event) within 1 month",
+        "Bring passport/EU ID card, residence permit card or EU registration certificate, and certificate of student status"
+      ],
+      "deadline": "In-person visit within 1 month of submitting the form",
+      "cost": "Free of charge",
+      "authority": "Digital and Population Data Services Agency (DVV)",
+      "source_url": "https://dvv.fi/en/foreigner-registration",
+      "extra_sources": [
+        "https://studies.helsinki.fi/instructions/node/4262",
+        "https://studies.helsinki.fi/instructions/article/register-authorities-exchange-and-visiting-studies"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fi-registration-municipality",
+      "topic": "registration",
+      "title": "Municipality of residence (stays of at least one year)",
+      "title_it": "Comune di residenza (soggiorni di almeno un anno)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "intention to live in Finland for at least one year",
+        "other": [
+          "EU citizens: only after a positive Migri EU registration decision",
+          "Non-EU: A or P permit, or B permit valid at least 1 year plus e.g. degree studies lasting at least 2 years"
+        ]
+      },
+      "summary": "To get a municipality of residence (kotikunta) you must have arrived, intend to live in Finland at least one year and stay legally, plus meet a specific ground (Nordic citizen, Migri EU registration, A/P permit, or a B permit of at least 1 year with e.g. degree studies of 2+ years). Apply with DVV's online form and show ID. It gives access to the HSL student discount and municipal benefits; until then you can register a temporary address.",
+      "deadline": "Can start from the date conditions are met, but no earlier than 1 month before the notification",
+      "cost": null,
+      "authority": "Digital and Population Data Services Agency (DVV)",
+      "source_url": "https://dvv.fi/en/municipality-of-residence",
+      "extra_sources": ["https://www.aalto.fi/en/international-students/registering-with-the-authorities-and-opening-a-bank-account"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "University of Helsinki says access to municipal health care requires studies of at least 2 years. Exchange students staying under one year are not necessarily required to register a municipality of residence (Aalto)."
+    },
+    {
+      "id": "fi-tax-id-tax-card",
+      "topic": "tax_id",
+      "title": "Personal identity code and tax card for working students",
+      "title_it": "Codice identificativo e tax card per studenti che lavorano",
+      "applies_to": { "student_type": "any", "nationality": "any", "min_work_hours": "any paid job in Finland" },
+      "summary": "Finland has no separate tax number for students' wages: the personal identity code is used. If you work, request a tax card from the Tax Administration (service point with passport and student ID/certificate of study) and give it to your employer. Stays under 6 months: non-resident, 35% tax at source after a € 510/month (€ 17/day) deduction, unless you request progressive taxation. Over 6 months: resident, progressive tax and a Finnish tax return.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Finnish Tax Administration (Vero)",
+      "source_url": "https://vero.fi/en/individuals/tax-cards-and-tax-returns/arriving_in_finland/Studying-in-Finland/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Some tax treaties exempt part of students' wages; see subsidies.json fi-tax-treaty-student."
+    },
+    {
+      "id": "fi-health-eu",
+      "topic": "health_insurance",
+      "title": "Health care for EU/EEA/Swiss students (EHIC) and when Kela cover starts",
+      "title_it": "Sanità per studenti UE/SEE/svizzeri (TEAM) e quando subentra Kela",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "Kela treats EU/EEA/Swiss/UK students' stay as temporary, so they stay covered by their home country: bring a European Health Insurance Card (EHIC) for necessary care. If you start working in Finland you can apply to Kela for the right to medical care; earnings of at least € 800.02/month can give access to certain work-based Kela benefits.",
+      "steps": ["Order the EHIC from your home insurer before arrival", "If you start working, apply to Kela for the right to medical care"],
+      "deadline": null,
+      "cost": null,
+      "authority": "Kela (Social Insurance Institution of Finland)",
+      "source_url": "https://www.kela.fi/can-you-get-benefits-when-you-move-to-finland",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fi-health-non-eu",
+      "topic": "health_insurance",
+      "title": "Kela coverage for non-EU students",
+      "title_it": "Copertura Kela per studenti extra-UE",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "stay_duration": "Kela benefits only for studies of 2 years or more" },
+      "summary": "Non-EU exchange students pay medical costs themselves and get no Kela reimbursement. Non-EU students studying 2 years or more can generally get a Kela card and some benefits (sickness allowance, reimbursements for private care and medicines), but not student financial aid or housing allowances. Without a municipality of residence only emergency care is available and may be billed.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Kela (Social Insurance Institution of Finland)",
+      "source_url": "https://www.kela.fi/can-you-get-benefits-when-you-move-to-finland",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fi-health-fshs-fee",
+      "topic": "health_insurance",
+      "title": "Student health service (FSHS/YTHS) and the student healthcare fee",
+      "title_it": "Servizio sanitario studentesco (FSHS/YTHS) e contributo sanitario",
+      "applies_to": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "other": [
+          "Bachelor's/master's students registered as attending",
+          "Exchange students not completing a Finnish degree are not entitled to FSHS and do not pay",
+          "Students covered by another EU/EEA country, Switzerland or UK are exempt from the fee if they send their EHIC/GHIC"
+        ]
+      },
+      "summary": "Degree students registered as attending can use the Finnish Student Health Service (FSHS/YTHS) and pay the student healthcare fee to Kela, without a bill, via OmaKela. EU/EEA/Swiss/UK students with social security at home do not pay but must send an image of a valid EHIC/GHIC to FSHS and a copy to Kela. FSHS does not cover emergency care or hospitalisation.",
+      "deadline": "Spring: 15 March (if registered as attending by 31 January); autumn: 15 November (if registered by 30 September)",
+      "cost": "€ 35.35/term, € 70.70/year (2026); € 5 late-payment charge",
+      "authority": "Kela / Finnish Student Health Service (FSHS / YTHS)",
+      "source_url": "https://www.kela.fi/student-healthcare-fee-higher-education",
+      "extra_sources": [
+        "https://www.yths.fi/en/using-services/who-can-use-our-services/",
+        "https://www.yths.fi/en/using-services/student-from-eu-or-eta-countries-provide-ehic-card/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The University of Helsinki benefits page still shows € 35.60/term (2025); Kela's page gives € 35.35/term for 2026. Use Kela's figure."
+    },
+    {
+      "id": "fi-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a Finnish bank account",
+      "title_it": "Aprire un conto bancario in Finlandia",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Banks such as OP, Nordea, Danske Bank and Aktia require an appointment; practices vary. Typically needed: passport or bank-approved ID, admission letter or certificate of student status, proof of Finnish address (e.g. DVV certificate) and, if applicable, residence permit; non-EU students may need a home-bank reference letter and 3 months of statements. A Finnish personal identity code is needed, and full online banking credentials (strong identification) may not be issued immediately.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Aalto University (guidance); individual banks",
+      "source_url": "https://www.aalto.fi/en/international-students/registering-with-the-authorities-and-opening-a-bank-account",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "University guidance, not a government page. University of Helsinki adds that exchange students need a notification of temporary move for a Finnish bank account."
+    },
+    {
+      "id": "fi-transport-hsl-student",
+      "topic": "transport_card",
+      "title": "HSL student discount in the Helsinki region (Helsinki, Espoo, Vantaa)",
+      "title_it": "Sconto studenti HSL nell'area di Helsinki (Helsinki, Espoo, Vantaa)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "Degree students: Finnish personal identity code and a municipality of residence registered with DVV",
+          "Exchange and double-degree students: HSL student discount application form signed and stamped by the university"
+        ]
+      },
+      "summary": "HSL student discounts apply only to season tickets (Aalto: 40% off). Degree students need a personal identity code and a DVV-registered municipality of residence, then activate the discount in the HSL app with Finnish strong identification, or on an HSL travel card with a student card or signed form (renewed each term). Exchange students use the university-stamped application form. EU degree students get it only after both Migri and DVV registrations (University of Helsinki).",
+      "deadline": null,
+      "cost": null,
+      "authority": "HSL (Helsinki Regional Transport Authority) - conditions as reported by Aalto University and University of Helsinki",
+      "source_url": "https://www.aalto.fi/en/node/821046",
+      "extra_sources": [
+        "https://studies.helsinki.fi/instructions/node/4262",
+        "https://www.aalto.fi/en/study-at-aalto/student-benefits-and-cost-of-living"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "hsl.fi (https://www.hsl.fi/en/tickets-and-fares/discounted-travel/student-discount) returned HTTP 403 to automated fetches, so the operator's own page could not be read; values come from the two universities' official pages."
+    },
+    {
+      "id": "fi-work-eu",
+      "topic": "student_work",
+      "title": "Working while studying: EU/EEA, Swiss and Nordic students",
+      "title_it": "Lavorare durante gli studi: studenti UE/SEE, svizzeri e nordici",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "EU/EEA, Swiss and Nordic citizens can work without limits during their studies and need no permit. Work income can reduce Kela student aid for those who receive it, and working may give access to Finnish social security.",
+      "deadline": null,
+      "cost": null,
+      "authority": "InfoFinland (public multilingual information service)",
+      "source_url": "https://infofinland.fi/en/education/foreign-students-in-finland",
+      "extra_sources": ["https://www.infofinland.fi/education/financing-your-studies"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fi-work-non-eu",
+      "topic": "student_work",
+      "title": "Working while studying: non-EU students (average 30 h/week)",
+      "title_it": "Lavorare durante gli studi: studenti extra-UE (media 30 ore/settimana)",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["Holders of a residence permit for studies"] },
+      "summary": "With a residence permit for studies you may work in any field for an average of 30 hours per week (about 120 h/month or 1,560 h/year). Single weeks, and full-time work in holidays, can exceed 30 hours if the yearly average stays within the limit. Internships or thesis work required by the degree and agreed in advance for credits are outside the limit.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Finnish Immigration Service (Migri)",
+      "source_url": "https://migri.fi/en/residence-permit-application-for-studies",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Work cannot be used to prove funds for the first permit, only for extensions."
+    },
+    {
+      "id": "fi-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "No statutory minimum wage: pay set by collective agreements",
+      "title_it": "Nessun salario minimo legale: paghe fissate dai contratti collettivi",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "There is no minimum wage law in Finland. Minimum pay is set by sector collective agreements; universally binding agreements (e.g. wholesale and retail trade) apply even to employers outside employers' organisations. Where no agreement applies, the Employment Contracts Act requires pay that is usual and reasonable for the work.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Occupational Safety and Health Administration (Työsuojelu)",
+      "source_url": "https://www.tyosuojelu.fi/en/employment-relationship/pay",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    }
+  ]
+}

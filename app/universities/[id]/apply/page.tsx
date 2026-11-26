@@ -46,7 +46,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const IS_PREMIUM = false; // toggle this when auth is wired up
 
-function AiChatPanel({ uniName, programme }: { uniName: string; programme: string }) {
+function AiChatPanel({ uniId, uniName, programme }: { uniId: string; uniName: string; programme: string }) {
   const [msgs, setMsgs] = useState<Msg[]>([
     {
       role: "assistant",
@@ -74,16 +74,19 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: next.map(m => ({ role: m.role, content: m.content })),
-          context: `The student is applying to ${uniName}, programme: ${programme}.`,
+          messages: next.map((m, i) => ({
+            role: m.role,
+            content: i === next.length - 1 && programme ? `[Programme: ${programme}] ${m.content}` : m.content,
+          })),
+          // The server looks the university up in the catalogue by id and
+          // injects its record; the programme goes in as a normal message.
+          mode: "apply",
+          universityId: uniId,
         }),
       });
-      const data = await res.json();
-      if (data.error === "daily_limit") {
-        setMsgs(m => [...m, { role: "assistant", content: data.message }]);
-      } else {
-        setMsgs(m => [...m, { role: "assistant", content: data.content ?? "Sorry, something went wrong." }]);
-      }
+      const data = await res.json().catch(() => ({}));
+      // /api/chat answers { message } on success and { error } otherwise (429 = daily cap).
+      setMsgs(m => [...m, { role: "assistant", content: data.message ?? data.error ?? "Sorry, something went wrong." }]);
     } catch {
       setMsgs(m => [...m, { role: "assistant", content: "Connection error. Please try again." }]);
     } finally {
@@ -671,7 +674,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         }
         right={
           <div style={{ borderLeft: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%", background: "rgba(255,255,255,0.01)" }}>
-            <AiChatPanel uniName={uni.name} programme={programme?.name ?? ""} />
+            <AiChatPanel uniId={uni.id} uniName={uni.name} programme={programme?.name ?? ""} />
           </div>
         }
       />

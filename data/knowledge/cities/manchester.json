@@ -1,0 +1,90 @@
+{
+  "city": "Manchester",
+  "slug": "manchester",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Private house share incl. bills £645–£710/month; University self-catered halls £487–£1,060/month (University estimate 2026/7).",
+      "source_name": "University of Manchester, undergraduate cost of living",
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate/fees-and-funding/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Catered halls £555–£982/month; private halls £860–£1,010/month. Hall contracts 41/42 weeks for undergraduates."
+    },
+    {
+      "field": "rent_studio",
+      "value": "£1,010/month average private rent, one-bedroom (Manchester, Oct 2026); all private rents average £1,386/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E08000003/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "£1,484/month (£14,840/year over 41 weeks) for a single undergraduate; £1,503/month if self-catered (University estimate 2026/7).",
+      "source_name": "University of Manchester, undergraduate cost of living",
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate/fees-and-funding/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Other costs based on Save the Student survey adjusted for inflation (Feb 2026); groceries from an April 2026 shop."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No pass price given; University budget allows £70/month for transport incl. local travel and trips elsewhere (2026/7).",
+      "source_name": "University of Manchester, undergraduate cost of living",
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate/fees-and-funding/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 1.1–7.1°C, Jul avg 11.8–20.7°C (min–max); about 868 mm rain/year. Met Office Woodford station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcw2jjm6d",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Woodford station is about 15 km south of Manchester city centre."
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Manchester",
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate/fees-and-funding/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Manchester",
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate/fees-and-funding/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

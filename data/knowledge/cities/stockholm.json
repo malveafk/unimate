@@ -1,0 +1,106 @@
+{
+  "city": "Stockholm",
+  "slug": "stockholm",
+  "country": "Sweden",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "SEK 3,800–4,350/month for a corridor room or room in a shared flat (KTH student budget examples, 2026); Stockholm University budget assumes SEK 6,500/month.",
+      "source_name": "KTH Royal Institute of Technology – student budget 2026",
+      "source_url": "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.su.se/english/education/new-in-sweden/living-costs"
+      ]
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~SEK 10,640/month outside centre, ~SEK 15,770 in centre (Nov 2026). KTH Housing example: SEK 8,200/month.",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Stockholm",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975"
+      ]
+    },
+    {
+      "field": "living_cost_month",
+      "value": "SEK 7,850–13,000/month incl. rent (KTH 2026 student examples); Stockholm University estimate SEK 12,000/month.",
+      "source_name": "KTH Royal Institute of Technology – student budget 2026",
+      "source_url": "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.su.se/english/education/new-in-sweden/living-costs"
+      ]
+    },
+    {
+      "field": "transport_pass",
+      "value": "SL 30-day ticket at student (reduced) price: SEK 650 in KTH 2026 budget; SEK 325 during the half-price campaign (buy/activate by 2 Dec 2026). Full-time students only.",
+      "source_name": "SL (Region Stockholm); KTH",
+      "source_url": "https://sl.se/biljetter/sortiment-och-regler/tillfallig-prissankning",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://sl.se/biljetter/sortiment-och-regler/rabatter",
+        "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975"
+      ],
+      "valid_until": "2026-12-02"
+    },
+    {
+      "field": "climate",
+      "value": "Mean temperature about −1.0 °C in January and 18.7 °C in July; about 546 mm precipitation/year (SMHI 1991–2020, Observatorielunden).",
+      "source_name": "Wikipedia (citing SMHI)",
+      "source_url": "https://en.wikipedia.org/wiki/Stockholm",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing SMHI 1991–2020 normals; SMHI's own tables were not reached."
+    },
+    {
+      "field": "social_life",
+      "value": "Parks, waterfronts and museums (many free or discounted for students); KTH's student union THS runs many clubs and an August–September welcome for internationals.",
+      "source_name": "KTH Royal Institute of Technology",
+      "source_url": "https://www.kth.se/en/studies/student-life/stockholm-sweden-1.62951",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Swedish not needed for daily life (Swedes speak English widely); some part-time jobs require Swedish, others are offered in English.",
+      "source_name": "Study in Sweden (Swedish Institute); KTH",
+      "source_url": "https://studyinsweden.se/moving-to-sweden/learn-swedish/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975"
+      ]
+    },
+    {
+      "field": "job_market",
+      "value": "Part-time work possible but full-time study is ~40 h/week; KTH sometimes hires students as teaching/lab assistants or ambassadors. Non-EU permit holders: max 15 h/week.",
+      "source_name": "KTH Royal Institute of Technology",
+      "source_url": "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.migrationsverket.se/en/you-want-to-apply/study/higher-education.html"
+      ]
+    },
+    {
+      "field": "student_wage",
+      "value": "No city data. National example: hotel/restaurant agreement floor SEK 153.64–164.30/hour (from 1 Apr 2026, no experience; youth rates under 20). No statutory minimum wage.",
+      "source_name": "HRF (Hotel and Restaurant Workers' Union) – Gröna Riksavtalet",
+      "source_url": "https://www.hrf.net/lon-och-villkor/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "extra_sources": [
+        "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics"
+      ],
+      "notes": "A collective-agreement wage floor for one sector, not a measured typical student wage; no citable source for typical student pay found."
+    }
+  ]
+}

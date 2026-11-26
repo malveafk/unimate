@@ -1,0 +1,93 @@
+{
+  "city": "Palaiseau",
+  "slug": "palaiseau",
+  "country": "France",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://programmes.polytechnique.edu/bachelor/frais-et-financement/cout-de-la-vie",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Polytechnique guarantees newcomers a ~18 m² single room or a shared flat on campus but gives no rent figure."
+    },
+    {
+      "field": "rent_studio",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://programmes.polytechnique.edu/bachelor/frais-et-financement/cout-de-la-vie",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No figure found."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "About €12,000/year all-inclusive (≈ €1,000/month); food €250–350/month",
+      "source_name": "École Polytechnique – Bachelor cost of living",
+      "source_url": "https://programmes.polytechnique.edu/bachelor/frais-et-financement/cout-de-la-vie",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Year not stated; the page still shows an outdated CVEC (€91), so figures may be older than 2026-27."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Navigo Mois all zones €90.80/month (2026); under-26 residents can take the imagine R annual student pass",
+      "source_name": "Sciences Po – Create a budget",
+      "source_url": "https://www.sciencespo.fr/students/en/fees-funding/budget-studies/",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Paris"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "IDFM pages refuse automated access; price confirmed by Numbeo (Nov 2026). imagine R price: see france/bureaucracy.json (unverified)."
+    },
+    {
+      "field": "climate",
+      "value": "Paris-Montsouris 1991–2020: January avg 3.2–7.6 °C, July avg 16.2–25.7 °C; about 634 mm rain/year",
+      "source_name": "Wikipedia (Climate of Paris, citing Météo-France normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Climate_of_Paris",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Paris-Montsouris normals used as a proxy (Palaiseau is about 20 km south of Paris); no station-specific source found."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No citable source consulted.",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Not researched on an official page today."
+    },
+    {
+      "field": "job_market",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No citable source found today."
+    },
+    {
+      "field": "student_wage",
+      "value": "Legal floor: SMIC €12.31 gross/hour for adults (2026); typical student-job pay not published",
+      "source_name": "Service-Public.gouv.fr (SMIC)",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2300",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Only the statutory minimum is verified; no official source for typical student pay in this city."
+    }
+  ]
+}

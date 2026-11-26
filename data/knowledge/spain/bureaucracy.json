@@ -1,0 +1,393 @@
+{
+  "country": "Spain",
+  "country_code": "ES",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    {
+      "key": "residence_permit",
+      "result": "found",
+      "note": "EU registration certificate (Policía Nacional sede), EU student conditions (Your Europe), non-EU estancia por estudios (RD 1155/2024 on BOE, Spanish consulate visa page). inclusion.gob.es information sheets could not be opened (403/certificate error)."
+    },
+    {
+      "key": "registration",
+      "result": "found",
+      "note": "Empadronamiento: Barcelona City Council (Nova Ciutadania) and Comunidad de Madrid padrón leaflet. sede.madrid.es returned 403."
+    },
+    {
+      "key": "tax_id",
+      "result": "found",
+      "note": "NIE assignment (Policía Nacional sede) and fee table."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found",
+      "note": "Comunidad de Madrid TSI page, Barcelona International Welcome healthcare page, RD 1155/2024 art. 35 for non-EU insurance. CatSalut page URL tried returned 404."
+    },
+    {
+      "key": "bank_account",
+      "result": "found",
+      "note": "Right to a basic payment account (Real Decreto-ley 19/2017, BOE). Banco de España client portal redirected to a login-type URL and was not read."
+    },
+    {
+      "key": "transport_card",
+      "result": "found",
+      "note": "Madrid Tarjeta Transporte Público (CRTM) and Barcelona T-mobilitat / T-jove (TMB)."
+    },
+    {
+      "key": "student_work",
+      "result": "found",
+      "note": "EU: Your Europe work-permit page. Non-EU: RD 1155/2024 art. 57 (BOE consolidated text)."
+    },
+    {
+      "key": "minimum_wage",
+      "result": "found",
+      "note": "Real Decreto 126/2026 (BOE consolidated text)."
+    }
+  ],
+  "items": [
+    {
+      "id": "es-residence-eu-registration",
+      "topic": "residence_permit",
+      "title": "EU registration certificate (stays over 3 months)",
+      "title_it": "Certificato di registrazione come cittadino UE (soggiorni oltre 3 mesi)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "stay_duration": "more than 3 months"
+      },
+      "summary": "EU/EEA/Swiss citizens who will live in Spain for more than three months must apply in person, within three months of entry, for inscription in the Registro Central de Extranjeros. The certificate is issued on the spot and shows name, nationality, address, foreigner identity number and registration date.",
+      "steps": [
+        "Book an appointment (cita previa) at the Oficina de Extranjería of your province, or the local police station where there is none",
+        "Fill in form EX-18 and pay fee modelo 790 código 012 (at a bank)",
+        "Bring passport or national ID card plus proof that you meet the conditions of art. 7 RD 240/2007 (for students: enrolment, health insurance, declaration of sufficient resources)"
+      ],
+      "deadline": "Within 3 months of entering Spain",
+      "cost": "€ 12.00 (fee 790-012, certificate of EU resident; amount shown on Policía Nacional fee page, 2026-11-25)",
+      "authority": "Policía Nacional / Oficina de Extranjería",
+      "source_url": "https://sede.policia.gob.es/portalCiudadano/_es/tramites_extranjeria_tramite_certificadoregistro_ciudadanoue.php",
+      "extra_sources": [
+        "https://sede.policia.gob.es/portalCiudadano/_es/tramites_extranjeria_tasas.php",
+        "https://europa.eu/youreurope/citizens/residence/residence-rights/students/index_en.htm"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The Policía page does not list student-specific requirements; the student conditions (enrolment at a recognised institution, comprehensive health insurance, declaration of sufficient resources, no other documents) come from the EU Your Europe page."
+    },
+    {
+      "id": "es-residence-eu-short-stay",
+      "topic": "residence_permit",
+      "title": "EU students staying up to 3 months: no registration required",
+      "title_it": "Studenti UE fino a 3 mesi: nessuna registrazione obbligatoria",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "stay_duration": "up to 3 months"
+      },
+      "summary": "Under EU rules the host country cannot require you to register your residence during the first 3 months of your stay; registration only becomes possible to require after 3 months.",
+      "authority": "European Commission (Your Europe)",
+      "source_url": "https://europa.eu/youreurope/citizens/residence/residence-rights/students/index_en.htm",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "es-residence-non-eu-student-visa",
+      "topic": "residence_permit",
+      "title": "Student visa and stay for studies (non-EU, more than 90 days)",
+      "title_it": "Visto per studio e autorizzazione di soggiorno per studi (extra-UE, oltre 90 giorni)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "stay_duration": "more than 90 days"
+      },
+      "summary": "Non-EU students coming for more than 90 days need a student visa from the Spanish consulate. Requirements include admission, monthly means equal to 100% of IPREM (unless accommodation is prepaid), health insurance with an insurer authorised in Spain, and, for stays over 180 days, a criminal record and a medical certificate. For higher education the stay lasts as long as the official duration of studies.",
+      "steps": [
+        "Apply at the Spanish consulate for your place of legal residence (fee € 80 at the Luanda embassy; some nationalities pay different amounts)",
+        "If the stay is 6 months or less, the visa covers the whole stay and no TIE is needed",
+        "If longer than 6 months, apply in person for the TIE (foreigner identity card) at the police within one month of arrival"
+      ],
+      "deadline": "TIE: within 1 month of arrival (stays over 6 months)",
+      "cost": "Visa € 80 (Luanda embassy page; varies by nationality); initial TIE € 16.08 (Policía fee page, 2026)",
+      "authority": "Spanish consulates (Ministerio de Asuntos Exteriores); Policía Nacional for the TIE",
+      "source_url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+      "extra_sources": [
+        "https://www.exteriores.gob.es/Embajadas/luanda/pt/ServiciosConsulares/Paginas/Consular/Visado-de-estudios.aspx",
+        "https://sede.policia.gob.es/portalCiudadano/_es/tramites_extranjeria_tasas.php",
+        "https://www.sepe.es/HomeSepe/en/prestaciones-desempleo/Cuantias-anuales.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "RD 1155/2024 (in force since 20/05/2025): art. 35 (means 100% IPREM, +75% first family member, +50% each additional; insurance with an insurer authorised in Spain), art. 54.9 (TIE within one month if over six months), art. 55 (duration). IPREM shown by SEPE: € 600/month, € 7,200/year (Ley 31/2022, prorogued). Document lists vary by consulate: always check the consulate of your residence."
+    },
+    {
+      "id": "es-registration-padron",
+      "topic": "registration",
+      "title": "Municipal register (empadronamiento / padró)",
+      "title_it": "Iscrizione anagrafica comunale (empadronamiento / padró)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Everyone who lives in a Spanish municipality, Spanish or foreign and whatever their residence status, must register in the padrón of the municipality where they habitually live. You go in person with passport/ID or foreigner card and a document proving you live at the address (rental contract, utility bill, deeds), or an authorisation from the owner/tenant.",
+      "steps": [
+        "Barcelona: book via 010, an OAC office or the online procedures office",
+        "Madrid: apply at your municipality's offices (city of Madrid info line 010)",
+        "Bring passport / ID / TIE and proof of address"
+      ],
+      "cost": null,
+      "deadline": null,
+      "authority": "Ayuntamiento (city council)",
+      "source_url": "https://ajuntament.barcelona.cat/novaciutadania/en/residents-register",
+      "extra_sources": [
+        "https://www.madrid.org/usupadron/pdf/hojas/castellano.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Barcelona page: registration gives access to rights such as public healthcare and is required for most immigration procedures. Neither source states a deadline after arrival or a fee. The Madrid leaflet stresses registering from the first day because many services require a minimum time on the padrón."
+    },
+    {
+      "id": "es-registration-padron-renewal-non-eu",
+      "topic": "registration",
+      "title": "Non-EU residents: renew the padrón every two years",
+      "title_it": "Residenti extra-UE: rinnovo del padrón ogni due anni",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "without permanent residence authorisation"
+        ]
+      },
+      "summary": "Non-EU nationals without a permanent residence authorisation must renew their padrón registration every two years; otherwise the council starts the procedure to remove them from the register.",
+      "authority": "Comunidad de Madrid (padrón guide for foreign residents)",
+      "source_url": "https://www.madrid.org/usupadron/pdf/hojas/castellano.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Source is the Comunidad de Madrid leaflet; the rule is national (padrón regulations) but the Barcelona page did not mention it."
+    },
+    {
+      "id": "es-tax-id-nie",
+      "topic": "tax_id",
+      "title": "NIE (foreigner identity number)",
+      "title_it": "NIE (numero di identità dello straniero)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "The NIE is the identification number foreigners use in Spain (tax, contracts, banks). EU citizens registering for more than 3 months get it on their EU registration certificate. Anyone else with economic, professional or social ties can request it on its own with form EX-15; the decision is due within five days.",
+      "steps": [
+        "Fill in form EX-15 and pay fee 790 código 012",
+        "Apply at an Oficina de Extranjería or police station in Spain, or via a Spanish consulate from abroad",
+        "State the reason why you need the NIE"
+      ],
+      "cost": "€ 9.84 (NIE at the applicant's request, Policía fee page, 2026)",
+      "deadline": null,
+      "authority": "Dirección General de la Policía",
+      "source_url": "https://sede.policia.gob.es/portalCiudadano/_es/tramites_extranjeria_tramite_asignacion_nie.php",
+      "extra_sources": [
+        "https://sede.policia.gob.es/portalCiudadano/_es/tramites_extranjeria_tasas.php",
+        "https://sede.policia.gob.es/portalCiudadano/_es/tramites_extranjeria_tramite_certificadoregistro_ciudadanoue.php"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Requirement: not being in Spain irregularly. If no reply within five days the request is deemed refused. Non-EU students with a TIE use the number on that card (IE University guidance calls the TIE the 'NIE card')."
+    },
+    {
+      "id": "es-health-eu-ehic",
+      "topic": "health_insurance",
+      "title": "EU students: EHIC for public healthcare",
+      "title_it": "Studenti UE: tessera TEAM (EHIC) per la sanità pubblica",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ]
+      },
+      "summary": "EU/EEA/Swiss citizens holding a European Health Insurance Card can use public healthcare without a Spanish health card (TSI). Studying abroad counts as a temporary stay: the EHIC covers treatment that cannot wait until you return home, not private care or planned treatment.",
+      "authority": "Comunidad de Madrid (SERMAS); European Commission",
+      "source_url": "https://www.comunidad.madrid/servicios/salud/tarjeta-sanitaria",
+      "extra_sources": [
+        "https://europa.eu/youreurope/citizens/health/unplanned-healthcare/temporary-stays/index_en.htm"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Source is the Madrid region; Catalonia's equivalent page was not read. Neither page says whether the EHIC must cover the entire study period."
+    },
+    {
+      "id": "es-health-work-social-security",
+      "topic": "health_insurance",
+      "title": "If you work: Social Security and the public health card (TSI)",
+      "title_it": "Se lavori: Seguridad Social e tessera sanitaria pubblica (TSI)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "min_work_hours": "any job where the employer registers you with Social Security"
+      },
+      "summary": "If an employer hires you and registers you with Social Security, you are entitled to public healthcare. In Madrid you first get your entitlement recognised by the INSS, then request the TSI at your health centre with ID/TIE and a padrón certificate issued within the last 90 days.",
+      "authority": "INSS; Comunidad de Madrid (SERMAS); Ajuntament de Barcelona",
+      "source_url": "https://www.barcelona.cat/internationalwelcome/en/live-and-settle/procedures/priority-formalities-living-barcelona/access-public-healthcare",
+      "extra_sources": [
+        "https://www.comunidad.madrid/servicios/salud/tarjeta-sanitaria"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Madrid page (2026-11-25): online TSI applications temporarily suspended; apply in person at the health centre."
+    },
+    {
+      "id": "es-health-non-eu-private",
+      "topic": "health_insurance",
+      "title": "Non-EU students: mandatory health insurance",
+      "title_it": "Studenti extra-UE: assicurazione sanitaria obbligatoria",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "stay_duration": "more than 90 days"
+      },
+      "summary": "The student visa requires health insurance with an insurer authorised to operate in Spain, covering the risks the Spanish public system covers, for the whole stay. Non-EU residents who are required to hold private insurance are not eligible for the public health card (TSI) in Madrid.",
+      "authority": "Spanish consulates; Comunidad de Madrid",
+      "source_url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+      "extra_sources": [
+        "https://www.exteriores.gob.es/Embajadas/luanda/pt/ServiciosConsulares/Paginas/Consular/Visado-de-estudios.aspx",
+        "https://www.comunidad.madrid/servicios/salud/tarjeta-sanitaria",
+        "https://www.ie.edu/student-services/undergraduate/non-european-students/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "IE University adds that travel insurance does not qualify and international policies are accepted only with full coverage and repatriation. Some consulates also require no waiting periods or co-payments (seen only in a search snippet of the Dhaka embassy, not opened)."
+    },
+    {
+      "id": "es-bank-basic-account",
+      "topic": "bank_account",
+      "title": "Right to a basic payment account",
+      "title_it": "Diritto a un conto di pagamento di base",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "legally resident in the EU, asylum seeker, or without residence permit but not expellable"
+        ]
+      },
+      "summary": "Banks that offer payment accounts must open a basic payment account for consumers legally resident in the EU (including those without a fixed address). They can refuse only for anti-money-laundering reasons, national security, or if you already hold a Spanish account with the same services; a refusal must be in writing within 10 business days.",
+      "authority": "Real Decreto-ley 19/2017 (BOE)",
+      "source_url": "https://www.boe.es/eli/es/rdl/2017/11/24/19/con",
+      "extra_sources": [
+        "https://www.ie.edu/student-services/living-in-madrid/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Fees: set freely or capped by ministerial order (the cap order was not read). Practical: IE University says partner banks (CaixaBank, Sabadell, Santander) open accounts with passport and proof of enrolment; the ID documents required come from anti-money-laundering rules."
+    },
+    {
+      "id": "es-transport-card-madrid",
+      "topic": "transport_card",
+      "title": "Madrid: personal public transport card (TTP)",
+      "title_it": "Madrid: tessera personale del trasporto pubblico (TTP)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Monthly passes in the Madrid region (including the Abono Joven) are loaded on the personal Tarjeta Transporte Público. First issue requires an appointment (webttp.comunidad.madrid or 012), original ID (DNI, passport or residence permit) and a valid padrón certificate; the photo is taken and the card handed over at the office.",
+      "cost": "€ 4 (card issue, 2026)",
+      "deadline": null,
+      "authority": "Consorcio Regional de Transportes de Madrid (CRTM)",
+      "source_url": "https://www.crtm.es/billetes-y-tarifas/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "es-transport-card-barcelona",
+      "topic": "transport_card",
+      "title": "Barcelona: T-mobilitat and the T-jove profile",
+      "title_it": "Barcellona: T-mobilitat e profilo T-jove",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "max": 29
+        }
+      },
+      "summary": "The T-jove youth pass is loaded on a personalised T-mobilitat card or an NFC phone. You must register with T-mobilitat and have the Young profile, assigned automatically if you register before turning 30. The ticket is personal: carry official ID for inspections.",
+      "authority": "TMB / ATM Barcelona",
+      "source_url": "https://www.tmb.cat/en/barcelona-fares-metro-bus/single-and-integrated/t-jove",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "es-work-eu",
+      "topic": "student_work",
+      "title": "EU students: no work permit needed",
+      "title_it": "Studenti UE: nessun permesso di lavoro necessario",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ]
+      },
+      "summary": "EU citizens generally do not need a work permit to work in another EU country, and Swiss nationals have the same right under the EU-Switzerland agreement.",
+      "authority": "European Commission (Your Europe)",
+      "source_url": "https://europa.eu/youreurope/citizens/work/work-abroad/work-permits/index_en.htm",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Working with a Spanish employer requires Social Security registration (see es-health-work-social-security). The page states no weekly hour limit for EU students."
+    },
+    {
+      "id": "es-work-non-eu-30h",
+      "topic": "student_work",
+      "title": "Non-EU students: up to 30 hours/week",
+      "title_it": "Studenti extra-UE: fino a 30 ore settimanali",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "stay for higher education studies (RD 1155/2024 art. 52.1.a)"
+        ]
+      },
+      "summary": "A stay authorisation for higher education automatically allows employed or self-employed work, without a further procedure, if compatible with the studies and no more than 30 hours per week. Exceeding 30 hours is a ground for extinguishing the stay.",
+      "authority": "Real Decreto 1155/2024, art. 57 (BOE)",
+      "source_url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "In force since 20/05/2025. The regulation does not distinguish term time from holidays in what we read. Family members on a dependent student stay cannot work (consulate page).",
+      "interpretations": [
+        {
+          "hypothesis": "Non-EU exchange students on a student-mobility stay are covered by the same automatic 30 h/week right only if their stay falls under art. 52.1.a (higher education); otherwise they would need a separate authorisation. We did not read art. 52 in full: check with the Oficina de Extranjería.",
+          "source_url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con"
+        }
+      ]
+    },
+    {
+      "id": "es-minimum-wage-2026",
+      "topic": "minimum_wage",
+      "title": "Minimum wage (SMI) 2026",
+      "title_it": "Salario minimo (SMI) 2026",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "The 2026 minimum wage is € 40.70/day or € 1,221/month for full-time work, € 17,094/year (14 payments), with no distinction by sex or age (no youth rates). Domestic workers paid by the hour: € 9.55/hour. Effective 1 January to 31 December 2026.",
+      "cost": null,
+      "authority": "Real Decreto 126/2026 (BOE)",
+      "source_url": "https://www.boe.es/eli/es/rd/2026/02/18/126/con",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The decree sets no general hourly rate. Temporary contracts of up to 120 days: at least € 57.82 per legal working day, including pro-rata Sundays, holidays and extra payments."
+    }
+  ]
+}

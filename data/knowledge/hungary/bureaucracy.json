@@ -1,0 +1,325 @@
+{
+  "country": "Hungary",
+  "country_code": "HU",
+  "currency": "HUF",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "OIF pages for the EEA registration certificate and the study-purpose residence permit; OIF procedural-fees page; Semmelweis student-visa page." },
+    { "key": "registration", "result": "found", "note": "EEA nationals: address declared with the registration certificate, address card (lakcímkártya) issued by the Budapest Government Office (OIF page). Non-EU: address declared on the residence-permit form. The OIF reporting-obligations factsheet returned 404 today." },
+    { "key": "tax_id", "result": "found", "note": "NAV page on requesting a tax ID (adóazonosító jel) with form T34." },
+    { "key": "health_insurance", "result": "found", "note": "OIF requirements, NEAK pages on the TAJ card, the health service contribution and the EHIC; Your Europe EHIC page. The NEAK English 'Health care services during temporary stay' content is a PDF that could not be read." },
+    { "key": "bank_account", "result": "found", "note": "MNB page on the basic payment account (alapszámla) and Your Europe page on the EU right to a basic account. No official page found listing the documents banks ask from foreign students." },
+    { "key": "transport_card", "result": "found", "note": "BKK prices and discounts pages (student pass rules). Price is in subsidies.json." },
+    { "key": "student_work", "result": "found", "note": "OIF study-purpose permit page (non-EU hours); Your Europe work-permits page (EU nationals); NAV student-work page." },
+    { "key": "minimum_wage", "result": "found", "note": "NAV page on minimálbér and garantált bérminimum, amounts from 1 January 2026. No 2027 amount found on official pages today." }
+  ],
+  "items": [
+    {
+      "id": "hu-residence-eu",
+      "topic": "residence_permit",
+      "title": "Registration certificate for EU/EEA/Swiss citizens staying more than 90 days",
+      "title_it": "Certificato di registrazione per cittadini UE/SEE/svizzeri che restano più di 90 giorni",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "more than 90 days within any 180-day period",
+        "other": ["purpose of stay: studies (or work / self-employment)"]
+      },
+      "summary": "EU/EEA and Swiss citizens staying more than 90 days in 180 must register with the National Directorate-General for Aliens Policing (OIF). Students show enrolment, sufficient resources and health insurance (or proof they will pay for care) for the whole stay. The certificate is issued immediately once conditions are proven and is valid indefinitely while your ID/passport is valid.",
+      "steps": [
+        "Apply in person at the OIF regional directorate for your Hungarian address, or online via Enter Hungary (online applications must include a photo).",
+        "Bring a valid passport or ID card, enrolment certificate, proof of sufficient resources and of health insurance.",
+        "Declare your first Hungarian address at the same time (the address card is then posted to you).",
+        "Pay the HUF 1,000 fee by card or bank transfer."
+      ],
+      "deadline": "OIF page states no explicit day count; Semmelweis says within 90 days of arrival (see interpretations).",
+      "cost": "HUF 1,000 (registration certificate); a separate address-card fee applies since 1 Feb 2025 (amount not found)",
+      "authority": "National Directorate-General for Aliens Policing (Országos Idegenrendészeti Főigazgatóság, OIF)",
+      "source_url": "https://oif.gov.hu/egt-allampolgar-regisztracios-igazolas-2",
+      "extra_sources": ["https://oif.gov.hu/en/eljarasi-dijak", "https://semmelweis.hu/admission/after-admission/student-visa/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "The OIF page frames registration as required for stays over 90 days within 180 days and gives no filing deadline.", "source_url": "https://oif.gov.hu/egt-allampolgar-regisztracios-igazolas-2" },
+        { "hypothesis": "EU/EEA students must apply for the registration certificate within 90 days of arrival (Semmelweis University wording).", "source_url": "https://semmelweis.hu/admission/after-admission/student-visa/" }
+      ],
+      "notes": "OIF did not state a minimum amount for 'sufficient resources'."
+    },
+    {
+      "id": "hu-residence-non-eu",
+      "topic": "residence_permit",
+      "title": "Residence permit for study purposes (non-EU students)",
+      "title_it": "Permesso di soggiorno per motivi di studio (studenti extra-UE)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "stay_duration": "more than 90 days"
+      },
+      "summary": "Non-EEA students need a study-purpose residence permit, valid for at least 1 year (or the course length if shorter) and up to 3 years; extensions of 1–3 years are filed in Hungary via Enter Hungary 90 to 30 days before expiry. Visa-required nationals apply at the Hungarian mission in their country; visa-free nationals may apply in Hungary. Decision within 60 days.",
+      "steps": [
+        "If you need a visa: apply at the Hungarian consulate in your country of citizenship or residence (the application includes the entry visa to collect the permit).",
+        "If you can enter visa-free: apply in Hungary via Enter Hungary or at the OIF regional directorate for your accommodation.",
+        "Documents: admission/student-status certificate, language proof, proof of means, Hungarian address, health insurance, valid passport, return ticket or fare, proof of tuition payment, one photo."
+      ],
+      "deadline": "Semmelweis: apply for the residence permit within 15 days of arrival (applies to its visa route); extensions 90–30 days before expiry.",
+      "cost": "HUF 39,000 if filed in Hungary in person; HUF 26,000 via Enter Hungary; extension HUF 26,000 (OIF fees page; consular fees not checked)",
+      "authority": "National Directorate-General for Aliens Policing (OIF); Hungarian consulates",
+      "source_url": "https://oif.gov.hu/tanulmanyi-cel",
+      "extra_sources": ["https://oif.gov.hu/en/eljarasi-dijak", "https://semmelweis.hu/admission/after-admission/student-visa/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The OIF fees page does not list a study-specific fee; the amounts above are the general residence-permit fees. OIF gives no fixed minimum amount for financial means."
+    },
+    {
+      "id": "hu-registration-address-eu",
+      "topic": "registration",
+      "title": "Address registration and address card (lakcímkártya) for EU/EEA citizens",
+      "title_it": "Registrazione dell'indirizzo e carta d'indirizzo (lakcímkártya) per cittadini UE/SEE",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "more than 90 days"
+      },
+      "summary": "When applying for the registration certificate you declare your first Hungarian address; the Budapest Government Office then issues an address card (lakcímkártya) and posts it to you. Since 1 February 2025 a separate fee is charged for issuing and posting the address card. The address card is needed later, e.g. for the tax ID and the TAJ card.",
+      "deadline": null,
+      "cost": "Separate fee since 1 Feb 2025 (amount not stated on the OIF page)",
+      "authority": "OIF; Budapest Capital Government Office (Budapest Főváros Kormányhivatala)",
+      "source_url": "https://oif.gov.hu/egt-allampolgar-regisztracios-igazolas-2",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The OIF page linking the address-card fee details returned 404 today, so the fee amount is unknown."
+    },
+    {
+      "id": "hu-registration-address-non-eu",
+      "topic": "registration",
+      "title": "Declaring your address as a non-EU student",
+      "title_it": "Dichiarazione dell'indirizzo per studenti extra-UE",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"]
+      },
+      "summary": "In the study-purpose residence-permit application you must declare a real Hungarian accommodation address on the form. Separate reporting obligations for third-country nationals exist, but the OIF factsheet on them could not be opened today.",
+      "deadline": null,
+      "cost": null,
+      "authority": "National Directorate-General for Aliens Policing (OIF)",
+      "source_url": "https://oif.gov.hu/tanulmanyi-cel",
+      "extra_sources": ["https://oif.gov.hu/en/reporting-obligations-notifications"],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Only the address-declaration-in-the-form part is verified. Deadlines for reporting a change of address and whether an address card is issued to non-EU students were not found (factsheet https://oif.gov.hu/factsheets/reporting-obligations returned 404)."
+    },
+    {
+      "id": "hu-tax-id",
+      "topic": "tax_id",
+      "title": "Tax identification number (adóazonosító jel) from NAV",
+      "title_it": "Codice fiscale ungherese (adóazonosító jel) dalla NAV",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["needed before you start paid work in Hungary"]
+      },
+      "summary": "A tax ID is required to work in Hungary and is not assigned automatically to foreigners. Request it from the tax authority NAV with form T34 (online via ONYA/ÁNYK, by post to the regional NAV directorate, or in person at a NAV office), with your ID/passport and address card. The first tax card is free; processing takes 15 days.",
+      "steps": [
+        "Fill in form T34 (online in ONYA or ÁNYK, or print and sign it).",
+        "Attach copies of your ID or passport and address card (originals if you go in person).",
+        "Submit by post to the regional NAV directorate or at a NAV customer service office."
+      ],
+      "deadline": "Before starting work",
+      "cost": "Free (first card); replacement HUF 4,000",
+      "authority": "National Tax and Customs Administration (Nemzeti Adó- és Vámhivatal, NAV)",
+      "source_url": "https://nav.gov.hu/Elethelyzetek-adozasa/kezdetek/Adoazonosito-jel-es-adokartya",
+      "extra_sources": ["https://nav.gov.hu/Elethelyzetek-adozasa/diakevek/Diakmunka"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "NAV page dated 2025-06-12. It does not distinguish EU and non-EU applicants or say how to apply without a Hungarian address."
+    },
+    {
+      "id": "hu-health-ehic-eu",
+      "topic": "health_insurance",
+      "title": "EHIC and health-insurance proof for EU/EEA students",
+      "title_it": "TEAM e prova di copertura sanitaria per studenti UE/SEE",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "other": ["insured in your home country", "not working in Hungary"]
+      },
+      "summary": "To register for stays over 90 days, EU/EEA students must prove health insurance for the whole stay or that they will pay for care themselves. The EHIC from your home country covers medically necessary care that cannot wait until you return home, including while studying abroad; it does not cover co-payments that locally insured people pay.",
+      "deadline": null,
+      "cost": null,
+      "authority": "OIF (registration requirement); NEAK (National Health Insurance Fund); European Commission (EHIC rules)",
+      "source_url": "https://oif.gov.hu/egt-allampolgar-regisztracios-igazolas-2",
+      "extra_sources": [
+        "https://europa.eu/youreurope/citizens/health/unplanned-healthcare/temporary-stays/index_en.htm",
+        "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_kulfoldon/az_europai_egeszsegbiztositasi_kartya/eu_kartya"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "The EHIC is accepted as the health-insurance proof for the registration certificate, since it covers studying abroad as a temporary stay.", "source_url": "https://europa.eu/youreurope/citizens/health/unplanned-healthcare/temporary-stays/index_en.htm" },
+        { "hypothesis": "OIF requires coverage 'for the whole stay'; whether an EHIC alone satisfies this for a multi-year degree is not stated, so a full-degree student may need private insurance.", "source_url": "https://oif.gov.hu/egt-allampolgar-regisztracios-igazolas-2" }
+      ],
+      "notes": "NEAK's English guide for temporary stays in Hungary is a PDF that could not be read today. NEAK's co-payment note is from its page for Hungarians abroad and states the general EHIC rule."
+    },
+    {
+      "id": "hu-health-insurance-work",
+      "topic": "health_insurance",
+      "title": "Health insurance and TAJ number when you work in Hungary",
+      "title_it": "Assicurazione sanitaria e numero TAJ se lavori in Ungheria",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "min_work_hours": "employment with insured status (registered by the employer with NAV)"
+      },
+      "summary": "Employment makes you insured in Hungary: the employer registers the insurance relationship with NAV. The TAJ (social security) card is requested from the government office (kormányhivatal) responsible for your residence; EEA citizens show their registration certificate, ID and address card. The first TAJ card is free; employers may request a TAJ number before work starts.",
+      "deadline": null,
+      "cost": "First TAJ card free",
+      "authority": "National Health Insurance Fund (NEAK) / county and Budapest government offices; NAV",
+      "source_url": "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/jogosultsag_az_ellatasra/ellatasra_jogosultsag_igazolasa/taj_kartya/taj_kartya_igenyles_kaidas",
+      "extra_sources": ["https://nav.gov.hu/Elethelyzetek-adozasa/diakevek/Diakmunka"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Processing up to 60 days (8 days in summary procedure). Under simplified employment (egyszerűsített foglalkoztatás) the TAJ covers only workplace-accident care."
+    },
+    {
+      "id": "hu-health-insurance-non-eu",
+      "topic": "health_insurance",
+      "title": "Health insurance for non-EU students",
+      "title_it": "Assicurazione sanitaria per studenti extra-UE",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"]
+      },
+      "summary": "Proof of health insurance (social insurance, an international agreement, or sufficient funds to pay for care) is required for the study residence permit and the visa. Foreign students enrolled under an international agreement or a Hungarian ministerial scholarship (e.g. Stipendium Hungaricum) are entitled to Hungarian public health care.",
+      "deadline": null,
+      "cost": null,
+      "authority": "OIF; NEAK",
+      "source_url": "https://oif.gov.hu/tanulmanyi-cel",
+      "extra_sources": [
+        "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/jogosultsag_az_ellatasra/az_egsszsegbiztositas_szolgaltatasaira_jogosultak/kizarolag_egeszsegugyi_ellatasra/kizarolag_eu_ellatasra_jogosultak",
+        "https://semmelweis.hu/admission/after-admission/student-visa/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No minimum coverage or price is stated by OIF or Semmelweis."
+    },
+    {
+      "id": "hu-health-service-contribution",
+      "topic": "health_insurance",
+      "title": "Health service contribution for uninsured residents",
+      "title_it": "Contributo per i servizi sanitari per residenti non assicurati",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "residence_requirement": "'domestic person' (e.g. EEA citizen with registered residence, long-term resident) with at least 1 year of uninterrupted registered residence in Hungary",
+        "other": ["not insured and no other entitlement to health services"]
+      },
+      "summary": "A domestic person who is not insured and has no other entitlement must pay the health service contribution: HUF 12,300/month (HUF 410/day) from 1 January 2026, due by the 12th of the following month. NAV usually imposes it automatically; otherwise register with form 08E.",
+      "deadline": "Monthly, by the 12th of the following month",
+      "cost": "HUF 12,300/month (2026)",
+      "authority": "NEAK; NAV",
+      "source_url": "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/jogosultsag_az_ellatasra/az_egsszsegbiztositas_szolgaltatasaira_jogosultak/egeszsegugyi_szolgaltatasi_jarulekfizetes/egeszsegugyi_szolgaltatasi_jarulek",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page does not mention students; whether a foreign student with registered residence falls under this after one year was not confirmed."
+    },
+    {
+      "id": "hu-bank-account",
+      "topic": "bank_account",
+      "title": "Basic payment account (alapszámla)",
+      "title_it": "Conto di pagamento di base (alapszámla)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["legally resident in the EU (EU right)", "no other payment account in use"]
+      },
+      "summary": "Every Hungarian payment provider must offer a basic account with a legally capped fee: HUF 1,334/month until 30 June 2026, at most HUF 1,454/month from 1 July 2026, including a card, free domestic HUF card payments and limited free withdrawals/transfers. Under EU law anyone legally resident in the EU may open one; banks cannot refuse just because you do not live in the country.",
+      "deadline": null,
+      "cost": "max HUF 1,454/month (from 1 July 2026)",
+      "authority": "Magyar Nemzeti Bank (MNB, central bank); European Commission (Your Europe)",
+      "source_url": "https://www.mnb.hu/fogyasztovedelem/bankszamlak/bankszamlavalasztas-es-bankszamlanyitas/alapszamla",
+      "extra_sources": ["https://europa.eu/youreurope/citizens/consumers/financial-products-and-services/bank-accounts-eu/index_en.htm"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Documents required are not listed on either page; check with the bank. Hungary also levies a transaction tax (0.45% on non-cash transfers, capped at HUF 20,000) per MNB."
+    },
+    {
+      "id": "hu-transport-card-student",
+      "topic": "transport_card",
+      "title": "Student discount on Budapest (BKK) passes",
+      "title_it": "Sconto studenti sugli abbonamenti BKK di Budapest",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "other": ["day or evening course (not correspondence)", "valid student ID", "from 15 June 2026: foreign EU/EEA/Swiss student IDs need an official Hungarian address document or accommodation certificate"]
+      },
+      "summary": "BKK student discounts are for EEA and Swiss citizens studying in day or evening courses. Foreign EU/EEA/Swiss student IDs need an official document proving a Hungarian address (from 15 June 2026); ISIC is accepted only if it names a school based outside Hungary. Price: see subsidies.json.",
+      "deadline": null,
+      "cost": "Monthly Budapest-pass for students HUF 3,450 (2026)",
+      "authority": "Budapest Közlekedési Központ (BKK)",
+      "source_url": "https://bkk.hu/en/tickets-and-passes/discounts/",
+      "extra_sources": ["https://bkk.hu/en/tickets-and-passes/prices/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Only EEA/Swiss citizens are entitled to student discounts (BKK wording); non-EU students pay full price.", "source_url": "https://bkk.hu/en/tickets-and-passes/discounts/" },
+        { "hypothesis": "Non-EU students enrolled at a Hungarian university and holding a Hungarian student ID might also be entitled; BKK's English page neither states nor excludes this explicitly. Confirm with BKK.", "source_url": "https://bkk.hu/en/tickets-and-passes/discounts/" }
+      ]
+    },
+    {
+      "id": "hu-student-work-non-eu",
+      "topic": "student_work",
+      "title": "Work rules for non-EU students with a study permit",
+      "title_it": "Regole di lavoro per studenti extra-UE con permesso di studio",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "other": ["holder of a study-purpose residence permit"]
+      },
+      "summary": "With a study-purpose residence permit you may work up to 30 hours per week during the study period (szorgalmi időszak), and outside it full-time for up to 90 days per year.",
+      "deadline": null,
+      "cost": null,
+      "authority": "National Directorate-General for Aliens Policing (OIF)",
+      "source_url": "https://oif.gov.hu/tanulmanyi-cel",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "A Hungarian tax ID is needed before starting work (see hu-tax-id)."
+    },
+    {
+      "id": "hu-student-work-eu",
+      "topic": "student_work",
+      "title": "Work rules for EU/EEA/Swiss students",
+      "title_it": "Regole di lavoro per studenti UE/SEE/svizzeri",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"]
+      },
+      "summary": "EU nationals generally do not need a work permit to work in another EU country, so no hour limit from immigration law applies. You need a Hungarian tax ID (form T34) before starting, and the employer registers your insurance with NAV. Work through a student cooperative (diákszövetkezet) follows special contribution rules.",
+      "deadline": null,
+      "cost": null,
+      "authority": "European Commission (Your Europe); NAV",
+      "source_url": "https://europa.eu/youreurope/citizens/work/work-abroad/work-permits/index_en.htm",
+      "extra_sources": ["https://nav.gov.hu/Elethelyzetek-adozasa/diakevek/Diakmunka"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Your Europe states the general EU rule and does not name Hungary or students; Swiss coverage is not stated on that page. Details of student-cooperative contributions (NAV leaflet 72) were not read."
+    },
+    {
+      "id": "hu-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "Statutory minimum wage and guaranteed minimum wage (2026)",
+      "title_it": "Salario minimo legale e salario minimo garantito (2026)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "From 1 January 2026 the minimum wage (minimálbér) is HUF 322,800/month gross and the guaranteed minimum wage (garantált bérminimum) is HUF 373,200/month gross. NAV gives no hourly figures and no youth rate.",
+      "deadline": null,
+      "cost": null,
+      "authority": "National Tax and Customs Administration (NAV)",
+      "source_url": "https://nav.gov.hu/ugyfeliranytu/adokulcsok_jarulekmertekek/minimalber_garantalt",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "NAV page dated 2026-01-05. The page does not define when the guaranteed minimum applies (it is not stated which jobs need a qualification), name the decree, or give 2027 amounts."
+    }
+  ]
+}

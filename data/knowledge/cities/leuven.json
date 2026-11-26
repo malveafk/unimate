@@ -1,0 +1,101 @@
+{
+  "city": "Leuven",
+  "slug": "leuven",
+  "country": "Belgium",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 400–750/month for a room (kot) with shared facilities; private-market rooms on average € 490–800/month incl. costs (AY 2025-26)",
+      "source_name": "KU Leuven housing pages",
+      "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/housing/students/types-of-accomodation",
+      "extra_sources": [
+        "https://www.kuleuven.be/english/life-at-ku-leuven/housing/students"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The type-of-accommodation range has no year; the € 490–800 private average is AY 2025-26. Extra costs may apply."
+    },
+    {
+      "field": "rent_studio",
+      "value": "€ 700–1,200/month for a studio (year not stated)",
+      "source_name": "KU Leuven housing pages",
+      "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/housing/students/types-of-accomodation",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "About € 1,050–1,400/month incl. rent (KU Leuven estimate for Belgium; page summary says € 1,000–1,350)",
+      "source_name": "KU Leuven – Cost of living in Belgium",
+      "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/money-matters/cost-of-living-in-belgium",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Monthly budget € 1,050–1,400 (figure in the body of the page).",
+          "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/money-matters/cost-of-living-in-belgium"
+        },
+        {
+          "hypothesis": "Monthly budget € 1,000–1,350 (figure in the page summary).",
+          "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/money-matters/cost-of-living-in-belgium"
+        }
+      ],
+      "notes": "Belgium-wide estimate, not Leuven-specific."
+    },
+    {
+      "field": "transport_pass",
+      "value": "De Lijn Buzzy Pazz Jongere (18–24): € 40/month, € 98/3 months, € 165/year (+ € 10 MOBIB fee)",
+      "source_name": "De Lijn",
+      "source_url": "https://www.delijn.be/nl/content/buzzy-pazz/jongere/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Prices shown on 2026-11-25; the page does not state the year."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate oceanic: mean 3.7 °C in January, 18.7 °C in July, 10.9 °C yearly; ~837 mm rain on ~190 days/year (Uccle/Brussels, 1991–2020)",
+      "source_name": "Wikipedia, citing Royal Meteorological Institute (Uccle normals 1991–2020)",
+      "source_url": "https://en.wikipedia.org/wiki/Brussels",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Station is Uccle (Brussels), about 25 km from Leuven; the KMI/IRM site itself could not be read."
+    },
+    {
+      "field": "social_life",
+      "value": "Large student city: KU Leuven has 65,000+ students; Pangaea intercultural centre for international students; 80+ sports at Sportcampus Arenberg",
+      "source_name": "KU Leuven – Social life Leuven",
+      "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/social-life/social-life-leuven",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Dutch is the local language; many student jobs require some level of Dutch",
+      "source_name": "KU Leuven – Student jobs",
+      "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/working-volunteering-and-career/student-jobs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page states 'many positions require some level of Dutch proficiency'."
+    },
+    {
+      "field": "job_market",
+      "value": "Jobs via KU Leuven Career Zone; often temporary/seasonal; Dutch-free jobs are competitive among internationals",
+      "source_name": "KU Leuven – Student jobs",
+      "source_url": "https://www.kuleuven.be/english/life-at-ku-leuven/working-volunteering-and-career/student-jobs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "No city figure; national minimum € 2,233.61 gross/month full-time for 18+ (from 1 July 2026); under-21 student-contract rates can be lower",
+      "source_name": "FPS Employment (Belgium)",
+      "source_url": "https://employment.belgium.be/en/themes/international/posting/working-conditions-be-respected-case-posting-belgium/remuneration",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Sector scales can be higher. Youth percentages (90/85/79% at 20/19/18) per Securex, not official."
+    }
+  ]
+}

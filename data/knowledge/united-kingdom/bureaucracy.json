@@ -1,0 +1,384 @@
+{
+  "country": "United Kingdom",
+  "country_code": "GB",
+  "currency": "GBP",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "Student visa (fee, CAS, funds, IHS), Standard Visitor + ETA for courses up to 6 months, EU Settlement Scheme, Irish citizens (Common Travel Area), Graduate visa (filed as 'other'). All on gov.uk." },
+    { "key": "registration", "result": "none_found", "note": "No general population/address register for residents was found on gov.uk. The practical registrations are GP registration (see health_insurance) and council tax / NI rates exemption (see subsidies.json, category tax). Whether police registration still exists for any nationality was not checked." },
+    { "key": "tax_id", "result": "found", "note": "National Insurance number (gov.uk/apply-national-insurance-number)." },
+    { "key": "health_insurance", "result": "found", "note": "IHS, NHS for stays of 6 months or less (EHIC), NHS with EUSS status, GP registration in England. Scotland/Wales/NI-specific NHS pages not read (NHS Inform returned 403)." },
+    { "key": "bank_account", "result": "not_researched", "note": "No official page could be opened (UKCISA, MoneyHelper and university pages returned 403/404). Record kept as status missing." },
+    { "key": "transport_card", "result": "found", "note": "16-25 Railcard (GB-wide rail), Scotland National Entitlement Card for under-22 free bus. TfL 18+ Student Oyster and Translink yLink / Wales MyTravelPass pages could not be opened." },
+    { "key": "student_work", "result": "found", "note": "Student visa limits (UKCISA), EUSS/Irish citizens (gov.uk), Standard Visitor (no work)." },
+    { "key": "minimum_wage", "result": "found", "note": "National Living Wage / National Minimum Wage, April 2026 and April 2027 rates (gov.uk)." }
+  ],
+  "items": [
+    {
+      "id": "gb-student-visa",
+      "topic": "residence_permit",
+      "title": "Student visa for courses longer than 6 months",
+      "title_it": "Student visa per corsi di oltre 6 mesi",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "age": { "min": 16 },
+        "stay_duration": "course longer than 6 months",
+        "other": [
+          "Not needed by Irish citizens (Common Travel Area) or by EU/EEA/Swiss citizens who hold settled or pre-settled status under the EU Settlement Scheme",
+          "Since 2021 this applies to EU/EEA/Swiss citizens without EUSS status too",
+          "Requires an offer from a licensed student sponsor"
+        ]
+      },
+      "summary": "You need an offer from a licensed student sponsor, enough money for the course and living costs, and English at the required level. Apply up to 6 months before the course starts from outside the UK (decision usually about 3 weeks). The healthcare surcharge is paid on top of the visa fee.",
+      "steps": [
+        "Get an unconditional offer and a Confirmation of Acceptance for Studies (CAS) from the university",
+        "Show the required funds (see gb-student-visa-funds)",
+        "Apply online up to 6 months before the course start and pay the fee plus the Immigration Health Surcharge"
+      ],
+      "deadline": "Earliest 6 months before the course starts (from outside the UK); from inside the UK up to 3 months before, and before the current visa expires",
+      "cost": "£558 application fee (2026) + Immigration Health Surcharge (£776/year)",
+      "authority": "UK Visas and Immigration (Home Office)",
+      "source_url": "https://www.gov.uk/student-visa",
+      "extra_sources": ["https://www.gov.uk/student-visa/money"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "gb-student-visa-funds",
+      "topic": "residence_permit",
+      "title": "Student visa: money you must show",
+      "title_it": "Student visa: fondi da dimostrare",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "stay_duration": "course longer than 6 months",
+        "other": ["Student visa applicants only", "Exempt if you have lived in the UK on a valid visa for at least 12 months before applying"]
+      },
+      "summary": "Besides one year of course fees (as shown on the CAS), you must show living costs of £1,529/month in London or £1,171/month elsewhere, for up to 9 months. The money must have been held for 28 consecutive days, ending within 31 days of the application.",
+      "cost": "Living costs: £1,529/month London, £1,171/month outside London, max 9 months (2026)",
+      "authority": "UK Visas and Immigration (Home Office)",
+      "source_url": "https://www.gov.uk/student-visa/money",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "London = City of London and the 32 London boroughs. Some nationalities on the 'differential evidence requirement' list may not need to submit the evidence upfront but can be asked for it."
+    },
+    {
+      "id": "gb-standard-visitor-short-course",
+      "topic": "residence_permit",
+      "title": "Short courses (up to 6 months) as a Standard Visitor",
+      "title_it": "Corsi brevi (fino a 6 mesi) come Standard Visitor",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "stay_duration": "6 months or less",
+        "other": ["Not relevant for Irish citizens or EUSS status holders", "Course at an accredited UK institution"]
+      },
+      "summary": "You can study for up to 6 months as a visitor at an accredited UK institution. Visitors cannot do paid or unpaid work and cannot claim benefits. Depending on nationality you need a visitor visa, an ETA, or nothing; most European nationals need an ETA.",
+      "cost": "No visa fee if you only need an ETA (ETA £20)",
+      "authority": "UK Visas and Immigration (Home Office)",
+      "source_url": "https://www.gov.uk/standard-visitor/visit-to-study",
+      "extra_sources": ["https://www.gov.uk/standard-visitor"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No Immigration Health Surcharge for stays of 6 months or less; NHS hospital care may be charged unless you have an EHIC (see gb-nhs-short-stay)."
+    },
+    {
+      "id": "gb-eta",
+      "topic": "residence_permit",
+      "title": "Electronic Travel Authorisation (ETA)",
+      "title_it": "Electronic Travel Authorisation (ETA)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "stay_duration": "visits up to 6 months",
+        "other": ["Usually needed by nationals of European countries, the USA, Canada, Australia and others who do not need a visa", "Not needed with a British or Irish passport, or if you already have UK permission to live, work or study (e.g. Student visa, EUSS status)"]
+      },
+      "summary": "Most European visitors need an ETA rather than a visa to enter the UK for up to 6 months. Each traveller needs their own ETA.",
+      "cost": "£20 (2026)",
+      "authority": "UK Visas and Immigration (Home Office)",
+      "source_url": "https://www.gov.uk/eta",
+      "extra_sources": ["https://www.gov.uk/guidance/apply-for-an-electronic-travel-authorisation-eta"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "How many years one ETA stays valid is not stated on the pages read. Check the exact nationality rule with the gov.uk 'check if you need a UK visa' tool."
+    },
+    {
+      "id": "gb-euss",
+      "topic": "residence_permit",
+      "title": "EU Settlement Scheme (settled / pre-settled status)",
+      "title_it": "EU Settlement Scheme (settled / pre-settled status)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "residence_requirement": "Living in the UK by 31 December 2020, or a joining family member of such a person",
+        "other": ["Main deadline was 30 June 2021; later applications only in specific cases (joining family members, reasonable grounds)", "Not available to EU students who first moved to the UK after 2020: they need a Student visa"]
+      },
+      "summary": "EU/EEA/Swiss citizens living in the UK by the end of 2020 (and their joining family members) could apply for settled status (usually after 5 years of residence) or pre-settled status. Either status lets you work, study and use the NHS. Pre-settled status is lost after more than 5 consecutive years outside the UK (4 for Swiss citizens).",
+      "cost": "Free",
+      "authority": "Home Office",
+      "source_url": "https://www.gov.uk/settled-status-eu-citizens-families",
+      "extra_sources": ["https://www.gov.uk/settled-status-eu-citizens-families/what-settled-and-presettled-status-means"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "EUSS status decides home fee status and student finance eligibility (see subsidies.json). Pre-settled status is extended by 5 years before it expires and may convert automatically to settled status."
+    },
+    {
+      "id": "gb-irish-cta",
+      "topic": "residence_permit",
+      "title": "Irish citizens: no visa or permission needed (Common Travel Area)",
+      "title_it": "Cittadini irlandesi: nessun visto o permesso (Common Travel Area)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea"],
+        "other": ["Irish citizens only"]
+      },
+      "summary": "Irish citizens do not need permission to enter or live in the UK. They can work (including self-employed), study at all levels on the same basis as UK citizens, use healthcare and access social security. They do not need to apply to the EU Settlement Scheme.",
+      "cost": "None",
+      "authority": "Home Office",
+      "source_url": "https://www.gov.uk/government/publications/common-travel-area-guidance/common-travel-area-guidance",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "gb-graduate-visa",
+      "topic": "other",
+      "title": "Graduate visa (staying to work after your degree)",
+      "title_it": "Graduate visa (restare a lavorare dopo la laurea)",
+      "applies_to": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "other": ["Must be in the UK on a Student (or Tier 4) visa and have completed an eligible course", "Not needed by Irish citizens or EUSS status holders"]
+      },
+      "summary": "After finishing an eligible UK degree on a Student visa you can apply to stay and work in most jobs. Length: 2 years if you apply on or before 31 December 2026, 18 months if you apply on or after 1 January 2027, 3 years after a PhD.",
+      "deadline": "Apply before your Student visa expires",
+      "cost": "£937 fee + Immigration Health Surcharge, usually £1,035 per year (2026)",
+      "authority": "UK Visas and Immigration (Home Office)",
+      "source_url": "https://www.gov.uk/graduate-visa",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "gb-ni-number",
+      "topic": "tax_id",
+      "title": "National Insurance number",
+      "title_it": "National Insurance number (codice previdenziale/fiscale)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["Needed if you work; you must live in the UK and have the right to work", "Student visa holders may already have it on their BRP or eVisa (UKVI account)"]
+      },
+      "summary": "The National Insurance number is the UK number used for work, tax and contributions. Apply online once you are in the UK and have the right to work; you can start working before it arrives if you can prove your right to work.",
+      "steps": [
+        "Check your eVisa (UKVI account) or BRP: you may already have one",
+        "Apply online from inside the UK with your passport or EU/EEA/Swiss ID card and prove your identity",
+        "Wait up to 4 weeks after identity is proved"
+      ],
+      "cost": "No fee mentioned on the official page",
+      "authority": "HM Revenue & Customs / Department for Work and Pensions",
+      "source_url": "https://www.gov.uk/apply-national-insurance-number",
+      "extra_sources": ["https://www.gov.uk/apply-national-insurance-number/how-to-apply"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "gb-ihs",
+      "topic": "health_insurance",
+      "title": "Immigration Health Surcharge (IHS) for Student visa holders",
+      "title_it": "Immigration Health Surcharge (IHS) per chi ha lo Student visa",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "stay_duration": "visa longer than 6 months",
+        "other": ["Student visa applicants (EU/EEA/Swiss citizens without EUSS status included)"]
+      },
+      "summary": "Student visa applicants pay the IHS upfront for the whole visa. It gives NHS hospital care much like a resident, though some charges such as prescriptions or dental can still apply. Over 6 months and up to a year counts as a full year; partial extra years over 6 months are charged as half a year.",
+      "cost": "£776 per year for students (2026); 18 months or less = £1,164",
+      "authority": "Home Office / NHS",
+      "source_url": "https://www.gov.uk/healthcare-immigration-application/how-much-pay",
+      "extra_sources": ["https://www.nhs.uk/nhs-services/visiting-or-moving-to-england/how-to-access-nhs-services-in-england-if-you-are-visiting-from-abroad/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Full-time EU/EEA/Swiss students with an EHIC who do not work can ask for a refund: see subsidies.json gb-ihs-reimbursement-eu."
+    },
+    {
+      "id": "gb-nhs-short-stay",
+      "topic": "health_insurance",
+      "title": "Healthcare for stays of 6 months or less (EHIC)",
+      "title_it": "Sanità per soggiorni fino a 6 mesi (TEAM/EHIC)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "6 months or less",
+        "other": ["Without EUSS status"]
+      },
+      "summary": "For stays of 6 months or less no IHS is paid. A valid EHIC covers medically necessary treatment during the stay, but the UK government still advises buying travel/health insurance. Without cover, NHS hospital treatment for people who are not ordinarily resident can be charged at 150% of the NHS rate.",
+      "authority": "Department of Health and Social Care / NHS England",
+      "source_url": "https://www.gov.uk/guidance/healthcare-for-eu-citizens-living-in-or-moving-to-the-uk-from-1-january-2021",
+      "extra_sources": ["https://www.nhs.uk/nhs-services/visiting-or-moving-to-england/how-to-access-nhs-services-in-england-if-you-are-visiting-from-abroad/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The NHS page notes that Icelandic, Liechtenstein and Swiss visitors may be charged and should check with their home authority. Rules read are for England; Scotland, Wales and NI pages were not opened."
+    },
+    {
+      "id": "gb-nhs-euss",
+      "topic": "health_insurance",
+      "title": "Free NHS care with settled or pre-settled status",
+      "title_it": "NHS gratuito con settled o pre-settled status",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "other": ["Holders of settled or pre-settled status, or with a pending EUSS application (certificate of application)"]
+      },
+      "summary": "EU citizens living in the UK after 30 June 2021 get free NHS healthcare only if they have settled or pre-settled status, or proof of a pending application. Free hospital treatment depends on being 'ordinarily resident'.",
+      "authority": "Department of Health and Social Care",
+      "source_url": "https://www.gov.uk/guidance/healthcare-for-eu-citizens-living-in-or-moving-to-the-uk-from-1-january-2021",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "gb-gp-registration-england",
+      "topic": "health_insurance",
+      "title": "Registering with a GP (family doctor) in England",
+      "title_it": "Registrarsi da un medico di base (GP) in Inghilterra",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Anyone in England, including temporary visitors from abroad, can register with a GP surgery for free. You do not need ID, proof of address or proof of immigration status, although a surgery may ask for documents in some cases.",
+      "cost": "Free",
+      "authority": "NHS England",
+      "source_url": "https://www.nhs.uk/nhs-services/gps/how-to-register-with-a-gp-surgery/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "England only. Scotland, Wales and Northern Ireland have their own NHS bodies; their GP rules were not checked."
+    },
+    {
+      "id": "gb-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a bank account",
+      "title_it": "Aprire un conto in banca",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "No official page on opening a bank account as a foreign student could be read. Ask your university's international student office which documents UK banks accept.",
+      "authority": "UK Council for International Student Affairs (UKCISA) / university",
+      "source_url": "https://www.ukcisa.org.uk/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "UKCISA, MoneyHelper and university pages returned 403/404 on 2026-11-25."
+    },
+    {
+      "id": "gb-16-25-railcard",
+      "topic": "transport_card",
+      "title": "16-25 Railcard",
+      "title_it": "16-25 Railcard (sconto treni)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": { "min": 16, "max": 25 },
+        "other": ["Mature students 26+ in full-time education can apply with a form endorsed by their university"]
+      },
+      "summary": "Rail discount card for 16-25 year olds valid across Great Britain. Buy it online; the 1-year card can be bought up to the day before your 26th birthday, the 3-year card up to the day before your 24th.",
+      "cost": "£35 for 1 year, £80 for 3 years (2026)",
+      "authority": "Rail Delivery Group (16-25 Railcard)",
+      "source_url": "https://www.16-25railcard.co.uk/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Discount details are in subsidies.json (gb-railcard-discount)."
+    },
+    {
+      "id": "gb-scotland-nec",
+      "topic": "transport_card",
+      "title": "Scotland: National Entitlement Card for free bus travel (under 22)",
+      "title_it": "Scozia: National Entitlement Card per bus gratis (under 22)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": { "max": 21 },
+        "residence_requirement": "Live in Scotland",
+        "other": ["Whether international/EU students living in Scotland during studies qualify is not stated on the page"]
+      },
+      "summary": "Under-22s who live in Scotland get free bus travel with a National Entitlement Card (or Young Scot NEC). Apply online at getyournec.scot (up to 10 working days) or through your council, with ID, proof of address and a photo. A university matriculation card is not valid for free travel.",
+      "cost": "Free",
+      "authority": "Transport Scotland",
+      "source_url": "https://www.transport.gov.scot/concessionary-travel/young-persons-free-bus-travel-scheme/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "For international students, ask Transport Scotland (concessionarytravel@transport.gov.scot) or the local council."
+    },
+    {
+      "id": "gb-work-student-visa",
+      "topic": "student_work",
+      "title": "Working on a Student visa",
+      "title_it": "Lavorare con lo Student visa",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "other": ["Student visa holders on a full-time course with a university sponsor", "Part-time postgraduates and students at private providers/pathway colleges generally may not work"]
+      },
+      "summary": "Degree-level students can work up to 20 hours a week in term time (10 hours below degree level) and full-time outside term time. Self-employment, business activity, professional sport/coaching, work as an entertainer and permanent full-time jobs are not allowed. Always check the conditions on your own visa.",
+      "authority": "UK Visas and Immigration (Home Office)",
+      "source_url": "https://www.ukcisa.org.uk/student-advice/working/student-work/",
+      "extra_sources": ["https://www.gov.uk/student-visa/what-you-can-and-cannot-do"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The gov.uk page does not state the hour limits; the 20/10 hours come from UKCISA (independent advisory body). Term time = the periods your university expects you to study."
+    },
+    {
+      "id": "gb-work-euss-irish",
+      "topic": "student_work",
+      "title": "Working with EUSS status or as an Irish citizen",
+      "title_it": "Lavorare con EUSS status o da cittadino irlandese",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "other": ["Holders of settled or pre-settled status, or Irish citizens"]
+      },
+      "summary": "Settled/pre-settled status holders and Irish citizens can work in the UK without the hour limits of the Student visa; Irish citizens can also be self-employed.",
+      "authority": "Home Office",
+      "source_url": "https://www.gov.uk/settled-status-eu-citizens-families/what-settled-and-presettled-status-means",
+      "extra_sources": ["https://www.gov.uk/government/publications/common-travel-area-guidance/common-travel-area-guidance"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Working can stop an EU student from claiming the IHS refund (subsidies.json gb-ihs-reimbursement-eu)."
+    },
+    {
+      "id": "gb-work-visitor",
+      "topic": "student_work",
+      "title": "No work as a Standard Visitor",
+      "title_it": "Nessun lavoro come Standard Visitor",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss", "non_eu"],
+        "stay_duration": "6 months or less"
+      },
+      "summary": "Visitors (including those studying a short course on an ETA) cannot do paid or unpaid work for a UK company or as self-employed, except permitted paid engagements.",
+      "authority": "UK Visas and Immigration (Home Office)",
+      "source_url": "https://www.gov.uk/standard-visitor",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "gb-minimum-wage-2026",
+      "topic": "minimum_wage",
+      "title": "National Living Wage and National Minimum Wage (from April 2026)",
+      "title_it": "Salario minimo legale (da aprile 2026)",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Hourly legal minimum, same across the UK: £12.71 at 21 and over (National Living Wage), £10.85 at 18-20, £8.00 under 18 and for apprentices. Valid from 1 April 2026 to 31 March 2027.",
+      "cost": null,
+      "authority": "HM Government (Department for Business and Trade / HMRC enforcement)",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "gb-minimum-wage-2027",
+      "topic": "minimum_wage",
+      "title": "National Living Wage and National Minimum Wage (from April 2027)",
+      "title_it": "Salario minimo legale (da aprile 2027)",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Rates published for 1 April 2027: £13.21 at 21 and over, £11.27 at 18-20, £8.31 under 18 and for apprentices.",
+      "authority": "HM Government (Department for Business and Trade / HMRC enforcement)",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Apprentice rate applies to apprentices under 19 or in the first year of the apprenticeship."
+    }
+  ]
+}

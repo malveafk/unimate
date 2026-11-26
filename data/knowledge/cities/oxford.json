@@ -1,0 +1,90 @@
+{
+  "city": "Oxford",
+  "slug": "oxford",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "College accommodation incl. bills about £825–£990/month (University estimate, 2026-27).",
+      "source_name": "University of Oxford, undergraduate living costs",
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate/fees-and-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "The official page returned HTTP 403 to our fetcher; figure taken from a search-engine extract of ox.ac.uk pages. A human should confirm on the page."
+    },
+    {
+      "field": "rent_studio",
+      "value": "£1,345/month average private rent, one-bedroom (Oxford, Oct 2026); all private rents average £1,956/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E07000178/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "£1,405–£2,105/month for a single student in college accommodation incl. bills (University estimate, 2026-27).",
+      "source_name": "University of Oxford, undergraduate living costs",
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate/fees-and-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Official page returned HTTP 403 to our fetcher; figure from a search-engine extract of ox.ac.uk/uglivingcosts. Confirm manually."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Oxford",
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate/fees-and-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No bus pass price opened for Oxford."
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 2.4–8.0°C, Jul avg 13.1–23.1°C (min–max); about 682 mm rain/year. Met Office Oxford station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcpn7q8xv",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Oxford",
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate/fees-and-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Oxford",
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate/fees-and-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

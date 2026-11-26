@@ -1,0 +1,103 @@
+{
+  "city": "Freiburg",
+  "slug": "freiburg",
+  "country": "Germany",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "~€609/month warm (€536 cold) for a model 20 m² shared-flat (WG) room, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "rent_studio",
+      "value": "~€643/month warm (€533 cold) for a model 30 m² student flat, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "≈ €1,207/month for EU students; ≈ €1,457 for non-EU incl. €1,500/semester tuition (rent €500, food €220, transport €150)",
+      "source_name": "University of Freiburg (OSA International)",
+      "source_url": "https://www.osa.uni-freiburg.de/international/freiburg/financing/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Based on 2021 and 2023 data plus inflation; approximate. Semester fee €190."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No ticket in the €190 semester fee; the university budget assumes ~€150/month for transport",
+      "source_name": "University of Freiburg (OSA International)",
+      "source_url": "https://www.osa.uni-freiburg.de/international/freiburg/financing/",
+      "extra_sources": [
+        "https://uni-freiburg.de/en/studies/during-your-studies/semester-fees-and-tuition/",
+        "https://www.bundesregierung.de/breg-de/aktuelles/deutschlandticket-2134074"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No local student ticket price found; the Deutschlandticket costs €63/month in 2026 (Bundesregierung)."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate; mean Jan 2.5 °C, Jul 20.1 °C, year 11.0 °C, ~887 mm rain/yr, ~1,815 h sun/yr (DWD station Freiburg, 1991–2020 normals)",
+      "source_name": "Deutscher Wetterdienst (DWD) climate normals 1991-2020",
+      "source_url": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Temperatur_1991-2020.txt",
+      "extra_sources": [
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Sonnenscheindauer_1991-2020.txt",
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Niederschlag_1991-2020.txt"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "DWD multi-annual means 1991-2020 for station 'Freiburg'."
+    },
+    {
+      "field": "social_life",
+      "value": "~33,000 students (2025 est.) in Freiburg, 14.0 per 100 inhabitants",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "Student counts from the MLP Studentenwohnreport 2026 (2025 values estimated by trend). Whether this makes a lively student scene is a judgement."
+    },
+    {
+      "field": "language_needed",
+      "value": "German is the teaching language of most degree programmes; English-taught international programmes usually need only English proof. German makes daily life and social life much easier.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/living-in-germany/german-language/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Germany-wide DAAD guidance, not city-specific; exchange stays of 1-2 semesters may be exempt from German proof."
+    },
+    {
+      "field": "job_market",
+      "value": "Germany-wide (DAAD): waiting tables, shops, offices, tutoring, trade fairs, industry, university student-assistant jobs.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "No city-specific student job-market data found; DAAD national guidance. Non-EU students: 140 full / 280 half days per year (student-assistant jobs exempt); EU/EEA/Swiss: unrestricted."
+    },
+    {
+      "field": "student_wage",
+      "value": "Min. €13.90/h gross (statutory, 2026; €14.60 from 2027). University student assistants (SHK): €15.20/h from summer semester 2026 (TdL guideline)",
+      "source_name": "TdL guideline for student assistants (30 Mar 2026) + Bundesregierung (minimum wage)",
+      "source_url": "https://www.uni-siegen.de/files/default/media/documents/2026-04/2026-04-01__rl__tdl_arbeitsbedingungen_whk_shk_april_2026.pdf",
+      "extra_sources": [
+        "https://www.bundesregierung.de/breg-de/aktuelles/mindestlohn-steigt-2391010",
+        "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "TdL guideline applies to state universities in TdL member Länder; check your university's own rate. DAAD: many side jobs pay at or a little above the minimum wage. Baden-Württemberg is a TdL member."
+    }
+  ]
+}

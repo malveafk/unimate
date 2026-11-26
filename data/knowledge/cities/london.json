@@ -1,0 +1,100 @@
+{
+  "city": "London",
+  "slug": "london",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Queen Mary halls 2026-27: single room £176.75–£233.59/week (38.3-week contract); twin £144.27/week per person.",
+      "source_name": "Queen Mary University of London, residence fees 2026-27",
+      "source_url": "https://www.qmul.ac.uk/residences/college/fees/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.kcl.ac.uk/accommodation/residences",
+        "https://www.lse.ac.uk/student-life/accommodation/prices-and-payments"
+      ],
+      "notes": "Other catalogue universities: King's residences listed 'from £169/week' (Vega) up to 'from £414/week' (Battersea); LSE says rates start from £100/week for a shared self-catered room. Neither page states the year on the figures read. UCL and Imperial pages returned HTTP 403."
+    },
+    {
+      "field": "rent_studio",
+      "value": "One-bedroom average private rent, Oct 2026: Camden £2,069, Tower Hamlets £2,005, Westminster £2,563, Kensington & Chelsea £2,691/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E09000007/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.ons.gov.uk/visualisations/housingpriceslocal/E09000030/",
+        "https://www.ons.gov.uk/visualisations/housingpriceslocal/E09000033/",
+        "https://www.ons.gov.uk/visualisations/housingpriceslocal/E09000020/",
+        "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/privaterentandhousepricesuk/latest"
+      ],
+      "notes": "Boroughs chosen for UCL/King's (Camden, Westminster), Imperial (Kensington & Chelsea), Queen Mary (Tower Hamlets). London-wide average across all property sizes: £2,350/month (Oct 2026). No separate studio figure; one-bedroom used as proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "No university budget page could be read. UK Student visa benchmark for London: £1,529/month (up to 9 months).",
+      "source_name": "GOV.UK Student visa: money",
+      "source_url": "https://www.gov.uk/student-visa/money",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "This is the visa financial requirement, not a measured cost of living; real costs are often higher. UCL and Imperial cost-of-living pages returned HTTP 403."
+    },
+    {
+      "field": "transport_pass",
+      "value": "TfL 18+ Student Oyster photocard gives discounted travel for students aged 18+ living in a London borough; discount and price not shown on the page read.",
+      "source_name": "Transport for London",
+      "source_url": "https://tfl.gov.uk/fares/free-and-discounted-travel/18-plus-student-oyster-photocard",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Check the exact discount and Travelcard prices on tfl.gov.uk."
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 2.3–7.5°C, Jul avg 13.3–22.7°C (min–max); about 722 mm rain/year. Met Office Hampstead station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcpvhgy2t",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "Queen Mary University of London",
+      "source_url": "https://www.qmul.ac.uk/residences/college/fees/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "Queen Mary University of London",
+      "source_url": "https://www.qmul.ac.uk/residences/college/fees/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

@@ -1,0 +1,490 @@
+{
+  "country": "Portugal",
+  "country_code": "PT",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    {
+      "key": "residence_permit",
+      "result": "found"
+    },
+    {
+      "key": "registration",
+      "result": "found",
+      "note": "No separate population register; address goes through Certificado de Registo (EU) or AIMA (non-EU)."
+    },
+    {
+      "key": "tax_id",
+      "result": "found",
+      "note": "NIF verified on AT leaflet; NISS only indirectly (seg-social.pt not readable)."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found"
+    },
+    {
+      "key": "bank_account",
+      "result": "found",
+      "note": "EU basic payment account right verified; Banco de Portugal page blocked."
+    },
+    {
+      "key": "transport_card",
+      "result": "found",
+      "note": "Lisbon (Navegante) and Porto (Andante) only."
+    },
+    {
+      "key": "student_work",
+      "result": "found"
+    },
+    {
+      "key": "minimum_wage",
+      "result": "found",
+      "note": "€ 920/month 2026; only a non-official source could be read."
+    }
+  ],
+  "items": [
+    {
+      "id": "pt-residence-eu",
+      "topic": "residence_permit",
+      "title": "EU registration certificate (Certificado de Registo) for stays over 3 months",
+      "title_it": "Certificato di registrazione UE per soggiorni oltre 3 mesi",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "stay_duration": "more than 3 months",
+        "other": [
+          "Also covers Andorra nationals"
+        ]
+      },
+      "summary": "EU/EEA/Swiss citizens can stay up to 3 months with a valid ID or passport. For longer stays they must request the Certificado de Registo at the Câmara Municipal (city hall) of their area of residence; students declare enrolment in a recognised school, sufficient resources and health insurance (sworn statement).",
+      "steps": [
+        "Register an address in Portugal",
+        "Go to (or apply online with) the Câmara Municipal of your area of residence",
+        "Present a valid ID card or passport and a sworn statement of enrolment, sufficient resources and health insurance",
+        "Pay the fee; minimum issuing time 1 month"
+      ],
+      "deadline": "Within 30 days after the first 3 months from entry",
+      "cost": "€ 12.50 (under 25, digital) / € 15.00 (under 25 in person or over 25 digital) / € 18.00 (over 25 in person), AIMA fee table (Portaria 13/2024)",
+      "authority": "Câmara Municipal (municipality); framework by AIMA",
+      "source_url": "https://aima.gov.pt/pt/nacionais-ue-e-familiares/nacionais-ue/certificado-de-registo-para-nacionais-ue",
+      "extra_sources": [
+        "https://aima.gov.pt/documents/tabela-de-taxas-e-demais-encargos-a-cobrar-pelos-procedimentos-administrativos.pdf",
+        "https://www.gov.pt/en/guias/residir-em-portugal",
+        "https://portaldomunicipe.cm-porto.pt/documents/20122/1130484/Suporte%2Binformativo_Portugu%C3%AAs_16_12_2024.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "gov.pt guide says the certificate is valid 5 years (or the planned stay if shorter) and failure to apply can lead to a fine of € 400-1,500. gov.pt quotes a flat € 15 fee; the AIMA fee table differentiates by age and channel. Porto offers online submission via its Portal do Munícipe."
+    },
+    {
+      "id": "pt-residence-non-eu-visa",
+      "topic": "residence_permit",
+      "title": "Study residence visa for non-EU degree students",
+      "title_it": "Visto di residenza per studio per studenti extra-UE",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "stay_duration": "more than 1 year / full programme"
+      },
+      "summary": "Non-EU students coming for a full higher-education programme normally apply for a residence visa for study at the Portuguese consulate. The residence visa is valid for two entries and four months; within that period the holder must apply for a residence permit with AIMA.",
+      "steps": [
+        "Apply for the residence visa for study at the Portuguese consulate/visa centre in your country",
+        "Enter Portugal within the visa validity",
+        "Book and apply for the student residence permit (art. 91) at AIMA within the 4-month visa period"
+      ],
+      "deadline": "Residence permit to be requested during the 4-month validity of the visa",
+      "cost": null,
+      "authority": "Ministério dos Negócios Estrangeiros (consulates); AIMA",
+      "source_url": "https://vistos.mne.gov.pt/en/national-visas/general-information/type-of-visa",
+      "extra_sources": [
+        "https://aima.gov.pt/pt/estudar/autorizacao-de-residencia-emitida-a-estudantes-do-ensino-superior-art-o-91"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The MNE page also lists temporary stay visas (up to one year) for study programmes over 3 months; consular fees and document lists were not checked."
+    },
+    {
+      "id": "pt-residence-non-eu-permit",
+      "topic": "residence_permit",
+      "title": "Residence permit for higher-education students (art. 91 REPSAE)",
+      "title_it": "Permesso di soggiorno per studenti universitari (art. 91)",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "stay_duration": "more than 3 months"
+      },
+      "summary": "AIMA grants a residence permit to non-EU higher-education students holding a study residence visa who prove enrolment, payment of tuition where applicable, means of subsistence and health insurance (or SNS coverage). It is valid 3 years, renewable, or for the programme length if shorter.",
+      "steps": [
+        "Book an appointment with AIMA (electronic platform being rolled out for visa holders)",
+        "Bring passport, residence visa, sworn address statement plus landlord declaration, proof of means of subsistence, criminal record certificate",
+        "Bring proof of enrolment, proof of tuition payment and health insurance (or proof of SNS coverage)"
+      ],
+      "deadline": null,
+      "cost": "AIMA fee table (Portaria 307/2023): € 133.00 application analysis + € 114.30 permit issue (higher column; a lower 'atendimento presencial e digital' column lists € 99.80 + € 85.80). Confirm at booking.",
+      "authority": "AIMA - Agência para a Integração, Migrações e Asilo",
+      "source_url": "https://aima.gov.pt/pt/estudar/autorizacao-de-residencia-emitida-a-estudantes-do-ensino-superior-art-o-91",
+      "extra_sources": [
+        "https://aima.gov.pt/documents/tabela-de-taxas-e-demais-encargos-a-cobrar-pelos-procedimentos-administrativos.pdf",
+        "https://aima.gov.pt/pt/temas-transversais/meios-de-subsistencia"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Means of subsistence are referenced to the monthly minimum wage (Portaria 1563/2007); AIMA's page still quotes the 2025 value of € 870, while the 2026 minimum wage is € 920.",
+          "source_url": "https://aima.gov.pt/pt/temas-transversais/meios-de-subsistencia"
+        }
+      ],
+      "notes": "Fee table has two price columns; which one applies to a given appointment was not clear from the PDF. Camões scholarship holders are exempt from some documents."
+    },
+    {
+      "id": "pt-residence-non-eu-no-visa",
+      "topic": "residence_permit",
+      "title": "Applying for a student residence permit without a visa",
+      "title_it": "Richiesta del permesso per studenti senza visto",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "Already in Portugal, entered legally without a study residence visa"
+        ]
+      },
+      "summary": "Since December 2025 AIMA runs an online contact form to book appointments for foreign higher-education students without a visa. A scanned passport, proof of enrolment and proof of tuition payment are required; AIMA books only after the university confirms enrolment, attendance and payment.",
+      "steps": [
+        "Fill the AIMA contact form (contactenos.aima.gov.pt/contact-form)",
+        "Upload passport, enrolment proof and tuition payment proof",
+        "Wait for validation by the university and an appointment"
+      ],
+      "deadline": null,
+      "cost": "AIMA fee table lists € 307.20 (or € 230.40) for a request for exemption from the consular visa under art. 91(4), on top of permit fees",
+      "authority": "AIMA",
+      "source_url": "https://aima.gov.pt/pt/noticias/edido-de-agendamento-para-estudantes-do-ensino-superior-e-altamente-qualificados-sem-visto",
+      "extra_sources": [
+        "https://aima.gov.pt/documents/tabela-de-taxas-e-demais-encargos-a-cobrar-pelos-procedimentos-administrativos.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Whether the visa-exemption fee is charged in every no-visa case was not confirmed; ask AIMA."
+    },
+    {
+      "id": "pt-residence-non-eu-mobility",
+      "topic": "residence_permit",
+      "title": "Non-EU exchange students with a student permit from another EU country (art. 91-A)",
+      "title_it": "Studenti extra-UE in scambio con permesso di un altro Paese UE (art. 91-A)",
+      "applies_to": {
+        "student_type": [
+          "exchange"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "stay_duration": "up to 360 days",
+        "other": [
+          "Holds an EU-state residence permit marked 'higher education student'",
+          "Covered by an EU/multilateral mobility programme or inter-university agreement"
+        ]
+      },
+      "summary": "Non-EU students holding a student residence permit from another EU state and covered by an EU/multilateral programme or inter-institution agreement may study (and work under art. 97) in Portugal for up to 360 days, provided they notify AIMA at least 30 days before mobility starts. AIMA issues a declaration.",
+      "steps": [
+        "Email comunicacao.mobilidade.ue@aima.gov.pt (student or university)",
+        "Attach Modelo 6 form, permit copy, passport, admission proof, criminal record, proof of means, health insurance",
+        "Pay the € 29.80 fee by bank transfer"
+      ],
+      "deadline": "At least 30 days before the mobility period starts",
+      "cost": "€ 29.80",
+      "authority": "AIMA",
+      "source_url": "https://aima.gov.pt/pt/estudar/mobilidade-de-estudantes-do-ensino-superior-art-91-o-a",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-registration",
+      "topic": "registration",
+      "title": "Address registration: no separate population register for foreign students",
+      "title_it": "Registrazione dell'indirizzo: nessun registro anagrafico separato",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Portugal has no separate population-register step for foreign students: EU citizens register their residence through the Certificado de Registo at the city hall; non-EU nationals have their address recorded in the AIMA residence permit procedure (sworn address statement). Non-EU nationals entering from another Schengen country must declare their entry to AIMA within 3 working days unless they already hold a residence title.",
+      "deadline": "EU: 30 days after the first 3 months; non-EU entry declaration: 3 working days",
+      "authority": "Câmara Municipal / AIMA",
+      "source_url": "https://www.gov.pt/en/guias/residir-em-portugal",
+      "extra_sources": [
+        "https://aima.gov.pt/pt/nacionais-ue-e-familiares/nacionais-ue/certificado-de-registo-para-nacionais-ue",
+        "https://aima.gov.pt/pt/estudar/autorizacao-de-residencia-emitida-a-estudantes-do-ensino-superior-art-o-91"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Synthesis of the gov.pt 'Residir em Portugal' guide and the AIMA pages; the gov.pt guide still mentions SEF in one passage. The 'no separate register' wording is our reading of these pages, not an explicit statement."
+    },
+    {
+      "id": "pt-tax-id-nif",
+      "topic": "tax_id",
+      "title": "Tax number (NIF) for foreign students",
+      "title_it": "Codice fiscale portoghese (NIF) per studenti stranieri",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Any Portuguese or foreign person, resident or not, can request a NIF from the Tax Authority (AT). Apply online via e-balcão through a legal representative, or in person by appointment at a Serviço de Finanças or Loja do Cidadão with passport/ID and proof of foreign address. A fiscal representative is not mandatory when registering as a non-resident.",
+      "steps": [
+        "Book 'Atendimento por marcação' on Portal das Finanças (option for people without Cartão de Cidadão), or call +351 217 206 707",
+        "Bring passport (non-EU: with entry visa unless visa-exempt) and a document showing your address",
+        "Update your address to a Portuguese one once you become tax resident"
+      ],
+      "cost": null,
+      "authority": "Autoridade Tributária e Aduaneira (AT)",
+      "source_url": "https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/Folhetos_informativos/Documents/Atribuicao_de_NIF_a_cidadaos_estrangeiros_nao_residentes.pdf",
+      "extra_sources": [
+        "https://www.gov.pt/servicos/pedir-o-numero-de-identificacao-fiscal-para-pessoa-singular"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The NIF is needed for jobs, contracts, bank accounts and, e.g., the free youth transport pass. The leaflet does not state a fee."
+    },
+    {
+      "id": "pt-niss",
+      "topic": "tax_id",
+      "title": "Social Security number (NISS) if you work",
+      "title_it": "Numero di previdenza sociale (NISS) se lavori",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "min_work_hours": "any paid job"
+      },
+      "summary": "Workers (including EU/EEA/Swiss) must register with Portuguese Social Security to get a NISS; the NISS proof is then used to register at the local health centre for an SNS user number.",
+      "authority": "Instituto da Segurança Social",
+      "source_url": "https://www.sns24.gov.pt/pt/tema/prevencao-e-cuidados-de-saude/acesso-a-cuidados-por-cidadaos-estrangeiros/",
+      "extra_sources": [
+        "https://www.seg-social.pt"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Confirmed only indirectly on the SNS 24 page for foreign citizens. The Segurança Social pages on how to request a NISS (online form, documents) could not be read (JavaScript-only site); check seg-social.pt or ask the employer."
+    },
+    {
+      "id": "pt-health-ehic",
+      "topic": "health_insurance",
+      "title": "EHIC for EU/EEA/Swiss students on a temporary stay",
+      "title_it": "TEAM per studenti UE/SEE/svizzeri in soggiorno temporaneo",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "stay_duration": "temporary stay (e.g. exchange)"
+      },
+      "summary": "EU/EEA/Swiss nationals staying temporarily in Portugal as students can access the SNS (public health centres and hospitals only) with their EHIC or a Provisional Replacement Certificate, paying only the user fees (taxas moderadoras). Without it they pay and claim reimbursement at home.",
+      "authority": "SNS / Direção-Geral da Saúde",
+      "source_url": "https://www.sns24.gov.pt/pt/tema/prevencao-e-cuidados-de-saude/acesso-a-cuidados-por-cidadaos-estrangeiros/",
+      "extra_sources": [
+        "https://europa.eu/youreurope/citizens/health/unplanned-healthcare/temporary-stays/index_en.htm"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-health-sns-resident-eu",
+      "topic": "health_insurance",
+      "title": "SNS user number for EU residents (working or not)",
+      "title_it": "Numero utente SNS per residenti UE",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "stay_duration": "resident in Portugal"
+      },
+      "summary": "EU/EEA/Swiss residents who work register with Portuguese Social Security (NISS) and then at the local health centre to get an SNS user number. Residents who do not work register at the health centre with the city-hall registration certificate. Those insured in another member state use the S1 form.",
+      "authority": "SNS / Direção-Geral da Saúde",
+      "source_url": "https://www.sns24.gov.pt/pt/tema/prevencao-e-cuidados-de-saude/acesso-a-cuidados-por-cidadaos-estrangeiros/",
+      "extra_sources": [
+        "https://www.sns24.gov.pt/pt/servico/registo-nacional-de-utentes-rnu/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The RNU page adds that anyone can be registered in the national user register at a health unit; having a user number does not by itself mean the SNS pays for care."
+    },
+    {
+      "id": "pt-health-non-eu",
+      "topic": "health_insurance",
+      "title": "Health insurance requirement for non-EU students",
+      "title_it": "Obbligo di assicurazione sanitaria per studenti extra-UE",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ]
+      },
+      "summary": "For the art. 91 student residence permit AIMA requires health insurance or proof of coverage by the SNS; for art. 91-A mobility proof of health insurance is required.",
+      "authority": "AIMA",
+      "source_url": "https://aima.gov.pt/pt/estudar/autorizacao-de-residencia-emitida-a-estudantes-do-ensino-superior-art-o-91",
+      "extra_sources": [
+        "https://aima.gov.pt/pt/estudar/mobilidade-de-estudantes-do-ensino-superior-art-91-o-a"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Minimum coverage amounts are not specified on the AIMA pages."
+    },
+    {
+      "id": "pt-bank-account-eu-right",
+      "topic": "bank_account",
+      "title": "Right to a basic payment account",
+      "title_it": "Diritto a un conto di pagamento di base",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "legally resident in the EU"
+      },
+      "summary": "Anyone legally resident in the EU can open a basic payment account in any EU country; banks may not refuse only because you do not live there (anti-money-laundering checks still apply). Portuguese banks typically ask for a NIF (the NIF leaflet lists bank accounts among its uses).",
+      "authority": "European Commission (Your Europe); Banco de Portugal",
+      "source_url": "https://europa.eu/youreurope/citizens/consumers/financial-products-and-services/bank-accounts-eu/index_en.htm",
+      "extra_sources": [
+        "https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/Folhetos_informativos/Documents/Atribuicao_de_NIF_a_cidadaos_estrangeiros_nao_residentes.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The Banco de Portugal page on 'serviços mínimos bancários' (fee caps, documents) could not be read (bot check); fee and document details are not verified."
+    },
+    {
+      "id": "pt-bank-account-minimum-services",
+      "topic": "bank_account",
+      "title": "Minimum banking services account (Portugal)",
+      "title_it": "Conto servizi bancari minimi (Portogallo)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Portugal has a low-cost 'serviços mínimos bancários' account regime; conditions, documents and the annual fee cap were not verified.",
+      "authority": "Banco de Portugal",
+      "source_url": "https://clientebancario.bportugal.pt/pt-pt/servicos-minimos-bancarios",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Page blocked by a bot check on 2026-11-25."
+    },
+    {
+      "id": "pt-transport-lisbon",
+      "topic": "transport_card",
+      "title": "Navegante pass (Lisbon metropolitan area)",
+      "title_it": "Abbonamento Navegante (area di Lisbona)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Monthly Navegante passes on a personalised Navegante card: Metropolitano (whole Lisbon area) € 40, Municipal (Lisbon, Amadora or Odivelas) € 30. Young people aged 4-23 travel free in the whole metropolitan area (see subsidies).",
+      "cost": "€ 40/month Metropolitano, € 30/month Municipal (2026)",
+      "authority": "Metropolitano de Lisboa / Transportes Metropolitanos de Lisboa",
+      "source_url": "https://www.metrolisboa.pt/comprar/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-transport-porto",
+      "topic": "transport_card",
+      "title": "Andante pass (Porto metropolitan area)",
+      "title_it": "Abbonamento Andante (area di Porto)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Andante is valid on STCP, Metro do Porto, CP urban trains and UNIR. Monthly passes: Municipal 3Z € 30, Metropolitano € 40; a 'Jovem' profile travels free (see subsidies). The personalised Andante silver card costs € 6 (€ 3 for youth).",
+      "cost": "€ 30/month Municipal 3Z, € 40/month Metropolitano (2026)",
+      "authority": "STCP / Transportes Metropolitanos do Porto",
+      "source_url": "https://stcp.pt/pt/tarifario",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "pt-student-work-eu",
+      "topic": "student_work",
+      "title": "EU/EEA/Swiss students can work freely",
+      "title_it": "Gli studenti UE/SEE/svizzeri possono lavorare liberamente",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ]
+      },
+      "summary": "EU/EEA/Swiss citizens have the right to reside and work in Portugal (employment or self-employment is one of the grounds for the registration certificate); no work permit is needed. You need a NIF and, to be employed, a NISS.",
+      "authority": "AIMA (Lei 37/2006)",
+      "source_url": "https://aima.gov.pt/pt/nacionais-ue-e-familiares/nacionais-ue/certificado-de-registo-para-nacionais-ue",
+      "extra_sources": [
+        "https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/Folhetos_informativos/Documents/Atribuicao_de_NIF_a_cidadaos_estrangeiros_nao_residentes.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No hour limit is stated; 'no work permit needed' is inferred from the free-movement framework on the AIMA page."
+    },
+    {
+      "id": "pt-student-work-non-eu",
+      "topic": "student_work",
+      "title": "Non-EU students: work alongside studies (art. 97)",
+      "title_it": "Studenti extra-UE: lavoro accanto agli studi (art. 97)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "Holder of a study residence permit (art. 91) or art. 91-A mobility declaration"
+        ]
+      },
+      "summary": "Holders of a residence permit for study may carry out employed or self-employed work complementary to their studies (art. 97 REPSAE). The AIMA page states no weekly hour cap.",
+      "authority": "AIMA",
+      "source_url": "https://aima.gov.pt/pt/estudar/autorizacao-de-residencia-emitida-a-estudantes-do-ensino-superior-art-o-91",
+      "extra_sources": [
+        "https://aima.gov.pt/pt/estudar/mobilidade-de-estudantes-do-ensino-superior-art-91-o-a",
+        "https://aima.gov.pt/documents/tabela-de-taxas-e-demais-encargos-a-cobrar-pelos-procedimentos-administrativos.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Work must be notified to AIMA: the fee table lists a fee (€ 123.50 / € 92.60) for replacing the residence card 'upon notification to exercise a professional activity, art. 97(2)'.",
+          "source_url": "https://aima.gov.pt/documents/tabela-de-taxas-e-demais-encargos-a-cobrar-pelos-procedimentos-administrativos.pdf"
+        },
+        {
+          "hypothesis": "No notification or hour limit applies beyond the work being 'complementary' to studies, as the AIMA student page mentions neither.",
+          "source_url": "https://aima.gov.pt/pt/estudar/autorizacao-de-residencia-emitida-a-estudantes-do-ensino-superior-art-o-91"
+        }
+      ],
+      "notes": "The law text of art. 97 could not be read today; confirm notification duties with AIMA before starting work."
+    },
+    {
+      "id": "pt-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "National minimum wage 2026",
+      "title_it": "Salario minimo nazionale 2026",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "The monthly guaranteed minimum wage (RMMG) for 2026 is € 920.00 gross per month, set by Decreto-Lei 139/2025 of 29 December, in force from 1 January 2026 (up from € 870 in 2025). Portugal states it monthly, not hourly.",
+      "cost": null,
+      "authority": "Governo de Portugal (DGERT)",
+      "source_url": "https://www.cuatrecasas.com/pt/portugal/laboral-1/art/retribuicao-minima-mensal-garantida-2026-1",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Source is a law-firm summary; the official DGERT page returned an error. Madeira sets its own regional value (not checked). Reduced youth or trainee rates were not checked."
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "city": "Birmingham",
+  "slug": "birmingham",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "University halls 2026/27 (undergraduate): shared bathroom £107–£213/week; en suite £189–£278/week; bills and Wi-Fi included.",
+      "source_name": "University of Birmingham, accommodation fees 2026/27",
+      "source_url": "https://www.birmingham.ac.uk/study/accommodation/our-accommodation/accommodation-fees",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Top prices in each band include a UoB Food Wallet. Contracts 42/50/51 weeks; the page does not say which applies to each room."
+    },
+    {
+      "field": "rent_studio",
+      "value": "£838/month average private rent, one-bedroom (Birmingham, Oct 2026); all private rents average £1,112/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E08000025/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "GOV.UK Student visa: money",
+      "source_url": "https://www.gov.uk/student-visa/money",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No city-specific official budget found. For reference only: the UK Student visa requires showing £1,171/month outside London (up to 9 months), which is a visa threshold, not a measured cost (gov.uk/student-visa/money)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Birmingham",
+      "source_url": "https://www.birmingham.ac.uk/study/accommodation/our-accommodation/accommodation-fees",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No bus pass price opened for Birmingham."
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 1.6–7.1°C, Jul avg 12.1–21.5°C (min–max); about 809 mm rain/year. Met Office Winterbourne (University of Birmingham) station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcqdkh6k0",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Birmingham",
+      "source_url": "https://www.birmingham.ac.uk/study",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Birmingham",
+      "source_url": "https://www.birmingham.ac.uk/study",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

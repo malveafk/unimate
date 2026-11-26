@@ -1,0 +1,93 @@
+{
+  "city": "Budapest",
+  "slug": "budapest",
+  "country": "Hungary",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "About € 300/month for a room in central districts (Semmelweis estimate, 2026).",
+      "source_name": "Semmelweis University – Housing",
+      "source_url": "https://semmelweis.hu/admission/life-at/housing/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Semmelweis also has 5 dormitories (900+ places) allocated on social and financial need; dorm prices are not published on that page."
+    },
+    {
+      "field": "rent_studio",
+      "value": "About € 500/month for a studio in central districts (Semmelweis estimate, 2026). Numbeo: 1-bedroom HUF 269,400 centre / HUF 212,100 outside (Nov 2026).",
+      "source_name": "Semmelweis University – Housing",
+      "source_url": "https://semmelweis.hu/admission/life-at/housing/",
+      "extra_sources": ["https://www.numbeo.com/cost-of-living/in/Budapest"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Numbeo figures are crowd-sourced (3,011 entries, 286 contributors in 12 months, updated 22 Nov 2026) and refer to 1-bedroom flats, not studios."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "About € 740/month (HUF 273,356) for a single person excluding rent (Numbeo, Nov 2026); with a € 300 room, roughly € 1,040/month.",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Budapest",
+      "extra_sources": ["https://semmelweis.hu/admission/life-at/housing/"],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Numbeo is not an official source and models a general single person, not a student. The total is our sum of Numbeo + the Semmelweis room estimate. No official student budget from Semmelweis was found."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Monthly Budapest-pass for students HUF 3,450 (EU/EEA/Swiss students); full price HUF 8,950 (2026).",
+      "source_name": "BKK – Prices",
+      "source_url": "https://bkk.hu/en/tickets-and-passes/prices/",
+      "extra_sources": ["https://bkk.hu/en/tickets-and-passes/discounts/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Eligibility rules for non-EU students are unclear; see hu-bkk-student-pass in hungary/subsidies.json."
+    },
+    {
+      "field": "climate",
+      "value": "Continental: average temperatures from about -4 °C in January to 26 °C in July; relatively dry, hot summers and cold winters.",
+      "source_name": "Semmelweis University – Discover Budapest",
+      "source_url": "https://semmelweis.hu/admission/life-at/discover-budapest/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Figures are the university's; the national weather service (HungaroMet) page read today gives the 1991–2020 national annual mean of 10–11.5 °C but no Budapest monthly values in text."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable source checked for student social life in Budapest.",
+      "source_name": "Semmelweis University – Discover Budapest",
+      "source_url": "https://semmelweis.hu/admission/life-at/discover-budapest/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Official language is Hungarian. Semmelweis runs full degree programmes in English (e.g. General Medicine, 6 years).",
+      "source_name": "Semmelweis University – Discover Budapest / General Medicine programme",
+      "source_url": "https://semmelweis.hu/admission/life-at/discover-budapest/",
+      "extra_sources": ["https://semmelweis.hu/admission/programs/medicine/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Whether Hungarian is needed for clinical years or daily life was not stated on the pages read."
+    },
+    {
+      "field": "job_market",
+      "value": "No official source on student-job availability in Budapest found. Legal limits: non-EU students 30 h/week in term; EU students no permit needed.",
+      "source_name": "OIF – Study-purpose residence permit",
+      "source_url": "https://oif.gov.hu/tanulmanyi-cel",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Only the legal rules are verified (see hungary/bureaucracy.json); availability and sectors are not."
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable typical student hourly wage found. Legal floor: minimum wage HUF 322,800/month gross (2026).",
+      "source_name": "NAV – Minimálbér, garantált bérminimum",
+      "source_url": "https://nav.gov.hu/ugyfeliranytu/adokulcsok_jarulekmertekek/minimalber_garantalt",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "NAV gives no hourly figure. Students under 25 usually pay no personal income tax on wages up to HUF 715,765/month (2026)."
+    }
+  ]
+}

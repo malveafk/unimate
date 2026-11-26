@@ -1,0 +1,86 @@
+{
+  "city": "Porto",
+  "slug": "porto",
+  "country": "Portugal",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No citable market figure for a room in Porto; U.Porto residences: € 198/month (non-grantees, 2026/27)",
+      "source_name": "HousingAnywhere International Rent Index Q3 2026",
+      "source_url": "https://housinganywhere.com/rent-index-by-city",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "extra_sources": [
+        "https://www.up.pt/portal/pt/sasup/alojamento/precos/"
+      ],
+      "notes": "The Q3 2026 index lists no Porto room figure. U.Porto residence price is a subsidised residence, not market rent."
+    },
+    {
+      "field": "rent_studio",
+      "value": "€ 850/month median studio (Q3 2026)",
+      "source_name": "HousingAnywhere International Rent Index Q3 2026",
+      "source_url": "https://housinganywhere.com/rent-index-by-city",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "≈ € 721/month excluding rent (single person, Nov 2026); 1-bedroom outside centre € 868",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Porto",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "transport_pass",
+      "value": "Andante Metropolitano € 40/month, Municipal 3Z € 30; 'Jovem' profile free (2026)",
+      "source_name": "STCP",
+      "source_url": "https://stcp.pt/pt/tarifario",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Mild and wet: mean 15.3 °C/yr; Jan max/min 14.0/6.4 °C, Aug max 24.8 °C; 1,147 mm rain, ~105 rainy days/yr (1991-2020)",
+      "source_name": "IPMA climate normal Porto/Pedras Rubras 1991-2020",
+      "source_url": "https://www.ipma.pt/bin/file.data/climate-normal/cn_91-20_PORTO_PEDRAS_RUBRAS.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "U.Porto presents the city as a major European tourist destination with affordable living and rich culture",
+      "source_name": "Universidade do Porto",
+      "source_url": "https://www.up.pt/portal/en/explore/frequently-asked-questions/international-students/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Most U.Porto programmes are taught in Portuguese; a growing number are partly or fully in English. Portuguese prep recommended",
+      "source_name": "Universidade do Porto",
+      "source_url": "https://www.up.pt/portal/en/explore/frequently-asked-questions/international-students/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "No citable source found for student job availability in Porto",
+      "source_name": "IEFP (starting point)",
+      "source_url": "https://www.iefp.pt",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable data on typical student hourly pay; statutory floor is € 920/month gross full-time (2026)",
+      "source_name": "Cuatrecasas (law firm) summary of Decreto-Lei 139/2025",
+      "source_url": "https://www.cuatrecasas.com/pt/portugal/laboral-1/art/retribuicao-minima-mensal-garantida-2026-1",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Official DGERT page returned an error; minimum wage is set monthly, not hourly."
+    }
+  ]
+}

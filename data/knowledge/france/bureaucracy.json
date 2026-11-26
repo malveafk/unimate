@@ -1,0 +1,299 @@
+{
+  "country": "France",
+  "country_code": "FR",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "Service-Public F2651 (EU/EEA/Swiss long stay) and F2231 (VLS-TS student visa, renewal, multi-year card)." },
+    { "key": "registration", "result": "found", "note": "No official page consulted mentions a town-hall/population register for students; for non-EU the arrival formality is the online VLS-TS validation (F2231). Record kept as unverified." },
+    { "key": "tax_id", "result": "found", "note": "Social security number for foreign students via etudiant-etranger.ameli.fr (ameli.fr). No page found on how a foreign student gets a numéro fiscal: recorded as missing." },
+    { "key": "health_insurance", "result": "found", "note": "etudiant.gouv.fr, Service-Public F675, ameli.fr, Cleiss: EHIC, S1, PUMa via etudiant-etranger.ameli.fr, Québec, working EU students." },
+    { "key": "bank_account", "result": "found", "note": "Service-Public F2417 (droit au compte via Banque de France)." },
+    { "key": "transport_card", "result": "found", "note": "Navigo Mois (via Sciences Po budget page), imagine R (IDFM/RATP pages refuse automated access: unverified), TCL Lyon tariff guide from 1 Sept 2026 (tcl.fr PDF)." },
+    { "key": "student_work", "result": "found", "note": "Service-Public F2713 (non-EU, Algerian), F13519 (European students)." },
+    { "key": "minimum_wage", "result": "found", "note": "Service-Public F2300 (SMIC, youth rates)." }
+  ],
+  "items": [
+    {
+      "id": "fr-residence-eu",
+      "topic": "residence_permit",
+      "title": "EU/EEA/Swiss students staying more than 3 months",
+      "title_it": "Studenti UE/SEE/svizzeri che restano più di 3 mesi",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "stay_duration": "more than 3 months" },
+      "summary": "No residence permit (titre de séjour) is required; a 'carte de séjour étudiant européen' can be requested voluntarily. The right of residence as a student requires enrolment in a recognised institution, sickness-maternity health insurance and sufficient resources (no fixed student amount given). Permanent residence after 5 years of legal continuous residence.",
+      "authority": "Préfecture / Ministère de l'Intérieur",
+      "cost": null,
+      "deadline": null,
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2651",
+      "extra_sources": ["https://www.cleiss.fr/particuliers/venir/etudes/index.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Cleiss confirms no student visa is needed for EU/EEA/Swiss nationals whatever the length of stay. UK nationals need a long-stay student visa since 1 January 2021 (Cleiss)."
+    },
+    {
+      "id": "fr-residence-non-eu-vlsts",
+      "topic": "residence_permit",
+      "title": "Non-EU students: long-stay student visa (VLS-TS) and its validation",
+      "title_it": "Studenti extra-UE: visto lungo soggiorno studente (VLS-TS) e sua convalida",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "stay_duration": "4 months to 1 year (VLS-TS)", "other": ["Algerian nationals follow a separate regime (certificat de résidence étudiant)"] },
+      "summary": "The VLS-TS 'étudiant' is valid 4 months to 1 year and must be validated online within 3 months of arrival, paying a €100 tax. Required resources: at least €877.50/month. To stay longer, apply online for a student residence card 4 to 2 months before expiry (€150 = €100 tax + €50 stamp duty; €180 regularisation fee if late). After 1 year, a multi-year card (2–4 years) matching the remaining study cycle can be issued.",
+      "steps": [
+        "Obtain the VLS-TS 'étudiant' from the French consulate before departure",
+        "Validate it online within 3 months of arrival and pay the €100 tax",
+        "Renew online between 4 and 2 months before expiry (€150)"
+      ],
+      "cost": "€100 validation (2026); €150 renewal",
+      "deadline": "Validation within 3 months of arrival",
+      "authority": "Préfecture / Ministère de l'Intérieur (ANEF online service)",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2231",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page does not name the ANEF platform explicitly; the online service is the one linked from Service-Public."
+    },
+    {
+      "id": "fr-registration-arrival",
+      "topic": "registration",
+      "title": "Address registration after arrival",
+      "title_it": "Registrazione dell'indirizzo dopo l'arrivo",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "None of the official pages consulted (Service-Public F2651, F2231, F13519) mentions an obligation to register with the town hall or a population register. For non-EU students the arrival formality is the online validation of the VLS-TS within 3 months; EU students have no equivalent formality.",
+      "authority": "Service-Public.gouv.fr",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2651",
+      "extra_sources": ["https://www.service-public.gouv.fr/particuliers/vosdroits/F2231"],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Absence of a requirement inferred from the pages not mentioning one; no page explicitly states that France has no population register. A human should confirm before the bot says 'no registration needed'."
+    },
+    {
+      "id": "fr-tax-id-social-security-number",
+      "topic": "tax_id",
+      "title": "Social security number for foreign students",
+      "title_it": "Numero di previdenza sociale (numéro de sécurité sociale) per studenti stranieri",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu", "eu_eea", "swiss"], "other": ["EU/EEA/Swiss students only if they register (no valid EHIC, or with an S1 form)"] },
+      "summary": "Registering on etudiant-etranger.ameli.fr gives a provisional social security number automatically and a provisional attestation; after immatriculation the number is certified, a definitive attestation can be downloaded and a form to request the carte Vitale is sent. Documents: ID/passport, residence permit (non-EU), enrolment certificate, IBAN/RIB, civil-status document.",
+      "steps": [
+        "Register on etudiant-etranger.ameli.fr (non-EU: before arrival)",
+        "Keep the provisional number and download the provisional attestation",
+        "After validation, download the definitive attestation and request the carte Vitale with the form received"
+      ],
+      "cost": null,
+      "authority": "Assurance Maladie (CPAM)",
+      "source_url": "https://www.ameli.fr/assure/droits-demarches/europe-international/protection-sociale-france/vous-venez-etudier-en-france",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No processing times are given on the page. Helpline 09 74 75 36 46 (from abroad +33 974 75 36 46), English-speaking advisers."
+    },
+    {
+      "id": "fr-tax-id-numero-fiscal",
+      "topic": "tax_id",
+      "title": "Tax number (numéro fiscal) for foreign students",
+      "title_it": "Numero fiscale (numéro fiscal) per studenti stranieri",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "No official page was found today explaining how a foreign student obtains a French tax number. Students with taxable income should check impots.gouv.fr.",
+      "authority": "Direction générale des Finances publiques (DGFiP)",
+      "source_url": "https://www.impots.gouv.fr/particulier",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "id": "fr-health-eu-ehic",
+      "topic": "health_insurance",
+      "title": "EU/EEA/Swiss students with a European Health Insurance Card",
+      "title_it": "Studenti UE/SEE/svizzeri con Tessera europea (TEAM/EHIC)",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "other": ["EHIC valid at least until the end of the academic year"] },
+      "summary": "With an EHIC valid at least until the end of the academic year you stay insured in your home country and do not register on etudiant-etranger.ameli.fr; necessary care is reimbursed as for a French insured person and you pay only the ticket modérateur. Without an EHIC, request one at home; failing that, register on etudiant-etranger.ameli.fr.",
+      "authority": "Assurance Maladie / home-country insurer",
+      "source_url": "https://www.etudiant.gouv.fr/fr/la-securite-sociale-pour-les-etudiants-internationaux-217",
+      "extra_sources": [
+        "https://www.service-public.gouv.fr/particuliers/vosdroits/F675",
+        "https://www.cleiss.fr/particuliers/venir/etudes/index.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fr-health-eu-s1-or-none",
+      "topic": "health_insurance",
+      "title": "EU/EEA/Swiss students with an S1 form or without EHIC",
+      "title_it": "Studenti UE/SEE/svizzeri con modulo S1 o senza TEAM",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "other": ["holds an S1 form, or has neither EHIC nor S1"] },
+      "summary": "Students with an S1 form (requested at home before leaving) or with no EHIC must register with French health insurance on etudiant-etranger.ameli.fr. Without an S1, a sworn statement of sufficient resources is required. Registration is free.",
+      "cost": "Free",
+      "authority": "Assurance Maladie (CPAM)",
+      "source_url": "https://www.etudiant.gouv.fr/fr/la-securite-sociale-pour-les-etudiants-internationaux-217",
+      "extra_sources": [
+        "https://www.ameli.fr/assure/droits-demarches/europe-international/protection-sociale-france/vous-venez-etudier-en-france",
+        "https://www.cleiss.fr/particuliers/venir/etudes/index.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fr-health-eu-working",
+      "topic": "health_insurance",
+      "title": "EU/EEA/Swiss students who work in France",
+      "title_it": "Studenti UE/SEE/svizzeri che lavorano in Francia",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "min_work_hours": "any paid job in France (no threshold stated)" },
+      "summary": "EU/EEA and Swiss students who work in France while studying are covered by the French universal health protection (PUMa). The page gives no hour threshold; contact the local CPAM to set up affiliation.",
+      "authority": "Assurance Maladie (CPAM)",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F675",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fr-health-non-eu",
+      "topic": "health_insurance",
+      "title": "Non-EU students: free affiliation to French health insurance",
+      "title_it": "Studenti extra-UE: iscrizione gratuita all'Assurance Maladie",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["Québec students may fall under a bilateral agreement (forms SE 401 Q 106 for exchange, SE 401 Q 102 bis for degree students)"] },
+      "summary": "Affiliation is mandatory and free for all students in France. Non-EU students register on etudiant-etranger.ameli.fr once they have their enrolment certificate and are covered by PUMa. A complementary insurance (mutuelle) is recommended; low-income students may qualify for the Complémentaire santé solidaire.",
+      "cost": "Free",
+      "authority": "Assurance Maladie (CPAM)",
+      "source_url": "https://www.etudiant.gouv.fr/fr/la-securite-sociale-pour-les-etudiants-internationaux-217",
+      "extra_sources": [
+        "https://www.service-public.gouv.fr/particuliers/vosdroits/F675",
+        "https://www.cleiss.fr/particuliers/venir/etudes/index.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Service-Public F675 mentions a '3 months uninterrupted residence' condition for PUMa without saying which group it applies to; etudiant.gouv.fr sets no minimum stay for students."
+    },
+    {
+      "id": "fr-cvec",
+      "topic": "other",
+      "title": "CVEC student life contribution",
+      "title_it": "CVEC, contributo vita studentesca",
+      "applies_to": { "student_type": ["degree"], "nationality": "any", "other": ["exchange students who pay no registration fees in France are not concerned"] },
+      "summary": "Every student in initial higher education must obtain a CVEC certificate (payment or exemption) before enrolling: €105 for 2026-2027. Exempt (but still need the certificate): social-criteria scholarship holders, French government scholarship holders, refugees, subsidiary protection beneficiaries and asylum seekers allowed to stay. Exchange students (e.g. Erasmus+) who pay no registration fees in France are not concerned.",
+      "cost": "€105 (2026-2027)",
+      "authority": "CROUS / Ministère de l'Enseignement supérieur",
+      "source_url": "https://www.etudiant.gouv.fr/fr/cvec-une-demarche-de-rentree-incontournable-955",
+      "extra_sources": ["https://cvec.etudiant.gouv.fr/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Refund requests for 2026-2027 open until 31 May 2027 (cvec.etudiant.gouv.fr)."
+    },
+    {
+      "id": "fr-bank-droit-au-compte",
+      "topic": "bank_account",
+      "title": "Right to a basic bank account (droit au compte)",
+      "title_it": "Diritto a un conto bancario di base (droit au compte)",
+      "applies_to": { "student_type": "any", "nationality": "any", "residence_requirement": "living in France (any nationality), or legally resident in another EU state; no other deposit account in France" },
+      "summary": "If a bank refuses (or does not answer within 15 days), the Banque de France designates a bank within 1 working day that must open a basic account free of charge, with card, transfers, direct debits and cash services. File: ID, proof of address under 3 months, refusal letter, sworn statement of no other account.",
+      "steps": [
+        "Ask a bank to open an account; keep the refusal letter",
+        "Submit the file to the Banque de France online, at a branch or by post",
+        "Open the account at the designated bank within 6 months"
+      ],
+      "cost": "Free basic services; overdraft fees capped at €4/operation and €20/month",
+      "authority": "Banque de France",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2417",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fr-transport-navigo-mois",
+      "topic": "transport_card",
+      "title": "Île-de-France: Navigo monthly pass",
+      "title_it": "Île-de-France: abbonamento mensile Navigo",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "The Navigo Mois pass covering all zones of Île-de-France costs €90.80/month (2026). Employees get at least 50% reimbursed by the employer.",
+      "cost": "€90.80/month (2026)",
+      "authority": "Île-de-France Mobilités",
+      "source_url": "https://www.sciencespo.fr/students/en/fees-funding/budget-studies/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Official IDFM and RATP pages refuse automated access; price read on Sciences Po's budget page and matches Numbeo (Nov 2026)."
+    },
+    {
+      "id": "fr-transport-imagine-r",
+      "topic": "transport_card",
+      "title": "Île-de-France: imagine R student annual pass",
+      "title_it": "Île-de-France: abbonamento annuale studenti imagine R",
+      "applies_to": { "student_type": "any", "nationality": "any", "age": { "max": 25 }, "residence_requirement": "living in Île-de-France", "other": ["under 26 on 1 September of the subscription year", "enrolled in higher education (certificate 2026-2027)"] },
+      "summary": "Annual all-zones pass for students under 26 living in Île-de-France, payable in instalments. Price 2026-2027: €401.30 including €8 file fee (to confirm). Subscription for 2026-2027 open until 30 April 2027.",
+      "cost": "€401.30/year incl. €8 fee (2026-2027, to confirm)",
+      "deadline": "30 April 2027 (2026-2027 subscription)",
+      "authority": "Île-de-France Mobilités",
+      "source_url": "https://www.iledefrance-mobilites.fr/titres-et-tarifs/detail/forfait-imagine-r-etudiant",
+      "extra_sources": ["https://www.sciencespo.fr/students/en/fees-funding/budget-studies/"],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "interpretations": [
+        { "hypothesis": "€401.30/year for 2026-2027 (incl. €8 fee), as shown in the search-engine extract of the IDFM page", "source_url": "https://www.iledefrance-mobilites.fr/titres-et-tarifs/detail/forfait-imagine-r-etudiant" },
+        { "hypothesis": "€392.30/year, as on Sciences Po's budget page (probably the 2025-2026 price)", "source_url": "https://www.sciencespo.fr/students/en/fees-funding/budget-studies/" }
+      ],
+      "notes": "IDFM page returned HTTP 403 to automated fetch, so the price could not be read directly. Departments may refund part of it."
+    },
+    {
+      "id": "fr-transport-tcl-lyon",
+      "topic": "transport_card",
+      "title": "Lyon (TCL): passes for 18-25 and students 26-27",
+      "title_it": "Lione (TCL): abbonamenti 18-25 anni e studenti 26-27 anni",
+      "applies_to": { "student_type": "any", "nationality": "any", "age": { "min": 18, "max": 27 }, "other": ["18-25: any young person; 26-27: students only"] },
+      "summary": "From 1 September 2026, the TCL monthly pass for 18-25 year olds and for students aged 26-27 costs €26 (zones 1 and 2, which include Lyon), €35 all zones; annual or 12-month pass €260 (zones 1-2). Scholarship students up to 27 living in TCL zones 1-5 can get the 'solidaire réduit' pass at €11/month.",
+      "cost": "€26/month or €260/year zones 1-2 (from 1 Sept 2026)",
+      "authority": "TCL / SYTRAL Mobilités",
+      "source_url": "https://www.tcl.fr/sites/default/files/2026-05/TCL_Campagne_Unification_Guide_Tarifaire_Mai2026_W.pdf",
+      "extra_sources": ["https://www.tcl.fr/en/tickets-fares/fares/18-25-years-1-month"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fr-work-non-eu",
+      "topic": "student_work",
+      "title": "Non-EU students: 964 hours per year",
+      "title_it": "Studenti extra-UE: 964 ore all'anno",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["holds a VLS-TS 'étudiant' or student residence card", "not Algerian (separate rules)"] },
+      "summary": "With a validated VLS-TS or student card you may work up to 964 hours per year (60% of legal annual working time) without separate authorisation, counted from validation/issue. The employer must file a nominal declaration with the préfecture at least 2 working days before hiring. Self-employment (auto-entrepreneur) is not allowed. For a 6-month stay, a work authorisation is needed and hours are pro rata (482 h).",
+      "authority": "Préfecture / Ministère de l'Intérieur",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2713",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Apprenticeship/professionalisation contracts require more than 1 year in France (exception for master's-level apprenticeships). Exceeding 964 h risks withdrawal or non-renewal of the permit."
+    },
+    {
+      "id": "fr-work-algerian",
+      "topic": "student_work",
+      "title": "Algerian students: work authorisation always required",
+      "title_it": "Studenti algerini: autorizzazione al lavoro sempre necessaria",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["Algerian nationals with a certificat de résidence étudiant"] },
+      "summary": "The employer must obtain a work authorisation before the student starts; once authorised, the student may work up to 50% of the annual working time of the sector. Self-employment is not allowed.",
+      "authority": "Préfecture / Ministère de l'Intérieur",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2713",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "fr-work-eu",
+      "topic": "student_work",
+      "title": "European students working in France",
+      "title_it": "Studenti europei che lavorano in Francia",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "No residence permit or work authorisation is needed. Service-Public states that a European student may work up to 964 hours per year (60% of legal annual working time) as a side activity; beyond that the person is treated as a worker rather than a student.",
+      "authority": "Service-Public.gouv.fr",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F13519",
+      "extra_sources": ["https://www.service-public.gouv.fr/particuliers/vosdroits/F2651"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "964 h/year is a cap on student work for EU students (page 'Un étudiant européen peut-il travailler en France ?', checked by Service-Public on 18 Nov 2026)", "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F13519" },
+        { "hypothesis": "The limit only decides whether the person keeps 'student' status for residence purposes; an EU citizen working more simply resides as a worker, since EU/EEA/Swiss citizens need no titre de séjour", "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2651" }
+      ]
+    },
+    {
+      "id": "fr-minimum-wage-smic",
+      "topic": "minimum_wage",
+      "title": "Statutory minimum wage (SMIC)",
+      "title_it": "Salario minimo legale (SMIC)",
+      "applies_to": { "student_type": "any", "nationality": "any", "age": { "min": 18 } },
+      "summary": "Adult SMIC: €12.31 gross/hour, €1,867.02 gross/month for 35 h/week (about €9.74 net/hour). Youth rates without 6 months' experience in the sector: €11.08/h at 17, €9.85/h at 16 or under. Apprentices and professionalisation contracts have specific reductions.",
+      "cost": null,
+      "authority": "Ministère du Travail",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2300",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Amounts per the arrêté of 22 May 2026 (page checked by Service-Public on 1 June 2026); the page does not state the effective date explicitly."
+    }
+  ]
+}

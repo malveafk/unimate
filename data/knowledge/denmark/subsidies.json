@@ -1,0 +1,368 @@
+{
+  "country": "Denmark",
+  "country_code": "DK",
+  "currency": "DKK",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    {
+      "key": "state_grant_loan",
+      "result": "found",
+      "note": "su.dk: SU grant, SU loan, equal-status routes for foreign citizens (EU worker, 5 years residence, Danish-rule routes), 2026 rates, SU reform from 1 Jan 2027."
+    },
+    {
+      "key": "rent",
+      "result": "found",
+      "note": "Boligstøtte (Udbetaling Danmark) via borger.dk student page and lifeindenmark housing-benefit page."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found",
+      "note": "Free public healthcare after CPR registration (Study in Denmark). No separate student health subsidy found."
+    },
+    {
+      "key": "transport",
+      "result": "found",
+      "note": "Ungdomskort (ungdomskort.dk) eligibility and 2026 price. Rejsekort has no student discount on its homepage."
+    },
+    {
+      "key": "tax",
+      "result": "found",
+      "note": "Personal allowance (personfradrag) on skat.dk tax-card page. Student-specific tax relief not found."
+    },
+    {
+      "key": "student_work",
+      "result": "none_found",
+      "note": "No subsidy tied to student work found; the related rules (SU earnings limit, EU-worker route to SU) are in bureaucracy.json and state_grant_loan."
+    },
+    {
+      "key": "erasmus",
+      "result": "found",
+      "note": "su.dk 'SU i udlandet': SU can be taken abroad for part of a Danish degree (outgoing). No Danish top-up for INCOMING Erasmus students found on the pages opened (KU, DTU, AU scholarship pages); host-country search was limited."
+    },
+    {
+      "key": "regional",
+      "result": "not_researched",
+      "note": "The main student measures found (SU, boligstøtte, Ungdomskort) are national. A dedicated search for regional/municipal student grants was not done: the shared web-search budget ran out."
+    },
+    {
+      "key": "university",
+      "result": "found",
+      "note": "University of Copenhagen, DTU and Aarhus University scholarship/tuition-waiver pages (all for non-EU/EEA fee-paying master's students)."
+    }
+  ],
+  "items": [
+    {
+      "id": "dk-su-eu-worker",
+      "category": "state_grant_loan",
+      "name_local": "SU (Statens Uddannelsesstøtte) – ligestilling som arbejdstager efter EU-retten",
+      "name_it": "SU (borsa statale danese) per cittadini UE con status di lavoratore",
+      "authority": "SU (Statens Uddannelsesstøtte)",
+      "description": "EU/EEA and Swiss students can get the Danish state grant on equal terms with Danes if they have worker status under EU law: generally about 10-12 hours of paid work per week, for at least 10 consecutive weeks after approval and throughout the SU period (hours cannot be averaged across months). Assessed case by case; the approval letter states the hours required.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "min_work_hours": "about 10-12 hours/week of paid work (40 h/month is generally not enough), 10 consecutive weeks to obtain the status, then continuously",
+        "income_test": "gross pay must reach a certain level; approved examples: DKK 125/hour + 12.5% holiday allowance, or DKK 120/hour + 12.5% with 11 h/week",
+        "stay_duration": null,
+        "other": [
+          "enrolled in an SU-approved programme in Denmark",
+          "also subject to the SU earnings limit (fribeløb)"
+        ]
+      },
+      "amount": "DKK 7,426/month before tax if living away from parents (udeboende), higher education (2026); living with parents: base DKK 1,154/month + possible parent-income supplement (2026)",
+      "how_to_apply": "Apply for SU and equal status in minSU (self-service); attach all employment contracts. Decision via Digital Post.",
+      "deadline": null,
+      "stackable": "Can be combined with SU loan (SU-lån) and boligstøtte; income counts toward the SU earnings limit and the housing-benefit income test.",
+      "source_url": "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules/you-work-in-denmark",
+      "extra_sources": [
+        "https://www.su.dk/satser",
+        "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules",
+        "https://www.su.dk/su-reform"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "su.dk does not explicitly address exchange students; 'degree' reflects that SU is for an SU-approved Danish programme. SU reform: for programmes started on or after 1 July 2025 the total SU frame drops from 70 to 58 monthly clips and support is tied to the programme's normed length, effective 1 January 2027.",
+      "interpretations": [
+        {
+          "hypothesis": "Reading A (encoded): SU requires enrolment in an SU-approved Danish programme, so it is for full-degree students; a one- or two-semester exchange student does not qualify.",
+          "source_url": "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules/you-work-in-denmark"
+        },
+        {
+          "hypothesis": "Reading B: su.dk does not address exchange students explicitly; an EU exchange student who meets the worker condition is not expressly excluded, so eligibility must be confirmed with SU (Uddannelses- og Forskningsstyrelsen) before saying no.",
+          "source_url": "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules"
+        }
+      ]
+    },
+    {
+      "id": "dk-su-equal-status-residence",
+      "category": "state_grant_loan",
+      "name_local": "SU – ligestilling efter ophold (EU-regler og danske regler)",
+      "name_it": "SU per stranieri dopo anni di residenza o altri titoli",
+      "authority": "SU (Statens Uddannelsesstøtte)",
+      "description": "Without worker status, foreign citizens can still get SU on equal terms through other routes: under EU rules, 5 years of residence in Denmark or being the child/spouse/parent of an EU worker in Denmark; under Danish rules, e.g. 5 years of residence, 2 years of work in Denmark, having come to Denmark with your parents, or marriage to a Danish citizen.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "residence_requirement": "e.g. at least 5 years of residence in Denmark (other routes listed on su.dk)",
+        "other": [
+          "non-EU students on a study residence permit: check with the immigration authorities, receiving SU may affect the right to stay",
+          "equal status lapses after more than 2 years continuously abroad"
+        ]
+      },
+      "amount": "Same rates as Danish students: DKK 7,426/month before tax (udeboende, higher education, 2026)",
+      "how_to_apply": "Apply for equal status and SU in minSU.",
+      "deadline": null,
+      "stackable": "Combinable with SU loan and boligstøtte.",
+      "source_url": "https://www.su.dk/foreign-citizen/gb-foreign-citizen/eu-rules",
+      "extra_sources": [
+        "https://www.su.dk/foreign-citizen/gb-foreign-citizen/danish-rules",
+        "https://www.su.dk/satser"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-su-loan",
+      "category": "state_grant_loan",
+      "name_local": "SU-lån",
+      "name_it": "Prestito di studio statale (SU-lån)",
+      "authority": "SU (Statens Uddannelsesstøtte)",
+      "description": "Students entitled to SU can additionally borrow a state study loan each month, choosing any amount up to the monthly maximum.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "must be entitled to SU (Danish citizen or foreign citizen with equal status)"
+        ]
+      },
+      "amount": "up to DKK 3,799/month (higher education, 2026)",
+      "how_to_apply": "Through minSU.",
+      "deadline": null,
+      "stackable": "Taken together with the SU grant; repayable with interest (interest rate not stated on the page opened).",
+      "source_url": "https://www.su.dk/satser/satser-for-su-laan",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "SU reform (effective 1 Jan 2027, students starting on/after 1 July 2025): completion loans (slutlån) for up to 24 months in total."
+    },
+    {
+      "id": "dk-boligstotte",
+      "category": "rent",
+      "name_local": "Boligstøtte",
+      "name_it": "Sussidio per l'affitto (boligstøtte)",
+      "authority": "Udbetaling Danmark",
+      "description": "Tax-free monthly housing benefit for tenants who live permanently in a rented home with its own kitchen. Amount depends on rent (excluding utilities), floor area, household size, and income and assets of the adults. A room in someone else's home without your own kitchen normally does not qualify; only one person per household can receive it.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "income_test": "means-tested on household income and assets; recalculated monthly with Danish Tax Agency income data",
+        "stay_duration": "can apply even for a short stay, but must live in the home permanently",
+        "other": [
+          "tenant named on the lease (not owner)",
+          "own kitchen or kitchenette",
+          "paid to a NemKonto, so a CPR number is in practice needed"
+        ]
+      },
+      "amount": "max DKK 1,194/month for non-pensioner renters without children (2026); DKK 4,201 with 1-3 children",
+      "how_to_apply": "Apply digitally (lifeindenmark.dk / borger.dk); English guides exist for dorm rooms, rented rooms and rented homes. Letters from Udbetaling Danmark are in Danish.",
+      "deadline": null,
+      "stackable": "Combinable with SU; SU and job income count in the income test. Can be kept during an exchange abroad if you do not sublet and return within 6 months.",
+      "source_url": "https://www.borger.dk/bolig-og-flytning/Boligstoette-oversigt/boligstoette-i-saerlige-situationer/boligstoette-saerligt-for-dig-der-er-studerende",
+      "extra_sources": [
+        "https://lifeindenmark.borger.dk/housing-and-moving/housing-benefits"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Whether SU itself counts as income is not stated on the borger.dk student page. 'Paid to NemKonto, CPR needed' is an inference from the NemKonto rules (NemKonto requires CPR)."
+    },
+    {
+      "id": "dk-public-healthcare",
+      "category": "health_insurance",
+      "name_local": "Offentlig sygesikring (sundhedskort)",
+      "name_it": "Assistenza sanitaria pubblica gratuita (tessera sundhedskort)",
+      "authority": "Danish public health insurance (information: Study in Denmark)",
+      "description": "Everyone registered in the CPR (stays over 3 months) gets free GP and specialist care in Group 1 with the national health insurance card; dental care and physiotherapy are not free. EU/EEA/Swiss students must show an S1 or valid EHIC to register.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "over 3 months, registered in the CPR"
+      },
+      "amount": "Free GP and hospital care (no premium)",
+      "how_to_apply": "Automatic with CPR registration; the card arrives by post.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://studyindenmark.dk/live-in-denmark/health-safety/healthcare-1",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-ungdomskort",
+      "category": "transport",
+      "name_local": "Ungdomskort (videregående uddannelse)",
+      "name_it": "Ungdomskort, abbonamento trasporti per studenti universitari",
+      "authority": "Ungdomskort / Danish public transport operators",
+      "description": "Discounted 30-day commuter pass for travel between home and place of study for students on a full-time, SU-approved higher education programme living in Denmark (or the Oresund region / Flensburg zone), with travel time up to 3.5 hours each way.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "full-time programme approved for SU",
+          "not during leave or paid internships",
+          "non-EU students on a study permit: receiving Ungdomskort may affect the right to stay (check nyidanmark.dk)",
+          "no travel reimbursement under other rules at the same time"
+        ]
+      },
+      "amount": "DKK 718 per 30 days (2026) when the normal commuter-card price is at most DKK 2,692; above that, DKK 718 + half the amount over DKK 2,692 (outlying municipalities always DKK 718)",
+      "how_to_apply": "Step 1: approval at ungdomskort.uddannelsesstoette.dk; step 2: order and pay at mitungdomskort.dk, at least 14 days before use.",
+      "deadline": "Apply at least 14 days before you need the card",
+      "stackable": "Not combinable with other public travel reimbursement.",
+      "source_url": "https://ungdomskort.dk/priser-og-satser/ungdomskort-priser",
+      "extra_sources": [
+        "https://ungdomskort.dk/ungdomskort/betingelser"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The conditions page does not state whether exchange students qualify; the programme must be SU-approved."
+    },
+    {
+      "id": "dk-personal-allowance",
+      "category": "tax",
+      "name_local": "Personfradrag",
+      "name_it": "Detrazione personale (quota esente da imposte)",
+      "authority": "Danish Tax Agency (Skattestyrelsen)",
+      "description": "Tax-free personal allowance shown on your main tax card (per month or per two weeks), so income tax is only withheld above it. The 8% labour-market contribution (AM-bidrag) is still due on wages, but not on SU.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "applies to the main tax card; a secondary card has no allowance",
+          "conditions for people only partly taxable in Denmark not checked"
+        ]
+      },
+      "amount": "DKK 54,100/year (2026); DKK 55,700/year (2027)",
+      "how_to_apply": "Automatic via the tax card / preliminary income assessment in E-tax (TastSelv).",
+      "deadline": null,
+      "stackable": "Applies to all income on the main tax card (job or SU, whichever is largest).",
+      "source_url": "https://skat.dk/en-us/individuals/tax-card",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-su-abroad",
+      "category": "erasmus",
+      "name_local": "SU i udlandet",
+      "name_it": "SU per periodi di studio all'estero (es. Erasmus in uscita)",
+      "authority": "SU (Statens Uddannelsesstøtte)",
+      "description": "Students entitled to SU can take it with them on a study stay or exchange abroad that is part of their Danish education (typically a semester); SU can also be applied for a full degree abroad, and at master's level sometimes a grant toward tuition (udlandsstipendium). Relevant only for students already entitled to Danish SU; no host-country top-up for incoming Erasmus students was found.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "must be entitled to Danish SU",
+          "the stay/programme must be approved for SU"
+        ]
+      },
+      "amount": "Regular SU rates (see dk-su-eu-worker)",
+      "how_to_apply": "Apply via su.dk / minSU; programmes not on the Fast Track list can take several months to approve.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.su.dk/su-i-udlandet",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Incoming Erasmus+ students are funded by their home country; the KU, DTU and AU pages opened list no extra grant for incoming exchange students."
+    },
+    {
+      "id": "dk-ku-government-scholarship",
+      "category": "university",
+      "name_local": "Danish Government Scholarship – University of Copenhagen",
+      "name_it": "Borsa del governo danese – Università di Copenaghen",
+      "authority": "University of Copenhagen",
+      "description": "Full tuition waiver plus a monthly living allowance for highly qualified non-EU/EEA master's students on a time-limited Danish study permit. Financial need is not considered; University Management decides which programmes offer it each year.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "citizen of a country outside the EU, EEA and Switzerland (Swiss excluded)",
+          "admitted to a UCPH master's programme",
+          "not entitled to SU or to equal rights with Danish citizens"
+        ]
+      },
+      "amount": "Full tuition waiver + DKK 11,225/month living allowance for 22 months (2026 level)",
+      "how_to_apply": "Automatic: all admitted non-EU/EEA applicants are considered; nominees are notified in the application portal.",
+      "deadline": "Offer must be accepted within the deadline stated in the offer",
+      "stackable": null,
+      "source_url": "https://www.ku.dk/studies/admission/scholarships-for-full-degree-students",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-dtu-tuition-waiver",
+      "category": "university",
+      "name_local": "Tuition fee waiver for non-EU/EEA MSc students – DTU",
+      "name_it": "Esenzione dalle tasse per studenti magistrali extra-UE – DTU",
+      "authority": "Technical University of Denmark (DTU)",
+      "description": "A limited number of tuition fee waivers each year for new non-EU/EEA MSc students with excellent academic results, autumn intake only.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "new MSc student, autumn intake",
+          "excellent Bachelor's-level academic record"
+        ]
+      },
+      "amount": "Tuition fee covered for two years (page does not mention a living grant)",
+      "how_to_apply": "Upload a separate personal statement with the MSc application clearly stating you apply for the waiver, focused on Bachelor's academic achievements.",
+      "deadline": "15 January",
+      "stackable": null,
+      "source_url": "https://www.dtu.dk/english/education/graduate/fees-and-funding/tuition_fee_waivers",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-au-state-scholarship",
+      "category": "university",
+      "name_local": "Danish state scholarships – Aarhus University",
+      "name_it": "Borse statali danesi – Università di Aarhus",
+      "authority": "Aarhus University",
+      "description": "State-funded scholarships for non-EU/EEA fee-paying master's students with excellent academic qualifications, usually only one or two per programme. Arts and Aarhus BSS: tuition waiver + monthly living grant; Natural Sciences and Technical Sciences: tuition waiver only. EU/EEA/Swiss students cannot apply.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "liable to pay tuition fees",
+          "master's programme; tied to that programme"
+        ]
+      },
+      "amount": "Full or partial tuition waiver; living grant at Arts and Aarhus BSS (amount not stated on the page)",
+      "how_to_apply": "Automatic with the master's application; no separate documents.",
+      "deadline": "Admission application by 15 January (summer intake) or 15 September (winter intake); if no waiver offered by 1 April / 1 November, tuition must be paid",
+      "stackable": null,
+      "source_url": "https://masters.au.dk/scholarships-and-grants",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "With a waiver only, you must still document sufficient funds for the residence permit."
+    }
+  ]
+}

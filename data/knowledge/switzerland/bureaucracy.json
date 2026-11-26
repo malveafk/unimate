@@ -1,0 +1,553 @@
+{
+  "country": "Switzerland",
+  "country_code": "CH",
+  "currency": "CHF",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    {
+      "key": "residence_permit",
+      "result": "found",
+      "note": "SEM FAQ (EU/EFTA students), canton Zurich, Geneva (OCPM) and Vaud pages for third-country students."
+    },
+    {
+      "key": "registration",
+      "result": "found",
+      "note": "SEM FAQ, City of Zurich, EPFL/Vaud residence-permit page."
+    },
+    {
+      "key": "tax_id",
+      "result": "found",
+      "note": "No separate personal tax number; the 13-digit AHV/OASI number (BSV page) is the identifier used also by tax authorities."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found",
+      "note": "FOPH/BAG foreign-students page, Canton Zurich exemption leaflet, EPFL insurance page (Vaud)."
+    },
+    {
+      "key": "bank_account",
+      "result": "none_found",
+      "note": "No official page on opening a bank account as a foreign student was reached (web search budget exhausted; EPFL/UZH pages read do not cover it). Recorded as missing."
+    },
+    {
+      "key": "transport_card",
+      "result": "found",
+      "note": "SBB Half Fare Travelcard, GA Travelcard for Youth, Night GA (sbb.ch)."
+    },
+    {
+      "key": "student_work",
+      "result": "found",
+      "note": "orientation.ch (federal career-guidance portal), Canton Zurich AWA, Geneva OCPM, Vaud SPOP, EPFL."
+    },
+    {
+      "key": "minimum_wage",
+      "result": "found",
+      "note": "Cantonal minimum wages verified for Geneva and Basel-Stadt. Federal 'no national minimum wage' statement and City of Zurich municipal minimum wage could not be confirmed on an official page (SECO pages returned 404)."
+    }
+  ],
+  "items": [
+    {
+      "id": "ch-residence-eu-students",
+      "topic": "residence_permit",
+      "title": "Residence permit B for EU/EFTA students",
+      "title_it": "Permesso di soggiorno B per studenti UE/AELS",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea"
+        ],
+        "stay_duration": "more than 3 months",
+        "other": [
+          "EU/EFTA citizens under the Agreement on the Free Movement of Persons; no visa needed"
+        ]
+      },
+      "summary": "EU/EFTA students staying more than 3 months register at the municipality within 14 days and apply for a B permit for non-working persons. It is issued for one year (or the length of a shorter course) and renewed yearly until the end of studies. Conditions: admission to a recognised institution, sufficient financial means, health and accident insurance.",
+      "steps": [
+        "Register at the residents' office of your municipality within 14 days of arrival and apply for the permit there",
+        "Bring ID/passport, enrolment confirmation, proof of financial means, proof of health/accident insurance, rental contract",
+        "Apply for renewal at least 14 days before the permit expires"
+      ],
+      "deadline": "Registration within 14 days of arrival; renewal 14 days before expiry",
+      "cost": "Cantonal fees; Vaud example: residence tax often CHF 37/month (municipality-dependent)",
+      "authority": "Cantonal migration office via the municipal residents' office (SEM sets the federal rules)",
+      "source_url": "https://www.sem.admin.ch/sem/en/home/themen/fza_schweiz-eu-efta/eu-efta_buerger_schweiz/faq.html",
+      "extra_sources": [
+        "https://www.orientation.ch/fr/en/studying-in-switzerland",
+        "https://www.epfl.ch/education/studies/en/epfl-studies/immigration-en/residence-permit",
+        "https://www.ge.ch/en/ask-student-permit/student-permit-eu/efta-nationals"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Cantonal proof-of-means amounts differ: Vaud (EPFL page) asks EU/EFTA students for CHF 2,000/month; Geneva OCPM FAQ states CHF 20,000/year or CHF 2,500/month (not split by nationality). Stays up to 90 days need no permit for visa-free nationals (Geneva OCPM FAQ)."
+    },
+    {
+      "id": "ch-residence-non-eu-students",
+      "topic": "residence_permit",
+      "title": "Visa D and student residence permit for non-EU/EFTA students",
+      "title_it": "Visto D e permesso di soggiorno per studenti extra-UE/AELS",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "stay_duration": "more than 3 months",
+        "other": [
+          "Some nationalities (e.g. Australia, Japan, Malaysia, New Zealand, Singapore, UK) need no visa but must obtain an assurance of residence permit before arrival (UZH page)"
+        ]
+      },
+      "summary": "Visa-required students apply for a national D visa at the Swiss embassy/consulate (UZH: at least 3 months before entry). The cantonal permit is issued per year and renewed until the end of studies; one course of study up to 8 years is allowed. Required: admission, study plan, CV, proof of means, health insurance; a written commitment to leave after studies is not required for Swiss university students (Geneva, Vaud).",
+      "steps": [
+        "Apply for the D visa at the Swiss representation in your country of residence",
+        "Prove financial means: Zurich CHF 21,000 for 12 months (statement from a bank licensed in Switzerland); Geneva CHF 20,000/year or CHF 2,500/month",
+        "After arrival, register at the municipality within 14 days"
+      ],
+      "deadline": "Apply for the visa about 3 months before entry (UZH guidance)",
+      "cost": "Permit fee depends on canton/municipality; EPFL advises bringing about CHF 200 in cash in Vaud",
+      "authority": "Swiss representation abroad (visa) and cantonal migration office (Zurich Migrationsamt, Geneva OCPM, Vaud SPOP)",
+      "source_url": "https://www.zh.ch/de/migration-integration/aufenthalt/aufenthalt-ohne-erwerbstaetigkeit-fuer-drittstaatsangehoerige.html",
+      "extra_sources": [
+        "https://www.uzh.ch/cmsssl/en/studies/application/entry.html",
+        "https://www.ge.ch/en/ask-student-permit/student-permit-nationals-non-eu-country",
+        "https://www.ge.ch/en/ask-student-permit/frequently-asked-questions",
+        "https://www.vd.ch/population/population-etrangere/entree-et-sejour/etats-tiers/sejour-pour-etudes",
+        "https://www.epfl.ch/education/studies/en/epfl-studies/immigration-en/residence-permit"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Zurich: students over 30 must justify the training; change of field generally not approved. UZH: Migration Office issues student visas to Bachelor/Master students over 30 only in well-founded exceptional cases."
+    },
+    {
+      "id": "ch-registration",
+      "topic": "registration",
+      "title": "Registration at the municipal residents' office (Einwohnerkontrolle / contrôle des habitants)",
+      "title_it": "Iscrizione all'ufficio controllo abitanti del comune",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "stay_duration": "more than 3 months"
+      },
+      "summary": "Everyone taking up residence must register in person (or online where offered) with the municipality within 14 days of arrival; for foreigners this is also where the residence permit is requested. In Zurich city it is the Personenmeldeamt (appointment needed); Lausanne registration is online only.",
+      "steps": [
+        "Book an appointment (Zurich: Personenmeldeamt) or use the online service (Lausanne)",
+        "Bring passport/ID, rental contract or landlord attestation, enrolment confirmation, passport photo"
+      ],
+      "deadline": "Within 14 days of arrival",
+      "cost": "Varies by municipality",
+      "authority": "Municipal residents' office (Zurich: Personenmeldeamt; Vaud: Contrôle des habitants)",
+      "source_url": "https://www.stadt-zuerich.ch/de/lebenslagen/neu-in-zuerich/zuzug-ausland/willkommen.html",
+      "extra_sources": [
+        "https://www.sem.admin.ch/sem/en/home/themen/fza_schweiz-eu-efta/eu-efta_buerger_schweiz/faq.html",
+        "https://www.epfl.ch/education/studies/en/epfl-studies/immigration-en/residence-permit"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-tax-id-ahv-number",
+      "topic": "tax_id",
+      "title": "AHV/OASI number (13-digit social security number, also used by tax authorities)",
+      "title_it": "Numero AVS (numero di assicurazione sociale a 13 cifre, usato anche dal fisco)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ]
+      },
+      "summary": "Switzerland has no separate personal tax ID; the 13-digit AHV number starting with 756 identifies people for social insurance and, where legally authorised, tax authorities and health insurers. Newcomers receive it automatically once registered with the migration office; foreign students are registered by their institution. ETH requires degree students to have one by enrolment for the 2nd semester (exchange students exempt).",
+      "deadline": "ETH: by enrolment for the second semester",
+      "cost": null,
+      "authority": "Federal Social Insurance Office (BSV/OFAS) and Central Compensation Office (ZAS)",
+      "source_url": "https://www.bsv.admin.ch/de/ahv-nummer",
+      "extra_sources": [
+        "https://ethz.ch/students/en/studies/administrative/insurances.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-ahv-student-contribution",
+      "topic": "other",
+      "title": "Minimum AHV/IV/EO contribution for non-working students resident in Switzerland",
+      "title_it": "Contributo minimo AVS/AI/IPG per studenti residenti che non lavorano",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "age": {
+          "min": 20
+        },
+        "stay_duration": "civil residence in Switzerland",
+        "other": [
+          "Contributions paid through a job are deducted from the minimum"
+        ]
+      },
+      "summary": "Students with civil residence in Switzerland, Swiss or foreign, owe the minimum AHV/IV/EO contribution of CHF 530/year (2025 and 2026) from 1 January after their 20th birthday, plus administrative fees up to 5%. Universities pass student data to the cantonal compensation office, which bills retroactively.",
+      "cost": "CHF 530/year (2025 and 2026) plus up to 5% admin fees",
+      "authority": "Cantonal compensation office (e.g. SVA Zurich, Ausgleichskasse Bern)",
+      "source_url": "https://www.unibe.ch/studies/organizational_matters/insurance/required_contribution_to_ahv/index_eng.html",
+      "extra_sources": [
+        "https://ethz.ch/students/en/studies/administrative/insurances.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Neither page explains whether EU/EFTA students covered by their home social security (EU coordination rules) are exempt; the bot should send students to the cantonal compensation office. UNIBE gives two slightly different start formulations (Jan 1 after 20th birthday vs year of 20th birthday). EPFL budget lists AHV only for Swiss/resident students (N/A for foreign students)."
+    },
+    {
+      "id": "ch-withholding-tax-foreign-workers",
+      "topic": "other",
+      "title": "Tax deducted at source (Quellensteuer / impôt à la source) on student jobs",
+      "title_it": "Imposta alla fonte sui lavori degli studenti stranieri",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "other": [
+          "Foreign employees resident in Switzerland without a C permit (and whose spouse is not Swiss/C holder)"
+        ]
+      },
+      "summary": "Foreign employees living in Switzerland without a settlement permit C pay income tax withheld by the employer at source; rates are cantonal. In Vaud, B-permit students earning at most CHF 28,800/year can claim a refund between 1 January and 31 March (EPFL).",
+      "deadline": "Vaud refund claim: 1 January - 31 March of the following year",
+      "authority": "Cantonal tax administration (e.g. Steuerverwaltung Basel-Stadt, ACI Vaud)",
+      "source_url": "https://www.bs.ch/themen/arbeit-und-steuern/quellensteuer/informationen-zur-quellensteuer",
+      "extra_sources": [
+        "https://www.epfl.ch/education/studies/en/financing-study/working/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-health-insurance-eu-not-working",
+      "topic": "health_insurance",
+      "title": "EU/EFTA students not working: exemption from Swiss insurance with EHIC",
+      "title_it": "Studenti UE/AELS che non lavorano: esenzione con tessera TEAM",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea"
+        ],
+        "min_work_hours": "no paid work at all",
+        "stay_duration": "more than 3 months"
+      },
+      "summary": "EU/EFTA/UK students who do not work stay insured in their home system and are treated in Switzerland on presentation of the EHIC. The exemption is not automatic: apply to the cantonal authority of your canton of residence (e.g. OVAM in Vaud) with the EHIC copy and enrolment proof. In Zurich the EHIC exemption is only for students with no paid work.",
+      "steps": [
+        "Get the EHIC from your home insurer",
+        "Submit the exemption application with EHIC copy and enrolment confirmation to the cantonal office",
+        "Apply within 3 months of taking up residence"
+      ],
+      "deadline": "Within 3 months of taking up residence",
+      "authority": "Cantonal health insurance office (Zurich: Gesundheitsdirektion Bereich KVG; Vaud: OVAM)",
+      "source_url": "https://www.bag.admin.ch/en/health-insurance-foreign-students-in-switzerland",
+      "extra_sources": [
+        "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/praemienverbilligung-krankenversicherung/allgemeine_informationen_deutsch.pdf",
+        "https://www.epfl.ch/education/studies/en/epfl-studies/insurance/health-insurance/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "EPFL/Vaud: exemption valid at most 6 years; CHF 92 is charged per 30-day care period to EU students treated via the EHIC (Institution commune LAMal)."
+    },
+    {
+      "id": "ch-health-insurance-eu-working",
+      "topic": "health_insurance",
+      "title": "EU/EFTA students who work: Swiss health insurance becomes mandatory",
+      "title_it": "Studenti UE/AELS che lavorano: obbligo di assicurazione malattia svizzera",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea"
+        ],
+        "min_work_hours": "any paid work (Zurich: even a small side job, internship or doctorate counts)"
+      },
+      "summary": "Under the place-of-work principle, EU/EFTA/UK students who start working in Switzerland must take out Swiss basic health insurance (KVG/LAMal). Canton Zurich treats any paid activity, however small, as gainful employment, so the EHIC exemption is lost.",
+      "deadline": "Within 3 months (general rule for persons subject to insurance)",
+      "authority": "FOPH (federal rule), cantonal health insurance office",
+      "source_url": "https://www.bag.admin.ch/en/health-insurance-foreign-students-in-switzerland",
+      "extra_sources": [
+        "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/praemienverbilligung-krankenversicherung/allgemeine_informationen_deutsch.pdf"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-health-insurance-non-eu",
+      "topic": "health_insurance",
+      "title": "Non-EU students: Swiss insurance or exemption with equivalent private cover",
+      "title_it": "Studenti extra-UE: assicurazione svizzera o esenzione con copertura privata equivalente",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "stay_duration": "more than 3 months"
+      },
+      "summary": "Students from non-EU/EFTA countries must take Swiss basic insurance within 3 months of taking up residence unless the canton exempts them because their private insurance offers cover equivalent to a Swiss insurer (e.g. no annual benefit cap, no exclusion of pre-existing conditions in Zurich). FOPH: exemption lasts 3 years, extendable by 3.",
+      "deadline": "Within 3 months of taking up residence",
+      "authority": "Cantonal authority of the canton of residence",
+      "source_url": "https://www.bag.admin.ch/en/health-insurance-foreign-students-in-switzerland",
+      "extra_sources": [
+        "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/praemienverbilligung-krankenversicherung/allgemeine_informationen_deutsch.pdf",
+        "https://www.epfl.ch/education/studies/en/epfl-studies/insurance/health-insurance/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "EPFL (Vaud) says the foreign insurer must provide unlimited cover for treatment in Switzerland and the exemption is valid at most 6 years in total."
+    },
+    {
+      "id": "ch-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a bank account as a student",
+      "title_it": "Aprire un conto bancario da studente",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "No official page on requirements for foreign students to open a Swiss bank account was found. Note: Canton Zurich requires non-EU applicants' proof of means to come from a bank licensed in Switzerland.",
+      "authority": "Banks (no public authority)",
+      "source_url": "https://www.studyinswitzerland.plus/cost-of-living/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "id": "ch-transport-sbb-half-fare",
+      "topic": "transport_card",
+      "title": "SBB Half Fare Travelcard (cheaper for under 25)",
+      "title_it": "Abbonamento metà prezzo FFS (più economico sotto i 25 anni)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 16
+        }
+      },
+      "summary": "The Half Fare Travelcard halves most public transport fares nationwide for one year and renews automatically (it sits on the SwissPass). Ages 16 to under 25: CHF 120/year (CHF 100 loyalty renewal). Adults 25+: CHF 190 until 12 Dec 2026, CHF 195 from 13 Dec 2026.",
+      "cost": "CHF 120/year (16-24); CHF 190/year adults, CHF 195 from 13 Dec 2026",
+      "authority": "SBB / Swiss public transport (Alliance SwissPass)",
+      "source_url": "https://sbb.ch/en/offers/half-fare-travelcard",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "valid_until": "2026-12-12"
+    },
+    {
+      "id": "ch-transport-ga-youth",
+      "topic": "transport_card",
+      "title": "GA Travelcard for Youth (unlimited travel, 16-24)",
+      "title_it": "Abbonamento generale Youth (viaggi illimitati, 16-24 anni)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 16,
+          "max": 24
+        }
+      },
+      "summary": "Unlimited travel on Swiss public transport for people aged 16 to under 25: CHF 2,780/year in 2nd class, or CHF 260/month on monthly payment. It converts to the GA for 25-year-olds after the 25th birthday.",
+      "cost": "CHF 2,780/year or CHF 260/month (2nd class)",
+      "authority": "SBB / Alliance SwissPass",
+      "source_url": "https://www.sbb.ch/en/offers/ga-travelcard-for-youth",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-work-eu-students",
+      "topic": "student_work",
+      "title": "Working while studying: EU/EFTA students",
+      "title_it": "Lavorare durante gli studi: studenti UE/AELS",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "eu_eea"
+        ],
+        "other": [
+          "Holder of a student (non-working) B or L permit"
+        ]
+      },
+      "summary": "EU/EFTA students may work from the start of their stay. With a student permit, side work is limited to 15 hours/week during the semester and full-time (Geneva: 40 h/week) during university holidays, and must be declared to the cantonal migration office.",
+      "authority": "Cantonal migration office (e.g. Geneva OCPM)",
+      "source_url": "https://www.orientation.ch/fr/en/studying-in-switzerland",
+      "extra_sources": [
+        "https://www.ge.ch/en/ask-student-permit/ancillary-activity",
+        "https://www.epfl.ch/education/studies/en/financing-study/working/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "The 15 h/week cap applies to EU/EFTA students holding a student permit (orientation.ch, Geneva OCPM, EPFL all apply it to foreign students generally).",
+          "source_url": "https://www.ge.ch/en/ask-student-permit/ancillary-activity"
+        },
+        {
+          "hypothesis": "EU/EFTA citizens with a permit marked 'right to gainful employment' (worker status, B/L/G) are in a different category from those whose permit allows only work 'up to 15 hrs/week'; whether a student can switch to worker status is not explained on the pages read.",
+          "source_url": "https://ethz.ch/students/en/studies/financial/tuition-fees.html"
+        }
+      ]
+    },
+    {
+      "id": "ch-work-non-eu-students",
+      "topic": "student_work",
+      "title": "Working while studying: non-EU/EFTA students",
+      "title_it": "Lavorare durante gli studi: studenti extra-UE/AELS",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "Enrolled at a Swiss higher education institution",
+          "At the earliest 6 months after the start of the course"
+        ]
+      },
+      "summary": "Non-EU/EFTA students may work at the earliest 6 months after their course starts, up to 15 hours/week in term and full-time in holidays, only with prior authorisation (the employer applies; the university must confirm the job will not delay studies). EPFL: research assistant jobs in one's own field are an exception to the 6-month wait.",
+      "steps": [
+        "Get a written confirmation from your university that the job is compatible with studies",
+        "Employer files the work permit application with the cantonal labour/migration office",
+        "Wait for the decision before starting work"
+      ],
+      "authority": "Canton Zurich Amt für Wirtschaft und Arbeit; Geneva OCPM; Vaud Service de la population and Service de l'emploi",
+      "source_url": "https://www.zh.ch/en/wirtschaft-arbeit/erwerbstaetigkeit-auslaender/studierende-und-praktikanten.html",
+      "extra_sources": [
+        "https://www.ge.ch/en/ask-student-permit/ancillary-activity",
+        "https://www.vd.ch/population/population-etrangere/entree-et-sejour/etats-tiers/sejour-pour-etudes",
+        "https://www.epfl.ch/education/studies/en/financing-study/working/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Zurich's page says part-time jobs are granted 'in exceptional cases only' and sets no separate holiday limit; Geneva says 40 h/week in holidays; Vaud and EPFL say full-time in holidays."
+    },
+    {
+      "id": "ch-work-after-graduation-non-eu",
+      "topic": "student_work",
+      "title": "Six-month job-search permit after graduating (non-EU)",
+      "title_it": "Permesso di 6 mesi per cercare lavoro dopo la laurea (extra-UE)",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "Completed studies at a Swiss university"
+        ]
+      },
+      "summary": "After a Swiss degree, non-EU graduates can get a six-month short-term permit to look for a job if they have sufficient funds, housing and proof of completed studies. A job can then be approved only in shortage sectors and where the work is of high academic or economic interest (Canton Zurich).",
+      "authority": "Cantonal migration office / Canton Zurich AWA",
+      "source_url": "https://www.zh.ch/en/wirtschaft-arbeit/erwerbstaetigkeit-auslaender/studierende-und-praktikanten.html",
+      "extra_sources": [
+        "https://www.zh.ch/de/migration-integration/aufenthalt/aufenthalt-ohne-erwerbstaetigkeit-fuer-drittstaatsangehoerige.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-minimum-wage-national",
+      "topic": "minimum_wage",
+      "title": "No federal minimum wage; some cantons set one",
+      "title_it": "Nessun salario minimo federale; alcuni cantoni ne hanno uno",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Minimum wages in Switzerland are set by cantons (e.g. Geneva, Basel-Stadt), not by federal law; where a canton has none, pay follows contracts and collective agreements. A federal-level confirmation page could not be reached.",
+      "authority": "Cantons",
+      "source_url": "https://www.bs.ch/wsu/awa/arbeitsbeziehungen/loehne/mindestlohn",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "The cantonal pages read (Basel-Stadt, Geneva) describe cantonal minimum wages but do not themselves state that there is no federal minimum; SECO pages returned 404. Which other cantons (e.g. Neuchâtel, Jura, Ticino) have minimum wages was not verified."
+    },
+    {
+      "id": "ch-minimum-wage-geneva",
+      "topic": "minimum_wage",
+      "title": "Geneva cantonal minimum wage",
+      "title_it": "Salario minimo del Canton Ginevra",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 18
+        },
+        "other": [
+          "Workplace habitually in canton Geneva",
+          "Not apprentices, volunteers, or internships forming part of a school/university programme"
+        ]
+      },
+      "summary": "CHF 24.59 gross/hour from 1 January 2026 (CHF 24.73 in 2027), indexed yearly; agriculture/floriculture CHF 18.07. Since 8 April 2026, summer jobs of enrolled students during holidays (max 60 days/year) may be paid 75%: CHF 18.44/hour in 2026.",
+      "cost": null,
+      "authority": "Office cantonal de l'inspection et des relations du travail (OCIRT), Geneva",
+      "source_url": "https://www.ge.ch/appliquer-salaire-minimum-genevois",
+      "extra_sources": [
+        "https://www.ge.ch/actualite/salaire-minimum-genevois-2026-etablira-2459-fr-heure-1-10-2025",
+        "https://www.ge.ch/appliquer-salaire-minimum-genevois/qui-n-est-pas-soumis-au-salaire-minimum",
+        "https://www.ge.ch/node/42971"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-minimum-wage-basel-stadt",
+      "topic": "minimum_wage",
+      "title": "Basel-Stadt cantonal minimum wage",
+      "title_it": "Salario minimo del Canton Basilea Città",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "Workplace in canton Basel-Stadt",
+          "Not in sectors with a generally binding collective agreement (GAV)",
+          "Internships can be exempt (§ 2 MiLoG)"
+        ]
+      },
+      "summary": "CHF 22.20/hour in 2026 (CHF 22.50 in 2027), indexed yearly; hourly staff get holiday pay on top (CHF 24.14 incl. 4 weeks' holiday). It does not apply in sectors with a generally binding collective labour agreement.",
+      "authority": "Amt für Wirtschaft und Arbeit Basel-Stadt",
+      "source_url": "https://www.bs.ch/wsu/awa/arbeitsbeziehungen/loehne/mindestlohn",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ch-minimum-wage-zurich-city",
+      "topic": "minimum_wage",
+      "title": "City of Zurich municipal minimum wage: status unclear",
+      "title_it": "Salario minimo comunale della città di Zurigo: situazione non chiara",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any"
+      },
+      "summary": "Whether a municipal minimum wage applies in the City of Zurich could not be confirmed on an official page. The bot should not state an amount.",
+      "authority": "City of Zurich",
+      "source_url": "https://www.stadt-zuerich.ch/de/lebenslagen/neu-in-zuerich/zuzug-ausland/willkommen.html",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Starting point given in the assignment ('Zurich city?'). Legal challenges were reported in the press in earlier years; not verified today."
+    },
+    {
+      "id": "ch-tuition-eth-foreign",
+      "topic": "other",
+      "title": "ETH Zurich: threefold tuition fee for foreign students (from autumn 2025)",
+      "title_it": "ETH Zurigo: tassa universitaria tripla per studenti stranieri (dall'autunno 2025)",
+      "applies_to": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "non_eu"
+        ],
+        "other": [
+          "Applies to students who obtained their university entrance qualification while resident abroad, enrolling from autumn semester 2025"
+        ]
+      },
+      "summary": "ETH charges CHF 730/semester (group 1) or CHF 2,190/semester (group 2). Swiss/Liechtenstein citizens and anyone resident in CH/FL when they obtained the entrance qualification pay the simple fee; EU/EFTA citizens qualify for it only with a B/L/G permit marked 'right to gainful employment' or a C permit before starting (a '15 hrs/week' student permit is not enough). Students enrolled before autumn 2025 keep the old fee.",
+      "cost": "CHF 730 or CHF 2,190 per semester",
+      "authority": "ETH Zurich",
+      "source_url": "https://ethz.ch/students/en/studies/financial/tuition-fees.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "EPFL's social-scholarship page also refers to the 'tripling of taxes' for international students; EPFL amounts were not read today."
+    }
+  ]
+}

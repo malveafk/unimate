@@ -1,0 +1,198 @@
+{
+  "country": "Luxembourg",
+  "country_code": "LU",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    { "key": "state_grant_loan", "result": "found", "note": "AideFi (State financial aid for higher education) on guichet.lu and mengstudien.public.lu (2026/2027 amounts)." },
+    { "key": "rent", "result": "not_researched", "note": "Attempted: the guichet.lu rent-subsidy (subvention de loyer) pages returned 404 today and the search budget ran out, so no national rent aid was verified. University residences (from € 450/month) are in the Esch-sur-Alzette city file. The AideFi mobility grant is rent-linked but only for study outside the country of residence." },
+    { "key": "health_insurance", "result": "none_found", "note": "No subsidy found. Uninsured students pay the statutory student affiliation fee via the university (amount not found). Checked uni.lu health insurance page, CCSS students page, guichet.lu." },
+    { "key": "transport", "result": "found", "note": "Free public transport nationwide since 1 March 2020 (transports.public.lu)." },
+    { "key": "tax", "result": "found", "note": "Withholding-tax waiver for holiday student contracts paid ≤ € 18/hour (guichet.lu)." },
+    { "key": "student_work", "result": "found", "note": "Holiday student contract exempt from health and pension contributions (guichet.lu). Rules themselves are in bureaucracy.json." },
+    { "key": "erasmus", "result": "none_found", "note": "No host-country or University of Luxembourg top-up for incoming Erasmus students found; incoming exchange students are funded by their home institution and are eligible for university housing for their exchange period (uni.lu accommodation offer page). Anefore is the Erasmus+ national agency; outgoing grant amounts not researched." },
+    { "key": "regional", "result": "none_found", "note": "Luxembourg has no regional tier between State and communes; measures are national. Communal aids (e.g. City of Esch-sur-Alzette) not researched." },
+    { "key": "university", "result": "found", "note": "University of Luxembourg hardship-assistance page (Hardship Fund, food voucher, laptop scheme) and scholarships page (only external scholarships listed)." }
+  ],
+  "items": [
+    {
+      "id": "lu-aidefi-resident",
+      "category": "state_grant_loan",
+      "name_local": "Aide financière de l'État pour études supérieures (AideFi) – résidents",
+      "name_it": "Aiuto finanziario statale per gli studi superiori (AideFi) – residenti",
+      "authority": "Ministry of Higher Education and Research (MESR), Financial Aid Department",
+      "description": "Semester grants plus an optional state-guaranteed loan. 2026/2027: basic grant € 1,289; social-criteria grant up to € 2,500 (decreases as household taxable income rises); mobility grant € 1,686 only if you study outside your country of residence and pay rent there ≥ 2 consecutive months; family grant € 307; loan € 3,250 (max 1.8% interest). Fees added up to € 3,800/year (50% grant, 50% loan); € 250 success bonus.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "residence_requirement": "Resident in Luxembourg AND Luxembourg national, or EU/EEA/Swiss national with a right of residence as a worker or permanent residence, family member of such a person, beneficiary of international protection, or third-country national with long-term residence",
+        "other": [
+          "enrolled full-time, or part-time with at least 15 ECTS per semester, in an AideFi-eligible programme",
+          "students who live in Luxembourg mainly for their studies and earn ≤ 80% of the unskilled social minimum wage count as NON-residents (see lu-aidefi-nonresident)"
+        ]
+      },
+      "amount": "per semester 2026/2027: € 1,289 basic + up to € 2,500 social + € 1,686 mobility (if eligible) + € 307 family (if eligible) in grants; € 3,250 loan",
+      "how_to_apply": "Online via MyGuichet.lu, every semester (forms open from the first working day of August for winter, of February for summer). Missing documents can be uploaded within 3 months of the request.",
+      "deadline": "Winter semester 30 November; summer semester 31 May; enrolment-fee top-up 31 July. No late applications.",
+      "stackable": null,
+      "source_url": "https://guichet.public.lu/en/citoyens/famille-education/etudes-superieures/aides-logement/aide-financiere.html",
+      "extra_sources": ["https://mengstudien.public.lu/fr/aides-financieres/aidefi/composition.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "A Luxembourg resident studying at the University of Luxembourg does not get the mobility grant (it requires study outside the country of residence). Family grant requires another dependent child of the household in eligible higher education; paid once, in the summer semester. Loan via Spuerkeess, Banque de Luxembourg, BIL, Raiffeisen or BGL BNP Paribas; repayment starts within 2 years of the end of studies, up to 10 years. Exchange-only students: not addressed on the page."
+    },
+    {
+      "id": "lu-aidefi-nonresident",
+      "category": "state_grant_loan",
+      "name_local": "AideFi – non-résidents enfants de travailleurs au Luxembourg",
+      "name_it": "AideFi – non residenti figli di lavoratori in Lussemburgo",
+      "authority": "Ministry of Higher Education and Research (MESR), Financial Aid Department",
+      "description": "Non-resident students (including EU students who moved to Luxembourg mainly to study) can get AideFi only as children of a worker employed in Luxembourg who still supports them. AideFi is then subsidiary: you must first apply for aid in your country of residence and attach that country's answer (positive or negative). Same components and amounts as for residents.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea", "swiss"],
+        "residence_requirement": "Parent works in Luxembourg and meets one of: ≥ 5 years of work in Luxembourg in the 10 years before the application; or ≥ 10 years of work in Luxembourg in total; alternatives listed: the student has ≥ 5 years of legal residence in Luxembourg, or ≥ 5 years of enrolment in a course of study",
+        "income_test": "Student living in Luxembourg mainly for studies is non-resident if total annual income ≤ 80% of the unskilled social minimum wage",
+        "other": [
+          "child of a worker who is a Luxembourg, EU/EEA/Swiss or UK Withdrawal Agreement national",
+          "parent continues to contribute to the student's maintenance",
+          "must first complete the aid procedure in the country of residence"
+        ]
+      },
+      "amount": "same per-semester amounts as lu-aidefi-resident (2026/2027)",
+      "how_to_apply": "Online via MyGuichet.lu each semester, attaching the decision on aid from the country of residence (can be provided later).",
+      "deadline": "Winter semester 30 November; summer semester 31 May; enrolment-fee top-up 31 July.",
+      "stackable": "Subsidiary to (not on top of) the aid of the country of residence: the home-country procedure must be completed first; how the amounts are offset is not stated on the page.",
+      "source_url": "https://guichet.public.lu/en/citoyens/famille-education/etudes-superieures/aides-logement/aide-financiere.html",
+      "extra_sources": ["https://mengstudien.public.lu/fr/aides-financieres/aidefi/composition.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Typical case for an Italian/EU student whose parents do not work in Luxembourg: NOT eligible. Third-country nationals are not mentioned in the non-resident route. Human check advised on how the '5 years residence / 5 years study' alternatives combine with the child-of-worker condition."
+    },
+    {
+      "id": "lu-free-public-transport",
+      "category": "transport",
+      "name_local": "Mobilité gratuite (transports publics gratuits)",
+      "name_it": "Trasporto pubblico gratuito",
+      "authority": "Ministry of Mobility and Public Works",
+      "description": "All buses, trams and trains (except 1st class) inside Luxembourg are free for everyone since 1 March 2020; no ticket or student card is needed. Cross-border trips beyond the national network are paid.",
+      "eligibility": { "student_type": "any", "nationality": "any" },
+      "amount": "€ 0 for all domestic 2nd-class travel (since 1 March 2020)",
+      "how_to_apply": "Nothing to apply for.",
+      "deadline": null,
+      "stackable": "Applies to everyone automatically.",
+      "source_url": "https://transports.public.lu/en/se-deplacer/transports-publics/mobilite-gratuite.html",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "lu-tax-holiday-job",
+      "category": "tax",
+      "name_local": "Exemption de retenue d'impôt – contrat d'étudiant (vacances)",
+      "name_it": "Esenzione dalla ritenuta fiscale – contratto studente per le vacanze",
+      "authority": "Guichet.lu / Administration des contributions directes",
+      "description": "On a holiday student contract paid € 18 per hour or less, the employer can ask for withholding tax to be waived and the student does not need to submit a tax card. Above € 18/hour, withholding tax applies and a tax card is needed.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": { "min": 15, "max": 26 },
+        "other": ["holiday student contract (max 2 months or 346 hours per calendar year)", "hourly pay ≤ € 18"]
+      },
+      "amount": "no withholding tax if hourly pay ≤ € 18 (page updated 13.02.2026)",
+      "how_to_apply": "Requested by the employer.",
+      "deadline": null,
+      "stackable": "Combined automatically with the social-contribution exemption (lu-holiday-contract-contributions).",
+      "source_url": "https://guichet.public.lu/en/citoyens/famille-education/etudes-superieures/activite-professionnelle/contrat-etudiant.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Term-time fixed-term student contracts are normally taxed as salary (tax card from the RTS office)."
+    },
+    {
+      "id": "lu-holiday-contract-contributions",
+      "category": "student_work",
+      "name_local": "Contrat d'étudiant – exonération des cotisations maladie et pension",
+      "name_it": "Contratto studente – esenzione dai contributi malattia e pensione",
+      "authority": "Centre commun de la sécurité sociale (CCSS)",
+      "description": "Under a holiday student contract the employer registers the student only for accident insurance; neither employer nor student pays health or pension contributions, so gross pay is largely net.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": { "min": 15, "max": 26 },
+        "other": ["enrolled full-time (or enrolment ended < 4 months ago)", "school holidays only, max 2 months or 346 hours per calendar year"]
+      },
+      "amount": null,
+      "how_to_apply": "Automatic with a written holiday student contract.",
+      "deadline": null,
+      "stackable": "Yes, with the withholding-tax waiver (lu-tax-holiday-job).",
+      "source_url": "https://guichet.public.lu/en/citoyens/famille-education/etudes-superieures/activite-professionnelle/contrat-etudiant.html",
+      "extra_sources": ["https://ccss.public.lu/en/particuliers/stagiaires-etudiants.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Non-EU students: see the work-hour rules in bureaucracy.json (lu-student-work-non-eu)."
+    },
+    {
+      "id": "lu-uni-hardship-fund",
+      "category": "university",
+      "name_local": "University of Luxembourg Student Hardship Fund",
+      "name_it": "Fondo per studenti in difficoltà dell'Università del Lussemburgo",
+      "authority": "University of Luxembourg, Student Department (SEVE)",
+      "description": "Safety-net support for enrolled students facing unexpected financial hardship; not a grant or main income. Luxembourg students must first apply to MengStudien; EU students are expected to have applied for home-country grants and loans; non-EU students are helped only after an unexpected change since their proof of funding.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "income_test": "demonstrated financial difficulty, especially unexpected hardship",
+        "other": ["fully enrolled Bachelor or Master students, or self-funded doctoral candidates"]
+      },
+      "amount": null,
+      "how_to_apply": "Via the University of Luxembourg (details under 'How to apply' on the hardship page / Student Portal).",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.uni.lu/life-en/financial-support/hardship-assistance/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No amount published on the page."
+    },
+    {
+      "id": "lu-uni-food-voucher",
+      "category": "university",
+      "name_local": "Food vouchers – University of Luxembourg",
+      "name_it": "Buoni pasto – Università del Lussemburgo",
+      "authority": "University of Luxembourg, Student Department",
+      "description": "Emergency help towards food: a € 100 food voucher for enrolled students in financial difficulty, collected in person at the Student Department (Maison du Savoir, Belval) after an email invitation.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "income_test": "experiencing financial difficulties",
+        "other": ["enrolled Bachelor or Master student, or self-funded doctoral candidate"]
+      },
+      "amount": "€ 100 voucher (2026)",
+      "how_to_apply": "Online form on the Student Portal.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.uni.lu/life-en/financial-support/hardship-assistance/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "lu-uni-laptop-scheme",
+      "category": "university",
+      "name_local": "Student access to tech scheme (Student in Need Laptop Scheme)",
+      "name_it": "Programma portatili per studenti in difficoltà",
+      "authority": "University of Luxembourg",
+      "description": "A free used laptop for students who cannot afford one, from the 2nd semester of their programme; one per student, replacement only after 3 years; subject to stock.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "income_test": "financial need shown by documents and an interview",
+        "other": ["enrolled Bachelor, Master or self-funded doctoral candidate", "from the 2nd semester onward", "not an incoming mobility (exchange) student"]
+      },
+      "amount": "one second-hand laptop",
+      "how_to_apply": "Online form on the Student Portal.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.uni.lu/life-en/financial-support/hardship-assistance/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    }
+  ]
+}

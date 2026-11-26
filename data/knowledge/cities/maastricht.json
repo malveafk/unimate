@@ -1,0 +1,92 @@
+{
+  "city": "Maastricht",
+  "slug": "maastricht",
+  "country": "Netherlands",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 550/month median room rent (Kamernet, Q2 2026; +15.8% y/y)",
+      "source_name": "Kamernet Rent Report Q2 2026",
+      "source_url": "https://housinganywhere.com/quarterly-kamernet-rent-report",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://housinganywhere.com/kamernet-rent-report-q1-2026",
+        "https://housinganywhere.com/faq-kamernet-rent-report"
+      ],
+      "notes": "Kamernet median rent for rooms (max 30 m2) advertised on Kamernet by private landlords/tenants/agencies; social student housing excluded. Advertised asking rents, not what existing tenants pay. The Q2 2026 figures were read on a rolling URL that is overwritten by each new quarterly report."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Not found on an official/citable source",
+      "source_name": "Maastricht University",
+      "source_url": "https://www.maastrichtuniversity.nl/study/student-life/cost-studying-financial-assistance",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No studio figure on UM's cost page or in the Kamernet report (rooms only)."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "≈ € 1,460/month incl. € 561 rent (Nibud 2024 national student survey averages, as listed by UM)",
+      "source_name": "Maastricht University (Nibud 2024 student survey)",
+      "source_url": "https://www.maastrichtuniversity.nl/study/student-life/cost-studying-financial-assistance",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "UM lists items: rent 561, groceries 272, books 53, transport 67, leisure 238, clothing 60, health insurance 156, phone/internet 55. The total is our sum; figures are national averages, not Maastricht-specific."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No pass price found; students budget ≈ € 67/month for transport (public transport + bike, Nibud 2024 national average)",
+      "source_name": "Maastricht University (Nibud 2024 student survey)",
+      "source_url": "https://www.maastrichtuniversity.nl/study/student-life/cost-studying-financial-assistance",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "This is an average spend, not the price of a monthly pass from the local operator; pass price not checked."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime: avg 3.2 °C in Jan, 18.8 °C in Jul; ~757 mm rain/yr; ~1696 h sun/yr (KNMI 1991-2020, Maastricht)",
+      "source_name": "KNMI climate normals 1991-2020, station Maastricht (380)",
+      "source_url": "https://cdn.knmi.nl/knmi/map/page/klimatologie/klimaatatlas/tabel/stationsdata/klimtab_9120_380.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Many student organisations, UM SPORTS, buddy programme and welcome days for internationals.",
+      "source_name": "Maastricht University - student life",
+      "source_url": "https://www.maastrichtuniversity.nl/study/student-life",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "No Dutch needed for English-taught programmes; English is widely spoken. Dutch helps for part-time jobs/internships and is sometimes required.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/start-learning-dutch",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "National source, applies to the whole country."
+    },
+    {
+      "field": "job_market",
+      "value": "UM's temp agency InterUM offers on-campus jobs (student employee, research assistant, invigilator, reception). Non-EU: max 16 h/week Sep-May, full-time Jun-Aug.",
+      "source_name": "Maastricht University - working while you study",
+      "source_url": "https://www.maastrichtuniversity.nl/studeren/studentenleven/working-while-you-study",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page gives no figure on how easy it is to find a job in town or on language requirements."
+    },
+    {
+      "field": "student_wage",
+      "value": "Statutory minimum from 1 Jul 2026: € 14.99/h gross at 21+; € 11.99 (age 20), € 8.99 (19), € 7.50 (18). Same nationwide.",
+      "source_name": "Government.nl - minimum wage amounts",
+      "source_url": "https://www.government.nl/topics/minimum-wage/minimum-wage-amounts",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Legal floor, not a measured 'typical' student wage for this city; many student jobs pay at or near this minimum. Rates from 1 Jan 2026 were € 14.71 (21+)."
+    }
+  ]
+}

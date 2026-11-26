@@ -1,0 +1,93 @@
+{
+  "city": "Espoo",
+  "slug": "espoo",
+  "country": "Finland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "About € 300/month for student housing in a shared apartment (Aalto 2026 brochure); HOAS shared rooms € 250-519/month",
+      "source_name": "Aalto University international students brochure 2026",
+      "source_url": "https://www.aalto.fi/sites/default/files/2026-10/Aalto-international-students-brochure-2026.pdf",
+      "extra_sources": ["https://hoas.fi/en/applicants/apartment-types/room-in-a-shared-apartment/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Main providers near Otaniemi are AYY and HOAS (HOAS covers Helsinki, Espoo, Vantaa, Kauniainen). Aalto gives student-housing rents of roughly € 300-600/month."
+    },
+    {
+      "field": "rent_studio",
+      "value": "€ 500-747/month for a HOAS student studio; private-market rent from about € 600/month upwards (Aalto)",
+      "source_name": "HOAS; Aalto University",
+      "source_url": "https://hoas.fi/en/applicants/apartment-types/studio-apartments/",
+      "extra_sources": ["https://www.aalto.fi/en/international-students/moving-to-finland-and-financial-matters"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "HOAS range covers its whole Helsinki-region stock, not Espoo alone. Aalto's 'from € 600' refers to private-market accommodation in general, not specifically studios."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€ 800-1,300+/month incl. rent (Aalto estimate 2026)",
+      "source_name": "Aalto University",
+      "source_url": "https://www.aalto.fi/en/international-students/moving-to-finland-and-financial-matters",
+      "extra_sources": ["https://www.aalto.fi/sites/default/files/2026-10/Aalto-international-students-brochure-2026.pdf"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Brochure breakdown: student housing € 250-500, transport € 0-70, food € 250-350, other € 300-380."
+    },
+    {
+      "field": "transport_pass",
+      "value": "About € 50-70/month for a 30-day HSL student season ticket in the central Espoo/Helsinki zones (Aalto estimate)",
+      "source_name": "Aalto University",
+      "source_url": "https://www.aalto.fi/en/international-students/moving-to-finland-and-financial-matters",
+      "extra_sources": ["https://www.aalto.fi/en/node/821046"],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "hsl.fi returned HTTP 403 to automated fetches; operator price not confirmed. More zones cost more."
+    },
+    {
+      "field": "climate",
+      "value": "Cold winters (daily means below 0 °C, about 100 days in SW Finland); shortest day about 6 h, longest nearly 19 h; summer daily means above 10 °C late May-mid Sept",
+      "source_name": "Finnish Meteorological Institute",
+      "source_url": "https://en.ilmatieteenlaitos.fi/seasons-in-finland",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "FMI describes southern/south-western Finland; no Espoo-specific figures."
+    },
+    {
+      "field": "social_life",
+      "value": "Campus-centred student culture at Otaniemi (long traditions, overalls, events) and a large startup community (Aaltoes); Helsinki is next door",
+      "source_name": "Aalto University international students brochure 2026",
+      "source_url": "https://www.aalto.fi/sites/default/files/2026-10/Aalto-international-students-brochure-2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English enough for English-taught degrees and many daily situations; most employers require Finnish or Swedish",
+      "source_name": "InfoFinland",
+      "source_url": "https://infofinland.fi/en/education/foreign-students-in-finland",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "English often enough in IT, industry and international companies; many other jobs need Finnish/Swedish. Aalto runs career support and a Summer Job Day",
+      "source_name": "InfoFinland; Aalto University",
+      "source_url": "https://infofinland.fi/en/work-and-enterprise/finnish-working-life/language-skills-and-qualification-requirements",
+      "extra_sources": ["https://www.aalto.fi/en/student-guide/work-and-career"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable figure for typical student hourly pay; Finland has no statutory minimum wage (pay set by sector collective agreements)",
+      "source_name": "Occupational Safety and Health Administration (Työsuojelu)",
+      "source_url": "https://www.tyosuojelu.fi/en/employment-relationship/pay",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Web search budget ran out before collective-agreement wage tables could be checked."
+    }
+  ]
+}

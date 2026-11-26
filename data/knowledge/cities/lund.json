@@ -1,0 +1,98 @@
+{
+  "city": "Lund",
+  "slug": "lund",
+  "country": "Sweden",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "SEK 4,000–8,000/month accommodation (Lund University budget); LU Accommodation rooms SEK 26,000–54,000 per semester incl. utilities and furniture.",
+      "source_name": "Lund University",
+      "source_url": "https://www.lunduniversity.lu.se/student-life/before-you-arrive/money-and-living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.lunduniversity.lu.se/student-life/housing"
+      ],
+      "notes": "Year of the figures not stated; pages updated Aug–Sep 2026."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~SEK 7,750/month outside centre, ~SEK 8,930 in centre (Nov 2026).",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Lund",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Lund University example: food SEK 3,000 + accommodation 4,000–8,000 + books 400–1,000 + misc 1,500 = about SEK 8,900–13,500/month (transport not itemised).",
+      "source_name": "Lund University",
+      "source_url": "https://www.lunduniversity.lu.se/student-life/before-you-arrive/money-and-living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Total is the sum of the university's items, computed by us; the page gives no year."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Monthly pass about SEK 634 regular (Numbeo, Nov 2026); students get 25% off ordinary Skånetrafiken tickets with a student ID app.",
+      "source_name": "Numbeo (crowd-sourced); Skånetrafiken",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Lund",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.skanetrafiken.se/biljetter/priser-och-rabatter/"
+      ],
+      "notes": "Official Skånetrafiken 30-day price for Lund not found on the page read."
+    },
+    {
+      "field": "climate",
+      "value": "Mean temperature about 0.9 °C in January and 18.3 °C in July; about 676 mm precipitation/year (SMHI 1991–2020).",
+      "source_name": "Wikipedia (citing SMHI)",
+      "source_url": "https://en.wikipedia.org/wiki/Lund",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing SMHI 1991–2020 normals; SMHI's own tables were not reached."
+    },
+    {
+      "field": "social_life",
+      "value": "Student life centres on the 13 student nations (clubs, sports, parties); student unions also organise social activities.",
+      "source_name": "Lund University",
+      "source_url": "https://www.lunduniversity.lu.se/student-life/student-organisations",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English is enough for daily life, but typical student jobs (shops, cafés) generally require some Swedish.",
+      "source_name": "Lund University; Study in Sweden",
+      "source_url": "https://www.lunduniversity.lu.se/student-life/before-you-arrive/jobs-and-internships",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://studyinsweden.se/moving-to-sweden/learn-swedish/"
+      ]
+    },
+    {
+      "field": "job_market",
+      "value": "Competitive: 46,000+ students compete for part-time work; the university rarely hires bachelor's/master's students. International firms, science parks and start-ups nearby.",
+      "source_name": "Lund University",
+      "source_url": "https://www.lunduniversity.lu.se/student-life/before-you-arrive/jobs-and-internships",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "student_wage",
+      "value": "No city data. National example: hotel/restaurant agreement floor SEK 153.64–164.30/hour (from 1 Apr 2026, no experience; youth rates under 20). No statutory minimum wage.",
+      "source_name": "HRF (Hotel and Restaurant Workers' Union) – Gröna Riksavtalet",
+      "source_url": "https://www.hrf.net/lon-och-villkor/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "extra_sources": [
+        "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics"
+      ],
+      "notes": "A collective-agreement wage floor for one sector, not a measured typical student wage; no citable source for typical student pay found."
+    }
+  ]
+}

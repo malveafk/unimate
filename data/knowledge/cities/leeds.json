@@ -1,0 +1,91 @@
+{
+  "city": "Leeds",
+  "slug": "leeds",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "University self-catered avg £198/week (£122–£273, bills incl.); private self-catered avg £210/week (£80–£339) (2026/27).",
+      "source_name": "University of Leeds, living costs and budgeting",
+      "source_url": "https://www.leeds.ac.uk/undergraduate-fees/doc/living-expenses",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Private figures from Unipol (Aug 2026); bills not always included. University catered avg £248/week. University rents provisional."
+    },
+    {
+      "field": "rent_studio",
+      "value": "£784/month average private rent, one-bedroom (Leeds, Oct 2026); all private rents average £1,149/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E08000035/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Rent plus living costs avg £320/week (range £171–£466): £12,480 per 39-week year, £16,640 per 52 weeks (University estimate 2026/27).",
+      "source_name": "University of Leeds, living costs and budgeting",
+      "source_url": "https://www.leeds.ac.uk/undergraduate-fees/doc/living-expenses",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page gives no monthly figure; tuition excluded."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Leeds",
+      "source_url": "https://www.leeds.ac.uk/undergraduate-fees/doc/living-expenses",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Leeds page gives no bus pass price (transport is inside a £59/week personal-costs figure)."
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 1.0–5.7°C, Jul avg 11.2–19.3°C (min–max); about 1,057 mm rain/year. Met Office Bingley station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcwfhe5wt",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nearest station returned is Bingley, about 20 km north-west of Leeds and on higher ground; Leeds itself is likely somewhat milder and drier."
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Leeds",
+      "source_url": "https://www.leeds.ac.uk/undergraduate-fees/doc/living-expenses",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Leeds",
+      "source_url": "https://www.leeds.ac.uk/undergraduate-fees/doc/living-expenses",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

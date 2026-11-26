@@ -1,0 +1,102 @@
+{
+  "city": "Paris",
+  "slug": "paris",
+  "country": "France",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.sciencespo.fr/students/en/living/housing/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Sciences Po housing page gives no room prices."
+    },
+    {
+      "field": "rent_studio",
+      "value": "€600–900/month for a private studio incl. water/electricity; average Paris rent cited €885",
+      "source_name": "Sciences Po – Create a budget",
+      "source_url": "https://www.sciencespo.fr/students/en/fees-funding/budget-studies/",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Paris"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Year not stated on the page. Numbeo (Nov 2026, crowd-sourced): 1-bedroom €1,447 centre / €1,123 outside centre."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Studio €600–900 + food €250–300 + leisure €100–150 + Navigo €90.80 per month (Sciences Po guide)",
+      "source_name": "Sciences Po – Create a budget",
+      "source_url": "https://www.sciencespo.fr/students/en/fees-funding/budget-studies/",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Paris"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No official total given; Numbeo (crowd-sourced, Nov 2026): about €1,045/month excluding rent for a single person."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Navigo Mois all zones €90.80/month (2026); under-26 residents can take the imagine R annual student pass",
+      "source_name": "Sciences Po – Create a budget",
+      "source_url": "https://www.sciencespo.fr/students/en/fees-funding/budget-studies/",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Paris"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "IDFM pages refuse automated access; price confirmed by Numbeo (Nov 2026). imagine R price: see france/bureaucracy.json (unverified)."
+    },
+    {
+      "field": "climate",
+      "value": "Paris-Montsouris 1991–2020: January avg 3.2–7.6 °C, July avg 16.2–25.7 °C; about 634 mm rain/year",
+      "source_name": "Wikipedia (Climate of Paris, citing Météo-France normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Climate_of_Paris",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Non-official page citing Météo-France; Météo-France page not reachable."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.sciencespo.fr/students/en/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No citable source consulted.",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "No citable figure found",
+      "source_name": "—",
+      "source_url": "https://www.sorbonne-universite.fr/en/international-0/international-welcome-desk",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Not researched on an official page today."
+    },
+    {
+      "field": "job_market",
+      "value": "Universities run student-job services (PSL student employment, Sorbonne platform); PSL junior-enterprise projects pay ~€80–280 pre-tax per day",
+      "source_name": "PSL – Financial aid",
+      "source_url": "https://psl.eu/en/lifepsl/campus-life-paris/financial-aids",
+      "extra_sources": [
+        "https://www.sorbonne-universite.fr/en/education/student-life/student-jobs"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "Legal floor: SMIC €12.31 gross/hour for adults (2026); typical student-job pay not published",
+      "source_name": "Service-Public.gouv.fr (SMIC)",
+      "source_url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2300",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Only the statutory minimum is verified; no official source for typical student pay in this city."
+    }
+  ]
+}

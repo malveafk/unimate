@@ -1,0 +1,375 @@
+{
+  "country": "Estonia",
+  "country_code": "EE",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    {
+      "key": "state_grant_loan",
+      "result": "found",
+      "note": "hm.ee 'Õppetoetused' (needs-based study allowance and special allowance, page updated 11.11.2026), hm.ee 'Õppelaen' (2026/27), UT need-based allowance page, Harno national scholarship for international students."
+    },
+    {
+      "key": "rent",
+      "result": "none_found",
+      "note": "No student rent allowance found on hm.ee, UT stipends page, Tartu Welcome Centre housing page or tartu.ee pages read. General social benefits (e.g. subsistence benefit) were not researched."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found",
+      "note": "Tervisekassa: higher-education students who are permanent residents of Estonia are treated as insured (no premium). Voluntary insurance is paid (see bureaucracy.json)."
+    },
+    {
+      "key": "transport",
+      "result": "found",
+      "note": "tartu.ee ticket prices: age-based youth (20–26) discount; no student category; Estonian ID code needed."
+    },
+    {
+      "key": "tax",
+      "result": "found",
+      "note": "emta.ee basic exemption 2026 (€ 700/month). Whether non-residents get it was not confirmed (non-resident page silent)."
+    },
+    {
+      "key": "student_work",
+      "result": "none_found",
+      "note": "No subsidy or tax break specific to working students found on emta.ee, tooelu.ee or studyinestonia.ee 'Working'."
+    },
+    {
+      "key": "erasmus",
+      "result": "none_found",
+      "note": "No host-country, Tartu or UT top-up for incoming Erasmus+ students found (UT exchange and Erasmus pages); incoming students are funded by their home institution. The Harno national scholarship (ee-national-scholarship-international) also covers exchange students. Outgoing Erasmus+ rates not researched (harno.ee Erasmus page returned 404)."
+    },
+    {
+      "key": "regional",
+      "result": "found",
+      "note": "City of Tartu resident ('tartlane') bus fares for people registered in Tartu city or Kambja/Luunja/Tartu rural municipality."
+    },
+    {
+      "key": "university",
+      "result": "found",
+      "note": "UT cost-of-tuition page (2026/27 tuition-fee reductions; no new tuition waivers for non-EU), UT scholarship information (tuition-waiver master's for EU/EEA/Swiss), UT stipends page (UT Foundation)."
+    }
+  ],
+  "items": [
+    {
+      "id": "ee-needs-based-study-allowance",
+      "category": "state_grant_loan",
+      "name_local": "Vajaduspõhine õppetoetus",
+      "name_it": "Assegno di studio in base al bisogno",
+      "authority": "Ministry of Education and Research (Haridus- ja Teadusministeerium); paid by the state via the education portal",
+      "description": "Monthly allowance for full-time bachelor's/master's students from low-income families, based on the family's average monthly taxable income per member in the previous calendar year. Not available to non-EU students holding a temporary residence permit for study (since 1 August 2022).",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "family's average monthly income per member below € 756.38 in the previous calendar year",
+        "residence_requirement": "Estonian citizen, or staying in Estonia on a long-term or temporary residence permit (not for study) or a permanent or temporary right of residence; registered place of residence; Estonian personal ID code",
+        "other": [
+          "full-time study, completing at least 75% of the curriculum cumulatively (first semester: full-time is enough)",
+          "within the nominal study period",
+          "not on academic leave",
+          "not for doctoral students",
+          "students up to 24 are assessed with their parents' family; 25+ are a separate family",
+          "non-EU students holding a temporary residence permit for study are excluded"
+        ]
+      },
+      "amount": "€ 440, € 270 or € 150/month depending on income per family member (≤ € 189.10; € 189.11–378.19; € 378.20–756.38) — amounts set yearly in the State Budget Act",
+      "how_to_apply": "Apply on haridusportaal.edu.ee (login with ID card or Mobile-ID); foreign students upload an official family-composition document and public-authority income documents for each adult family member, translated and legalised/apostilled.",
+      "deadline": "Applications September to June; granted per semester from the month of application (not retroactive)",
+      "stackable": null,
+      "source_url": "https://www.hm.ee/korgharidus-ja-teadus/korgharidus/oppetoetused",
+      "extra_sources": [
+        "https://ut.ee/en/content/need-based-study-allowance"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Ministry page in Estonian, updated 11.11.2026. Temporary-protection holders (e.g. Ukrainians) remain eligible. EU students: eligible on the basis of temporary right of residence per UT; in practice the documents from abroad must be official and legalised."
+    },
+    {
+      "id": "ee-needs-based-special-allowance",
+      "category": "state_grant_loan",
+      "name_local": "Vajaduspõhine eritoetus",
+      "name_it": "Assegno speciale in base al bisogno",
+      "authority": "Ministry of Education and Research / higher education institution",
+      "description": "For students refused the needs-based study allowance because last year's family income exceeded the limit, but whose income has recently dropped significantly.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "income_test": "recent income below the limit after a negative decision on the needs-based allowance; documents on the last 3 months' family income",
+        "other": [
+          "same residence conditions as the needs-based study allowance"
+        ]
+      },
+      "amount": "€ 135/month (hm.ee, updated 11.11.2026)",
+      "how_to_apply": "Through the university after a negative needs-based allowance decision; foreign income documents need legalisation/apostille.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.hm.ee/korgharidus-ja-teadus/korgharidus/oppetoetused",
+      "extra_sources": [
+        "https://ut.ee/en/content/need-based-study-allowance"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "That the residence conditions mirror the main allowance is inferred from UT ('follow the same procedure'), not stated explicitly."
+    },
+    {
+      "id": "ee-study-loan",
+      "category": "state_grant_loan",
+      "name_local": "Õppelaen",
+      "name_it": "Prestito di studio",
+      "authority": "Ministry of Education and Research; loans issued by Swedbank and LHV",
+      "description": "State-guaranteed study loan for students of Estonian higher education institutions (or equivalent study abroad) on programmes of at least six months. Not available on a temporary right of residence or temporary residence permit.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "residence_requirement": "Estonian citizen, or residing in Estonia on a long-term residence permit or permanent right of residence",
+        "other": [
+          "full- or part-time study",
+          "one loan per education level per academic year"
+        ]
+      },
+      "amount": "up to € 6,000 per academic year (2026/2027)",
+      "how_to_apply": "Through the issuing banks (Swedbank, LHV).",
+      "deadline": "15 September to 1 June of the academic year",
+      "stackable": null,
+      "source_url": "https://www.hm.ee/korgharidus-ja-teadus/korgharidus/oppelaen",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "In practice this excludes most newly arrived EU and non-EU students (they hold a temporary right of residence or TRP). Interest rate not stated on the page."
+    },
+    {
+      "id": "ee-national-scholarship-international",
+      "category": "state_grant_loan",
+      "name_local": "Scholarship for degree and exchange study in Estonia (Harno)",
+      "name_it": "Borsa nazionale estone per studenti internazionali (laurea e scambio)",
+      "authority": "Education and Youth Board (Harno)",
+      "description": "Competitive state scholarship for foreign degree or exchange students at Estonian higher education institutions. Bachelor's only in fields related to Estonian language and culture; master's and PhD in all fields. About 15 awards in the 2026 round.",
+      "eligibility": {
+        "student_type": [
+          "degree",
+          "exchange"
+        ],
+        "nationality": "any",
+        "other": [
+          "citizenship of a country on the programme's list (Russian and Belarusian citizens not accepted in the 2026/27 round)",
+          "bachelor's: only Estonian language and culture fields",
+          "PhD students with a junior researcher contract excluded",
+          "from the second year, degree students must be full-time"
+        ]
+      },
+      "amount": "€ 350/month (bachelor's and master's), € 660/month (doctoral); exchange students up to 10 months, degree students 12 months (10 in final year)",
+      "how_to_apply": "One email in English titled 'Scholarship for degree and exchange study in Estonia' with the Word application form, passport/ID copy and the HEI's confirmation letter.",
+      "deadline": "1–31 October 2026, 23:59 Estonian time (as stated by Harno for the 2026/2027 round)",
+      "stackable": null,
+      "source_url": "https://www.harno.ee/en/scholarships-and-grants/scholarships-studying-and-working-estonia/scholarships-international",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The UT scholarship page still shows the earlier window 02.09.2025–01.10.2025. The country list was not checked in full (Harno names e.g. Finland, Germany, USA); confirm that the student's country is listed."
+    },
+    {
+      "id": "ee-health-insurance-students",
+      "category": "health_insurance",
+      "name_local": "Õpilased ja üliõpilased (kindlustatuga võrdsustatud isikud)",
+      "name_it": "Studenti equiparati agli assicurati (Tervisekassa)",
+      "authority": "Estonian Health Insurance Fund (Tervisekassa)",
+      "description": "Higher-education students who are permanent residents of Estonia are treated as insured by the state, with no premium. Cover pauses during academic leave (except for health reasons) and ends 3 months after graduation or 1 month after termination of studies.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "residence_requirement": "permanent resident of Estonia"
+      },
+      "amount": "state health insurance without premium",
+      "how_to_apply": "Automatic from the education and population registers.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.tervisekassa.ee/en/students-and-higher-education-students",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "International bachelor's/master's students (EU with temporary right of residence, non-EU with TRP) are NOT covered unless employed or with permanent residence (UT).",
+          "source_url": "https://ut.ee/en/content/health-insurance-international-students"
+        },
+        {
+          "hypothesis": "Tervisekassa only says 'permanent residents of Estonia'; the page does not define whether a registered EU citizen with temporary right of residence qualifies.",
+          "source_url": "https://www.tervisekassa.ee/en/students-and-higher-education-students"
+        }
+      ]
+    },
+    {
+      "id": "ee-tartu-youth-fare",
+      "category": "transport",
+      "name_local": "Tartu linnaliinide sooduspilet noorele (20–26)",
+      "name_it": "Biglietto ridotto giovani (20–26 anni) bus urbani di Tartu",
+      "authority": "City of Tartu",
+      "description": "Age-based discount on Tartu city buses for young people aged 20–26 (children 7–19 have a separate discount). There is no student fare as such: students aged 27+ pay full fare. Requires a bus card personalised with an Estonian personal ID code.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "min": 20,
+          "max": 26
+        },
+        "other": [
+          "bus card personalised with an Estonian personal identification code"
+        ]
+      },
+      "amount": "30-day ticket € 14.90 (registered residents) or € 22.30 (non-residents); 90-day € 33.80 / € 50.70; year € 120.80 / € 181.10 (tartu.ee, page modified 25.11.2026). Full-price 30-day: € 21.30 / € 31.90",
+      "how_to_apply": "Personalise a Tartu bus card (free at Tartu Welcome Centre or via tartu.pilet.ee) and buy the period ticket.",
+      "deadline": null,
+      "stackable": "Resident price applies on top if registered in Tartu (see ee-tartu-resident-fare)",
+      "source_url": "https://tartu.ee/hinnad-ja-soodustused",
+      "extra_sources": [
+        "https://ut.ee/en/content/cost-living-tartu"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Study in Estonia's 'Living costs' page shows an older student monthly ticket of € 7.67, which does not match current tartu.ee prices."
+    },
+    {
+      "id": "ee-tax-basic-exemption",
+      "category": "tax",
+      "name_local": "Maksuvaba tulu",
+      "name_it": "Quota di reddito esente (maksuvaba tulu)",
+      "authority": "Estonian Tax and Customs Board (EMTA)",
+      "description": "Basic exemption deducted from taxable income; from 2026 it no longer depends on the person's income.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "working student with Estonian taxable income"
+        ]
+      },
+      "amount": "€ 700/month, up to € 8,400/year (2026)",
+      "how_to_apply": null,
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.emta.ee/en/private-client/taxes-and-payment/tax-incentives/calculation-basic-exemption",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Applies to Estonian tax residents; non-residents may have different rules — the EMTA non-resident page read does not say.",
+          "source_url": "https://www.emta.ee/en/private-client/foreigner-non-resident/non-residents/taxation-income-and-tax-treaties"
+        }
+      ],
+      "notes": "How it is applied (via employer or tax return) was not confirmed on the page read today."
+    },
+    {
+      "id": "ee-tartu-resident-fare",
+      "category": "regional",
+      "name_local": "Tartlase pilet (sissekirjutusega elaniku hind)",
+      "name_it": "Tariffa residenti di Tartu ('tartlane')",
+      "authority": "City of Tartu",
+      "description": "Lower bus fares for people whose residence is registered in the population register in Tartu city or in Kambja, Luunja or Tartu rural municipality.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "residence_requirement": "registered residence in Tartu city, Kambja, Luunja or Tartu rural municipality",
+        "other": [
+          "personalised bus card"
+        ]
+      },
+      "amount": "Full fare 30-day € 21.30 vs € 31.90 non-resident; 1-hour € 1.20 vs € 1.80; bus + bike-share 30-day € 30.00 vs € 39.00 (2026)",
+      "how_to_apply": "Register your address in Tartu, personalise the bus card, buy tickets online or at sales points.",
+      "deadline": null,
+      "stackable": "Combines with the youth (20–26) discount",
+      "source_url": "https://tartu.ee/hinnad-ja-soodustused",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ee-ut-tuition-waiver-eu",
+      "category": "university",
+      "name_local": "Tasuta õppekoht (tuition-waiver student place), University of Tartu",
+      "name_it": "Posto senza tasse universitarie, Università di Tartu",
+      "authority": "University of Tartu",
+      "description": "All English-taught bachelor's programmes at UT are fee-based. From 2026/27, admitted EU/EEA/Swiss citizens (and permanent-residence holders) are tuition-exempt in a list of English-taught master's programmes (e.g. Computer Science, Software Engineering, International Relations and Regional Studies, Semiotics). Estonian-taught degree programmes are free for full-time students. From 2026/27 no tuition waivers for newly admitted non-EU/EEA students.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "other": [
+          "master's level (English-taught) or any Estonian-taught programme",
+          "full-time; at most 6 ECTS missing from 30 ECTS per semester (cumulative 24/54/84/114/144 ECTS), otherwise you pay for missing credits"
+        ]
+      },
+      "amount": "full tuition fee waived",
+      "how_to_apply": "Automatic with admission to a listed programme; sign the tuition-waiver contract within two weeks of matriculation.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://ut.ee/en/content/scholarship-information",
+      "extra_sources": [
+        "https://ut.ee/en/content/cost-tuition"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Fee amounts per programme are in UT's 2026/27 fee document linked from the cost-of-tuition page (not transcribed)."
+    },
+    {
+      "id": "ee-ut-tuition-reduction",
+      "category": "university",
+      "name_local": "Õppetasu vähendus (tuition fee reduction), University of Tartu",
+      "name_it": "Riduzione delle tasse universitarie, Università di Tartu",
+      "authority": "University of Tartu",
+      "description": "For students admitted in 2026/27, some English-taught programmes give a limited number of 25%, 50% or 100% reductions, one semester at a time, based on the admission score (first semester) or academic performance at UT (from the second semester). Examples: BSc Science and Technology 8 places at 50%; MSc Computer Science and Software Engineering 10 places each at 50%.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "fee-paying English-taught programme that offers reductions",
+          "full-time, not on academic leave, within nominal duration, cumulatively at least 30 ECTS per semester (from second semester)"
+        ]
+      },
+      "amount": "25%, 50% or 100% of the semester fee (number of places per programme listed on the page)",
+      "how_to_apply": "No application: granted automatically.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://ut.ee/en/content/cost-tuition",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Non-EU/EEA/Swiss applicants must pre-pay half of the first semester's fee before the admission letter is issued."
+    },
+    {
+      "id": "ee-ut-foundation-scholarships",
+      "category": "university",
+      "name_local": "Tartu Ülikooli Sihtasutus stipendiumid",
+      "name_it": "Borse della Fondazione dell'Università di Tartu",
+      "authority": "University of Tartu Foundation",
+      "description": "Scholarships from more than a hundred funds for UT students in all faculties and levels (research, economic situation, studies/internships abroad, achievements). Competitions in autumn and spring.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": "any",
+        "other": [
+          "enrolled UT students; conditions vary by fund (some from the second semester)"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Through the UT Foundation's scholarship competitions.",
+      "deadline": "autumn and spring competitions",
+      "stackable": null,
+      "source_url": "https://ut.ee/en/stipends-allowances",
+      "extra_sources": [
+        "https://sihtasutus.ut.ee/scholarship-competitions"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Individual fund conditions (including eligibility of international students) were not checked."
+    }
+  ]
+}
