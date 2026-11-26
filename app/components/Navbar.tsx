@@ -46,6 +46,11 @@ const SECTIONS: NavSection[] = [
         label: "Compare",
         desc: "Place universities side-by-side to compare costs, programmes and living expenses.",
       },
+      {
+        href: "/careers",
+        label: "Career Outcomes",
+        desc: "See where each degree leads: the roles graduates hold, who hires them and realistic career paths.",
+      },
     ],
   },
   {

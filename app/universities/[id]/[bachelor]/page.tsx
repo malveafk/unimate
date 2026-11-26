@@ -133,6 +133,12 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
           Official website
         </a>
         <Link
+          href={`/careers?uni=${uni.id}&programme=${bachelor.id}`}
+          className="px-6 py-3 rounded-xl bg-zinc-900 text-white text-sm font-bold border border-white/10 hover:border-white/20 transition-all"
+        >
+          Career outcomes
+        </Link>
+        <Link
           href="/chat"
           className="px-6 py-3 rounded-xl bg-zinc-900 text-white text-sm font-bold border border-white/10 hover:border-white/20 transition-all"
         >
