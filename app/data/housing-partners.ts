@@ -22,6 +22,9 @@ export const PARTNER_THEMES: Record<string, PartnerTheme> = {
   clubhouse:   { name: "Club House",  badge: "via Club House",  primary: "245,197,66", secondary: "96,165,250",  onPrimary: "#1a1408" },
   // helpHousing: red and white.
   helphousing: { name: "helpHousing", badge: "via helpHousing", primary: "239,68,68",  secondary: "255,255,255", onPrimary: "#ffffff" },
+  // Place to Stay: eucalyptus green and ivory. Their own green (47,79,74) is
+  // too dark to show on our dark surface, so this is the same hue, lighter.
+  placetostay: { name: "Place to Stay", badge: "via Place to Stay", primary: "86,159,148", secondary: "250,247,242", onPrimary: "#0c1a17" },
 };
 
 export function partnerTheme(source?: string | null): PartnerTheme | undefined {
