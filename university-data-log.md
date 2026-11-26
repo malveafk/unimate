@@ -1,5 +1,98 @@
 # University data log
 
+## 2026-11-26 — Controllo giornaliero (curricula 15, costi 10 atenei)
+
+### Piani di studio (15 controllati)
+- **Confermati in automatico (7)**: wu-vienna/business-and-economics, cbs/international-business, maastricht/economics-business-and-economics, amsterdam/economics-business-economics, amsterdam/computer-science, erasmus/ibeb, groningen/economics-business-economics.
+- **erasmus/international-business-administration**: confermato a mano, 31 voci su 31 con crediti. La tabella "Annex 1: Curriculum BSc IBA 2026-2027" del TER 2026-2027 è un'immagine (lo script leggeva solo i programmi vecchi dell'Annex 2): letta a vista. Track module 1/2 ed elective space sono etichette di struttura nostre, coerenti con la tabella.
+- **leiden/international-relations**: confermato nel browser sulla studiegids 2026-2027 (25/25, crediti inclusi); la pagina carica l'elenco via JavaScript.
+- **amsterdam/political-science**: "Research Project II: Practising Research Skills" → "Practicing", come scrivono la pagina del programma e il catalogo UvA 2026-2027 (codice 73220027FY, 6 ECTS). Maiuscole lasciate secondo la convenzione del sito.
+- **maastricht/** international-business, psychology, econometrics-operations-research, european-law-school: segnalati dallo script solo per etichette di struttura scritte da noi ("Major Courses (one of eight majors)", "Specialisation: ...", "Two of: ...") o per pagina JavaScript (ELS); tutti già verificati a mano oggi nel controllo delle fonti, data già al 26/11.
+- **leipzig/psychology**: ancora senza fonte. Riprovate oggi le pagine ufficiali (Studienordnung e Modulbeschreibung WiSe 2024-25, Prüfungsordnung, Modulanrechnung, pagine dell'istituto): 404 o nessuna risposta.
+
+### Tasse e costo della vita (10 atenei, 20 voci, tutte senza fonte)
+**Coincidono, fonte aggiunta (modifica piccola, su main):**
+- maastricht tuition €2,771 2027-28 (pagina Tuition fees UM).
+- amsterdam tuition €2,771: dal regolamento Enrolment Provisions 2027-2028, art. 15. Nota: la tabella sulla pagina web "Tuition fees" della UvA, intitolata 2027-2028, mostra ancora €2,694 (la cifra 2026-27); il regolamento è il documento vincolante.
+- amsterdam livingCost €900–€1,500 (pagina tuition fee del bachelor EBE: "between €900 and €1,500 per month").
+- erasmus tuition €2,771 (pagina Tuition fee 2027-2028 EUR).
+- lmu-munich tuition €97 (pagina Rückmeldung WiSe 2026/27: il semester ticket è sospeso, si paga solo il Grundbeitrag).
+- heidelberg tuition €189.80 + €1,500 non-UE (pagine Beiträge & Gebühren e Studiengebühren für Internationale Studierende).
+
+**Non coincidono, correzioni proposte in pull request (modifiche grandi):**
+- hamburg tuition: €384 era il SoSe 2026; WiSe 2026/27 = €402 (pagina Semesterbeitrag UHH, DE ed EN).
+- bonn tuition: €248.07 è solo la quota della Studierendenschaft; la pagina Kosten della Uni Bonn dà €363.07 per il WiSe 2026/27 (include €115 per lo Studierendenwerk).
+- tuebingen tuition: WiSe 2026/27 = €194.80; €197.80 era il SoSe 2026 (tabella Semesterbeiträge). €1,500 non-UE confermato.
+- fu-berlin tuition: €376.80 sia WiSe 2026/27 sia SoSe 2027; "€358.80 in summer" non compare.
+- maastricht livingCost: la pagina UM riporta la tabella Nibud 2024 (nazionale, non solo Maastricht): somma €1,462/mese, contro i nostri €900–€1,100.
+- erasmus livingCost: pagina EUR "Costs of living": €1,000–€1,800/mese (nostri €950–€1,200).
+- lmu-munich livingCost: pagina LMU "Living costs": circa €1,500/mese (nostri €1,300–€2,000).
+- hamburg livingCost: pagina UHH "Fees and funding": alloggio €400–700 + spese €500–700 = €900–€1,400 (nostri €1,100–€1,500).
+- heidelberg livingCost: pagina "Financing your studies": minimo €992/mese (nostri €950–€1,250).
+- bonn livingCost: pagina internazionale Uni Bonn: circa €1,000/mese (nostri €950–€1,250).
+
+**Bloccati:**
+- humboldt-berlin (tasse e costo della vita): il sito hu-berlin.de è protetto da Anubis; non aggirato. Da cercare un documento ufficiale su altro dominio o riprovare.
+- tuebingen e fu-berlin livingCost: nessun budget ufficiale attuale trovato (Tübingen cita la Sozialerhebung 2017; FU solo affitti e il vecchio minimo visto di €934). Restano "fonte non documentata".
+
+### Scadenze
+Nessuna scadenza in universityMeta.ts è passata. Le più vicine "Expected" (Tartu 15 aprile, Padova e Sapienza aprile 2027) non hanno ancora una data 2027 pubblicata esplicitamente: invariate.
+
+### Controlli
+`check-universities.ts`: 4 segnalazioni, tutte su dati non toccati oggi (anni accademici italiani; crediti fau-erlangen/molecular-medicine, bochum/it-security, complutense/political-science). `tsc --noEmit`: nessun errore.
+
+## 2026-11-26 — Fonte e data visibili per ogni piano di studi
+
+### Cosa cambia sul sito
+- Nuovo file `app/data/bachelorSources.ts`: per ogni bachelor, una o più pagine ufficiali e il giorno in cui la lista dei corsi è stata confrontata con quelle pagine.
+- La pagina del bachelor mostra sotto "Curriculum": "Compared with the official source on <data>: <link>".
+- Se la fonte non è ancora documentata, la pagina lo dice ("Official source for this course list not yet documented..."). Se il piano è vuoto, spiega che non è stato possibile verificarlo.
+- File statico (come `universityMeta.ts`): nessuna modifica al database, nessun seed necessario.
+- `check-universities.ts`, sezione 6: segnala le fonti riferite a bachelor inesistenti, le date in formato sbagliato e gli URL non https; elenca i bachelor con corsi ma senza fonte.
+
+### Metodo
+1. Raccolti i 1.049 URL di pagine ufficiali consultate nelle sessioni di novembre (trascrizioni + questo log); 911 attribuiti a un ateneo per dominio, scaricati oggi.
+2. Per ogni bachelor, una pagina è accettata come fonte se contiene almeno l'80% dei nomi dei nostri corsi. Nel conteggio sono esclusi i nomi generici (Elective, Thesis, Statistics...); si possono unire fino a 3 pagine dello stesso ateneo.
+3. Esito: 139 abbinati automaticamente. Ricontrollati a occhio gli URL (Bocconi Management puntava alla pagina di un altro corso con gli stessi esami: corretto). 7 casi accettati a mano perché i "mancanti" erano etichette di struttura scritte da noi (es. "Civilrätt (termin 2)").
+4. I restanti controllati uno per uno, aprendo le pagine nel browser quando il sito blocca le richieste da riga di comando o carica l'elenco via JavaScript (KTH, Tilburg, siti UK).
+5. La data mostrata è quella del confronto: 26 novembre 2026 per i controlli di oggi; 25 novembre per CBS, Leiden, Erasmus IBA e WU, verificati a mano ieri.
+
+### Correzioni trovate durante il controllo
+- **birmingham/economics**: il primo anno 2027/28 è stato rifatto. I nostri 6 moduli erano la versione precedente; sostituiti con gli 8 attuali (Applied Economics and Statistics, Contemporary Economic Challenges A/B, Principles of Economics, Professional and Academic Skills Development for Economists A/B, The Global Economy, modulo di matematica in base al voto d'ingresso). Aggiunti gli opzionali di anno 2 e 3. Descrizione aggiornata.
+- **ucl/computer-science**: i 4 corsi del secondo anno ("Computer Science Mathematics & Theory 1", "Intelligent Data Systems", "Computing Systems", "Software Engineering Team Project") non compaiono né sulla pagina del corso né nel catalogo moduli UCL: tolti. Restano i 4 del primo anno, confermati. Descrizione allineata al testo ufficiale.
+- **utrecht/liberal-arts-sciences**: "Research in Context" compare per nome solo nel regolamento 2024-25; quello 2026-27 riporta solo il codice. Sostituito con "General academic skills courses", come scrive la pagina ufficiale. Tesi (15 crediti) e requisito di metodologia confermati dal regolamento 2026-27.
+- **kings-college-london/law**: tutti e 9 confermati (ingresso 2027); "Jurisprudence and Legal Theory" scritto come l'ufficiale; aggiunti crediti di anno 2-3 e moduli opzionali.
+- **lse/economics** e **lse/international-relations**: confermati sul Calendar 2026/27. Titoli con "and" come l'ufficiale; aggiunta la LSE100; a IR aggiunte le scelte di anno 1 e 2.
+- **oxford/ppe**: "Mathematical and Statistical Techniques used in Economics" (era "for Economics").
+- **oxford/engineering-science**: "Major Research Project" → "Major project"; aggiunti i corsi opzionali di anno 3, i 6 corsi specialistici di anno 4 e il lavoro pratico di anno 2 e 3.
+- Confermati senza modifiche ai nomi: Cardiff x2, UCL Economics, Warwick Economics, Bristol Economics (catalogo 2027/28, crediti inclusi), KTH x3 (utbildningsplan HT2026, 64 corsi su 64), Tilburg x3.
+
+### Secondo giro (stesso giorno): i 40 rimanenti
+Esito: **206 bachelor su 207 hanno una fonte documentata**. Resta solo leipzig/psychology: il sito della facoltà è stato ristrutturato e pagine, PDF e orario dei corsi danno 404 o non rispondono (26/11).
+
+Metodo aggiunto: un secondo confronto che ignora spazi e a capo, perché molti PDF a tabella spezzano i nomi su più righe (Göttingen, FAU, TUM, ENS Lyon, Wageningen). I siti che caricano l'elenco via JavaScript o bloccano le richieste da riga di comando sono stati letti nel browser. Non sono state aggirate verifiche anti-bot: med.fau.de e la pagina del piano UB (Cloudflare) sono state evitate, usando altri documenti ufficiali.
+
+**Correzioni sostanziali (curriculum cambiato o nomi inesistenti):**
+- **tu-delft/aerospace-engineering**: TU Delft ha rinnovato il bachelor per chi inizia a settembre 2027. La pagina ufficiale avverte che il nuovo curriculum è ancora in definizione. Ricostruito: 28 voci, anni 1-3. La descrizione dice che è il curriculum dal 2027. Il nostro elenco precedente era il curriculum vecchio, confermato dal Course list 2024-2025.
+- **tu-delft/computer-science**: ricostruito dalla pagina "Wat ga ik leren?". Esempi: "CSE Project" → "Collaborative Development Project"; "Automata, Computability and Complexity" → "Theoretical Foundations of Computer Science"; nuovi Introduction to AI, Operating Systems, Computer Security, Software Design and Engineering, HCI and AI-Assisted Prototyping; Computer Graphics ora è un elettivo.
+- **maastricht/european-law-school**: il terzo anno nel catalogo 2026-2027 è "Bachelor European Law School electives", "Bachelor internship European Law School", "Final Legal Challenge European Law School". Non più Moot Court Training e Bachelor's Essay. Anni 1-2 confermati con i crediti (60 + 60).
+- **maastricht/econometrics-operations-research**: curriculum cambiato. Via Philosophy of Science, Finance, Responsible Econometrics, Economics of Uncertainty and Information. Dentro Orientation, Reflections on Academic Discourse, "Information, Markets, and Organisations", e anno 3 con study abroad, software, due corsi avanzati a scelta, elettivo e tesi.
+- **stockholm/international-business-politics**: semestre 1 = Principles of Marketing / Accounting / Management / Finance. Semestre 3 = World Economic History, Economic Thought in World History, Business and Financial Crises, Globalization and International Political Economy (mancavano 2 corsi).
+- **stockholm/political-science**: ricostruito dalla pagina SPOCK (Political theory in English, Approaches to Politics, The Study of Democracy, percorso regionale nell'anno 2, metodi qualitativi e quantitativi, tesi).
+- **semmelweis/general-medicine**: ricostruito dal curriculum ufficiale 2026/2027 (XLSX del registrar), primi tre anni con crediti (17 → 45 voci). Esempi: "Macroscopic Anatomy I" → "Macroscopic Anatomy and Embryology I", "Hungarian Medical Terminology I" → "Medical Hungarian I", "Medical Sociology — Health Care" → "Medical Sociology".
+- **helsinki/liberal-arts-sciences**: i corsi comuni hanno codici e nomi ufficiali diversi (LAS-001: Orientation, LAS-101: Introduction to Liberal Arts and Sciences, KK-ENLAS: Academic and Professional Communication, LAS-211: Interdisciplinary project, LAS-291/295/299). Anno tolto: la pagina non lo indica.
+- **aarhus/computer-science**: da 2 corsi al piano completo (16 voci, nomi danesi + inglese, crediti) dalla pagina "studiets opbygning".
+- **tartu** x2: nomi ufficiali dei moduli da ÕIS (curriculum 80995 e 144918, versione 2026/2027). Anno tolto ai moduli (il curriculum non lo indica), così sparisce anche la segnalazione "anno 3 = 84 ECTS". L'indirizzo si chiama "Bioengineering and Robotics".
+
+**Nomi corretti senza cambiare il piano:** bocconi/international-politics-government (formato "Law (Module I - Comparative Public Law)"), ie-university/business-administration ("Strategies in Disruptive World"), pompeu-fabra/global-studies ("Economics and International Finance"), sorbonne/medicine ("Biochimie, Chimie (Bioénergétique, Métabolisme)"; fonte: MCC PASS 2025-2026, delibera CFVU del 25/09/2025, perché il PDF della facoltà ora dà 404).
+
+**Confermati:**
+- con l'abbinamento a pagine ufficiali: ETH CS (titoli nel VVZ primavera 2027), EPFL GM (plan d'études FR), Polimi Design (regolamento 2026/27), Göttingen, FAU (PO aggiornata all'11/07/2025), TUM ME (FPSO 2024), ENS Lyon x2, Charles, Wageningen x2, Bochum (MHB SoSe 2026, 26/26), Tübingen (MHB 1/10/2026);
+- verificati nel browser: IE x3, Nova x2, Barcelona x2 (guida 2026/27: Medicina 45/46, Economia 31/31), Paris-Saclay, Luxembourg (35/35), Liverpool x2, LMU Law.
+- Refusi dell'ufficiale non riprodotti: Nova "Human Bheavior...", UB "Bilogía Celular...".
+
+**Da fare:** leipzig/psychology (riprovare quando il sito torna raggiungibile). **Seed:** le correzioni ai corsi sono solo in `universities.ts`; finché non si lancia il seed, le pagine mostrano la fonte nuova ma l'elenco dei corsi vecchio (letto da Supabase).
+
 ## 2026-11-25 — ADD WU Wien, Copenhagen Business School, Radboud + VERIFY Leiden, Erasmus, Groningen, Lund, CEU
 
 ### Aggiunte

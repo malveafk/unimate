@@ -12,6 +12,8 @@
  */
 import { universities } from "./app/data/universities";
 import { universityMeta } from "./app/data/universityMeta";
+import { bachelorSources } from "./app/data/bachelorSources";
+import { costSources } from "./app/data/costSources";
 import { getUniversityCosts } from "./utils/universityCosts";
 
 let flags = 0;
@@ -134,6 +136,40 @@ for (const u of universities) {
   if (meta && m && meta.applicationDeadlineMonth !== m) { progIssues++; flag(`${u.id}: deadline "${meta.applicationDeadline}" vs month ${meta.applicationDeadlineMonth}`); }
 }
 if (!progIssues) console.log("  no divergence");
+
+/* 6. Curriculum sources (app/data/bachelorSources.ts) ---------------------- */
+// Wrong entries are flags. Programmes with courses but no source are listed, not
+// flagged: their page says "source not yet documented", which is true, and the list
+// is the to-do for the next check.
+section("6. Curriculum sources");
+const programmeKeys = new Set(universities.flatMap((u) => u.bachelors.map((b) => `${u.id}/${b.id}`)));
+const dateRe = /^\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$/;
+for (const [key, s] of Object.entries(bachelorSources)) {
+  if (!programmeKeys.has(key)) flag(`${key}: source for a programme that does not exist`);
+  if (!dateRe.test(s.checkedOn)) flag(`${key}: checkedOn "${s.checkedOn}" is not "D Month YYYY"`);
+  if (!s.sources.length) flag(`${key}: no source URL`);
+  for (const src of s.sources) if (!/^https:\/\//.test(src.url)) flag(`${key}: source URL not https: ${src.url}`);
+}
+const undocumented = universities.flatMap((u) =>
+  u.bachelors.filter((b) => b.courses.length && !bachelorSources[`${u.id}/${b.id}`]).map((b) => `${u.id}/${b.id}`)
+);
+const withCourses = universities.reduce((n, u) => n + u.bachelors.filter((b) => b.courses.length).length, 0);
+console.log(`  ${withCourses - undocumented.length} of ${withCourses} programmes with courses have a documented source`);
+if (undocumented.length) console.log(`  to do (${undocumented.length}): ${undocumented.join(", ")}`);
+
+/* 7. Cost sources (app/data/costSources.ts) -------------------------------- */
+section("7. Tuition and living-cost sources");
+const uniIds = new Set(universities.map((u) => u.id));
+for (const [uid, s] of Object.entries(costSources)) {
+  if (!uniIds.has(uid)) flag(`${uid}: cost source for a university that does not exist`);
+  for (const e of [...(s.tuition ?? []), ...(s.livingCost ?? [])]) {
+    if (!dateRe.test(e.checkedOn)) flag(`${uid}: cost checkedOn "${e.checkedOn}" is not "D Month YYYY"`);
+    if (!/^https:\/\//.test(e.url)) flag(`${uid}: cost source URL not https: ${e.url}`);
+  }
+}
+const withTuition = universities.filter((u) => costSources[u.id]?.tuition?.length).length;
+const withLiving = universities.filter((u) => costSources[u.id]?.livingCost?.length).length;
+console.log(`  tuition: ${withTuition} of ${universities.length} documented, living cost: ${withLiving} of ${universities.length}`);
 
 section(flags ? `${flags} flag(s)` : "No flags.");
 process.exit(flags ? 1 : 0);
