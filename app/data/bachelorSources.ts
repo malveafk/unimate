@@ -196,7 +196,7 @@ export const bachelorSources: Record<string, BachelorSource> = {
     sources: [
       { url: "https://studieordninger.cbs.dk/2026/ba/1355", label: "Programme regulations BSc in International Business, 2026" },
     ],
-    checkedOn: "25 November 2026",
+    checkedOn: "26 November 2026",
   },
   "ceu/culture-politics-society": {
     sources: [
@@ -330,7 +330,7 @@ export const bachelorSources: Record<string, BachelorSource> = {
     sources: [
       { url: "https://www.rsm.nl/fileadmin/Service_departments/Examination_board/BScIBA_-TER_2026-2027__established_25_August_2026_.pdf", label: "RSM Teaching and Examination Regulations BSc IBA 2026-2027, Annex 1" },
     ],
-    checkedOn: "25 November 2026",
+    checkedOn: "26 November 2026",
   },
   "eth-zurich/computer-science": {
     sources: [
@@ -553,7 +553,7 @@ export const bachelorSources: Record<string, BachelorSource> = {
     sources: [
       { url: "https://studiegids.universiteitleiden.nl/studies/BA-POWE-IRO?tab=study-structure&year=2261", label: "Leiden University prospectus 2026-2027, International Relations and Organisations" },
     ],
-    checkedOn: "25 November 2026",
+    checkedOn: "26 November 2026",
   },
   "lisbon/economics": {
     sources: [
@@ -1252,7 +1252,7 @@ export const bachelorSources: Record<string, BachelorSource> = {
       { url: "https://www.wu.ac.at/fileadmin/wu/h/programs/bachelor/bbe/Curriculum/E_Business_and_Economics_29.01.25.pdf", label: "WU curriculum Business and Economics, effective 1 October 2025" },
       { url: "https://www.wu.ac.at/fileadmin/wu/h/programs/bachelor/bbe/BBE_Welcome_Days_2022/BBE-Welcome-Guide-2026.pdf", label: "BBE Welcome Guide 2026 (study plan by semester)" },
     ],
-    checkedOn: "25 November 2026",
+    checkedOn: "26 November 2026",
   },
   "wuerzburg/games-engineering": {
     sources: [

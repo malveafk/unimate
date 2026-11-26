@@ -1,5 +1,46 @@
 # University data log
 
+## 2026-11-26 — Controllo giornaliero (curricula 15, costi 10 atenei)
+
+### Piani di studio (15 controllati)
+- **Confermati in automatico (7)**: wu-vienna/business-and-economics, cbs/international-business, maastricht/economics-business-and-economics, amsterdam/economics-business-economics, amsterdam/computer-science, erasmus/ibeb, groningen/economics-business-economics.
+- **erasmus/international-business-administration**: confermato a mano, 31 voci su 31 con crediti. La tabella "Annex 1: Curriculum BSc IBA 2026-2027" del TER 2026-2027 è un'immagine (lo script leggeva solo i programmi vecchi dell'Annex 2): letta a vista. Track module 1/2 ed elective space sono etichette di struttura nostre, coerenti con la tabella.
+- **leiden/international-relations**: confermato nel browser sulla studiegids 2026-2027 (25/25, crediti inclusi); la pagina carica l'elenco via JavaScript.
+- **amsterdam/political-science**: "Research Project II: Practising Research Skills" → "Practicing", come scrivono la pagina del programma e il catalogo UvA 2026-2027 (codice 73220027FY, 6 ECTS). Maiuscole lasciate secondo la convenzione del sito.
+- **maastricht/** international-business, psychology, econometrics-operations-research, european-law-school: segnalati dallo script solo per etichette di struttura scritte da noi ("Major Courses (one of eight majors)", "Specialisation: ...", "Two of: ...") o per pagina JavaScript (ELS); tutti già verificati a mano oggi nel controllo delle fonti, data già al 26/11.
+- **leipzig/psychology**: ancora senza fonte. Riprovate oggi le pagine ufficiali (Studienordnung e Modulbeschreibung WiSe 2024-25, Prüfungsordnung, Modulanrechnung, pagine dell'istituto): 404 o nessuna risposta.
+
+### Tasse e costo della vita (10 atenei, 20 voci, tutte senza fonte)
+**Coincidono, fonte aggiunta (modifica piccola, su main):**
+- maastricht tuition €2,771 2027-28 (pagina Tuition fees UM).
+- amsterdam tuition €2,771: dal regolamento Enrolment Provisions 2027-2028, art. 15. Nota: la tabella sulla pagina web "Tuition fees" della UvA, intitolata 2027-2028, mostra ancora €2,694 (la cifra 2026-27); il regolamento è il documento vincolante.
+- amsterdam livingCost €900–€1,500 (pagina tuition fee del bachelor EBE: "between €900 and €1,500 per month").
+- erasmus tuition €2,771 (pagina Tuition fee 2027-2028 EUR).
+- lmu-munich tuition €97 (pagina Rückmeldung WiSe 2026/27: il semester ticket è sospeso, si paga solo il Grundbeitrag).
+- heidelberg tuition €189.80 + €1,500 non-UE (pagine Beiträge & Gebühren e Studiengebühren für Internationale Studierende).
+
+**Non coincidono, correzioni proposte in pull request (modifiche grandi):**
+- hamburg tuition: €384 era il SoSe 2026; WiSe 2026/27 = €402 (pagina Semesterbeitrag UHH, DE ed EN).
+- bonn tuition: €248.07 è solo la quota della Studierendenschaft; la pagina Kosten della Uni Bonn dà €363.07 per il WiSe 2026/27 (include €115 per lo Studierendenwerk).
+- tuebingen tuition: WiSe 2026/27 = €194.80; €197.80 era il SoSe 2026 (tabella Semesterbeiträge). €1,500 non-UE confermato.
+- fu-berlin tuition: €376.80 sia WiSe 2026/27 sia SoSe 2027; "€358.80 in summer" non compare.
+- maastricht livingCost: la pagina UM riporta la tabella Nibud 2024 (nazionale, non solo Maastricht): somma €1,462/mese, contro i nostri €900–€1,100.
+- erasmus livingCost: pagina EUR "Costs of living": €1,000–€1,800/mese (nostri €950–€1,200).
+- lmu-munich livingCost: pagina LMU "Living costs": circa €1,500/mese (nostri €1,300–€2,000).
+- hamburg livingCost: pagina UHH "Fees and funding": alloggio €400–700 + spese €500–700 = €900–€1,400 (nostri €1,100–€1,500).
+- heidelberg livingCost: pagina "Financing your studies": minimo €992/mese (nostri €950–€1,250).
+- bonn livingCost: pagina internazionale Uni Bonn: circa €1,000/mese (nostri €950–€1,250).
+
+**Bloccati:**
+- humboldt-berlin (tasse e costo della vita): il sito hu-berlin.de è protetto da Anubis; non aggirato. Da cercare un documento ufficiale su altro dominio o riprovare.
+- tuebingen e fu-berlin livingCost: nessun budget ufficiale attuale trovato (Tübingen cita la Sozialerhebung 2017; FU solo affitti e il vecchio minimo visto di €934). Restano "fonte non documentata".
+
+### Scadenze
+Nessuna scadenza in universityMeta.ts è passata. Le più vicine "Expected" (Tartu 15 aprile, Padova e Sapienza aprile 2027) non hanno ancora una data 2027 pubblicata esplicitamente: invariate.
+
+### Controlli
+`check-universities.ts`: 4 segnalazioni, tutte su dati non toccati oggi (anni accademici italiani; crediti fau-erlangen/molecular-medicine, bochum/it-security, complutense/political-science). `tsc --noEmit`: nessun errore.
+
 ## 2026-11-26 — Fonte e data visibili per ogni piano di studi
 
 ### Cosa cambia sul sito

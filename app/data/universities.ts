@@ -266,7 +266,7 @@ export const universities: University[] = [
           { name: "Research Methods", credits: "9 ECTS", year: 2 },
           { name: "Democracies, Autocracies and Transitions", credits: "6 ECTS", year: 2 },
           { name: "The Politics of Difference", credits: "6 ECTS", year: 2 },
-          { name: "Research Project II: Practising Research Skills", credits: "6 ECTS", year: 2 },
+          { name: "Research Project II: Practicing Research Skills", credits: "6 ECTS", year: 2 },
           { name: "Bachelor Thesis Project", credits: "12 ECTS", year: 3 },
         ],
       },

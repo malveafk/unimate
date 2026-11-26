@@ -22,6 +22,10 @@ export type UniversityCostSources = {
 };
 
 export const costSources: Record<string, UniversityCostSources> = {
+  amsterdam: {
+    tuition: [{ url: "https://www.uva.nl/asset/enrolment-provisions-uva-2027---2028pdf", label: "UvA Enrolment Provisions 2027-2028, Article 15 (statutory tuition fees)", checkedOn: "26 November 2026" }],
+    livingCost: [{ url: "https://www.uva.nl/en/programmes/bachelors/economics--business-economics/tuition-fee/tuition-fee.html", label: "Tuition fee - Bachelor's Economics and Business Economics - University of Amsterdam (living expenses)", checkedOn: "26 November 2026" }],
+  },
   bath: {
     tuition: [{ url: "https://www.bath.ac.uk/corporate-information/tuition-fees-for-undergraduate-students-starting-in-2027/", label: "Tuition fees for undergraduate students starting in 2027", checkedOn: "26 November 2026" }],
   },
@@ -49,6 +53,9 @@ export const costSources: Record<string, UniversityCostSources> = {
   edinburgh: {
     livingCost: [{ url: "https://study.ed.ac.uk/programmes/undergraduate/57-computer-science", label: "Computer Science BSc (Hons) - Undergraduate programmes | The University of Edinburgh", checkedOn: "26 November 2026" }],
   },
+  erasmus: {
+    tuition: [{ url: "https://www.eur.nl/en/education/practical-matters/registration/tuition-fee/tuition-fee-2027-2028", label: "Tuition fee 2027-2028 - Erasmus University Rotterdam", checkedOn: "26 November 2026" }],
+  },
   "eth-zurich": {
     tuition: [{ url: "https://ethz.ch/students/en/studies/financial/tuition-fees.html", label: "Tuition fees – Student portal | ETH Zurich", checkedOn: "26 November 2026" }],
   },
@@ -58,8 +65,20 @@ export const costSources: Record<string, UniversityCostSources> = {
   groningen: {
     tuition: [{ url: "https://www.rug.nl/bachelors/medicine/#programme", label: "Geneeskunde | Bacheloropleidingen | Rijksuniversiteit Groningen", checkedOn: "26 November 2026" }],
   },
+  heidelberg: {
+    tuition: [
+      { url: "https://www.uni-heidelberg.de/de/studium/studienorganisation/beitraege-gebuehren", label: "Beiträge & Gebühren - Universität Heidelberg (Semesterbeitrag)", checkedOn: "26 November 2026" },
+      { url: "https://www.uni-heidelberg.de/de/studium/studienorganisation/beitraege-gebuehren/studiengebuehren-fuer-internationale-studierende", label: "Studiengebühren für Internationale Studierende - Universität Heidelberg", checkedOn: "26 November 2026" },
+    ],
+  },
   imperial: {
     tuition: [{ url: "https://www.imperial.ac.uk/study/courses/undergraduate/computing-beng/", label: "Computing BEng | Study | Imperial College London", checkedOn: "26 November 2026" }],
+  },
+  "lmu-munich": {
+    tuition: [{ url: "https://www.lmu.de/de/workspace-fuer-studierende/1x1-des-studiums/rueckmeldung/index.html", label: "Rückmeldung zum Wintersemester 2026/27 - LMU München", checkedOn: "26 November 2026" }],
+  },
+  maastricht: {
+    tuition: [{ url: "https://www.maastrichtuniversity.nl/study/admission-enrolment/tuition-fees", label: "Tuition fees - Maastricht University (EU/EEA statutory fee 2027/28)", checkedOn: "26 November 2026" }],
   },
   manchester: {
     tuition: [{ url: "https://www.manchester.ac.uk/study/undergraduate/courses/2027/00560/bsc-computer-science/course-details/", label: "BSc Computer Science - course details (2027 entry) | The University of Manchester", checkedOn: "26 November 2026" }],
