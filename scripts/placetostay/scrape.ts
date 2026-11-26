@@ -12,6 +12,7 @@
 //   GET /api/availability.php     when each room is free (the live source the
 //                                 site itself reads)
 //   GET /rooms/<id>/              photo gallery and amenities of one room
+//   GET <price sheet, CSV>        live monthly prices (Google Sheets, public)
 //
 // The room pages are rate-limited by the site (HTTP 429 at one request per
 // second), so they are fetched one every four seconds and remembered in
@@ -21,8 +22,11 @@
 //
 // PRICES: the number printed in the pages is a snapshot taken when the site was
 // last built. The site then overwrites it in the browser with live prices read
-// from a Google Sheet. This scraper reads ONLY the site, so `price_monthly` is
-// the built price and `price_source` says so. See README, "Prezzi".
+// from a Google Sheet that Place to Stay publishes for that purpose ("Monthly"
+// tab: one row per room, one price per month of the year). We read the same
+// sheet (one more request) and, like the site's own cards, publish the price of
+// the CURRENT month. Of that sheet we keep the room id and the twelve prices;
+// every other column is dropped before anything is written to disk.
 //
 // We do NOT log in, do NOT download photos (URLs only) and do NOT call the
 // booking endpoints.
@@ -31,6 +35,8 @@
 // Flags: --limit=5          first N rooms (writes *.sample.json, see below)
 //        --no-details       skip the per-room pages (remembered ones still used)
 //        --refresh-details  read every room page again, ignoring the memory
+//        --static-prices    do not read the price sheet: publish the prices
+//                           printed in the pages (they are usually stale)
 //        --from-raw         no network: rebuild listings.json from the saved
 //                       raw.json (to debug or change the normalisation)
 //
@@ -47,6 +53,10 @@ const BASE_URL = "https://placetostay.pt";
 const LIST_URL = `${BASE_URL}/properties.html`;
 const FLATS_URL = `${BASE_URL}/assets/data/flats.json`;
 const AVAILABILITY_URL = `${BASE_URL}/api/availability.php`;
+// The sheet id is the one the listing page itself loads (see its inline script).
+const PRICE_SHEET_ID = "15tLR_fcDVuBcw1GqJmICdJrWfZHH7GwPoA7ykOvsbq0";
+const PRICE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${PRICE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Monthly`;
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"] as const;
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.4uni.online").replace(/\/+$/, "");
 const USER_AGENT = `UnimateBot/1.0 (+${SITE_URL})`;
@@ -85,10 +95,12 @@ export type PlacetostayListing = {
   zone: string | null; // parish (freguesia)
   latitude: number | null;
   longitude: number | null;
-  price_monthly: number;
-  // "site-build" = the price printed in the static pages. The site's own
-  // browser code replaces it with a live price we do not read.
-  price_source: "site-build";
+  price_monthly: number; // price of the current month, as on the site's cards
+  // "live-sheet" = from Place to Stay's price sheet; "site-build" = the stale
+  // price printed in the static pages (room missing from the sheet, or --static-prices).
+  price_source: "live-sheet" | "site-build";
+  price_min: number | null; // cheapest and dearest month of the year
+  price_max: number | null;
   currency: "EUR";
   available_from: string; // YYYY-MM-DD
   available_to: string | null; // always null: the site has no end date
@@ -127,6 +139,8 @@ type RawFile = {
   properties_html: string;
   flats: unknown;
   availability: unknown;
+  // room id -> twelve monthly prices (Jan..Dec). The only part of the sheet we keep.
+  prices: Record<string, (number | null)[]> | null;
   details: Record<string, RoomDetail>;
 };
 
@@ -384,6 +398,54 @@ function parseAvailability(json: unknown): Map<string, string | null> {
   return out;
 }
 
+/** Minimal CSV reader (quoted fields may contain commas and line breaks). */
+function parseCsv(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = "";
+  let quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else field += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ",") { row.push(field); field = ""; }
+    else if (ch === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+    else if (ch !== "\r") field += ch;
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+/**
+ * Room id -> [Jan..Dec] from the "Monthly" tab. Mirrors how the site reads it:
+ * the header row is the one with a "Room ID" cell, month columns are found by
+ * their first three letters. Nothing else of the sheet leaves this function.
+ */
+function parsePriceSheet(csv: string): Record<string, (number | null)[]> {
+  const rows = parseCsv(csv);
+  const isIdCell = (cell: string) => cell.trim().toLowerCase().endsWith("room id");
+  const headerIndex = rows.slice(0, 10).findIndex((r) => r.some(isIdCell));
+  if (headerIndex === -1) throw new Error('the price sheet has no "Room ID" column any more');
+  const header = rows[headerIndex];
+  const idColumn = header.findIndex(isIdCell);
+  const monthColumn = MONTHS.map((m) => header.findIndex((h) => h.toLowerCase().replace(/[^a-z]/g, "").slice(0, 3) === m));
+  if (monthColumn.some((c) => c === -1)) throw new Error("the price sheet does not have the twelve month columns any more");
+
+  const out: Record<string, (number | null)[]> = {};
+  for (const row of rows.slice(headerIndex + 1)) {
+    const id = (row[idColumn] ?? "").trim();
+    if (!id) continue;
+    out[id] = monthColumn.map((c) => {
+      const n = parseInt((row[c] ?? "").replace(/[^\d]/g, ""), 10);
+      return Number.isFinite(n) && n > 0 ? n : null;
+    });
+  }
+  return out;
+}
+
 /** The room page describes itself in a schema.org block: gallery, amenities, size. */
 function parseRoomPage(html: string, sid: string): RoomDetail | null {
   for (const m of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
@@ -428,10 +490,15 @@ function normalise(
   coords: { lat: number; lng: number } | undefined,
   liveAvailable: string | null | undefined, // undefined = room missing from the live feed
   detail: RoomDetail | undefined,
+  monthly: (number | null)[] | undefined, // Jan..Dec from the price sheet
   today: string,
   now: string,
 ): PlacetostayListing | null {
-  if (!card.title || card.price === null || card.price <= 0) return null;
+  // Like the site's own cards: the price of the current month.
+  const livePrice = monthly?.[Number(today.slice(5, 7)) - 1] ?? null;
+  const price = livePrice ?? card.price;
+  if (!card.title || price === null || price <= 0) return null;
+  const known = (monthly ?? []).filter((p): p is number => p !== null);
 
   // Live feed first; the date printed in the page only when the feed does not know the room.
   const from = liveAvailable !== undefined ? liveAvailable : card.staticAvailable === "now" ? null : isoDate(card.staticAvailable);
@@ -458,8 +525,10 @@ function normalise(
     zone: flat?.parish ?? null,
     latitude: coords?.lat ?? null,
     longitude: coords?.lng ?? null,
-    price_monthly: card.price,
-    price_source: "site-build",
+    price_monthly: price,
+    price_source: livePrice !== null ? "live-sheet" : "site-build",
+    price_min: known.length ? Math.min(...known) : null,
+    price_max: known.length ? Math.max(...known) : null,
     currency: "EUR",
     available_from: availableNow ? today : (from as string),
     available_to: null,
@@ -520,6 +589,7 @@ async function main() {
   const fromRaw = getFlag("from-raw") === true;
   const noDetails = getFlag("no-details") === true;
   const refreshDetails = getFlag("refresh-details") === true;
+  const staticPrices = getFlag("static-prices") === true;
   const limit = typeof limitFlag === "string" ? Math.max(1, parseInt(limitFlag, 10) || 0) : null;
   const partial = Boolean(limit);
 
@@ -552,16 +622,23 @@ async function main() {
         properties_html: await politeGet(LIST_URL),
         flats: JSON.parse(await politeGet(FLATS_URL)),
         availability: JSON.parse(await politeGet(AVAILABILITY_URL)),
+        // Without live prices the catalogue is wrong for most rooms, so a sheet
+        // that cannot be read aborts the run (use --static-prices to go on anyway).
+        prices: staticPrices ? null : parsePriceSheet(await politeGet(PRICE_SHEET_URL)),
         details: {},
       };
+  const prices = raw.prices ?? null;
 
   const { flats, rooms } = parseListPage(raw.properties_html);
   const coords = parseFlatCoords(raw.flats);
   const availability = parseAvailability(raw.availability);
-  console.log(`Listing page: ${rooms.length} rooms in ${flats.size} flats | coordinates for ${coords.size} flats | live availability for ${availability.size} rooms`);
+  console.log(`Listing page: ${rooms.length} rooms in ${flats.size} flats | coordinates for ${coords.size} flats | live availability for ${availability.size} rooms | live prices for ${prices ? Object.keys(prices).length : 0} rooms`);
 
   if (!partial && rooms.length === 0 && previousActive > 0) {
     throw new Error(`The listing page has no rooms while the previous run had ${previousActive}. Nothing written — check the site by hand.`);
+  }
+  if (prices && rooms.length > 0 && !rooms.some((r) => prices[r.sid])) {
+    throw new Error("The price sheet does not know any room of the listing page: its ids or layout have changed. Nothing written.");
   }
   if (rooms.length > 0 && availability.size === 0) {
     throw new Error("The availability feed is empty or has changed shape. Nothing written — check /api/availability.php by hand.");
@@ -616,7 +693,7 @@ async function main() {
       if ((index + 1) % 40 === 0) console.log(`  ${index + 1}/${selected.length} rooms`);
     }
 
-    const listing = normalise(card, card.lid ? flats.get(card.lid) : undefined, card.lid ? coords.get(card.lid) : undefined, live, detail, today, now);
+    const listing = normalise(card, card.lid ? flats.get(card.lid) : undefined, card.lid ? coords.get(card.lid) : undefined, live, detail, prices?.[card.sid], today, now);
     if (!listing) {
       stats.skipped++;
       warnings.push(`Room ${card.sid} skipped (missing title or price).`);
@@ -691,7 +768,9 @@ async function main() {
   console.log(`Available now: ${active.filter((l) => l.available_now).length} | without description: ${active.filter((l) => !l.description).length} | without photos: ${active.filter((l) => !l.photos.length).length} | without coordinates: ${active.filter((l) => l.latitude === null).length}`);
   console.log(`Requests made: ${requestCount} (${(bytesReceived / 1e6).toFixed(1)} MB received) | room pages read ${detailsFetched}, remembered ${detailsReused}`);
   console.log(`Contacts stripped from descriptions: ${redactedContacts}`);
-  console.log("Prices: as printed when the site was last built (price_source = site-build), not the live ones.");
+  const stalePrices = active.filter((l) => l.price_source === "site-build");
+  console.log(`Prices: ${active.length - stalePrices.length} live (price sheet, month ${today.slice(0, 7)}), ${stalePrices.length} as printed in the pages`);
+  if (stalePrices.length) warnings.unshift(`${stalePrices.length} rooms have no live price (${prices ? "missing from the price sheet" : "--static-prices"}): the price printed in the page was used, and it may be stale. E.g. ${stalePrices.slice(0, 5).map((l) => l.id).join(", ")}`);
   if (!CONTACT_WHATSAPP) warnings.unshift("No agreed WhatsApp number for Place to Stay — contact_whatsapp left empty.");
   if (stats.detailFailed) warnings.unshift(`${stats.detailFailed} room pages failed: those rooms may have fewer photos.`);
   if (warnings.length) {
