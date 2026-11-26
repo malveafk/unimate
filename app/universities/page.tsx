@@ -775,6 +775,10 @@ export default function Universities() {
                             </div>
                           ))}
                         </div>
+                        <div style={{ marginTop: 10, fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 }}>
+                          <a href={meta.diplomaLink} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>Diploma requirements for your country →</a>
+                          <div>Checked on the official pages on {meta.checkedOn}</div>
+                        </div>
                       </div>
                     )}
 

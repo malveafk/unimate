@@ -263,7 +263,8 @@ export default function Chat() {
       });
 
       if (response.status === 429) {
-        // Lifetime free-message cap reached — keep the Premium screen up (no auto-reset).
+        // Daily free-message cap reached (resets at midnight UTC server-side) —
+        // keep the Premium screen up for the rest of this session.
         setRateLimited(true);
         return;
       }

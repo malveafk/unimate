@@ -103,7 +103,12 @@ export default function BachelorDetail({ params }: { params: Promise<{ id: strin
                         key={i}
                         className="flex items-center justify-between gap-4 text-sm text-zinc-300 border-b border-white/5 pb-2"
                       >
-                        <span>{course.name}</span>
+                        <span>
+                          {course.name}
+                          {course.nameEn && (
+                            <span className="block text-[11px] text-zinc-500">{course.nameEn}</span>
+                          )}
+                        </span>
                         {course.credits && (
                           <span className="text-[11px] font-mono text-zinc-500 whitespace-nowrap">
                             {course.credits}

@@ -138,7 +138,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
           >
             Unlock Premium →
           </Link>
-          <p style={{ fontSize: 11, color: "var(--text-3)", margin: 0 }}>Or try 5 free questions in the <Link href="/chat" style={{ color: "var(--text-2)", textDecoration: "underline" }}>AI Chat</Link></p>
+          <p style={{ fontSize: 11, color: "var(--text-3)", margin: 0 }}>Or ask up to 10 free questions a day in the <Link href="/chat" style={{ color: "var(--text-2)", textDecoration: "underline" }}>AI Chat</Link></p>
         </div>
       </div>
     );
@@ -282,6 +282,12 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
               </div>
             ))}
           </div>
+          {meta && (
+            <div style={{ marginTop: 12, fontSize: 13, color: "var(--text-3)", lineHeight: 1.6 }}>
+              <a href={meta.diplomaLink} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>Diploma requirements for your country →</a>
+              <div>Checked on the official pages on {meta.checkedOn}</div>
+            </div>
+          )}
         </div>
         {meta?.scholarships && (
           <div style={{ padding: "16px 18px", borderRadius: 12, border: "1px solid rgba(251,191,36,0.25)", background: "rgba(251,191,36,0.05)" }}>
@@ -331,7 +337,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
                 <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Year 1 courses</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {programme.courses.filter(c => c.year === 1).map(c => (
-                    <span key={c.name} style={{ padding: "3px 9px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 11, color: "var(--text-3)", background: "rgba(255,255,255,0.02)" }}>{c.name}</span>
+                    <span key={c.name} title={c.nameEn} style={{ padding: "3px 9px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 11, color: "var(--text-3)", background: "rgba(255,255,255,0.02)" }}>{c.name}</span>
                   ))}
                 </div>
               </>

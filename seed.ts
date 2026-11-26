@@ -37,6 +37,18 @@ async function pruneStale(
 async function seed() {
   console.log("Inizio importazione...\n");
 
+  // La traduzione inglese dei nomi degli esami vive nella colonna
+  // courses.name_en, aggiunta da supabase/courses_name_en.sql. Senza di essa
+  // ogni upsert dei corsi fallirebbe uno per uno: meglio fermarsi subito.
+  const { error: columnError } = await supabase.from("courses").select("name_en").limit(1);
+  if (columnError) {
+    console.error(
+      "Manca la colonna courses.name_en: lancia prima supabase/courses_name_en.sql nell'SQL Editor di Supabase.\n",
+      columnError.message
+    );
+    process.exit(1);
+  }
+
   for (const uni of universities) {
     // 1. Inserisce l'università
     const { error: uniError } = await supabase.from("universities").upsert({
@@ -88,6 +100,7 @@ async function seed() {
           id: `${bachelorRowId}__c${i}`,
           bachelor_id: bachelorRowId,
           name: course.name,
+          name_en: course.nameEn ?? null,
           credits: course.credits ?? null,
           year: course.year ?? null,
         });

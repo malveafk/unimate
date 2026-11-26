@@ -3,6 +3,7 @@ import { universities as staticUniversities, type University as StaticUniversity
 
 export type Course = {
   name: string;
+  nameEn?: string;
   credits?: string;
   year?: number;
 };
@@ -151,6 +152,7 @@ export async function getUniversities(): Promise<University[]> {
         id: string;
         bachelor_id: string;
         name: string;
+        name_en?: string | null;
         credits: string | null;
         year: number | null;
       }>("courses"),
@@ -182,6 +184,7 @@ export async function getUniversities(): Promise<University[]> {
               .filter((c) => c.bachelor_id === b.id)
               .map((c) => ({
                 name: c.name,
+                nameEn: c.name_en ?? undefined,
                 credits: c.credits ?? undefined,
                 year: c.year ?? undefined,
               })),

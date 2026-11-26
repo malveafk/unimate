@@ -11,6 +11,7 @@
  * Exit code is 1 if anything is flagged, so it can gate a commit.
  */
 import { universities } from "./app/data/universities";
+import { universityMeta } from "./app/data/universityMeta";
 import { getUniversityCosts } from "./utils/universityCosts";
 
 let flags = 0;
@@ -88,6 +89,51 @@ for (const [country, g] of byCountry) {
   }
 }
 if (!spreads) console.log("  none");
+
+/* 5. Programme text vs course data ---------------------------------------- */
+// A programme states its credits twice: in the description and in courses[].
+// The two are written separately, so they drift; /compare and the apply page
+// show them one under the other.
+section("5. Programme text vs course data");
+const ects = (c?: string) => Number(c?.match(/([\d.]+)\s*ECTS/)?.[1] ?? NaN);
+// Modules that run across the year boundary are listed under the year they
+// start in, so that year can legitimately exceed 60. Each entry says why.
+const CROSS_YEAR: Record<string, string> = {
+  "heidelberg/molecular-biotechnology": "Organic Chemistry, Special Biology I and Transferable Skills I run semesters 2-3 (SPO 2025, Anlage 1)",
+};
+let progIssues = 0;
+for (const u of universities) {
+  for (const b of u.bachelors) {
+    const id = `${u.id}/${b.id}`;
+    // UK credits are half an ECTS; text in UK credits next to a list in ECTS reads as two different numbers.
+    if (u.country === "United Kingdom") {
+      const bare = b.description.replace(/\(\d+ UK (CATS )?credits( each)?\)/g, "");
+      if (/\b\d+[- ]credits?\b|\bCATS\b/.test(bare)) { progIssues++; flag(`${id}: UK credits in the text without ECTS`); }
+    }
+    const dur = Math.ceil(Number(b.duration.match(/\d+(\.\d+)?/)?.[0] ?? 0));
+    const maxYear = Math.max(0, ...b.courses.map((c) => c.year ?? 0));
+    if (dur && maxYear > dur) { progIssues++; flag(`${id}: courses up to year ${maxYear}, duration "${b.duration}"`); }
+    const byYear = new Map<number, number[]>();
+    for (const c of b.courses) if (c.year) byYear.set(c.year, [...(byYear.get(c.year) ?? []), ects(c.credits)]);
+    for (const [y, list] of byYear) {
+      if (list.some(isNaN)) continue; // partial data: a sum would mean nothing
+      const sum = list.reduce((s, x) => s + x, 0);
+      if (sum <= 66) continue; // 10% tolerance for rounding and listed alternatives
+      if (CROSS_YEAR[id]) { console.log(`  known  ${id}: year ${y} sums ${sum} ECTS (${CROSS_YEAR[id]})`); continue; }
+      progIssues++;
+      flag(`${id}: year ${y} sums ${sum} ECTS`);
+    }
+  }
+  if (u.ranking) {
+    const top = Number(u.ranking.match(/Top\s+(\d+)/i)?.[1]), rank = Number(u.ranking.match(/#(\d+)/)?.[1]);
+    if (top && rank && rank > top) { progIssues++; flag(`${u.id}: ranking "${u.ranking}"`); }
+  }
+  const meta = universityMeta[u.id];
+  const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  const m = meta ? months.findIndex((x) => meta.applicationDeadline.toLowerCase().includes(x)) + 1 : 0;
+  if (meta && m && meta.applicationDeadlineMonth !== m) { progIssues++; flag(`${u.id}: deadline "${meta.applicationDeadline}" vs month ${meta.applicationDeadlineMonth}`); }
+}
+if (!progIssues) console.log("  no divergence");
 
 section(flags ? `${flags} flag(s)` : "No flags.");
 process.exit(flags ? 1 : 0);
