@@ -7,22 +7,8 @@ import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import AuthModal from "../components/AuthModal";
 import AccountIcon from "../components/AccountIcon";
-import { fetchBlockedUsers, unblockUser, type BlockedUser } from "@/utils/moderation";
 
 // ── Types (only the columns this page needs) ───────────────────────────────
-
-type MyProfile = {
-  id: string;
-  first_name: string;
-  city: string;
-  university: string | null;
-  budget_min: number | null;
-  budget_max: number | null;
-  move_in_month: number | null;
-  move_in_year: number | null;
-  verified: boolean;
-  is_active: boolean;
-};
 
 type MyListing = {
   id: string;
@@ -39,12 +25,7 @@ type MyListing = {
   created_at: string;
 };
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const LISTING_COLS = "id, title, city, price, available_from, description, link, photo_path, is_active, created_at";
-
-// The person's ID check (supabase/housing_id_checks.sql): one per account,
-// covering their roommate profile and every listing.
-type IdStatus = "pending" | "verified" | "rejected";
 
 // ── Small UI pieces ─────────────────────────────────────────────────────────
 
@@ -117,33 +98,18 @@ export default function AccountPage() {
   const [checking, setChecking] = useState(true);
   const [authOpen, setAuthOpen] = useState(false);
 
-  const [profile, setProfile] = useState<MyProfile | null>(null);
   const [listings, setListings] = useState<MyListing[]>([]);
-  const [idStatus, setIdStatus] = useState<IdStatus | null>(null);
   const [loadError, setLoadError] = useState("");
 
   // ── Data ──
   const load = useCallback(async (uid: string) => {
-    const { data: p, error: pErr } = await supabase
-      .from("housing_profiles")
-      .select("id, first_name, city, university, budget_min, budget_max, move_in_month, move_in_year, verified, is_active")
-      .eq("user_id", uid)
-      .maybeSingle();
-    setLoadError(pErr ? "Couldn't load your profile. Please refresh the page." : "");
-    setProfile((p as MyProfile) ?? null);
-
-    // Missing table (migration not run yet) or no check: both read as "none".
-    const { data: check } = await supabase
-      .from("housing_id_checks").select("status").eq("user_id", uid).maybeSingle();
-    setIdStatus((check?.status as IdStatus | undefined) ?? null);
-
     // `status` only exists after the listing-review SQL has been run, so ask
     // for it first and fall back to the older columns if the database says no.
     const fetchListings = (cols: string) => supabase.from("housing_listings").select(cols)
       .eq("created_by", uid).order("created_at", { ascending: false });
     let res = await fetchListings(`${LISTING_COLS}, status`);
     if (res.error) res = await fetchListings(LISTING_COLS);
-    if (res.error) setLoadError("Couldn't load your listings. Please refresh the page.");
+    setLoadError(res.error ? "Couldn't load your listings. Please refresh the page." : "");
     setListings((res.data as unknown as MyListing[]) ?? []);
   }, [supabase]);
 
@@ -177,7 +143,7 @@ export default function AccountPage() {
         <div style={{ color: "var(--text-1)", display: "flex", justifyContent: "center", marginBottom: 20 }}><AccountIcon size={56} /></div>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: "var(--text-1)", margin: "0 0 10px", letterSpacing: "-0.6px" }}>Your account</h1>
         <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7, margin: "0 0 24px" }}>
-          Sign in to manage your roommate profile, your apartment listings and your account settings.
+          Sign in to manage your apartment listings and your account settings.
         </p>
         <Button tone="primary" onClick={() => setAuthOpen(true)}>Sign in</Button>
         {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
@@ -201,10 +167,7 @@ export default function AccountPage() {
       {loadError && <p style={{ margin: 0, fontSize: 13, color: "#f87171" }}>{loadError}</p>}
 
       <AccountSection user={user} provider={provider} onSignOut={async () => { await supabase.auth.signOut(); router.push("/"); }} />
-      {idStatus && <IdCheckSection status={idStatus} hasProfile={!!profile} />}
-      <ProfileSection profile={profile} idStatus={idStatus} onChanged={() => load(user.id)} />
       <ListingsSection listings={listings} onChanged={() => load(user.id)} />
-      <BlockedSection />
       <DeleteSection onDeleted={async () => { await supabase.auth.signOut(); router.push("/"); }} />
     </div>
   );
@@ -254,7 +217,6 @@ function AccountSection({ user, provider, onSignOut }: { user: User; provider: s
         <Button onClick={() => { setShowPw(v => !v); setMsg(null); }}>
           {provider === "google" ? "Set a password" : "Change password"}
         </Button>
-        <Link href="/messages" style={{ textDecoration: "none" }}><Button>My messages</Button></Link>
         <Button onClick={onSignOut}>Sign out</Button>
       </div>
 
@@ -271,123 +233,6 @@ function AccountSection({ user, provider, onSignOut }: { user: User; provider: s
         </form>
       )}
       {msg && <p style={{ margin: 0, fontSize: 13, color: msg.ok ? "var(--green)" : "#f87171" }}>{msg.text}</p>}
-    </section>
-  );
-}
-
-// ── Roommate profile ────────────────────────────────────────────────────────
-
-// ── Identity check ──────────────────────────────────────────────────────────
-
-function IdCheckSection({ status, hasProfile }: { status: IdStatus; hasProfile: boolean }) {
-  const content = {
-    pending: {
-      pill: <Pill label="Waiting for review" rgb="251,191,36" />,
-      text: "We are checking the ID you uploaded. Your roommate profile appears on the housing map, and the ✓ Verified badge on your profile and listings, as soon as it is done. This usually takes less than 24 hours.",
-    },
-    verified: {
-      pill: <Pill label="✓ Verified" rgb="52,211,153" />,
-      text: "Your ID has been checked and the document deleted. The ✓ Verified badge shows on your roommate profile and on your listings.",
-    },
-    rejected: {
-      pill: <Pill label="Not verified" rgb="248,113,113" />,
-      text: "We could not verify the document you uploaded, and we have deleted it. Please upload a clear photo of a valid passport, national ID card or driving licence. Until then your roommate profile stays off the map.",
-    },
-  }[status];
-
-  return (
-    <section style={card}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexWrap: "wrap" }}>
-        <SectionTitle title="Identity check" />
-        {content.pill}
-      </div>
-      <p style={{ margin: 0, fontSize: 14, color: "var(--text-2)", lineHeight: 1.7 }}>{content.text}</p>
-      {status === "rejected" && (
-        <div>
-          <Link href={hasProfile ? "/housing/create-profile" : "/housing/post-listing"} style={{ textDecoration: "none" }}>
-            <Button tone="primary">Upload a new ID</Button>
-          </Link>
-        </div>
-      )}
-    </section>
-  );
-}
-
-function ProfileSection({ profile, idStatus, onChanged }: { profile: MyProfile | null; idStatus: IdStatus | null; onChanged: () => void }) {
-  const supabase = createClient();
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-
-  if (!profile) {
-    return (
-      <section style={card}>
-        <SectionTitle title="Roommate profile" subtitle="You don't have a roommate profile yet. Create one so other students looking for a flatmate can find you." />
-        <div><Link href="/housing/create-profile" style={{ textDecoration: "none" }}><Button tone="primary">Create roommate profile</Button></Link></div>
-      </section>
-    );
-  }
-
-  async function toggleVisible() {
-    if (!profile) return;
-    setBusy(true); setError("");
-    const { error } = await supabase.from("housing_profiles").update({ is_active: !profile.is_active }).eq("id", profile.id);
-    setBusy(false);
-    if (error) setError("Couldn't update your profile. Please try again.");
-    else onChanged();
-  }
-
-  async function deleteProfile() {
-    if (!profile) return;
-    if (!window.confirm("Delete your roommate profile? It will disappear from the map. Your messages stay in your inbox.")) return;
-    setBusy(true); setError("");
-    // The ID check is not touched: it belongs to the person, not the profile,
-    // and its document is deleted as soon as an admin has decided.
-    const { error } = await supabase.from("housing_profiles").delete().eq("id", profile.id);
-    setBusy(false);
-    if (error) setError("Couldn't delete your profile. Please try again.");
-    else onChanged();
-  }
-
-  const budget = profile.budget_min || profile.budget_max ? `€${profile.budget_min ?? "?"}–€${profile.budget_max ?? "?"}/month` : "—";
-  const moveIn = profile.move_in_month ? `${MONTHS[profile.move_in_month - 1]} ${profile.move_in_year ?? ""}` : "—";
-
-  return (
-    <section style={card}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", flexWrap: "wrap" }}>
-        <SectionTitle
-          title="Roommate profile"
-          subtitle={!profile.is_active
-            ? "Hidden: only you can see it."
-            : profile.verified
-              ? "Visible to other students on the housing map."
-              : "Not on the map yet: it appears as soon as your ID is verified."}
-        />
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          {!profile.is_active
-            ? <Pill label="Hidden" rgb="150,150,150" />
-            : profile.verified
-              ? <Pill label="Visible" rgb="52,211,153" />
-              : <Pill label="Waiting for ID check" rgb="251,191,36" />}
-          {profile.verified
-            ? <Pill label="✓ ID verified" rgb="52,211,153" />
-            : idStatus === "pending" ? <Pill label="ID under review" rgb="251,191,36" />
-            : idStatus === "rejected" ? <Pill label="ID not verified" rgb="248,113,113" />
-            : <Pill label="No ID uploaded" rgb="248,113,113" />}
-        </div>
-      </div>
-
-      <div style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.8 }}>
-        <strong style={{ color: "var(--text-1)" }}>{profile.first_name}</strong> · {profile.city}
-        {profile.university ? ` · ${profile.university}` : ""}<br />
-        Budget {budget} · Moving in {moveIn}
-      </div>
-
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-        <Link href="/housing/create-profile" style={{ textDecoration: "none" }}><Button>Edit profile</Button></Link>
-        <Button onClick={toggleVisible} disabled={busy}>{profile.is_active ? "Hide from map" : "Show on map"}</Button>
-        <Button tone="danger" onClick={deleteProfile} disabled={busy}>Delete profile</Button>
-      </div>
-      {error && <p style={{ margin: 0, fontSize: 13, color: "#f87171" }}>{error}</p>}
     </section>
   );
 }
@@ -530,92 +375,6 @@ function ListingRow({ listing, onChanged }: { listing: MyListing; onChanged: () 
 
 // ── Delete account ──────────────────────────────────────────────────────────
 
-// ── Blocked accounts ────────────────────────────────────────────────────────
-//
-// A block is instant and needs nobody's approval, which is right — but it only
-// stays a reasonable thing to offer if it can be taken back. Without a list
-// like this, undoing one would mean finding that person's pin on the map
-// again, and a blocked pin is exactly what the map no longer shows. So the
-// list is not a nicety: it is the other half of the feature.
-//
-// The section hides itself when there is nothing in it, rather than sitting
-// there as an empty card reminding everyone that blocking exists.
-
-function BlockedSection() {
-  const [blocked, setBlocked] = useState<BlockedUser[]>([]);
-  const [loaded, setLoaded] = useState(false);
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState("");
-  // Bumped after an unblock to re-run the effect below. The list is only ever
-  // read in one place that way, instead of once on mount and again by hand.
-  const [reloadToken, setReloadToken] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetchBlockedUsers()
-      // Most likely cause of a failure is that the migration has not been run
-      // on this database. Nothing to show and nothing the student can do about
-      // it, so the section stays quiet and hidden.
-      .catch(() => [] as BlockedUser[])
-      .then(rows => {
-        if (cancelled) return;
-        setBlocked(rows);
-        setLoaded(true);
-      });
-    return () => { cancelled = true; };
-  }, [reloadToken]);
-
-  if (!loaded || blocked.length === 0) return null;
-
-  async function unblock(userId: string) {
-    setBusy(userId);
-    setError("");
-    try {
-      await unblockUser(userId);
-      setReloadToken(n => n + 1);
-    } catch {
-      setError("Couldn't unblock. Please try again.");
-    } finally {
-      setBusy(null);
-    }
-  }
-
-  return (
-    <section style={card}>
-      <SectionTitle
-        title="Blocked accounts"
-        subtitle="They can't message you and you don't see them on the map. Unblocking brings back their profile and your old conversation."
-      />
-      {error && <p style={{ margin: 0, fontSize: 13, color: "#f87171" }}>{error}</p>}
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {blocked.map(b => (
-          <div
-            key={b.userId}
-            style={{
-              display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap",
-              padding: "12px 14px", borderRadius: 12,
-              border: "1px solid var(--border)", background: "var(--surface-2)",
-            }}
-          >
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)" }}>
-                {b.name ?? "A student"}
-                {b.city && <span style={{ color: "var(--text-3)", fontWeight: 400 }}> · {b.city}</span>}
-              </div>
-              <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>
-                Blocked on {new Date(b.blockedAt).toLocaleDateString()}
-              </div>
-            </div>
-            <Button onClick={() => unblock(b.userId)} disabled={busy === b.userId}>
-              {busy === b.userId ? "Unblocking…" : "Unblock"}
-            </Button>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function DeleteSection({ onDeleted }: { onDeleted: () => void }) {
   const [open, setOpen] = useState(false);
   const [confirmText, setConfirmText] = useState("");
@@ -639,7 +398,7 @@ function DeleteSection({ onDeleted }: { onDeleted: () => void }) {
     <section style={{ ...card, border: "1px solid rgba(248,113,113,0.25)" }}>
       <SectionTitle
         title="Delete account"
-        subtitle="Permanently deletes your account, roommate profile, apartment listings, messages, AI chats and the ID documents you uploaded. This can't be undone."
+        subtitle="Permanently deletes your account, your apartment listings and your AI chats. This can't be undone."
       />
       {!open ? (
         <div><Button tone="danger" onClick={() => setOpen(true)}>Delete my account</Button></div>

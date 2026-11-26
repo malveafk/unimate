@@ -46,30 +46,29 @@ const SECTIONS: NavSection[] = [
         label: "Compare",
         desc: "Place universities side-by-side to compare costs, programmes and living expenses.",
       },
+      {
+        href: "/careers",
+        label: "Career Outcomes",
+        desc: "See where each degree leads: the roles graduates hold, who hires them and realistic career paths.",
+      },
     ],
   },
   {
     label: "Housing",
-    desc: "Find apartments and roommates across Europe — filtered by city, budget and move-in date.",
+    desc: "Find apartments across Europe — filtered by city, budget and move-in date.",
     accentRgb: "96,165,250",
     children: [
       {
-        href: "/housing?tab=apartments",
+        href: "/housing",
         label: "Apartments",
         desc: "Rooms and flats listed across European student cities, filtered by budget and move-in date.",
       },
       {
-        href: "/housing?tab=roommates",
-        label: "Roommates",
-        desc: "Students looking for someone to share with — find your match by city and budget.",
+        href: "/housing/post-listing",
+        label: "List an apartment",
+        desc: "Have a place to rent? Email us the details and we'll publish it on the map.",
       },
     ],
-  },
-  {
-    href: "/messages",
-    label: "Messages",
-    desc: "Chat directly with other students — coordinate roommates, housing, and more.",
-    accentRgb: "52,211,153",
   },
   {
     href: "/chat",

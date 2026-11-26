@@ -1,0 +1,577 @@
+{
+  "country": "Sweden",
+  "country_code": "SE",
+  "currency": "SEK",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    {
+      "key": "state_grant_loan",
+      "result": "found",
+      "note": "CSN studiemedel rules for EU/EEA/Swiss citizens (worker route, permanent residence, lasting connection) and 2026 amounts. Non-EU route not separately researched."
+    },
+    {
+      "key": "rent",
+      "result": "found",
+      "note": "Försäkringskassan bostadsbidrag for under-29s."
+    },
+    {
+      "key": "health_insurance",
+      "result": "found",
+      "note": "Kammarkollegiet Student IN / FAS+ insurance provided via universities (Lund page; Study in Sweden confirms many universities use it)."
+    },
+    {
+      "key": "transport",
+      "result": "found",
+      "note": "Student discounts of SL, Västtrafik, Skånetrafiken, UL; temporary 2026 half-price 30-day tickets ending 2 Dec 2026."
+    },
+    {
+      "key": "tax",
+      "result": "none_found",
+      "note": "Only Skatteverket's English 'new in Sweden and employed' page checked: no student-specific tax relief. Swedish-language deductions (e.g. jobbskatteavdrag) not researched; web-search budget ran out."
+    },
+    {
+      "key": "student_work",
+      "result": "none_found",
+      "note": "No work-linked subsidy found on Migrationsverket, Study in Sweden or university job pages; limited search (budget exhausted)."
+    },
+    {
+      "key": "erasmus",
+      "result": "found",
+      "note": "Exchange students pay no tuition (Lund). No host-side Erasmus top-up found on UHR, Uppsala exchange FAQ or Lund pages; incoming grants come from the home institution (not confirmed on a Swedish official page)."
+    },
+    {
+      "key": "regional",
+      "result": "found",
+      "note": "City of Gothenburg season-ticket subsidy for registered residents. Other municipalities not researched."
+    },
+    {
+      "key": "university",
+      "result": "found",
+      "note": "KTH, Stockholm University, Lund, Uppsala, Chalmers, University of Gothenburg scholarships for fee-paying students; Lund hardship scholarship."
+    }
+  ],
+  "items": [
+    {
+      "id": "se-csn-eu-worker",
+      "category": "state_grant_loan",
+      "name_local": "Studiemedel (CSN) – EU-rätt, arbetstagare",
+      "name_it": "Sussidio/prestito CSN per cittadini UE che lavorano in Svezia",
+      "authority": "CSN (Swedish Board of Student Finance)",
+      "description": "EU/EEA/Swiss citizens who work in Sweden can be treated like Swedish citizens under EU law and get Swedish student finance (grant + loan) for studies in Sweden.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "min_work_hours": "employed at least 10 hours/week for at least 10 weeks before studies, and normally continue working at least 10 hours/week during studies",
+        "other": [
+          "Swiss citizens also need a Swedish residence permit",
+          "must study at least 50% for at least 3 weeks",
+          "under 60 years old"
+        ]
+      },
+      "amount": "Full-time 2026: SEK 1,030/week grant + SEK 2,368/week loan (SEK 4,120 + 9,472 per 4 weeks)",
+      "how_to_apply": "Apply on CSN Mina sidor, then submit a study assurance at the start of each semester.",
+      "deadline": null,
+      "stackable": "Income limit applies (e.g. SEK 114,676 per half-year for 20 weeks of full-time study, 2026).",
+      "source_url": "https://www.csn.se/languages/english/the-right-to-swedish-student-finance/study-in-sweden-as-a-foreign-citizen/for-citizens-of-eu-eea-countries-or-switzerland.html",
+      "extra_sources": [
+        "https://www.csn.se/languages/english/student-grants-and-loans-for-studies-in-sweden.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "CSN amounts page shows 114,676 SEK in its table but 113,901 SEK in its text for the 20-week income limit; check the CSN decision. Self-employed route also exists (10 h/week for 10 weeks, F-tax, VAT registration)."
+    },
+    {
+      "id": "se-csn-eu-permanent-residence",
+      "category": "state_grant_loan",
+      "name_local": "Studiemedel (CSN) – permanent uppehållsrätt",
+      "name_it": "Sussidio/prestito CSN dopo 5 anni di residenza (diritto di soggiorno permanente)",
+      "authority": "CSN (Swedish Board of Student Finance)",
+      "description": "EU/EEA citizens with permanent right of residence (normally after five years of uninterrupted legal residence in Sweden) can get Swedish student finance. A 'lasting connection' (e.g. 2 years of at least 50% work in Sweden, or 2 years cohabiting with a partner in Sweden) is an alternative route.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "eu_eea",
+          "swiss"
+        ],
+        "residence_requirement": "permanent right of residence: normally 5 years of uninterrupted legal residence in Sweden (Swiss: permanent residence permit)",
+        "other": [
+          "alternative: lasting connection to Sweden plus right of residence"
+        ]
+      },
+      "amount": "Same rates as other CSN recipients: SEK 3,398/week full-time grant + loan (2026)",
+      "how_to_apply": "Apply on CSN Mina sidor.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.csn.se/languages/english/the-right-to-swedish-student-finance/study-in-sweden-as-a-foreign-citizen/for-citizens-of-eu-eea-countries-or-switzerland.html",
+      "extra_sources": [
+        "https://www.csn.se/languages/english/student-grants-and-loans-for-studies-in-sweden.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "se-si-global-professionals",
+      "category": "other",
+      "name_local": "SI Scholarship for Global Professionals",
+      "name_it": "Borsa del Swedish Institute per Global Professionals",
+      "authority": "Swedish Institute (government agency)",
+      "description": "State-funded scholarship for master's studies in Sweden for citizens of 34 eligible countries who are liable to pay tuition fees; requires work and leadership experience. Covers full tuition plus a monthly allowance.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "min_work_hours": "at least 3,000 hours of work experience before February 2027 (no hour minimum for Armenia, Azerbaijan, Belarus, Georgia, Moldova, Ukraine)",
+        "other": [
+          "citizen of one of 34 listed countries",
+          "liable to pay tuition fees and admitted to an eligible master's programme",
+          "EU/EEA citizens and Swedish permanent residents are not eligible"
+        ]
+      },
+      "amount": "Full tuition + SEK 12,000/month living allowance + one-time travel grant SEK 15,000 (SEK 10,000 for some countries); 2027 call",
+      "how_to_apply": "Apply to programmes via University Admissions, then submit the SI application in its portal.",
+      "deadline": "SI portal open 8–24 February 2027 (closes 14:59 CET)",
+      "stackable": null,
+      "source_url": "https://si.se/en/apply/scholarships/swedish-institute-scholarships-for-global-professionals/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Results by end of April 2027. Category 'other' because it is a state scholarship, not CSN finance."
+    },
+    {
+      "id": "se-bostadsbidrag-young",
+      "category": "rent",
+      "name_local": "Bostadsbidrag till unga (under 29 år)",
+      "name_it": "Contributo per l'alloggio per giovani sotto i 29 anni",
+      "authority": "Försäkringskassan (Swedish Social Insurance Agency)",
+      "description": "Housing allowance for people under 29 without children, whether they study or work. You must normally be registered (folkbokförd) at the home; lodgers (inneboende) are not eligible. Only 60 m² of floor area counts.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": {
+          "max": 28
+        },
+        "income_test": "gross annual income up to SEK 86,720 (single) or SEK 103,720 combined (couple); CSN studiebidrag counts as income; assets over SEK 100,000 count",
+        "stay_duration": "registered in the Population Register at the address",
+        "other": [
+          "housing cost above SEK 1,800/month (single)",
+          "not for lodgers (inneboende)"
+        ]
+      },
+      "amount": "up to SEK 1,300/month (under 29, no children; 2026)",
+      "how_to_apply": "Apply on Försäkringskassan Mina sidor with proof of housing costs; decision valid up to 12 months.",
+      "deadline": "Paid only from the month you apply; no back-payment",
+      "stackable": "Can be received alongside CSN, but the CSN grant counts as income.",
+      "source_url": "https://www.forsakringskassan.se/privatperson/studerande/bostadsbidrag-till-unga-under-29-ar",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Only population-register registration at the home is required, so a registered EU student could qualify.",
+          "source_url": "https://www.forsakringskassan.se/privatperson/studerande/bostadsbidrag-till-unga-under-29-ar"
+        },
+        {
+          "hypothesis": "As a residence-based benefit it may also require being insured in Sweden; Försäkringskassan says EU students' insurance is assessed case by case and non-EU students generally cannot be insured (except for work-based benefits).",
+          "source_url": "https://www.forsakringskassan.se/english/moving-to-working-studying-or-newly-arrived-in-sweden/study-in-sweden"
+        }
+      ],
+      "notes": "In practice this mostly concerns students registered for stays of at least one year."
+    },
+    {
+      "id": "se-kammarkollegiet-student-insurance",
+      "category": "health_insurance",
+      "name_local": "Student IN / FAS+ (Kammarkollegiet)",
+      "name_it": "Assicurazione Student IN / FAS+ fornita dall'università (Kammarkollegiet)",
+      "authority": "Kammarkollegiet (Legal, Financial and Administrative Services Agency), via the university",
+      "description": "Universities insure incoming students through the state agency Kammarkollegiet. At Lund, Student IN normally covers exchange students, EU/EEA/Swiss citizens and some fee-exempt students; FAS+ covers non-EU fee-paying students. Cover is for the student only.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "depends on the university's agreement",
+          "not for students already living in Sweden with a personnummer (Lund)"
+        ]
+      },
+      "amount": "No premium charged to the student (KTH student budgets list insurance as SEK 0; cover depends on student category)",
+      "how_to_apply": "Automatic for eligible students; check with your university.",
+      "deadline": null,
+      "stackable": "Separate from EHIC, which covers care outside Sweden.",
+      "source_url": "https://www.lunduniversity.lu.se/student-life/before-you-arrive/insurance-incoming-students",
+      "extra_sources": [
+        "https://studyinsweden.se/moving-to-sweden/health-insurance/",
+        "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Eligibility split described here is Lund's; other universities may differ."
+    },
+    {
+      "id": "se-transport-sl-student",
+      "category": "transport",
+      "name_local": "SL rabatterat pris (student)",
+      "name_it": "Tariffa ridotta studenti SL (Stoccolma)",
+      "authority": "SL (Region Stockholm)",
+      "description": "Under-20s and adult full-time students meeting SL's student-discount conditions (approved student ID) can buy all SL tickets at the reduced price.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "full-time student with approved student ID (SL's specific conditions)",
+          "or under 20"
+        ]
+      },
+      "amount": "30-day ticket at reduced price: SEK 325 during the 2026 half-price campaign (buy/activate by 2 Dec 2026); KTH 2026 budget lists SEK 650/month for the student ticket",
+      "how_to_apply": "Buy a reduced-price ticket in the SL app or on an SL card; carry student ID.",
+      "deadline": "Half-price campaign: last purchase/activation 2 December 2026",
+      "stackable": null,
+      "source_url": "https://sl.se/biljetter/sortiment-och-regler/rabatter",
+      "extra_sources": [
+        "https://sl.se/biljetter/sortiment-och-regler/tillfallig-prissankning",
+        "https://www.kth.se/en/studies/student-life/cost-of-living-in-stockholm-and-student-budget-1.1341975"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The ordinary (post-campaign) reduced price was not shown on SL's page; SEK 650 comes from KTH's budget. Adult campaign price SEK 530.",
+      "valid_until": "2026-12-02"
+    },
+    {
+      "id": "se-transport-vasttrafik-student",
+      "category": "transport",
+      "name_local": "Västtrafik studentrabatt",
+      "name_it": "Sconto studenti Västtrafik (Göteborg)",
+      "authority": "Västtrafik (Region Västra Götaland)",
+      "description": "Students can buy Period Ticket Youth (30, 90 or 365 days), 25% off adult period tickets. Not valid on single or day tickets.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "studying at least part time for at least 10 consecutive weeks",
+        "other": [
+          "studies giving entitlement to CSN (university or adult education)",
+          "student ID app with the student travel symbol valid for the whole ticket period"
+        ]
+      },
+      "amount": "Zone A 30-day youth/student ticket SEK 670 (regular), SEK 335 during the 2026 half-price offer (until 2 Dec 2026)",
+      "how_to_apply": "Buy Period Ticket Youth in the Västtrafik To Go app; carry student ID and passport/ID card.",
+      "deadline": "Half-price offer: purchase by 2 December 2026",
+      "stackable": "Cannot be combined with the City of Gothenburg resident subsidy or 'Travel 4, pay for 1'.",
+      "source_url": "https://www.vasttrafik.se/en/Tickets/more-about-tickets/Student-discount/",
+      "extra_sources": [
+        "https://www.vasttrafik.se/en/Tickets/discounts/season-tickets-will-soon-cost-half-price/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "valid_until": "2026-12-02"
+    },
+    {
+      "id": "se-transport-skanetrafiken-student",
+      "category": "transport",
+      "name_local": "Skånetrafiken studentrabatt",
+      "name_it": "Sconto studenti Skånetrafiken (Lund/Malmö)",
+      "authority": "Skånetrafiken (Region Skåne)",
+      "description": "Students get 25% off all ordinary tickets for travel within Skåne (not campaign tickets) and 35% off 30-day and Flex tickets to Denmark.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "valid student ID with student symbol in an app from Mecenat, Studentkortet/STUK, Hitract, WeStudents or Orbi",
+          "valid ID document"
+        ]
+      },
+      "amount": "25% off ordinary Skåne tickets; 35% off 30-day tickets to Denmark (prices not shown on page)",
+      "how_to_apply": "Choose the student price when buying; show student ID and ID on inspection.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.skanetrafiken.se/biljetter/priser-och-rabatter/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Skånetrafiken's 2026 half-price 30-day offer ended 2 November 2026."
+    },
+    {
+      "id": "se-transport-ul-student",
+      "category": "transport",
+      "name_local": "UL rabatterat pris (student)",
+      "name_it": "Tariffa ridotta studenti UL (Uppsala)",
+      "authority": "UL (Region Uppsala)",
+      "description": "Students studying at least 75% can buy UL tickets at the reduced price with a valid student ID.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": [
+          "studying at least 75%",
+          "student ID from Mecenat, STUK, WeStudent or Orbi with SL logo"
+        ]
+      },
+      "amount": "30-day ticket SEK 850 reduced (adult SEK 1,150); campaign SEK 425 reduced for tickets activated by 2 Dec 2026",
+      "how_to_apply": "Buy in the UL app or webshop at the reduced price; carry student ID.",
+      "deadline": "Campaign: activate by 2 December 2026",
+      "stackable": null,
+      "source_url": "https://www.ul.se/biljetter/vara-biljetter/vara-biljetter/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "valid_until": "2026-12-02"
+    },
+    {
+      "id": "se-regional-gothenburg-resident-ticket",
+      "category": "regional",
+      "name_local": "Göteborgs Stads subvention av periodbiljett",
+      "name_it": "Sconto comunale sull'abbonamento per residenti a Göteborg",
+      "authority": "City of Gothenburg / Västtrafik",
+      "description": "The City of Gothenburg subsidises 16% of adult Zone A period tickets bought in the Västtrafik To Go app by registered residents. Not for youth/student tickets.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "registered as resident in Gothenburg (population register)",
+        "other": [
+          "adult Zone A 30/90/365-day ticket in the To Go app",
+          "Västtrafik account"
+        ]
+      },
+      "amount": "30-day Zone A SEK 720 instead of SEK 860 (from 27 April 2026)",
+      "how_to_apply": "Log in to Västtrafik To Go; the price is applied automatically.",
+      "deadline": null,
+      "stackable": "Not combinable with the student discount.",
+      "source_url": "https://www.vasttrafik.se/en/Tickets/discounts/Cheaper-season-tickets-for-residents-of-Gothenburg/",
+      "extra_sources": [
+        "https://www.vasttrafik.se/en/Tickets/discounts/season-tickets-will-soon-cost-half-price/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Västtrafik's half-price page lists different pre-campaign figures (adult Zone A SEK 890, residents SEK 750); prices conflict between pages."
+    },
+    {
+      "id": "se-erasmus-exchange-no-tuition",
+      "category": "erasmus",
+      "name_local": "Inga avgifter för utbytesstudenter",
+      "name_it": "Nessuna tassa universitaria per studenti in scambio",
+      "authority": "Lund University (Swedish universities)",
+      "description": "Exchange students (e.g. Erasmus+) pay no application or tuition fees at Lund University, whatever their citizenship. No extra host-side Erasmus grant was found.",
+      "eligibility": {
+        "student_type": [
+          "exchange"
+        ],
+        "nationality": "any",
+        "other": [
+          "nominated under an exchange agreement"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Through your home university's exchange programme.",
+      "deadline": null,
+      "stackable": "Erasmus+ grants are paid by the home institution (not confirmed on a Swedish official page).",
+      "source_url": "https://www.lunduniversity.lu.se/study/admission-degree-studies/applying-studies-when-apply/tuition-fees",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Verified for Lund only; non-EU exchange students still need a residence permit."
+    },
+    {
+      "id": "se-uni-kth-scholarship",
+      "category": "university",
+      "name_local": "KTH Scholarship",
+      "name_it": "Borsa KTH",
+      "authority": "KTH Royal Institute of Technology",
+      "description": "Covers the full tuition fee of a one- or two-year KTH master's programme (second year subject to satisfactory results). Does not cover living costs.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "fee-paying student",
+          "KTH master's programme as first priority",
+          "application fee paid",
+          "some joint programmes excluded"
+        ]
+      },
+      "amount": "Full tuition fee (2026: 65 of 718 admitted applicants nominated)",
+      "how_to_apply": "Apply via universityadmissions.se, then submit KTH's scholarship form; documents by 1 February.",
+      "deadline": "Application 1 December 2026 – 15 January 2027; results 1 April 2027",
+      "stackable": null,
+      "source_url": "https://www.kth.se/en/studies/master/admissions/scholarships/kth-scholarship-1.72827",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationality encoded as non_eu because only fee-paying students qualify; the page does not mention citizenship."
+    },
+    {
+      "id": "se-uni-su-scholarships",
+      "category": "university",
+      "name_local": "Stockholm University scholarships for fee-paying students",
+      "name_it": "Borse della Stockholm University per studenti paganti",
+      "authority": "Stockholm University",
+      "description": "Stockholm University (and the Swedish Institute) offers scholarships for master's students from outside the EU/EEA/Switzerland who must pay tuition. Tuition is SEK 90,000–140,000 per year depending on field.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "master's level",
+          "liable to pay tuition fees"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "See Stockholm University's 'Scholarships for studies at Stockholm University' page.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.su.se/english/education/how-to-apply/costs-fees-and-scholarships",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Scholarship names, coverage and deadlines were not on the page read; they are on a linked page not checked."
+    },
+    {
+      "id": "se-uni-lund-global-scholarship",
+      "category": "university",
+      "name_local": "Lund University Global Scholarship",
+      "name_it": "Borsa Lund University Global Scholarship",
+      "authority": "Lund University",
+      "description": "Covers part or all of the tuition fee, depending on programme/faculty budget; not living costs. For master's programmes and, exceptionally, a few bachelor's programmes.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "required to pay tuition fees",
+          "Lund programme as first choice on universityadmissions.se",
+          "regular application round"
+        ]
+      },
+      "amount": "Part or all of tuition fees",
+      "how_to_apply": "Apply to the programme, then via the scholarship portal with a motivation letter (max 600 words).",
+      "deadline": "Usually opens early February; most recent deadline 16 February 2026 (2027 date not yet published)",
+      "stackable": null,
+      "source_url": "https://www.lunduniversity.lu.se/study/admission-degree-studies/scholarships-and-awards/lund-university-global-scholarship",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "se-uni-lund-hardship",
+      "category": "university",
+      "name_local": "Lund University Hardship Scholarship",
+      "name_it": "Borsa di emergenza Lund University",
+      "authority": "Lund University",
+      "description": "For current fee-paying students in severe, unexpected financial hardship, normally with one semester left; may cover part or all remaining tuition fees.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "pays direct tuition fees to Lund University",
+          "normal study pace; at least 50% of a master's or 30% of a bachelor's completed",
+          "not a Swedish Institute scholarship holder"
+        ]
+      },
+      "amount": "Part or all of remaining tuition fees",
+      "how_to_apply": "Contact your programme coordinator.",
+      "deadline": null,
+      "stackable": "Not for SI scholarship holders.",
+      "source_url": "https://www.lunduniversity.lu.se/current-students/financial-matters/scholarships-current-students/lund-university-hardship-scholarship",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "se-uni-uppsala-scholarships",
+      "category": "university",
+      "name_local": "Uppsala University scholarships for fee-paying students",
+      "name_it": "Borse della Uppsala University per studenti paganti",
+      "authority": "Uppsala University",
+      "description": "A limited number of competitive scholarships for international fee-paying master's students covering the full tuition (not living costs); very few bachelor's scholarships, only for students from selected countries.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "fee-paying",
+          "bachelor's scholarships only for selected countries"
+        ]
+      },
+      "amount": "Full tuition fee",
+      "how_to_apply": "Online application following Uppsala's step-by-step guide.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.uu.se/en/study/masters-studies/scholarships",
+      "extra_sources": [
+        "https://www.uu.se/en/study/bachelors-studies/scholarships"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Deadline for the next round not stated on the page read."
+    },
+    {
+      "id": "se-uni-chalmers-scholarships",
+      "category": "university",
+      "name_local": "Chalmers scholarships (Avancez, IPOET, US Friends of Chalmers, Adlerbert)",
+      "name_it": "Borse Chalmers per studenti paganti",
+      "authority": "Chalmers University of Technology",
+      "description": "Chalmers-administered scholarships for prospective fee-paying master's students; offers valid for two years under the scholarship regulations.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "prospective (not current) fee-paying master's students"
+        ]
+      },
+      "amount": null,
+      "how_to_apply": "Apply at universityadmissions.se first, then submit the Chalmers scholarship application.",
+      "deadline": "Late November 2026 to mid-January 2027 (same as programme application deadline)",
+      "stackable": "Financial status and external funding are not considered in nomination.",
+      "source_url": "https://www.chalmers.se/en/education/application-and-admission/scholarships-for-fee-paying-students/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Coverage percentage not stated on the page."
+    },
+    {
+      "id": "se-uni-gu-axel-adler",
+      "category": "university",
+      "name_local": "Axel Adler Scholarship",
+      "name_it": "Borsa Axel Adler (Università di Göteborg)",
+      "authority": "University of Gothenburg",
+      "description": "Tuition fee waiver for an admitted international campus programme; one per eligible master's programme and per eligible bachelor's programme. Does not cover living costs or travel.",
+      "eligibility": {
+        "student_type": [
+          "degree"
+        ],
+        "nationality": [
+          "non_eu"
+        ],
+        "other": [
+          "required to pay tuition fees",
+          "eligible campus programme as first choice"
+        ]
+      },
+      "amount": "Tuition fee for the admitted programme",
+      "how_to_apply": "Apply on universityadmissions.se, then CV and motivation letter in GU's scholarship system.",
+      "deadline": "15 January 2027 (fee and documents by 1 February 2027)",
+      "stackable": null,
+      "source_url": "https://www.gu.se/en/study-in-gothenburg/apply/scholarships-for-fee-paying-students/axel-adler-scholarship",
+      "extra_sources": [
+        "https://www.gu.se/en/study-in-gothenburg/apply/scholarships-for-fee-paying-students"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    }
+  ]
+}

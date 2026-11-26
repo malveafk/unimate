@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { Linkified } from "@/app/components/Linkified";
 
 interface Message {
   role: "user" | "assistant";
@@ -263,7 +264,8 @@ export default function Chat() {
       });
 
       if (response.status === 429) {
-        // Lifetime free-message cap reached — keep the Premium screen up (no auto-reset).
+        // Daily free-message cap reached (resets at midnight UTC server-side) —
+        // keep the Premium screen up for the rest of this session.
         setRateLimited(true);
         return;
       }
@@ -341,7 +343,7 @@ export default function Chat() {
               letterSpacing: role === "assistant" ? "-0.1px" : "0",
             }}
           >
-            {seg.trim()}
+            {role === "assistant" ? <Linkified text={seg.trim()} /> : seg.trim()}
           </div>
         );
       }

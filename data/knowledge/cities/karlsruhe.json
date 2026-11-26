@@ -1,0 +1,106 @@
+{
+  "city": "Karlsruhe",
+  "slug": "karlsruhe",
+  "country": "Germany",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "~€548/month warm (€476 cold) for a model 20 m² shared-flat (WG) room, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "rent_studio",
+      "value": "~€597/month warm (€489 cold) for a model 30 m² student flat, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "No city-specific monthly budget found on the official pages checked. Germany-wide reference: average student spending €876/month (DZHW Social Survey 2023).",
+      "source_name": "Not found (Germany-wide reference: DAAD)",
+      "source_url": "https://www.intl.kit.edu/istudies/3363.php",
+      "extra_sources": [
+        "https://www.daad.de/en/studying-in-germany/living-in-germany/finances/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "KIT's fee page gives fees only: €184/semester, plus €1,500/semester tuition for non-EU students (some exemptions). DAAD also gives €992/month as the proof of funds for a student visa (from 1 Jan 2025)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No semester ticket in the €184 KIT fee; Deutschlandticket €63/month by subscription (students up to 27 can also use the D-Ticket JugendBW)",
+      "source_name": "KIT International Students Office",
+      "source_url": "https://www.intl.kit.edu/istudies/15469.php",
+      "extra_sources": [
+        "https://www.intl.kit.edu/istudies/3363.php",
+        "https://www.bundesregierung.de/breg-de/aktuelles/deutschlandticket-2134074"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "D-Ticket JugendBW price not stated on the KIT page."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate; mean Jan 2.5 °C, Jul 20.9 °C, year 11.4 °C, ~722 mm rain/yr, ~1,825 h sun/yr (DWD station Karlsruhe, 1991–2020 normals)",
+      "source_name": "Deutscher Wetterdienst (DWD) climate normals 1991-2020",
+      "source_url": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Temperatur_1991-2020.txt",
+      "extra_sources": [
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Sonnenscheindauer_1991-2020.txt",
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Niederschlag_1991-2020.txt"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "DWD multi-annual means 1991-2020 for station 'Karlsruhe'."
+    },
+    {
+      "field": "social_life",
+      "value": "~37,000 students (2025 est.) in Karlsruhe, 12.2 per 100 inhabitants",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "Student counts from the MLP Studentenwohnreport 2026 (2025 values estimated by trend). Whether this makes a lively student scene is a judgement."
+    },
+    {
+      "field": "language_needed",
+      "value": "German is the teaching language of most degree programmes; English-taught international programmes usually need only English proof. German makes daily life and social life much easier.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/living-in-germany/german-language/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Germany-wide DAAD guidance, not city-specific; exchange stays of 1-2 semesters may be exempt from German proof."
+    },
+    {
+      "field": "job_market",
+      "value": "Germany-wide (DAAD): waiting tables, shops, offices, tutoring, trade fairs, industry, university student-assistant jobs.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "No city-specific student job-market data found; DAAD national guidance. Non-EU students: 140 full / 280 half days per year (student-assistant jobs exempt); EU/EEA/Swiss: unrestricted."
+    },
+    {
+      "field": "student_wage",
+      "value": "Min. €13.90/h gross (statutory, 2026; €14.60 from 2027). University student assistants (SHK): €15.20/h from summer semester 2026 (TdL guideline)",
+      "source_name": "TdL guideline for student assistants (30 Mar 2026) + Bundesregierung (minimum wage)",
+      "source_url": "https://www.uni-siegen.de/files/default/media/documents/2026-04/2026-04-01__rl__tdl_arbeitsbedingungen_whk_shk_april_2026.pdf",
+      "extra_sources": [
+        "https://www.bundesregierung.de/breg-de/aktuelles/mindestlohn-steigt-2391010",
+        "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "TdL guideline applies to state universities in TdL member Länder; check your university's own rate. DAAD: many side jobs pay at or a little above the minimum wage. Baden-Württemberg is a TdL member."
+    }
+  ]
+}

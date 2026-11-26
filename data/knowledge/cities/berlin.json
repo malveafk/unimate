@@ -1,0 +1,108 @@
+{
+  "city": "Berlin",
+  "slug": "berlin",
+  "country": "Germany",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "~€659/month warm (€579 cold) for a model 20 m² shared-flat (WG) room, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "extra_sources": [
+        "https://www.wg-gesucht.de/presse/studentische-wohnkosten/wintersemester-2026-2027-wg-zimmer-mieten"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports. MMI/WG-Gesucht (WS 2026/27) gives a median of €650/month warm."
+    },
+    {
+      "field": "rent_studio",
+      "value": "~€725/month warm (€605 cold) for a model 30 m² student flat, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "No city-specific monthly budget found on the official pages checked. Germany-wide reference: average student spending €876/month (DZHW Social Survey 2023).",
+      "source_name": "Not found (Germany-wide reference: DAAD)",
+      "source_url": "https://www.fu-berlin.de/en/studium/international/studium_fu/studienfinanzierung/index.html",
+      "extra_sources": [
+        "https://www.daad.de/en/studying-in-germany/living-in-germany/finances/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "FU Berlin and TU Berlin financing pages give no monthly figure (HU Berlin pages could not be read: bot protection). DAAD also gives €992/month as the proof of funds for a student visa (from 1 Jan 2025)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Semester ticket €226.80/semester (≈ €37.80/month) + €2.70 social fund, included in TU Berlin's €379.06 fee, winter 2026/27",
+      "source_name": "TU Berlin (semester fee page)",
+      "source_url": "https://www.tu.berlin/en/go1322/",
+      "extra_sources": [
+        "https://www.tu.berlin/en/studying/organizing-your-studies/re-registration-co"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "TU Berlin: the Deutschlandsemesterticket is only available via the S-Bahn Berlin app. FU Berlin and HU Berlin fee pages not checked."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate; mean Jan 1.2 °C, Jul 20.2 °C, year 10.4 °C, ~572 mm rain/yr, ~1,736 h sun/yr (DWD station Berlin-Tempelhof, 1991–2020 normals)",
+      "source_name": "Deutscher Wetterdienst (DWD) climate normals 1991-2020",
+      "source_url": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Temperatur_1991-2020.txt",
+      "extra_sources": [
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Sonnenscheindauer_1991-2020.txt",
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Niederschlag_1991-2020.txt"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "DWD multi-annual means 1991-2020 for station 'Berlin-Tempelhof'."
+    },
+    {
+      "field": "social_life",
+      "value": "~202,000 students (2025 est.) in Berlin, 5.4 per 100 inhabitants",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "Student counts from the MLP Studentenwohnreport 2026 (2025 values estimated by trend). Whether this makes a lively student scene is a judgement."
+    },
+    {
+      "field": "language_needed",
+      "value": "German is the teaching language of most degree programmes; English-taught international programmes usually need only English proof. German makes daily life and social life much easier.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/living-in-germany/german-language/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Germany-wide DAAD guidance, not city-specific; exchange stays of 1-2 semesters may be exempt from German proof."
+    },
+    {
+      "field": "job_market",
+      "value": "Germany-wide (DAAD): waiting tables, shops, offices, tutoring, trade fairs, industry, university student-assistant jobs.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "No city-specific student job-market data found; DAAD national guidance. Non-EU students: 140 full / 280 half days per year (student-assistant jobs exempt); EU/EEA/Swiss: unrestricted."
+    },
+    {
+      "field": "student_wage",
+      "value": "Min. €13.90/h gross (statutory, 2026). Student employees at Berlin universities: €15.08/h from 1 Jan 2026, €15.90 from 1 Jan 2027, €16.06 from 1 Jan 2028",
+      "source_name": "DGB (TV Stud III Berlin, 8 Jul 2026) + FU Berlin + Bundesregierung",
+      "source_url": "https://www.dgb.de/service/weiterer-service/tarifmeldungen/tarifmeldung/lohnplus-fuer-studentische-beschaeftigte-an-berliner-hochschulen/",
+      "extra_sources": [
+        "https://www.fu-berlin.de/en/informationen-fuer/beschaeftigte/aktuelles/news/260105-student-employees-pay-raise/index.html",
+        "https://www.bundesregierung.de/breg-de/aktuelles/mindestlohn-steigt-2391010"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "DGB notice (8 Jul 2026) said the TV Stud III agreement was subject to a declaration period until 27 Jul 2026; FU Berlin confirms €15.08/h from 1 Jan 2026."
+    }
+  ]
+}

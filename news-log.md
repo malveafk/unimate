@@ -3,6 +3,22 @@
 Registro delle esecuzioni della skill `news-curator` su `app/data/news.ts`.
 Voce più recente in cima.
 
+## 2026-11-25
+
+Giro periodico (trigger "aggiorna news"), **solo 13 giorni** dopo il round del 12/11. Niente 4+5 meccanico: verificata la staleness con `updated ?? date` — freschi gli 8 articoli del 12/11, stantii solo i 7 fermi al 18/08. Verificati quelli: quasi tutti **ancora validi** (congelamenti tasse, scadenze 2027 future, bachelor evergreen) → non toccati. **Una sola modifica reale.**
+
+### Aggiornate
+- **id 9** (Denmark SU) → aggiunta nota verificata sulla **riforma SU 2027**: da gennaio 2027 il grant dei nuovi studenti è legato alla durata nominale del corso (meno mensilità totali). La cifra 2026 (DKK 7.426/mese) resta valida fino a gennaio 2027. `updated` → 25/11/2026; `date` invariata; **posizione invariata** (non portato in cima: il blocco in testa è il contenuto fresco del 12/11, ri-featurizzare per una nota minore lo peggiorerebbe — deviazione consapevole dalla regola "sposta in cima"). Fonti: su.dk/su-reform, legaldesk.dk.
+
+### Non aggiunto / watch
+- **UK-UE tasse**: notizia grossa del periodo (vertice 20/11, nessun accordo, 6 mesi per un'intesa sulle tasse degli studenti UE in UK; possibile esenzione dal levy internazionale 2028). **Non pubblicata**: irrisolta e il Regno Unito non è tra i `newsCountries`. Da riprendere quando si chiude (richiederebbe anche un nuovo country "United Kingdom").
+- **id 15 BAföG**: legge alla 1ª lettura al Bundestag (15/10/2026), non ancora approvata → il testo attuale è ancora corretto, lasciato.
+
+### Note tecniche
+- `npx tsc --noEmit` → exit 2, ma **gli unici errori sono di altri**: moduli `app/housing/create-profile/page` e `app/messages/page`, cancellati dal WIP del branch e ancora referenziati dalla cache `.next`. news.ts non è negli errori; la modifica è type-clean.
+- Branch `remove-roommates-idcheck` con WIP non mio: toccato solo `news.ts` (+ questo log). **Non committato** — in attesa di decidere dove far atterrare il commit.
+- Nessun `id` cambiato; nessun nuovo tag/country; nessun `seed.ts`.
+
 ## 2026-11-12
 
 Giro periodico **ADD + REFRESH** (trigger "aggiorna news"). Il file aveva 12 articoli; ora 15.

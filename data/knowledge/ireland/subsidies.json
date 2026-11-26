@@ -1,0 +1,295 @@
+{
+  "country": "Ireland",
+  "country_code": "IE",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    { "key": "state_grant_loan", "result": "found", "note": "Free Fees Initiative (HEA), SUSI Student Grant Scheme (maintenance + fee grants), Student Assistance Fund (HEA), GOI-IES. No state student loan found on HEA/Citizens Information pages (HEA mentions only credit-union/bank loans)." },
+    { "key": "rent", "result": "found", "note": "Rent Tax Credit (Revenue). No direct rent allowance for students found on Citizens Information / HEA; SAF can help with rent." },
+    { "key": "health_insurance", "result": "none_found", "note": "Searched HSE and Citizens Information: no student-specific health insurance subsidy. EU students use the EHIC; residents may qualify for a means-tested medical card (not student-specific, not researched in detail)." },
+    { "key": "transport", "result": "found", "note": "TFI Student and Young Adult Leap fares (50% off singles, lower caps)." },
+    { "key": "tax", "result": "found", "note": "Tax relief on third-level tuition fees (Revenue, via Citizens Information)." },
+    { "key": "student_work", "result": "none_found", "note": "No subsidy tied to student work found; only rules (see bureaucracy: student_work, minimum_wage)." },
+    { "key": "erasmus", "result": "found", "note": "Erasmus+ Ireland (HEA national agency): host fee exemption; no Irish top-up for incoming students found." },
+    { "key": "regional", "result": "none_found", "note": "Student grants are national (SUSI is the single awarding authority per Citizens Information); no county/city student grant found on the pages checked." },
+    { "key": "university", "result": "found", "note": "TCD Foundation Scholarship, UCD Global Excellence Scholarships, UCC international undergraduate scholarships." }
+  ],
+  "items": [
+    {
+      "id": "ie-free-fees-initiative",
+      "category": "state_grant_loan",
+      "name_local": "Free Fees Initiative",
+      "name_it": "Iniziativa tasse gratuite (Free Fees Initiative)",
+      "authority": "Higher Education Authority (HEA) / Department of Further and Higher Education, Research, Innovation and Science",
+      "description": "The State pays tuition fees for eligible full-time undergraduates at public institutions (including TCD, UCD, UCC). Students still pay the annual Student Contribution, set at €2,350 for 2026/27 after Budget 2027 cut it permanently from €2,500; students who already paid get a €150 refund from their college. No application: the college assesses eligibility from the course application.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea", "swiss"],
+        "residence_requirement": "ordinarily resident in an EU/EEA/Swiss State or the UK for at least 3 of the 5 years before entering the course",
+        "other": [
+          "full-time undergraduate course of at least 2 years at an eligible institution",
+          "first undergraduate course (exceptions for level 6/7 progressing to level 8)",
+          "not repeating a year; no second undergraduate degree or prior postgraduate qualification",
+          "UK nationals and certain refugee/protection statuses also qualify"
+        ]
+      },
+      "amount": "Full tuition fee paid by the State; student pays the Student Contribution of €2,350 per year (2026/27)",
+      "how_to_apply": "No separate application; assessed by the college at entry.",
+      "deadline": null,
+      "stackable": "Student Contribution can be covered fully or partly by a SUSI fee grant (means-tested).",
+      "source_url": "https://hea.ie/funding-governance-performance/funding/student-finance/course-fees/",
+      "extra_sources": ["https://www.citizensinformation.ie/en/education/third-level-education/fees-and-supports-for-third-level-education/fees/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Students who do not qualify may still get 'EU fee' rates set by each institution; otherwise non-EU fees apply. Exchange students do not pay host fees under Erasmus+ (see ie-erasmus-incoming)."
+    },
+    {
+      "id": "ie-susi-fee-grant-tuition-student",
+      "category": "state_grant_loan",
+      "name_local": "SUSI Student Grant Scheme - fee grant ('tuition student')",
+      "name_it": "Borsa SUSI - contributo per le tasse ('tuition student')",
+      "authority": "Student Universal Support Ireland (SUSI)",
+      "description": "EU/EEA/UK/Swiss nationals who lived in the EU/EEA/UK/Switzerland but not in Ireland for 3 of the last 5 years are 'tuition students': they can get only the fee grant, not the maintenance grant. A fee grant can pay all or part of the Student Contribution (and tuition fees not covered by Free Fees), subject to the family-income means test.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea", "swiss"],
+        "income_test": "Family gross income of the previous tax year (2025 for 2026/27). With fewer than 4 dependent children: 100% Student Contribution up to €64,315; 50% up to €71,300; €500 grant up to €120,000 (limits rise with family size and siblings in college).",
+        "residence_requirement": "resident in the EU/EEA/UK/Switzerland for 3 of the last 5 years",
+        "other": ["approved full-time course", "progression rules apply (no grant for repeating a level)", "UK nationals also eligible"]
+      },
+      "amount": "Up to the full Student Contribution of €2,350 (2026/27), means-tested",
+      "how_to_apply": "Online at susi.ie (PPS Number needed); the 2026/27 round is closed, late applications only in listed cases.",
+      "deadline": "2026/27: 5 November 2026 (closed)",
+      "stackable": "Combines with the Free Fees Initiative (which covers tuition) and the Student Assistance Fund.",
+      "source_url": "https://www.susi.ie/eligibility-criteria/residency-criteria/",
+      "extra_sources": [
+        "https://www.citizensinformation.ie/en/education/third-level-education/fees-and-supports-for-third-level-education/student-grant-scheme/",
+        "https://www.susi.ie/eligibility-criteria/nationality-criteria/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Budget 2027 (per Citizens Information): from September 2027, families with more than one child in college and income below €150,000 get a €500 contribution grant per student; those previously on 50% get 75%.",
+      "interpretations": [
+        { "hypothesis": "A tuition student's fee grant covers the Student Contribution (Citizens Information: fee grants can pay all or part of it).", "source_url": "https://www.citizensinformation.ie/en/education/third-level-education/fees-and-supports-for-third-level-education/student-grant-scheme/" },
+        { "hypothesis": "SUSI only says tuition students are 'eligible for the fee grant only' without detailing how a family living abroad proves its income; whether in practice a non-Irish-resident family can complete the means test should be confirmed with SUSI.", "source_url": "https://www.susi.ie/eligibility-criteria/residency-criteria/" }
+      ]
+    },
+    {
+      "id": "ie-susi-maintenance-grant",
+      "category": "state_grant_loan",
+      "name_local": "SUSI Student Grant Scheme - maintenance grant",
+      "name_it": "Borsa SUSI - contributo per il mantenimento",
+      "authority": "Student Universal Support Ireland (SUSI)",
+      "description": "Means-tested grant towards living costs for students resident in Ireland. 2026/27 annual rates: special rate €7,936 (non-adjacent) / €3,230 (adjacent, i.e. living ≤ 30 km from college); full Band 1 €4,722 / €1,774; Bands 2-4 from €3,532 down to €1,866 (non-adjacent). Budget 2027 raises all bands by 4.5% from January 2027.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea", "swiss"],
+        "income_test": "2026/27, fewer than 4 dependent children: full maintenance up to €47,010 family income; part bands up to €58,470. Special rate: income below €28,600 and a qualifying social welfare payment.",
+        "residence_requirement": "resident in the Irish State for 3 of the last 5 years (otherwise fee grant only)",
+        "other": ["Irish, EU, EEA, UK or Swiss national, or a listed immigration status", "approved course and progression rules"]
+      },
+      "amount": "€1,866-€4,722 per year standard bands, up to €7,936 special rate (non-adjacent, 2026/27)",
+      "how_to_apply": "Online at susi.ie with PPS Number and MyGovID.",
+      "deadline": "2026/27: 5 November 2026 (closed)",
+      "stackable": "Includes a fee grant if you qualify for maintenance; cannot be combined with some social welfare payments.",
+      "source_url": "https://www.citizensinformation.ie/en/education/third-level-education/fees-and-supports-for-third-level-education/student-grant-scheme/",
+      "extra_sources": ["https://www.susi.ie/eligibility-criteria/residency-criteria/", "https://www.susi.ie/eligibility-criteria/nationality-criteria/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Not available to students who move to Ireland only for their studies (they are 'tuition students')."
+    },
+    {
+      "id": "ie-student-assistance-fund",
+      "category": "state_grant_loan",
+      "name_local": "Student Assistance Fund (SAF)",
+      "name_it": "Fondo di assistenza agli studenti (SAF)",
+      "authority": "Higher Education Authority (HEA), administered by each college",
+      "description": "Need-based help for full- or part-time students in financial difficulty, for costs such as rent and bills, food, books, essential travel, childcare and medical costs (not tuition or registration fees). Amounts are set by the college after assessment of your circumstances and means.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "income_test": "Individual assessment of circumstances and means by the college (may include own or parents' income)",
+        "other": ["course leading to an NFQ level 6-10 award at a participating college (includes TCD, UCD, UCC)"]
+      },
+      "amount": "Varies; determined by the college",
+      "how_to_apply": "Through the access or student services office of your college; some colleges set closing dates.",
+      "deadline": null,
+      "stackable": "Designed to be in addition to a SUSI grant.",
+      "source_url": "https://hea.ie/funding-governance-performance/funding/student-finance/student-assistance-fund/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The HEA page sets no nationality condition; each college applies the HEA guidelines and may set its own criteria. Confirm with the college whether exchange and non-EU students can apply."
+    },
+    {
+      "id": "ie-goi-ies",
+      "category": "state_grant_loan",
+      "name_local": "Government of Ireland International Education Scholarships (GOI-IES)",
+      "name_it": "Borse internazionali del Governo irlandese (GOI-IES)",
+      "authority": "Higher Education Authority (HEA)",
+      "description": "Highly competitive government scholarships for high-calibre international students at NFQ level 9 or 10 (master's, postgraduate diploma or PhD) in Ireland. Not available for bachelor's degrees.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "other": ["postgraduate only (NFQ level 9-10)", "'international students' per HEA; nationality rules of the 2027 call not yet published"]
+      },
+      "amount": null,
+      "how_to_apply": "Information on the 2027 call will be published on the HEA page.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://hea.ie/policy/internationalisation/goi-ies/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Scheme and level verified on the HEA page; amount, nationality criteria and deadline for 2027 not published yet, so the bot should not state them. UCC lists the 2026 round as closed."
+    },
+    {
+      "id": "ie-rent-tax-credit",
+      "category": "rent",
+      "name_local": "Rent Tax Credit",
+      "name_it": "Credito d'imposta sull'affitto",
+      "authority": "Revenue Commissioners",
+      "description": "Income tax credit of 20% of rent paid, up to €1,000 per year for a single person (€2,000 for a jointly assessed couple) for 2024-2028. It only reduces Irish income tax, so you need an Irish income tax liability (e.g. from a job in Ireland). It can be claimed for your principal residence, for a property used to attend an approved course, or by parents paying rent for a child at college.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "income_test": "Requires Irish Income Tax liability (no relief against USC or PRSI)",
+        "age": null,
+        "other": [
+          "tenancy with landlord consent; Student Specific Accommodation must be registered with the RTB",
+          "not available to HAP/RAS supported tenants or if the landlord is related in the excluded ways",
+          "parents claiming for a child: child under 23 at the start of the tax year the course began, approved course, property used in term time; digs/rent-a-room qualify"
+        ]
+      },
+      "amount": "20% of rent, max €1,000/year single (2024-2028)",
+      "how_to_apply": "Revenue myAccount (in-year claim) or the Income Tax Return for past years.",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/land-and-property/rent-credit/index.aspx",
+      "extra_sources": [
+        "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/land-and-property/rent-credit/qualifying-conditions.aspx",
+        "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/land-and-property/rent-credit/used-by-child.aspx",
+        "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/land-and-property/rent-credit/how-much-claim.aspx"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Parents living abroad without Irish income tax cannot use it. Board/meals included in digs must be excluded from the rent figure.",
+      "interpretations": [
+        { "hypothesis": "Digs/rent-a-room arrangements qualify for any claimant, including a working student paying their own rent (Revenue's all-claimants page says the credit applies in certain cases to tenancies not needing RTB registration, including digs, and gives a student-digs example).", "source_url": "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/land-and-property/rent-credit/qualifying-conditions.aspx" },
+        { "hypothesis": "The Budget 2024 extension to digs is described specifically for parents paying rent for a child, so a student's own claim on digs should be confirmed with Revenue.", "source_url": "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/land-and-property/rent-credit/used-by-child.aspx" }
+      ]
+    },
+    {
+      "id": "ie-tuition-fee-tax-relief",
+      "category": "tax",
+      "name_local": "Tax relief on third-level tuition fees",
+      "name_it": "Detrazione fiscale sulle tasse universitarie",
+      "authority": "Revenue Commissioners (via Citizens Information)",
+      "description": "20% income-tax relief on tuition fees (including the Student Contribution) paid for approved courses, up to €7,000 of fees per person per course per year. From the 2026 tax year the first €2,350 per year is excluded for full-time students (previously €3,000); a family paying for a second or further student gets relief on the full amount. The payer (student or parent) needs Irish income tax to offset.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "income_test": "Payer must have an Irish income tax liability",
+        "other": ["approved undergraduate (≥ 2 years) or postgraduate course", "fees covered by a grant or scholarship are excluded"]
+      },
+      "amount": "20% of qualifying fees above €2,350 (full-time, from tax year 2026), on max €7,000 per course per year",
+      "how_to_apply": "Revenue myAccount (or ROS if self-employed); keep receipts for 6 years.",
+      "deadline": null,
+      "stackable": "Not on any part of fees paid by a grant, scholarship or employer.",
+      "source_url": "https://www.citizensinformation.ie/en/education/third-level-education/fees-and-supports-for-third-level-education/tax-relief-for-third-level-fees/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ie-leap-student-fares",
+      "category": "transport",
+      "name_local": "TFI Student / Young Adult Leap fares",
+      "name_it": "Tariffe ridotte TFI Leap per studenti e giovani",
+      "authority": "Transport for Ireland (TFI)",
+      "description": "Holders of a Student Leap Card or Young Adult Leap Card (19-25) pay half price on single journeys across the TFI network and have lower fare caps: Dublin €3.00/day and €12.00/week; Cork City buses €2.55/day and €10.20/week (adult caps €6.00/€24.00 and €5.10/€20.40).",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": null,
+        "other": ["Student card: full-time course (or ≥ 15 h/week in person) of at least 6 months/25 weeks", "Young Adult card: aged 19-25, no student status needed"]
+      },
+      "amount": "50% off single fares; weekly cap €12.00 (Dublin) / €10.20 (Cork City) for 2026",
+      "how_to_apply": "Online at leapcard.ie (see bureaucracy: transport_card).",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://about.leapcard.ie/fare-capping",
+      "extra_sources": ["https://about.leapcard.ie/about/tfi-leap-card-types/student"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Dublin caps apply to Dublin City Bus (Dublin Bus, Go-Ahead), Luas, DART and Commuter Rail in Zone 1; Cork caps only to TFI Cork City bus services."
+    },
+    {
+      "id": "ie-erasmus-incoming",
+      "category": "erasmus",
+      "name_local": "Erasmus+ (incoming exchange students)",
+      "name_it": "Erasmus+ (studenti in arrivo in Irlanda)",
+      "authority": "Higher Education Authority (Erasmus+ National Agency for higher education)",
+      "description": "Erasmus+ students are exempt from tuition, registration, exam and lab/library fees at the host institution and keep paying fees at home. The monthly mobility grant is paid through the home institution. No additional Irish grant for incoming Erasmus students was found.",
+      "eligibility": { "student_type": ["exchange"], "nationality": "any", "stay_duration": "2-12 months per study cycle" },
+      "amount": "Grant set by the home country/institution; no Irish top-up found",
+      "how_to_apply": "Through the international office of your home university.",
+      "deadline": null,
+      "stackable": "Incoming students can still apply for a Leap Student Card if the course is ≥ 6 months/25 weeks.",
+      "source_url": "https://erasmusirelandhe.ie/faq/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The HEA FAQ is written for Irish outgoing students but states the general Erasmus+ host-fee exemption."
+    },
+    {
+      "id": "ie-tcd-foundation-scholarship",
+      "category": "university",
+      "name_local": "Trinity College Dublin Foundation Scholarship",
+      "name_it": "Foundation Scholarship del Trinity College Dublin",
+      "authority": "Trinity College Dublin",
+      "description": "Merit scholarship won by competitive exams in the Senior Freshman (2nd) year; about 60 awarded each year, tenable for 5 years. Scholars get free Trinity accommodation, a free evening meal at Commons, a waiver of tuition fees or Student Contribution (non-EU fees reduced by the value of EU fees) and a small annual stipend.",
+      "eligibility": { "student_type": ["degree"], "nationality": "any", "other": ["TCD undergraduate in the Senior Freshman year", "students of associated colleges (RIAM, LIR, MIE) excluded"] },
+      "amount": "Free accommodation + Commons meal + fee/contribution waiver + small stipend, for 5 years",
+      "how_to_apply": "Online form in autumn, then confirmation of attendance and exams in January.",
+      "deadline": "2027 round: applications 28 Sep-14 Oct 2026 (closed); exams 4-8 January 2027",
+      "stackable": null,
+      "source_url": "https://www.tcd.ie/academicregistry/exams/scholarship/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ie-ucd-global-excellence",
+      "category": "university",
+      "name_local": "UCD Global Excellence Scholarships",
+      "name_it": "UCD Global Excellence Scholarships",
+      "authority": "University College Dublin",
+      "description": "Limited 100% and 50% tuition-fee scholarships for outstanding incoming students classed as non-EU for fee purposes, on eligible undergraduate and taught postgraduate programmes. An offer (or conditional offer) is required before applying; awards are not renewed automatically.",
+      "eligibility": { "student_type": ["degree"], "nationality": ["non_eu"], "other": ["classed as non-EU for tuition fees", "eligible programme list 2027"] },
+      "amount": "100% or 50% of tuition fees",
+      "how_to_apply": "Online after receiving a UCD offer; results about 7 weeks after each deadline via SISWeb.",
+      "deadline": "2027/28: 1 Feb 2027 (North America UG); 28 Feb 2027 (Middle East, Africa, Pakistan; South Asia PG taught); 31 Mar 2027 (all others)",
+      "stackable": null,
+      "source_url": "https://www.ucd.ie/global/study-at-ucd/scholarshipsfinances/scholarships/globalexcellencescholarships/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ie-ucc-international-ug-scholarships",
+      "category": "university",
+      "name_local": "UCC International Undergraduate Scholarships (CACSSS, Business & Law, SEFS)",
+      "name_it": "Borse UCC per studenti internazionali di laurea triennale",
+      "authority": "University College Cork",
+      "description": "Automatic €2,000-per-year fee reduction for international (non-EU) full-time undergraduates with an accepted offer in the College of Arts, Celtic Studies and Social Sciences, the College of Business and Law or the College of Science, Engineering and Food Science. Only one UCC scholarship can be held (the higher applies).",
+      "eligibility": { "student_type": ["degree"], "nationality": ["non_eu"], "other": ["accepted offer in the UCC application portal", "renewable subject to progression"] },
+      "amount": "€2,000 fee reduction per year (2027/28)",
+      "how_to_apply": "No application; awarded automatically at offer stage.",
+      "deadline": null,
+      "stackable": "Not combinable with other UCC scholarships.",
+      "source_url": "https://www.ucc.ie/en/scholarships/internationaltable/",
+      "extra_sources": [
+        "https://www.ucc.ie/en/scholarships/internationaltable/internschcblug/",
+        "https://www.ucc.ie/en/scholarships/internationaltable/sefsinternatugsch/",
+        "https://www.ucc.ie/en/scholarships/internationaltable/internschcacsssugint/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    }
+  ]
+}

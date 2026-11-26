@@ -1,0 +1,88 @@
+{
+  "city": "Dublin",
+  "slug": "dublin",
+  "country": "Ireland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Double room in a house: €932/month Dublin average; city centre €965 (no ensuite), single room in a house €823 (Q3 2026)",
+      "source_name": "Daft.ie Rental Report 2026 Q3",
+      "source_url": "https://www.daft.ie/report/rental/daft-ie-rental-report-2026q3-update.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Average listed (asking) rents, not signed contracts. UCD Global estimates accommodation at €830-€2,250/month, median €1,200 (April 2026)."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Studio: €1,579/month in Dublin City Centre, €1,605 in South Dublin City (Q3 2026)",
+      "source_name": "Daft.ie Rental Report 2026 Q3",
+      "source_url": "https://www.daft.ie/report/rental/daft-ie-rental-report-2026q3-update.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "1-bed apartment: €2,027 city centre, €2,115 South Dublin City (same report)."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€1,735 (low) / €2,445 (median) / €4,035 (high) per month incl. accommodation (UCD estimate, April 2026)",
+      "source_name": "UCD Global - Living Costs",
+      "source_url": "https://www.ucd.ie/global/study-at-ucd/scholarshipsfinances/livingcosts/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Plus one-off costs, e.g. €300 IRP and up to €690/year health insurance for non-EU students."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Student/Young Adult Leap: weekly cap €12.00 (daily €3.00) on Dublin Bus, Luas, DART, Commuter Rail Zone 1; UCD budgets €60-€120/month",
+      "source_name": "TFI Leap Card - Fare capping",
+      "source_url": "https://about.leapcard.ie/fare-capping",
+      "extra_sources": ["https://www.ucd.ie/global/study-at-ucd/scholarshipsfinances/livingcosts/"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Mild and damp: mean daily max 8.0°C in Jan, 19.5°C in Jul; 772.5 mm rain/year, ~137 days with ≥1 mm (Dublin Airport 1991-2020)",
+      "source_name": "Met Éireann 1991-2020 averages",
+      "source_url": "https://www.met.ie/cms/assets/uploads/2023/09/www_met_ie_dublin_9120.htm",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Large student scene: TCD has 168 clubs and societies in the city centre; UCD has 80+ societies and 60+ sports clubs",
+      "source_name": "Trinity College Dublin / UCD Global",
+      "source_url": "https://www.tcd.ie/study/international/why-trinity/",
+      "extra_sources": ["https://www.ucd.ie/global/currentstudents/campuslife/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English: teaching is in English and TCD requires official proof of English proficiency from all applicants",
+      "source_name": "Trinity College Dublin - Undergraduate admission requirements",
+      "source_url": "https://www.tcd.ie/study/apply/admission-requirements/undergraduate/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "Part-time jobs on and off campus; UCD lists on-campus roles (Ambassador, Global Guide, Students' Union, Campus Assistant) and advises being realistic about work hours",
+      "source_name": "UCD Global - Living Costs",
+      "source_url": "https://www.ucd.ie/global/study-at-ucd/scholarshipsfinances/livingcosts/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Non-EU students on Stamp 2: max 20 h/week in term, 40 h/week in holidays (see Ireland bureaucracy). No official statistic on student job availability found."
+    },
+    {
+      "field": "student_wage",
+      "value": "No data on typical student pay found; legal floor €14.15/h (age 20+), €12.74 (19), €11.32 (18), €9.91 (under 18) in 2026",
+      "source_name": "Citizens Information - Minimum wage",
+      "source_url": "https://www.citizensinformation.ie/en/employment/employment-rights-and-conditions/pay-and-employment/minimum-wage/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Value is the statutory minimum, not an observed average student wage. Budget 2027: €14.94/h from 1 Jan 2027 (requires legislation)."
+    }
+  ]
+}

@@ -41,7 +41,7 @@ export default function PrivacyPage() {
         Privacy Policy
       </h1>
       <p style={{ fontSize: 13, color: "var(--text-3)", marginBottom: 32 }}>
-        Last updated: 14 November 2026
+        Last updated: 25 November 2026
       </p>
 
       <p style={body}>
@@ -63,23 +63,10 @@ export default function PrivacyPage() {
         basic profile information Google shares with us (your name and email address). If you
         sign up with a password, we never see or store it in readable form.
         <br />
-        <strong>Roommate profile.</strong>{" "}If you create one, the details you choose to give us
-        (first name, age, gender, nationality, university, programme, year of study, city, budget,
-        move-in date, a short bio, lifestyle and languages, and what you&apos;re looking for in a
-        flatmate). Other students can see your profile while it is visible; you can hide or delete
-        it at any time from your account page.
-        <br />
-        <strong>Apartment listings.</strong>{" "}If you post an apartment, the details and the photo you
-        upload. Listing photos are stored publicly so anyone browsing 4UNI can see them.
-        <br />
-        <strong>Identity document.</strong>{" "}To keep the housing community safe, we ask you to upload
-        a photo ID (passport, national ID card or driver&apos;s licence) before creating a roommate
-        profile or posting an apartment. It is stored in a private storage area, is never shown to
-        other users, and is only looked at by us to check your identity and give the ✓ Verified
-        badge. We do not currently use an outside verification company.
-        <br />
-        <strong>Messages.</strong>{" "}Messages you exchange with other users on 4UNI, so we can
-        deliver them. Only you and the person you are talking to can read them.
+        <strong>Apartment listings.</strong>{" "}If you email us a place to list, your email and the
+        details and photos you send. We publish the listing details, the photos and the contact you
+        ask students to use; your email to us stays private. Listing photos are stored publicly so
+        anyone browsing 4UNI can see them.
         <br />
         <strong>AI chat.</strong>{" "}Messages you send to the 4UNI assistant, which are sent to
         Anthropic (our AI provider) to generate a reply. If you are signed in, your chats are saved
@@ -93,18 +80,15 @@ export default function PrivacyPage() {
         are saved in your browser&apos;s local storage. They never leave your device.
       </p>
 
-      <h2 style={sectionTitle}>3. Minimum age and verification for minors</h2>
+      <h2 style={sectionTitle}>3. Minimum age</h2>
       <p style={body}>
-        4UNI is available to students aged 16 and over. If you are under 18 and do not have your
-        own photo ID for housing verification, we accept a photo ID from a parent or legal
-        guardian, together with their confirmation that they consent to your use of the housing
-        features.
+        4UNI is available to students aged 16 and over.
       </p>
 
       <h2 style={sectionTitle}>4. Why we use your data</h2>
       <p style={body}>
         We use your data to provide the service you signed up for (performance of a contract,
-        art. 6(1)(b) GDPR), to keep the platform safe, check identities and prevent fraud and abuse
+        art. 6(1)(b) GDPR), to keep the platform safe and prevent fraud and abuse
         (our legitimate interest, art. 6(1)(f)), and to meet legal obligations (art. 6(1)(c)). We do
         not sell your data and we do not use it for advertising.
       </p>
@@ -114,7 +98,7 @@ export default function PrivacyPage() {
         We use the following service providers, who process data on our behalf:
       </p>
       <ul style={list}>
-        <li><strong>Supabase</strong>{" "}— database, sign-in and file storage (profiles, listings, messages, photos and ID documents).</li>
+        <li><strong>Supabase</strong>{" "}— database, sign-in and file storage (accounts, listings and photos).</li>
         <li><strong>Vercel</strong>{" "}— hosting of the website.</li>
         <li><strong>Google</strong>{" "}— only if you choose &quot;Continue with Google&quot; to sign in.</li>
         <li><strong>Anthropic</strong>{" "}— generates the AI assistant&apos;s replies.</li>
@@ -141,15 +125,12 @@ export default function PrivacyPage() {
 
       <h2 style={sectionTitle}>7. How long we keep it</h2>
       <p style={body}>
-        We keep your data for as long as your account exists. You can delete your roommate
-        profile, your listings or your whole account at any time from your account page. Deleting
-        your account permanently removes your profile, listings, photos, messages, AI chats and
-        identity documents.
+        We keep your data for as long as your account exists. You can delete your listings or your
+        whole account at any time from your account page. Deleting your account permanently
+        removes your listings, photos and AI chats.
         <br />
-        <strong>Identity documents</strong>{" "}are deleted as soon as we have checked them. After
-        that we keep only the outcome (verified or not) and the date of the check, for as long as
-        your account exists. A document still waiting to be checked is deleted together with your
-        account.
+        <strong>Listings sent by email</strong>{" "}stay on 4UNI until you ask us to take them down.
+        We then remove the listing and its photos.
         <br />
         <strong>Technical logs</strong>{" "}are kept only as long as needed for security and abuse
         prevention, and are then deleted.

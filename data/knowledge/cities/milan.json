@@ -1,0 +1,82 @@
+{
+  "city": "Milan",
+  "slug": "milan",
+  "country": "Italy",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No citable figure found (room rent not read on an official or report page)",
+      "source_name": "Politecnico di Milano residences portal",
+      "source_url": "https://www.residenze.polimi.it/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~€1,535/month city centre, ~€1,030 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Milan",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "~€1,027/month for a single person excluding rent (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Milan",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Not a student-specific budget."
+    },
+    {
+      "field": "transport_pass",
+      "value": "ATM urban pass under 27: €22/month or €200/year (ordinary €39/€330), Jan 2026",
+      "source_name": "ATM Milano - ATM per i giovani (Jan 2026)",
+      "source_url": "https://www.atm.it/it/ViaggiaConNoi/Documents/ATM%20PER%20I%20GIOVANI.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 0-8°C, Jul avg 20-31°C; foggy winters, humid summers",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/climate/in/Milan",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "No citable figure found (no citable source read)",
+      "source_name": "Università Bocconi",
+      "source_url": "https://www.unibocconi.it/en/current-students/housing",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "No citable figure found (no page read on Italian needed for daily life)",
+      "source_name": "Politecnico di Milano",
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "job_market",
+      "value": "No citable figure found (no page read on student jobs)",
+      "source_name": "Politecnico di Milano",
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable figure found (no typical student hourly pay found; Italy has no statutory minimum wage)",
+      "source_name": "Eurostat",
+      "source_url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    }
+  ]
+}

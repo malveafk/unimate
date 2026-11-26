@@ -1,0 +1,94 @@
+{
+  "city": "Rotterdam",
+  "slug": "rotterdam",
+  "country": "Netherlands",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 710/month median room rent (Kamernet, Q1 2026; stable y/y)",
+      "source_name": "Kamernet Rent Report Q1 2026",
+      "source_url": "https://housinganywhere.com/kamernet-rent-report-q1-2026",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.eur.nl/node/20778"
+      ],
+      "notes": "Kamernet median rent for rooms (max 30 m2) advertised on Kamernet by private landlords/tenants/agencies; social student housing excluded. Advertised asking rents, not what existing tenants pay. Q2 2026 report analysed Rotterdam but did not publish its figure."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Not found on an official/citable source",
+      "source_name": "Erasmus University Rotterdam",
+      "source_url": "https://www.eur.nl/node/20778",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "EUR gives only furnished accommodation € 700-1,000/month without room/studio split."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€ 1,000-1,800/month excl. tuition, mostly depending on housing (EUR estimate)",
+      "source_name": "Erasmus University Rotterdam",
+      "source_url": "https://www.eur.nl/node/20778",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "EUR items: accommodation 700-1,000, insurance 56, books 50-150, daily expenses ~450. No year stated."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Not found on an official/citable source",
+      "source_name": "Erasmus University Rotterdam",
+      "source_url": "https://www.eur.nl/node/20778",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "EUR includes public transport in 'daily expenses' (~€ 450/month) without a separate figure; RET pass prices not found on ret.nl pages checked."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime: avg 4.0 °C in Jan, 18.2 °C in Jul; ~882 mm rain/yr; ~1752 h sun/yr (KNMI 1991-2020, Rotterdam)",
+      "source_name": "KNMI climate normals 1991-2020, station Rotterdam (344)",
+      "source_url": "https://cdn.knmi.nl/knmi/map/page/klimatologie/klimaatatlas/tabel/stationsdata/klimtab_9120_344.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Student life largely revolves around student and study associations (sports, culture, academic), plus pubs and city events.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/student-life",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "subjective": true,
+      "notes": "National description; no city-specific official page checked for this city."
+    },
+    {
+      "field": "language_needed",
+      "value": "No Dutch needed for English-taught programmes; English is widely spoken. Dutch helps for part-time jobs/internships and is sometimes required.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/start-learning-dutch",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.eur.nl/en/education/practical-matters/orientation-arrival/work-while-you-study"
+      ],
+      "notes": "National source, applies to the whole country. EUR: employers usually look for people who speak/understand Dutch."
+    },
+    {
+      "field": "job_market",
+      "value": "Employers usually want Dutch speakers; English-only jobs are a small minority. Non-EU: max 16 h/week or full-time Jun-Aug (work permit needed).",
+      "source_name": "Erasmus University Rotterdam - work while you study",
+      "source_url": "https://www.eur.nl/en/education/practical-matters/orientation-arrival/work-while-you-study",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "student_wage",
+      "value": "Statutory minimum from 1 Jul 2026: € 14.99/h gross at 21+; € 11.99 (age 20), € 8.99 (19), € 7.50 (18). Same nationwide.",
+      "source_name": "Government.nl - minimum wage amounts",
+      "source_url": "https://www.government.nl/topics/minimum-wage/minimum-wage-amounts",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Legal floor, not a measured 'typical' student wage for this city; many student jobs pay at or near this minimum. Rates from 1 Jan 2026 were € 14.71 (21+)."
+    }
+  ]
+}

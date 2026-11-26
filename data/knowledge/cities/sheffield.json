@@ -1,0 +1,90 @@
+{
+  "city": "Sheffield",
+  "slug": "sheffield",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "University rooms 2026/27: shared bathroom £151.41–£174.89/week; en suite £179.97–£195.72/week (mostly 42 weeks, bills incl.).",
+      "source_name": "University of Sheffield, rents 2026/27",
+      "source_url": "https://www.sheffield.ac.uk/accommodation/rents",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Studios £227.68–£240.38/week. Prices correct as of Feb 2026."
+    },
+    {
+      "field": "rent_studio",
+      "value": "£648/month average private rent, one-bedroom (Sheffield, Feb 2025); all private rents average £877/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E08000019/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy. The ONS local page for Sheffield still showed February 2025 data on 2026-11-25 (other areas show Oct 2026); treat as dated."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Excl. rent: about £395/month (groceries £155, transport £73, going out £60, eating out £45, other) per Save the Student, cited by Sheffield.",
+      "source_name": "Save the Student National Student Money Survey (non-official), via University of Sheffield",
+      "source_url": "https://www.sheffield.ac.uk/money-matters/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Non-official survey; total is our sum of the listed items; year of survey not stated. Rent extra."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Students spend about £73/month on transport (Save the Student via Sheffield); no pass price listed.",
+      "source_name": "Save the Student National Student Money Survey (non-official), via University of Sheffield",
+      "source_url": "https://www.sheffield.ac.uk/money-matters/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Sheffield links student tickets from Travel South Yorkshire, First Bus, Stagecoach and Supertram."
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 2.2–7.0°C, Jul avg 12.8–21.4°C (min–max); about 832 mm rain/year. Met Office Sheffield station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcqzwjsrr",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Sheffield",
+      "source_url": "https://www.sheffield.ac.uk/money-matters/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Sheffield",
+      "source_url": "https://www.sheffield.ac.uk/money-matters/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

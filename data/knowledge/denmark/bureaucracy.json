@@ -1,0 +1,324 @@
+{
+  "country": "Denmark",
+  "country_code": "DK",
+  "currency": "DKK",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "nyidanmark.dk (SIRI): EU-student residence document page and Higher Education (non-EU) page." },
+    { "key": "registration", "result": "found", "note": "cpr.dk, lifeindenmark.borger.dk 'When you arrive', International House Copenhagen step-by-step guide. Exact deadline after arrival not stated on the official pages opened." },
+    { "key": "tax_id", "result": "found", "note": "CPR number doubles as personal tax number; Skattestyrelsen pages on tax card for non-Danish employees and on main/secondary tax card." },
+    { "key": "health_insurance", "result": "found", "note": "studyindenmark.dk healthcare page (under/over 3 months, EU vs non-EU), lifeindenmark healthcare-when-working page." },
+    { "key": "bank_account", "result": "found", "note": "lifeindenmark NemKonto page (basic payment account right, NemKonto setup) and MitID page." },
+    { "key": "transport_card", "result": "found", "note": "rejsekort.dk (physical card closed, app + Basiskort) and ungdomskort.dk conditions. Prices in subsidies.json." },
+    { "key": "student_work", "result": "found", "note": "nyidanmark.dk: EU free to work; non-EU 90 h/month Sep-May, full-time Jun-Aug. su.dk: earnings limit (fribeloeb) for SU recipients." },
+    { "key": "minimum_wage", "result": "found", "note": "lifeindenmark pay page: no statutory minimum wage; Eurofound country profile as context." }
+  ],
+  "items": [
+    {
+      "id": "dk-residence-eu",
+      "topic": "residence_permit",
+      "title": "EU residence document for EU/EEA and Swiss students (stays over 3 months)",
+      "title_it": "Documento di soggiorno UE per studenti UE/SEE e svizzeri (oltre 3 mesi)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "more than 3 months (under 3 months: no application needed)",
+        "other": ["admitted to an accredited programme at upper-secondary level or higher", "actively studying", "Nordic citizens do not need it (per lifeindenmark)"]
+      },
+      "summary": "EU/EEA and Swiss students staying more than 3 months apply to SIRI for an EU residence document (form OD1A, online recommended) and must then appear in person at a SIRI branch within 30 days with the receipt and passport/ID, or the application is treated as withdrawn. It is free, normally processed at once (up to 1 month if more info is needed), and is proof of existing EU rights, but it is required before CPR registration.",
+      "steps": [
+        "Fill in form OD1A online at nyidanmark.dk",
+        "Attach passport/ID copy, letter of acceptance, signed declaration of financial self-support (and declaration of study activity if enrolled more than 6 months ago)",
+        "Appear in person at a SIRI branch within 30 days with the receipt and passport/ID",
+        "Use the residence document to register for a CPR number at the municipality"
+      ],
+      "deadline": "Personal attendance at SIRI within 30 days of submitting online",
+      "cost": "Free (no fee)",
+      "authority": "Danish Agency for International Recruitment and Integration (SIRI)",
+      "source_url": "https://nyidanmark.dk/en-GB/You-want-to-apply/Residence-as-a-Nordic-citizen-or-EU-or-EEA-citizen/EU-student",
+      "extra_sources": ["https://lifeindenmark.borger.dk/theme/when-you-arrive"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Self-support: you must not receive benefits under the Active Social Policy Act (e.g. cash benefits); SU does not automatically prevent being considered self-supporting."
+    },
+    {
+      "id": "dk-residence-non-eu",
+      "topic": "residence_permit",
+      "title": "Student residence permit for non-EU students (higher education)",
+      "title_it": "Permesso di soggiorno per studio per studenti extra-UE (istruzione superiore)",
+      "applies_to": {
+        "student_type": ["degree", "exchange"],
+        "nationality": ["non_eu"],
+        "stay_duration": "any stay requiring a permit; permit valid for the nominal length of the programme",
+        "other": ["full-time study only (no permit for part-time study)", "exchange/guest students must add proof of enrolment at the home institution", "biometrics required within 14 days of an online application"]
+      },
+      "summary": "Non-EU students need a SIRI residence permit for higher education. Fee DKK 3,060; normal processing 2 months (up to 3). Self-support of DKK 7,426 per study month (2026 level), capped at DKK 89,112 for stays over one year, documented with liquid funds (bank statement max 30 days old, scholarship or loan).",
+      "steps": [
+        "Get admission from a Danish institution",
+        "Apply online at nyidanmark.dk and pay the fee",
+        "Record biometrics (photo, fingerprints) within 14 days",
+        "Register for CPR after arrival"
+      ],
+      "deadline": "Biometrics within 14 days of online submission",
+      "cost": "DKK 3,060 processing fee (2026)",
+      "authority": "Danish Agency for International Recruitment and Integration (SIRI)",
+      "source_url": "https://nyidanmark.dk/en-GB/You-want-to-apply/Study/Higher-Education/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "After graduation a job-seeking period of 6 months, 1 year or 3 years may apply depending on programme and application date."
+    },
+    {
+      "id": "dk-registration-cpr-eu",
+      "topic": "registration",
+      "title": "CPR registration (address register) for EU/EEA and Swiss citizens",
+      "title_it": "Registrazione CPR (anagrafe) per cittadini UE/SEE e svizzeri",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "see interpretations: 6 months (lifeindenmark) vs plan to stay more than 3 months (International House Copenhagen)",
+        "other": ["EU residence document required first", "permanent Danish address required"]
+      },
+      "summary": "To get a CPR number, EU/EEA/Swiss citizens must first hold an EU residence document and have a permanent Danish address, then appear in person at a Citizen Service or International Citizen Service centre with passport/ID and proof of address. The yellow health card (sundhedskort) is issued on registration and arrives by post in about 2-3 weeks.",
+      "steps": [
+        "Get the EU residence document from SIRI",
+        "Find housing and move in",
+        "In Copenhagen: apply online, then book the in-person CPR appointment via the personal link (processing about 2-3 weeks); elsewhere: book at Citizen Service/ICS",
+        "Bring passport/ID, rental contract, residence document"
+      ],
+      "deadline": null,
+      "cost": null,
+      "authority": "Municipality of residence (Citizen Service / International Citizen Service)",
+      "source_url": "https://lifeindenmark.borger.dk/theme/when-you-arrive",
+      "extra_sources": ["https://ihcph.kk.dk/registration-guidance/step-by-step-guide-eu-citizens", "https://www.cpr.dk/english/getting-a-cpr-number/if-you-are-moving-to-denmark"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "EU/EEA/Nordic nationals must notify the Civil Registration Office if they intend to stay 6 months or more (3 months for others).", "source_url": "https://lifeindenmark.borger.dk/theme/when-you-arrive" },
+        { "hypothesis": "EU citizens can stay up to 6 months without CPR registration and must apply after that; to be registered you must plan to stay more than 3 consecutive months, and the residence document must be no older than 6 months at the CPR appointment.", "source_url": "https://ihcph.kk.dk/registration-guidance/step-by-step-guide-eu-citizens" }
+      ],
+      "notes": "Some municipal/university pages (seen only in search snippets, not opened) mention a 5-day deadline after moving in; not confirmed on an official page opened today. Exchange students under 6 months may not need CPR but then lack the health card."
+    },
+    {
+      "id": "dk-registration-cpr-non-eu",
+      "topic": "registration",
+      "title": "CPR registration for non-EU students with a residence permit",
+      "title_it": "Registrazione CPR per studenti extra-UE con permesso di soggiorno",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "stay_duration": "3 months or more",
+        "other": ["residence permit", "permanent Danish address"]
+      },
+      "summary": "With a residence permit and a place to live, you register in person at a Citizen Service or International Citizen Service centre. If the permit was issued before entry you are registered from the date of entry; if issued after entry, from the date of issue. The health card (sundhedskort) is sent automatically after registration.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Municipality of residence (Citizen Service / International Citizen Service)",
+      "source_url": "https://www.cpr.dk/english/getting-a-cpr-number/if-you-are-moving-to-denmark",
+      "extra_sources": ["https://lifeindenmark.borger.dk/theme/when-you-arrive"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-tax-id-cpr",
+      "topic": "tax_id",
+      "title": "CPR number as personal ID and tax number",
+      "title_it": "Numero CPR come codice personale e fiscale",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "The 10-digit CPR number (date of birth + 4 digits) is both the personal ID and the personal tax number. Residents get it from the municipality on registration; people who must pay Danish tax but do not meet residence requirements (e.g. jobs of 3 months or less) get a number from the Danish Tax Agency via digital form 04.063.",
+      "deadline": null,
+      "cost": "Free",
+      "authority": "Municipality (CPR) / Danish Tax Agency (Skattestyrelsen)",
+      "source_url": "https://skat.dk/en-us/businesses/employees-and-pay/non-danish-labour/get-a-tax-card-as-a-non-danish-employee",
+      "extra_sources": ["https://www.cpr.dk/english/getting-a-cpr-number/if-you-are-moving-to-denmark", "https://lifeindenmark.borger.dk/theme/when-you-arrive"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-tax-card",
+      "topic": "tax_id",
+      "title": "Tax card (skattekort) before your first job",
+      "title_it": "Carta fiscale (skattekort) prima del primo lavoro",
+      "applies_to": { "student_type": "any", "nationality": "any", "other": ["anyone taking paid work in Denmark"] },
+      "summary": "You need a digital tax card before working; without one the employer withholds 55%. With a CPR number, health card and MitID you create it in E-tax (TastSelv) via the preliminary income assessment (forskudsopgoerelse), usually at once (up to 5 days). Without CPR, use form 04.063 (about 2 weeks); you can apply at most 1 month before the job starts.",
+      "steps": [
+        "Log on to skat.dk/tastselv with MitID",
+        "Open Forskudsopgoerelsen and choose 'new job'",
+        "Enter expected gross pay and start date, then accept",
+        "Use the main tax card with your largest income source (job or SU)"
+      ],
+      "deadline": "Before the first pay day; not earlier than 1 month before the job starts",
+      "cost": "Free",
+      "authority": "Danish Tax Agency (Skattestyrelsen)",
+      "source_url": "https://skat.dk/en-us/businesses/employees-and-pay/non-danish-labour/get-a-tax-card-as-a-non-danish-employee",
+      "extra_sources": ["https://skat.dk/en-us/individuals/tax-card"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Non-EU/EEA/Swiss applicants must attach their Danish residence and work permit. Personal allowance amount: see subsidies.json dk-personal-allowance."
+    },
+    {
+      "id": "dk-health-eu-short-stay",
+      "topic": "health_insurance",
+      "title": "EHIC for EU/EEA and Swiss students staying under 3 months",
+      "title_it": "TEAM per studenti UE/SEE e svizzeri con soggiorno sotto i 3 mesi",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "stay_duration": "under 3 months", "other": ["covered by statutory health insurance in another EU country"] },
+      "summary": "For stays under 3 months, EU/EEA and Swiss students use their home European Health Insurance Card (EHIC) for medically necessary care; the cost is billed to the home insurer. Nordic students need no documents.",
+      "authority": "Study in Denmark (official Danish study portal)",
+      "source_url": "https://studyindenmark.dk/live-in-denmark/health-safety/healthcare-1",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-health-registered",
+      "topic": "health_insurance",
+      "title": "Danish public health insurance after CPR registration (stays over 3 months)",
+      "title_it": "Assicurazione sanitaria pubblica danese dopo la registrazione CPR (oltre 3 mesi)",
+      "applies_to": { "student_type": "any", "nationality": "any", "stay_duration": "over 3 months, CPR-registered", "other": ["EU/EEA/Swiss: must present an S1 document or a valid EHIC to register (per Study in Denmark)"] },
+      "summary": "Once registered in the CPR you are covered by Danish public health insurance: GP and specialist referral care are free in Group 1, and you receive the health insurance card (sundhedskort) to show at doctors, hospitals and pharmacies. Dental care and physiotherapy are not free.",
+      "authority": "Danish public health insurance; Study in Denmark (official Danish study portal)",
+      "source_url": "https://studyindenmark.dk/live-in-denmark/health-safety/healthcare-1",
+      "extra_sources": ["https://lifeindenmark.borger.dk/theme/when-you-arrive"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Health card arrives about 2-3 weeks after CPR registration (lifeindenmark)."
+    },
+    {
+      "id": "dk-health-non-eu-short-stay",
+      "topic": "health_insurance",
+      "title": "Non-EU students under 3 months: emergency care only",
+      "title_it": "Studenti extra-UE sotto i 3 mesi: solo cure d'urgenza",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "stay_duration": "under 3 months" },
+      "summary": "Non-residents get free emergency hospital care (accident, childbirth, acute illness, sudden worsening of a chronic disease); other care is paid by you or private insurance, and transport home is not covered.",
+      "authority": "Study in Denmark (official Danish study portal)",
+      "source_url": "https://studyindenmark.dk/live-in-denmark/health-safety/healthcare-1",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-health-working-blue-card",
+      "topic": "health_insurance",
+      "title": "Working in Denmark: covered by Danish insurance, Danish blue EHIC",
+      "title_it": "Lavorare in Danimarca: copertura danese e TEAM blu danese",
+      "applies_to": { "student_type": "any", "nationality": "any", "min_work_hours": "any legal paid work" },
+      "summary": "If you work legally in Denmark you are covered by Danish health insurance once registered with a GP and holding the sundhedskort. People living in Denmark who are EU/EEA/Swiss nationals and covered by Danish insurance can order the blue EHIC free of charge from Udbetaling Danmark for temporary stays elsewhere in Europe.",
+      "authority": "Udbetaling Danmark",
+      "source_url": "https://lifeindenmark.borger.dk/healthcare/health-insurance/healthcare-when-working-in-denmark",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page does not address students with part-time jobs specifically."
+    },
+    {
+      "id": "dk-bank-account-nemkonto",
+      "topic": "bank_account",
+      "title": "Bank account and NemKonto",
+      "title_it": "Conto bancario e NemKonto",
+      "applies_to": { "student_type": "any", "nationality": "any", "other": ["NemKonto requires a CPR number"] },
+      "summary": "Banks must offer a basic payment account to consumers legally resident in the EU (they can still refuse in some cases); most ask for ID, an employment contract or admission letter and optionally a tax card. Every resident with a CPR number needs a NemKonto, an existing Danish or foreign account designated for public payments (SU, tax refunds, housing benefit).",
+      "steps": [
+        "Open an account at a Danish bank (or keep a foreign one)",
+        "Designate it as NemKonto via your bank, via nemkonto.dk with MitID, or with the paper form for a foreign account (witnessed signature)"
+      ],
+      "cost": "Assigning a NemKonto is free",
+      "authority": "NemKonto / your bank",
+      "source_url": "https://lifeindenmark.borger.dk/apps-and-digital-services/nemkonto-your-public-bank-account",
+      "extra_sources": ["https://www.nemkonto.dk/en"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-mitid",
+      "topic": "other",
+      "title": "MitID digital ID",
+      "title_it": "Identità digitale MitID",
+      "applies_to": { "student_type": "any", "nationality": "any", "other": ["CPR number, or a P code if you have no CPR"] },
+      "summary": "MitID is the Danish digital login used for public self-service, tax and banking. You create it in the MitID app by scanning a chip passport/ID card and your face, or at a municipal Citizen Service appointment; without a CPR number you use an 8-digit P code.",
+      "cost": null,
+      "authority": "MitID (information on lifeindenmark.dk)",
+      "source_url": "https://lifeindenmark.borger.dk/apps-and-digital-services/mitid",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-transport-rejsekort",
+      "topic": "transport_card",
+      "title": "Rejsekort app (national travel card)",
+      "title_it": "App Rejsekort (carta di viaggio nazionale)",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Rejsekort is now an app: check in with one swipe for bus, train, metro and light rail. The physical Rejsekort has been closed; a physical 'Basiskort' can be ordered online and is mailed home. The page lists no student discount (see Ungdomskort in subsidies).",
+      "authority": "Rejsekort",
+      "source_url": "https://www.rejsekort.dk/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Closure date of the physical card not shown on the page opened."
+    },
+    {
+      "id": "dk-transport-ungdomskort",
+      "topic": "transport_card",
+      "title": "Ungdomskort student commuter pass: how to get it",
+      "title_it": "Ungdomskort, abbonamento studenti: come ottenerlo",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "living in Denmark (or the Oresund region of Sweden / Flensburg zone)",
+        "other": ["full-time programme approved for SU", "not during leave or paid internships", "non-EU students on a study permit: receiving it may affect the right to stay"]
+      },
+      "summary": "Two steps: get approved in the Ungdomskort system (ungdomskort.uddannelsesstoette.dk), then order and pay with the transport operator at mitungdomskort.dk, at least 14 days before you need it. It covers home-to-campus travel up to 3.5 hours each way.",
+      "authority": "Ungdomskort (approval at ungdomskort.uddannelsesstoette.dk) / transport operators",
+      "source_url": "https://ungdomskort.dk/ungdomskort/betingelser",
+      "extra_sources": ["https://www.ungdomskort.dk"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Price in subsidies.json (dk-ungdomskort). The page does not state whether exchange students at a Danish institution qualify."
+    },
+    {
+      "id": "dk-work-eu",
+      "topic": "student_work",
+      "title": "EU/EEA and Swiss students: work without a permit",
+      "title_it": "Studenti UE/SEE e svizzeri: lavoro senza permesso",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "EU/EEA and Swiss citizens may begin to study and work on arrival, need no work permit, and keep the right to work while their residence-document application is pending. The page sets no hour limit for them (SU recipients have separate hour and income rules).",
+      "authority": "Danish Agency for International Recruitment and Integration (SIRI)",
+      "source_url": "https://nyidanmark.dk/en-GB/You-want-to-apply/Residence-as-a-Nordic-citizen-or-EU-or-EEA-citizen/EU-student",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "dk-work-non-eu",
+      "topic": "student_work",
+      "title": "Non-EU students: 90 hours/month, full-time in summer",
+      "title_it": "Studenti extra-UE: 90 ore al mese, tempo pieno in estate",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["state-approved higher education programme", "non-state-approved programmes: work rights only if applied before 2 May 2025 (Turkish citizens excepted)"] },
+      "summary": "On a study permit for a state-approved programme you may work 90 hours per month from September to May and full-time in June, July and August. A mandatory internship gives an automatic full-time work permit for its duration.",
+      "authority": "Danish Agency for International Recruitment and Integration (SIRI)",
+      "source_url": "https://nyidanmark.dk/en-GB/You-want-to-apply/Study/Higher-Education/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Older guides cite '20 hours per week'; the current nyidanmark.dk page states 90 hours per month."
+    },
+    {
+      "id": "dk-work-su-earnings-limit",
+      "topic": "student_work",
+      "title": "Earnings limit (fribeloeb) for students receiving SU",
+      "title_it": "Limite di reddito (fribeloeb) per chi riceve SU",
+      "applies_to": { "student_type": ["degree"], "nationality": "any", "other": ["only students receiving SU (Danish citizens or foreign citizens with equal status)"] },
+      "summary": "In months with SU on a higher education programme the earnings limit is DKK 20,749 per month (2026, before tax, after 8% labour-market contribution), summed into a yearly limit. Earning more means repaying part of SU/SU loan with interest; you can opt out of SU for some months to avoid it.",
+      "authority": "SU (Statens Uddannelsesstøtte)",
+      "source_url": "https://www.su.dk/english/state-educational-grant-and-loan-scheme-su/rules-regarding-employment-and-private-earnings",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Other 2026 monthly rates: DKK 23,598 when enrolled without SU; DKK 45,420 in months not qualified for SU. EU students with SU as workers must ALSO keep working 10-12 h/week (see subsidies dk-su-eu-worker)."
+    },
+    {
+      "id": "dk-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "No statutory minimum wage",
+      "title_it": "Nessun salario minimo legale",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Denmark has no statutory minimum wage. Pay is set mainly by collective agreements or individual negotiation between employer and employee; trade unions publish yearly wage statistics that can be used as a reference.",
+      "authority": "lifeindenmark.dk (official Danish information portal for internationals)",
+      "source_url": "https://lifeindenmark.borger.dk/working/work-rights/working-conditions/pay",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Collective-agreement detail (binding only on covered employers, no extension mechanism) comes from the Eurofound country profile seen in search results, not opened today: https://www.eurofound.europa.eu/en/countries/denmark/minimum-wage"
+    }
+  ]
+}

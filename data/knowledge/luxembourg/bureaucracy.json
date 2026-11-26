@@ -1,0 +1,277 @@
+{
+  "country": "Luxembourg",
+  "country_code": "LU",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "guichet.lu EU-citizen page and non-EU visa D page; EU Immigration Portal for the non-EU fee and work rules." },
+    { "key": "registration", "result": "found", "note": "guichet.lu 'Declaring a move to a new commune of residence' (deadlines for EU and non-EU arrivals)." },
+    { "key": "tax_id", "result": "found", "note": "guichet.lu RNPP glossary (13-digit national identification number) and student fixed-term contract page (tax card). How exactly a newcomer receives the number is not stated on the pages read." },
+    { "key": "health_insurance", "result": "found", "note": "uni.lu health insurance page, guichet.lu studying-in-Luxembourg health page (2013), CCSS students page, MengStudien 'Move to Luxembourg'. Student affiliation fee amount not found." },
+    { "key": "bank_account", "result": "found", "note": "Only the University of Luxembourg financial-support page; legal right to a basic payment account not researched." },
+    { "key": "transport_card", "result": "found", "note": "transports.public.lu: public transport free nationwide since 1 March 2020, no student card needed." },
+    { "key": "student_work", "result": "found", "note": "guichet.lu holiday student contract and student fixed-term contract pages, ITM, visa D page, EU Immigration Portal, uni.lu working-as-a-student page. Conflicting readings on non-EU holiday hours and first-year Bachelor work, encoded as interpretations." },
+    { "key": "minimum_wage", "result": "found", "note": "guichet.lu social parameters (from 1 June 2026, index 992.24)." }
+  ],
+  "items": [
+    {
+      "id": "lu-residence-eu",
+      "topic": "residence_permit",
+      "title": "EU/EEA/Swiss students staying more than 3 months: registration certificate",
+      "title_it": "Studenti UE/SEE/svizzeri oltre 3 mesi: certificato di registrazione",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "stay_duration": "more than 3 months (90 days)" },
+      "summary": "No visa or residence permit. After declaring arrival, you complete the registration form at the commune of residence within 3 months of arrival; the registration certificate is issued immediately and is valid indefinitely. Students show ID, proof of enrolment at an approved institution, proof of sufficient resources (an oral declaration is accepted) and proof of health insurance.",
+      "steps": [
+        "Declare your arrival at the commune where you live (see lu-registration-eu)",
+        "Within 3 months of arrival, fill in the registration form at the same commune",
+        "Bring ID/passport, proof of enrolment, declaration of sufficient resources, proof of health insurance"
+      ],
+      "deadline": "within 3 months of arrival",
+      "cost": null,
+      "authority": "Commune (communal administration) of residence",
+      "source_url": "https://guichet.public.lu/en/citoyens/immigration/vivre/non-luxembourg/immigration/union-euro/travail/sejour-travail.html",
+      "extra_sources": ["https://mengstudien.public.lu/en/etudier-luxembourg/preparer-son-sejour.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page states no fee. Permanent residence is possible after 5 years of legal, uninterrupted residence. The page does not describe formalities for stays under 3 months."
+    },
+    {
+      "id": "lu-residence-non-eu",
+      "topic": "residence_permit",
+      "title": "Non-EU students: visa D / authorisation to stay and student residence permit",
+      "title_it": "Studenti extra-UE: visto D / autorizzazione di soggiorno e permesso di soggiorno per studenti",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "stay_duration": "more than 3 months",
+        "other": ["admitted to a full-time higher-education cycle in Luxembourg, or a student exchange programme", "monthly resources of at least 80% of the social inclusion income (REVIS)"]
+      },
+      "summary": "Apply from abroad (never from inside Luxembourg) at a Luxembourg or Belgian embassy/consulate for the visa D / authorisation to stay. You need proof of admission, a criminal record extract, Schengen travel health insurance and proof of resources (≥ 80% of REVIS; uni.lu gives at least € 18,652 per academic year for 2026). After arrival: declare arrival at the commune, take the medical check and apply for the student residence permit before the visa D expires.",
+      "steps": [
+        "Before arrival: apply for the visa D / temporary authorisation to stay at a Luxembourg (or Belgian) diplomatic post; processing up to 60 days",
+        "Within 3 days of arrival: declare arrival at the commune",
+        "Undergo the medical check",
+        "Apply for the student residence permit (online via MyGuichet.lu or by post) before the 6-month visa D expires, and within 3 months of arrival"
+      ],
+      "deadline": "Residence permit application within 3 months of arrival / before the visa D (valid 6 months) expires",
+      "cost": "€ 80 issuance fee (EU Immigration Portal, page dated 1 April 2025)",
+      "authority": "Ministry of Home Affairs, General Department of Immigration (DGIM)",
+      "source_url": "https://guichet.public.lu/en/citoyens/immigration/vivre/non-luxembourg/immigration/pays-tiers/etudiant/etudiant-pays-tiers.html",
+      "extra_sources": [
+        "https://home-affairs.ec.europa.eu/policies/migration-and-asylum/eu-immigration-portal/student-luxembourg_en",
+        "https://www.uni.lu/life-en/financial-support/cost-of-living/",
+        "https://guichet.public.lu/en/citoyens/citoyennete/changement-adresse/depart-arrivee-commune.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The guichet.lu visa D page does not state the fee; € 80 and the 1-year validity (renewable for the duration of studies) come from the EU Immigration Portal. The € 18,652/academic year figure is from uni.lu and is 'subject to an increase in social parameters'. Documents not in EN/FR/DE need a certified translation."
+    },
+    {
+      "id": "lu-registration-eu",
+      "topic": "registration",
+      "title": "Declaration of arrival at the commune (EU/EEA/Swiss)",
+      "title_it": "Dichiarazione di arrivo al comune (UE/SEE/Svizzera)",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"], "stay_duration": "more than 3 months" },
+      "summary": "EU/EEA/Swiss nationals staying longer than 3 months declare their arrival in person at the commune of residence and, within 90 days of arrival, complete the declaration of registration there. Bring a valid ID card or passport and normally proof of residence (lease extract or owner's agreement). Arrivals from abroad cannot be declared online.",
+      "deadline": "registration declaration within 90 days of arrival",
+      "cost": null,
+      "authority": "Commune of residence (population office); data go to the National Registry of Natural Persons (RNPP)",
+      "source_url": "https://guichet.public.lu/en/citoyens/citoyennete/changement-adresse/depart-arrivee-commune.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "This page gives no separate deadline for the arrival declaration of EU citizens coming from abroad (the 8-day deadline on it is for moves within Luxembourg). Communes may ask for extra documents: contact yours in advance."
+    },
+    {
+      "id": "lu-registration-non-eu",
+      "topic": "registration",
+      "title": "Declaration of arrival at the commune (non-EU)",
+      "title_it": "Dichiarazione di arrivo al comune (extra-UE)",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "stay_duration": "any" },
+      "summary": "Third-country nationals declare their arrival in person at the commune within 3 days of arriving, whatever the length of stay. For stays over 3 months bring the original authorisation to stay and a passport with the visa; proof of residence is normally required.",
+      "deadline": "within 3 days of arrival",
+      "cost": null,
+      "authority": "Commune of residence",
+      "source_url": "https://guichet.public.lu/en/citoyens/citoyennete/changement-adresse/depart-arrivee-commune.html",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "lu-tax-id",
+      "topic": "tax_id",
+      "title": "National identification number (matricule) and tax card",
+      "title_it": "Numero di identificazione nazionale (matricule) e scheda fiscale",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Luxembourg uses a single 13-digit national identification number (matricule), kept unique by the National Registry of Natural Persons (RNPP), which holds data on residents and on non-residents in contact with the administration. A student working on a fixed-term student contract has income taxed as salary and must request a tax card from the withholding-tax (RTS) office.",
+      "authority": "RNPP (CTIE) / Administration des contributions directes (RTS office)",
+      "source_url": "https://guichet.public.lu/en/citoyens/support/glossaire/r/rnpp.html",
+      "extra_sources": ["https://guichet.public.lu/en/citoyens/travail/conditions-travail/contrat-jeunes-actifs/contrat-etudiant-cdd.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The pages read do not say at which step a newcomer receives the matricule (e.g. at the commune registration) nor whether it is also used as the social security number. Holiday student contracts paid ≤ € 18/hour can be exempted from withholding tax (see subsidies lu-tax-holiday-job)."
+    },
+    {
+      "id": "lu-health-ehic",
+      "topic": "health_insurance",
+      "title": "EU/EEA/Swiss students: EHIC accepted",
+      "title_it": "Studenti UE/SEE/svizzeri: TEAM accettata",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "To complete enrolment at the University of Luxembourg you must show an EHIC or proof of health insurance covering at least the whole semester. With the EHIC from your home country you get benefits in kind; register with the CNS (EHIC or S1 + enrolment certificate) to have care costs reimbursed.",
+      "authority": "Caisse nationale de santé (CNS) / University of Luxembourg",
+      "source_url": "https://www.uni.lu/life-en/moving-to-luxembourg/insurances/",
+      "extra_sources": [
+        "https://mengstudien.public.lu/en/etudier-luxembourg/preparer-son-sejour.html",
+        "https://guichet.public.lu/en/citoyens/sante/affiliation-securite-sociale/etudiant-stagaire/etudes-luxembourg.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The guichet.lu page on this was last updated 25.01.2013. Exchange and degree students alike need coverage for the full semester."
+    },
+    {
+      "id": "lu-health-student-affiliation",
+      "topic": "health_insurance",
+      "title": "Students without health insurance: compulsory student affiliation via the university",
+      "title_it": "Studenti senza assicurazione: affiliazione obbligatoria tramite l'università",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["not covered by a health insurance recognised in Luxembourg or as a family member (typical for non-EU students without coverage)"]
+      },
+      "summary": "Adult students with no recognised coverage must be affiliated with Luxembourg statutory health insurance through their institution: at the University of Luxembourg you pay the statutory affiliation fee together with the enrolment fees, and the university forwards the application to the CNS, which posts you a confirmation of affiliation.",
+      "cost": null,
+      "authority": "Centre commun de la sécurité sociale (CCSS) / CNS / University of Luxembourg",
+      "source_url": "https://www.uni.lu/life-en/moving-to-luxembourg/insurances/",
+      "extra_sources": [
+        "https://ccss.public.lu/en/particuliers/stagiaires-etudiants.html",
+        "https://mengstudien.public.lu/en/etudier-luxembourg/preparer-son-sejour.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Amount of the affiliation fee not found on the pages read (the only figure, € 33/month, is from 2012 and must not be used). Non-EU students with private cover need an attestation with exact start and end dates covering the whole semester."
+    },
+    {
+      "id": "lu-health-work",
+      "topic": "health_insurance",
+      "title": "Health insurance when you work as a student",
+      "title_it": "Assicurazione sanitaria se lavori da studente",
+      "applies_to": { "student_type": "any", "nationality": "any", "min_work_hours": "any student contract" },
+      "summary": "On a fixed-term student contract the employer registers you with the CCSS (sickness, pension, accident and long-term care insurance). On a holiday student contract you are registered only for accident insurance, with no health or pension contributions. If you paid the student health fee to uni.lu and then became insured through a job in the same semester, you can ask for a refund of whole months.",
+      "authority": "CCSS / University of Luxembourg",
+      "source_url": "https://guichet.public.lu/en/citoyens/travail/conditions-travail/contrat-jeunes-actifs/contrat-etudiant-cdd.html",
+      "extra_sources": [
+        "https://guichet.public.lu/en/citoyens/famille-education/etudes-superieures/activite-professionnelle/contrat-etudiant.html",
+        "https://www.uni.lu/life-en/moving-to-luxembourg/insurances/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "uni.lu refund requests: winter semester from 15 February (before 15 April), summer semester from 15 September (before 15 November), with a CNS affiliation certificate."
+    },
+    {
+      "id": "lu-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a bank account as a student",
+      "title_it": "Aprire un conto bancario da studente",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "The University of Luxembourg advises opening a local account; bring ID documents, proof of address and a university certificate of student status. Most banks give advantages to under-26s (uni.lu lists BCEE/Spuerkeess, BGL BNP Paribas, BIL); a POST current account (CCP) is also possible.",
+      "authority": "University of Luxembourg (advice); commercial banks",
+      "source_url": "https://www.uni.lu/life-en/financial-support/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "University advice page, not a government source. Basic payment account rights not researched."
+    },
+    {
+      "id": "lu-transport-free",
+      "topic": "transport_card",
+      "title": "Public transport is free nationwide: no student pass needed",
+      "title_it": "Trasporto pubblico gratuito in tutto il paese: nessun abbonamento studenti necessario",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Since 1 March 2020 buses, trams and trains (2nd class) are free throughout Luxembourg for residents, cross-border workers and tourists; only 1st-class train travel is excluded. Trips beyond the national network are not free. The mobiliteit.lu app plans journeys.",
+      "cost": "€ 0",
+      "authority": "Ministry of Mobility and Public Works (transports.public.lu)",
+      "source_url": "https://transports.public.lu/en/se-deplacer/transports-publics/mobilite-gratuite.html",
+      "extra_sources": ["https://luxembourg.public.lu/en/work-and-study/studying-in-luxembourg/student-life-luxembourg.html"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "lu-student-work-holiday-contract",
+      "topic": "student_work",
+      "title": "Holiday student contract (contrat d'étudiant)",
+      "title_it": "Contratto studente per le vacanze (contrat d'étudiant)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": { "min": 15, "max": 26 },
+        "other": ["enrolled full-time in a school/institution in Luxembourg or abroad, or enrolment ended less than 4 months ago", "only during school/university holidays"]
+      },
+      "summary": "Pupils/students aged 15 to 26 (until their 27th birthday) can work during holidays for at most 2 months or 346 hours per calendar year. Pay is at least 80% of the applicable social minimum wage. A written contract (3 copies) is required by the first working day, otherwise it becomes a permanent contract; only accident insurance applies.",
+      "authority": "Inspection du travail et des mines (ITM) / Guichet.lu",
+      "source_url": "https://guichet.public.lu/en/citoyens/famille-education/etudes-superieures/activite-professionnelle/contrat-etudiant.html",
+      "extra_sources": [
+        "https://itm.public.lu/en/conditions-travail/occupation-eleves-etudiants.html",
+        "https://ccss.public.lu/en/particuliers/stagiaires-etudiants.html"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Guichet.lu page last updated 13.02.2026. Over 27 you can only work on an ordinary or student fixed-term contract. For non-EU students see lu-student-work-non-eu."
+    },
+    {
+      "id": "lu-student-work-fixed-term",
+      "topic": "student_work",
+      "title": "Fixed-term student contract during term (15 h/week on average)",
+      "title_it": "Contratto a tempo determinato per studenti durante l'anno (media 15 h/settimana)",
+      "applies_to": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "age": { "min": 16 },
+        "other": ["enrolled in Luxembourg: BTS, University of Luxembourg Bachelor/Master or other course, or secondary school"]
+      },
+      "summary": "Students enrolled in Luxembourg may work during term on a student fixed-term contract of at most 15 hours/week on average over a month (60 hours per 4 weeks). It can be renewed more than twice up to 5 years in total without becoming permanent. Pay is at least the social minimum wage for your age; income is taxed and fully insured with the CCSS.",
+      "authority": "Guichet.lu / ITM",
+      "source_url": "https://guichet.public.lu/en/citoyens/travail/conditions-travail/contrat-jeunes-actifs/contrat-etudiant-cdd.html",
+      "extra_sources": ["https://www.uni.lu/life-en/moving-to-luxembourg/working-as-a-student/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Exchange students enrolled at the University of Luxembourg are not explicitly excluded or included on the page; check with uni.lu. Working more than 4 months in a school year can end family benefits if gross monthly pay reaches the minimum wage. The uni.lu page still quotes a 2018 wage figure: use lu-minimum-wage."
+    },
+    {
+      "id": "lu-student-work-non-eu",
+      "topic": "student_work",
+      "title": "Work rules for non-EU students with a student residence permit",
+      "title_it": "Regole sul lavoro per studenti extra-UE con permesso per studio",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["holder of a valid student residence permit"] },
+      "summary": "Non-EU students may work outside study time up to 15 hours per week on average per month. The student residence permit acts as work authorisation, but before hiring the employer must send a written declaration to the DGIM (copy of permit and contract) and confirm the start within 3 working days. Doctoral research and uni.lu assistant contracts are outside the limit; compulsory traineeships need no new authorisation.",
+      "authority": "Ministry of Home Affairs, General Department of Immigration (DGIM)",
+      "source_url": "https://guichet.public.lu/en/citoyens/immigration/vivre/non-luxembourg/immigration/pays-tiers/etudiant/etudiant-pays-tiers.html",
+      "extra_sources": [
+        "https://home-affairs.ec.europa.eu/policies/migration-and-asylum/eu-immigration-portal/student-luxembourg_en",
+        "https://www.uni.lu/life-en/moving-to-luxembourg/working-as-a-student/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Guichet.lu (visa D page): the 15-hour limit does not apply at all to paid work during school holidays, and no first-year restriction is mentioned.",
+          "source_url": "https://guichet.public.lu/en/citoyens/immigration/vivre/non-luxembourg/immigration/pays-tiers/etudiant/etudiant-pays-tiers.html"
+        },
+        {
+          "hypothesis": "EU Immigration Portal (dated 1 April 2025): up to 40 hours/week during holidays, and Bachelor/BTS students may not work during their first two semesters (15 h/week only after that). uni.lu also states 40 h/week in holidays.",
+          "source_url": "https://home-affairs.ec.europa.eu/policies/migration-and-asylum/eu-immigration-portal/student-luxembourg_en"
+        }
+      ],
+      "notes": "Conflict between sources on holiday hours and on first-year Bachelor work: a first-year Bachelor student should confirm with the DGIM or uni.lu before taking a job."
+    },
+    {
+      "id": "lu-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "Social minimum wage (salaire social minimum) and youth rates",
+      "title_it": "Salario sociale minimo e tariffe per i giovani",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "From 1 June 2026 (index 992.24) the gross social minimum wage is € 2,771.33/month or € 16.0192/hour for unskilled workers aged 18+, and € 3,325.59/month (€ 19.2231/h) for skilled workers. Youth rates: 17–18 years 80% (€ 2,217.06/month, € 12.8154/h); 15–17 years 75% (€ 2,078.49/month, € 12.0144/h).",
+      "authority": "Government of Luxembourg (Guichet.lu social parameters)",
+      "source_url": "https://guichet.public.lu/en/citoyens/outils/parametres-sociaux.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Amounts change with wage indexation; re-check after each index step. Holiday student contracts may pay 80% of the applicable rate (lu-student-work-holiday-contract)."
+    }
+  ]
+}

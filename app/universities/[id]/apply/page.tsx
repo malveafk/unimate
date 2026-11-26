@@ -46,7 +46,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const IS_PREMIUM = false; // toggle this when auth is wired up
 
-function AiChatPanel({ uniName, programme }: { uniName: string; programme: string }) {
+function AiChatPanel({ uniId, uniName, programme }: { uniId: string; uniName: string; programme: string }) {
   const [msgs, setMsgs] = useState<Msg[]>([
     {
       role: "assistant",
@@ -74,16 +74,19 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: next.map(m => ({ role: m.role, content: m.content })),
-          context: `The student is applying to ${uniName}, programme: ${programme}.`,
+          messages: next.map((m, i) => ({
+            role: m.role,
+            content: i === next.length - 1 && programme ? `[Programme: ${programme}] ${m.content}` : m.content,
+          })),
+          // The server looks the university up in the catalogue by id and
+          // injects its record; the programme goes in as a normal message.
+          mode: "apply",
+          universityId: uniId,
         }),
       });
-      const data = await res.json();
-      if (data.error === "daily_limit") {
-        setMsgs(m => [...m, { role: "assistant", content: data.message }]);
-      } else {
-        setMsgs(m => [...m, { role: "assistant", content: data.content ?? "Sorry, something went wrong." }]);
-      }
+      const data = await res.json().catch(() => ({}));
+      // /api/chat answers { message } on success and { error } otherwise (429 = daily cap).
+      setMsgs(m => [...m, { role: "assistant", content: data.message ?? data.error ?? "Sorry, something went wrong." }]);
     } catch {
       setMsgs(m => [...m, { role: "assistant", content: "Connection error. Please try again." }]);
     } finally {
@@ -138,7 +141,7 @@ function AiChatPanel({ uniName, programme }: { uniName: string; programme: strin
           >
             Unlock Premium →
           </Link>
-          <p style={{ fontSize: 11, color: "var(--text-3)", margin: 0 }}>Or try 5 free questions in the <Link href="/chat" style={{ color: "var(--text-2)", textDecoration: "underline" }}>AI Chat</Link></p>
+          <p style={{ fontSize: 11, color: "var(--text-3)", margin: 0 }}>Or ask up to 10 free questions a day in the <Link href="/chat" style={{ color: "var(--text-2)", textDecoration: "underline" }}>AI Chat</Link></p>
         </div>
       </div>
     );
@@ -282,6 +285,12 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
               </div>
             ))}
           </div>
+          {meta && (
+            <div style={{ marginTop: 12, fontSize: 13, color: "var(--text-3)", lineHeight: 1.6 }}>
+              <a href={meta.diplomaLink} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>Diploma requirements for your country →</a>
+              <div>Checked on the official pages on {meta.checkedOn}</div>
+            </div>
+          )}
         </div>
         {meta?.scholarships && (
           <div style={{ padding: "16px 18px", borderRadius: 12, border: "1px solid rgba(251,191,36,0.25)", background: "rgba(251,191,36,0.05)" }}>
@@ -331,7 +340,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
                 <div style={{ fontWeight: 700, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Year 1 courses</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {programme.courses.filter(c => c.year === 1).map(c => (
-                    <span key={c.name} style={{ padding: "3px 9px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 11, color: "var(--text-3)", background: "rgba(255,255,255,0.02)" }}>{c.name}</span>
+                    <span key={c.name} title={c.nameEn} style={{ padding: "3px 9px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 11, color: "var(--text-3)", background: "rgba(255,255,255,0.02)" }}>{c.name}</span>
                   ))}
                 </div>
               </>
@@ -457,7 +466,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         </div>
         {[
           { icon: "🏫", title: "University housing", desc: `Check ${uni.name}'s official student housing portal first. It's usually cheaper, safer, and easier for first-arrivals.`, color: "52,211,153" },
-          { icon: "🤝", title: "Find a roommate on 4UNI", desc: "Browse student profiles looking for a flatmate in the same city and budget range. Verified profiles only.", color: "201,163,92", link: `/housing?city=${uni.city}` },
+          { icon: "🤝", title: "Find an apartment on 4UNI", desc: "Browse rooms and flats in the same city, filtered by budget and move-in date. We check every listing before it goes on the map.", color: "201,163,92", link: `/housing?city=${uni.city}` },
           { icon: "🏠", title: "Private platforms", desc: "HousingAnywhere and local Facebook groups everywhere; Kamernet in the Netherlands, WG-Gesucht in Germany and Austria. Never pay a deposit before viewing.", color: "96,165,250" },
         ].map(({ icon, title, desc, color, link }) => (
           <div key={title} style={{ display: "flex", gap: 14, padding: "16px", borderRadius: 12, border: "1px solid var(--border)", background: "var(--surface)" }}>
@@ -465,7 +474,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>{title}</div>
               <p style={{ fontSize: 13, color: "var(--text-2)", margin: "0 0 8px", lineHeight: 1.6 }}>{desc}</p>
-              {link && <Link href={link} style={{ fontSize: 12, fontWeight: 700, color: `rgb(${color})`, textDecoration: "none" }}>Browse roommates →</Link>}
+              {link && <Link href={link} style={{ fontSize: 12, fontWeight: 700, color: `rgb(${color})`, textDecoration: "none" }}>Browse apartments →</Link>}
             </div>
           </div>
         ))}
@@ -665,7 +674,7 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
         }
         right={
           <div style={{ borderLeft: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%", background: "rgba(255,255,255,0.01)" }}>
-            <AiChatPanel uniName={uni.name} programme={programme?.name ?? ""} />
+            <AiChatPanel uniId={uni.id} uniName={uni.name} programme={programme?.name ?? ""} />
           </div>
         }
       />

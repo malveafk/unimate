@@ -1,0 +1,83 @@
+{
+  "city": "Bern",
+  "slug": "bern",
+  "country": "Switzerland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "No official figure found for Bern",
+      "source_name": "none",
+      "source_url": "https://www.unibe.ch/studies/welcome/index_eng.html",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: CHF 1,755/month city centre, CHF 1,318 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Bern?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Single person excl. rent about CHF 1,404/month (Nov 2026); no university student budget found",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Bern?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "transport_pass",
+      "value": "Regular monthly pass about CHF 82 (Libero fares site unreachable)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Bern?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Crowd-sourced; youth fare not found."
+    },
+    {
+      "field": "climate",
+      "value": "Bern-Zollikofen 1991-2020: Jan mean 0.2 C, July mean 18.8 C, about 1,022 mm rain/year",
+      "source_name": "Wikipedia (MeteoSwiss normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Bern",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing MeteoSwiss/NOAA 1991-2020 normals; MeteoSwiss station pages could not be fetched."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable source checked; the bot should not characterise student life here.",
+      "source_name": "none",
+      "source_url": "https://www.unibe.ch/studies/welcome/index_eng.html",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "German (Bernese German dialect spoken)",
+      "source_name": "Wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Bern",
+      "verified_at": "2026-11-25",
+      "status": "unverified"
+    },
+    {
+      "field": "job_market",
+      "value": "No citable data on student job availability found",
+      "source_name": "none",
+      "source_url": "https://www.unibe.ch/studies/welcome/index_eng.html",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No official figure found; no Bern cantonal minimum wage verified",
+      "source_name": "none",
+      "source_url": "https://www.unibe.ch/studies/welcome/index_eng.html",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    }
+  ]
+}

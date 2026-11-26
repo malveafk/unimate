@@ -1,0 +1,92 @@
+{
+  "city": "Madrid / Segovia",
+  "slug": "madrid-segovia",
+  "country": "Spain",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Segovia: sharing a flat about € 400-600/month; deposit typically 1-3 months; utilities usually extra",
+      "source_name": "IE University - Living in Segovia",
+      "source_url": "https://www.ie.edu/student-services/living-in-segovia/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "For the Madrid campus see cities/madrid.json. Figures as shown on IE's page on 2026-11-25 (no year stated)."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Segovia: 1-2 bedroom flat about € 500-900/month (IE); Numbeo 1-bedroom centre ~€ 900 (Oct 2026, only 6 contributors)",
+      "source_name": "IE University - Living in Segovia",
+      "source_url": "https://www.ie.edu/student-services/living-in-segovia/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.numbeo.com/cost-of-living/in/Segovia-Spain?displayCurrency=EUR"
+      ],
+      "notes": "Numbeo data for Segovia is sparse and partly estimated."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Not found: IE points to its cost-of-living calculator, which could not be read",
+      "source_name": "IE University - cost of living calculator",
+      "source_url": "https://calculator.ie.edu/?lang=en",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "IE calls Segovia 'affordable by any European standard' but gives no figure."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Not found on a citable page; IE says Segovia is 25 minutes from Madrid by high-speed train",
+      "source_name": "IE University - Study in Segovia",
+      "source_url": "https://www.ie.edu/university/about/study-in-segovia/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "No local or Segovia-Madrid pass price found on the pages read."
+    },
+    {
+      "field": "climate",
+      "value": "Cool continental (1,008 m): mean 12.4 °C/year; Jan mean 4.3 °C (min 0.3 °C), Jul mean 22.2 °C (max 29.7 °C); 479 mm rain/year (1988-2010)",
+      "source_name": "AEMET - climate normals, Segovia",
+      "source_url": "https://www.aemet.es/es/serviciosclimaticos/datosclimatologicos/valoresclimatologicos?l=2465&k=cle",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Madrid campus climate: see cities/madrid.json."
+    },
+    {
+      "field": "social_life",
+      "value": "Small, walkable city (about 20 minutes on foot end to end) with a campus-centred international community of 100+ nationalities, per IE",
+      "source_name": "IE University - Study in Segovia",
+      "source_url": "https://www.ie.edu/university/about/study-in-segovia/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "Self-description by the university."
+    },
+    {
+      "field": "language_needed",
+      "value": "IE bachelor programmes are taught in English; Spanish helps for daily life in Segovia",
+      "source_name": "IE University",
+      "source_url": "https://www.ie.edu/university/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "The IE pages read did not state the teaching language explicitly; based on our catalogue description. Confirm per programme."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found on a citable page",
+      "source_name": "IE University - Student Services",
+      "source_url": "https://www.ie.edu/student-services/undergraduate/",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable average student wage found. Legal floor: SMI € 1,221/month full-time (14 payments, € 17,094/year), no youth rate (2026)",
+      "source_name": "BOE - Real Decreto 126/2026 (SMI 2026)",
+      "source_url": "https://www.boe.es/eli/es/rd/2026/02/18/126/con",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "This is the national legal minimum, not a measured typical student wage. The decree sets no general hourly rate."
+    }
+  ]
+}

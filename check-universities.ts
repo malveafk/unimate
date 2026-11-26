@@ -11,6 +11,9 @@
  * Exit code is 1 if anything is flagged, so it can gate a commit.
  */
 import { universities } from "./app/data/universities";
+import { universityMeta } from "./app/data/universityMeta";
+import { bachelorSources } from "./app/data/bachelorSources";
+import { costSources } from "./app/data/costSources";
 import { getUniversityCosts } from "./utils/universityCosts";
 
 let flags = 0;
@@ -88,6 +91,85 @@ for (const [country, g] of byCountry) {
   }
 }
 if (!spreads) console.log("  none");
+
+/* 5. Programme text vs course data ---------------------------------------- */
+// A programme states its credits twice: in the description and in courses[].
+// The two are written separately, so they drift; /compare and the apply page
+// show them one under the other.
+section("5. Programme text vs course data");
+const ects = (c?: string) => Number(c?.match(/([\d.]+)\s*ECTS/)?.[1] ?? NaN);
+// Modules that run across the year boundary are listed under the year they
+// start in, so that year can legitimately exceed 60. Each entry says why.
+const CROSS_YEAR: Record<string, string> = {
+  "heidelberg/molecular-biotechnology": "Organic Chemistry, Special Biology I and Transferable Skills I run semesters 2-3 (SPO 2025, Anlage 1)",
+};
+let progIssues = 0;
+for (const u of universities) {
+  for (const b of u.bachelors) {
+    const id = `${u.id}/${b.id}`;
+    // UK credits are half an ECTS; text in UK credits next to a list in ECTS reads as two different numbers.
+    if (u.country === "United Kingdom") {
+      const bare = b.description.replace(/\(\d+ UK (CATS )?credits( each)?\)/g, "");
+      if (/\b\d+[- ]credits?\b|\bCATS\b/.test(bare)) { progIssues++; flag(`${id}: UK credits in the text without ECTS`); }
+    }
+    const dur = Math.ceil(Number(b.duration.match(/\d+(\.\d+)?/)?.[0] ?? 0));
+    const maxYear = Math.max(0, ...b.courses.map((c) => c.year ?? 0));
+    if (dur && maxYear > dur) { progIssues++; flag(`${id}: courses up to year ${maxYear}, duration "${b.duration}"`); }
+    const byYear = new Map<number, number[]>();
+    for (const c of b.courses) if (c.year) byYear.set(c.year, [...(byYear.get(c.year) ?? []), ects(c.credits)]);
+    for (const [y, list] of byYear) {
+      if (list.some(isNaN)) continue; // partial data: a sum would mean nothing
+      const sum = list.reduce((s, x) => s + x, 0);
+      if (sum <= 66) continue; // 10% tolerance for rounding and listed alternatives
+      if (CROSS_YEAR[id]) { console.log(`  known  ${id}: year ${y} sums ${sum} ECTS (${CROSS_YEAR[id]})`); continue; }
+      progIssues++;
+      flag(`${id}: year ${y} sums ${sum} ECTS`);
+    }
+  }
+  if (u.ranking) {
+    const top = Number(u.ranking.match(/Top\s+(\d+)/i)?.[1]), rank = Number(u.ranking.match(/#(\d+)/)?.[1]);
+    if (top && rank && rank > top) { progIssues++; flag(`${u.id}: ranking "${u.ranking}"`); }
+  }
+  const meta = universityMeta[u.id];
+  const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  const m = meta ? months.findIndex((x) => meta.applicationDeadline.toLowerCase().includes(x)) + 1 : 0;
+  if (meta && m && meta.applicationDeadlineMonth !== m) { progIssues++; flag(`${u.id}: deadline "${meta.applicationDeadline}" vs month ${meta.applicationDeadlineMonth}`); }
+}
+if (!progIssues) console.log("  no divergence");
+
+/* 6. Curriculum sources (app/data/bachelorSources.ts) ---------------------- */
+// Wrong entries are flags. Programmes with courses but no source are listed, not
+// flagged: their page says "source not yet documented", which is true, and the list
+// is the to-do for the next check.
+section("6. Curriculum sources");
+const programmeKeys = new Set(universities.flatMap((u) => u.bachelors.map((b) => `${u.id}/${b.id}`)));
+const dateRe = /^\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$/;
+for (const [key, s] of Object.entries(bachelorSources)) {
+  if (!programmeKeys.has(key)) flag(`${key}: source for a programme that does not exist`);
+  if (!dateRe.test(s.checkedOn)) flag(`${key}: checkedOn "${s.checkedOn}" is not "D Month YYYY"`);
+  if (!s.sources.length) flag(`${key}: no source URL`);
+  for (const src of s.sources) if (!/^https:\/\//.test(src.url)) flag(`${key}: source URL not https: ${src.url}`);
+}
+const undocumented = universities.flatMap((u) =>
+  u.bachelors.filter((b) => b.courses.length && !bachelorSources[`${u.id}/${b.id}`]).map((b) => `${u.id}/${b.id}`)
+);
+const withCourses = universities.reduce((n, u) => n + u.bachelors.filter((b) => b.courses.length).length, 0);
+console.log(`  ${withCourses - undocumented.length} of ${withCourses} programmes with courses have a documented source`);
+if (undocumented.length) console.log(`  to do (${undocumented.length}): ${undocumented.join(", ")}`);
+
+/* 7. Cost sources (app/data/costSources.ts) -------------------------------- */
+section("7. Tuition and living-cost sources");
+const uniIds = new Set(universities.map((u) => u.id));
+for (const [uid, s] of Object.entries(costSources)) {
+  if (!uniIds.has(uid)) flag(`${uid}: cost source for a university that does not exist`);
+  for (const e of [...(s.tuition ?? []), ...(s.livingCost ?? [])]) {
+    if (!dateRe.test(e.checkedOn)) flag(`${uid}: cost checkedOn "${e.checkedOn}" is not "D Month YYYY"`);
+    if (!/^https:\/\//.test(e.url)) flag(`${uid}: cost source URL not https: ${e.url}`);
+  }
+}
+const withTuition = universities.filter((u) => costSources[u.id]?.tuition?.length).length;
+const withLiving = universities.filter((u) => costSources[u.id]?.livingCost?.length).length;
+console.log(`  tuition: ${withTuition} of ${universities.length} documented, living cost: ${withLiving} of ${universities.length}`);
 
 section(flags ? `${flags} flag(s)` : "No flags.");
 process.exit(flags ? 1 : 0);

@@ -1,0 +1,106 @@
+{
+  "city": "Groningen",
+  "slug": "groningen",
+  "country": "Netherlands",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 580/month median room rent (Kamernet, Q1 2026; +12.6% y/y)",
+      "source_name": "Kamernet Rent Report Q1 2026",
+      "source_url": "https://housinganywhere.com/kamernet-rent-report-q1-2026",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.rug.nl/education/bachelor/international-students/financial-matters/living-expenses?lang=en"
+      ],
+      "notes": "Kamernet median rent for rooms (max 30 m2) advertised on Kamernet by private landlords/tenants/agencies; social student housing excluded. Advertised asking rents, not what existing tenants pay. RUG budgets € 450-650/month rent incl. energy. Q2 2026 report did not publish Groningen's figure."
+    },
+    {
+      "field": "rent_studio",
+      "value": "Not found on an official/citable source",
+      "source_name": "University of Groningen",
+      "source_url": "https://www.rug.nl/education/bachelor/international-students/financial-matters/living-expenses?lang=en",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "RUG gives a single rent range (€ 450-650) without studio split; no studio figure in Kamernet."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€ 800-1,000/month excl. tuition (RUG headline estimate)",
+      "source_name": "University of Groningen",
+      "source_url": "https://www.rug.nl/education/bachelor/international-students/financial-matters/living-expenses?lang=en",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "RUG's own itemised list (rent 450-650, food 200-300, insurance 100-120, travel 70-80, study 80, phone 26, other 157) adds up to ~€ 1,080-1,410; the page does not explain the gap.",
+      "interpretations": [
+        {
+          "hypothesis": "Headline figure: € 800-1,000/month is what students spend on average.",
+          "source_url": "https://www.rug.nl/education/bachelor/international-students/financial-matters/living-expenses?lang=en"
+        },
+        {
+          "hypothesis": "Itemised figures on the same page sum to ~€ 1,080-1,410/month (our sum).",
+          "source_url": "https://www.rug.nl/education/bachelor/international-students/financial-matters/living-expenses?lang=en"
+        }
+      ]
+    },
+    {
+      "field": "transport_pass",
+      "value": "No pass price found; RUG budgets € 70-80/month travel for students without a Dutch OV student travel card",
+      "source_name": "University of Groningen",
+      "source_url": "https://www.rug.nl/education/bachelor/international-students/financial-matters/living-expenses?lang=en",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Budget estimate, not the price of a Qbuzz/Arriva monthly pass."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate maritime: avg 2.8 °C in Jan, 17.5 °C in Jul; ~805 mm rain/yr; ~1683 h sun/yr (KNMI 1991-2020, Eelde)",
+      "source_name": "KNMI climate normals 1991-2020, station Eelde (280)",
+      "source_url": "https://cdn.knmi.nl/knmi/map/page/klimatologie/klimaatatlas/tabel/stationsdata/klimtab_9120_280.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Eelde (Groningen Airport) is about 10 km south of the city."
+    },
+    {
+      "field": "social_life",
+      "value": "Student life largely revolves around student and study associations (sports, culture, academic), plus pubs and city events.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/student-life",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "subjective": true,
+      "notes": "National description; no city-specific official page checked for this city."
+    },
+    {
+      "field": "language_needed",
+      "value": "No Dutch needed for English-taught programmes; English is widely spoken. Dutch helps for part-time jobs/internships and is sometimes required.",
+      "source_name": "Study in NL (Nuffic)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/start-learning-dutch",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.rug.nl/education/bachelor/international-students/financial-matters/living-expenses?lang=en"
+      ],
+      "notes": "National source, applies to the whole country. RUG: Dutch course recommended but not mandatory; full-time internationals get 50 free hours of language classes."
+    },
+    {
+      "field": "job_market",
+      "value": "Popular student jobs: hospitality, retail, customer service, student assistant at the university, tutoring.",
+      "source_name": "University of Groningen",
+      "source_url": "https://www.rug.nl/education/bachelor/international-students/financial-matters/finance-international?lang=en",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page does not say whether Dutch is needed or how easy jobs are to find."
+    },
+    {
+      "field": "student_wage",
+      "value": "Statutory minimum from 1 Jul 2026: € 14.99/h gross at 21+; € 11.99 (age 20), € 8.99 (19), € 7.50 (18). Same nationwide.",
+      "source_name": "Government.nl - minimum wage amounts",
+      "source_url": "https://www.government.nl/topics/minimum-wage/minimum-wage-amounts",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Legal floor, not a measured 'typical' student wage for this city; many student jobs pay at or near this minimum. Rates from 1 Jan 2026 were € 14.71 (21+)."
+    }
+  ]
+}

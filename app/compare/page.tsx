@@ -765,6 +765,10 @@ export default function Compare() {
                             <span style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{req}</span>
                           </div>
                         ))}
+                        <div style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 }}>
+                          <a href={meta.diplomaLink} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>Diploma requirements for your country →</a>
+                          <div>Checked on {meta.checkedOn}</div>
+                        </div>
                       </div>
                     ) : <span style={{ color: "var(--text-3)" }}>—</span>}
                   </Cell>
@@ -848,7 +852,10 @@ export default function Compare() {
                                 <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                                   {courses.map((c, ci) => (
                                     <div key={ci} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
-                                      <span style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>{c.name}</span>
+                                      <span style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>
+                                        {c.name}
+                                        {c.nameEn && <span style={{ display: "block", fontSize: 11, color: "var(--text-3)" }}>{c.nameEn}</span>}
+                                      </span>
                                       {c.credits && (
                                         <span style={{ fontWeight: 700, fontSize: 10, color: "var(--text-3)", flexShrink: 0, fontFamily: "var(--font-mono)" }}>{c.credits}</span>
                                       )}

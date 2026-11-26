@@ -2,11 +2,11 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { isAdminEmail } from "@/utils/adminEmails";
-import { approveListing, rejectListing, actionReport, dismissReport, verifyIdCheck, rejectIdCheck } from "./actions";
+import { approveListing, rejectListing, actionReport, dismissReport } from "./actions";
 import { REPORT_REASONS } from "@/utils/reportReasons";
 
-// A listing waiting in the review queue, plus the two links an admin needs in
-// order to decide: the photo of the place and the poster's ID document.
+// A listing waiting in the review queue, with the photo an admin needs in
+// order to decide.
 type QueueListing = {
   id: string;
   created_at: string;
@@ -18,32 +18,8 @@ type QueueListing = {
   available_from: string | null;
   description: string | null;
   link: string | null;
-  verified: boolean;
   created_by: string | null;
   photoUrl: string | null;
-};
-
-// A person waiting for their ID to be checked (supabase/housing_id_checks.sql),
-// with what they told us about themselves, to compare against the document.
-type QueueIdCheck = {
-  user_id: string;
-  submitted_at: string;
-  docUrl: string | null;
-  isPdf: boolean;
-  profile: {
-    first_name: string;
-    age: number | null;
-    nationality: string | null;
-    university: string | null;
-    city: string;
-  } | null;
-  listingCount: number;
-};
-
-type DecidedIdCheck = {
-  user_id: string;
-  status: string;
-  reviewed_at: string | null;
 };
 
 // An open report, with enough of its target resolved that the admin can judge
@@ -67,7 +43,7 @@ type DecidedListing = {
   status: string;
   // When the admin decided (supabase/housing_listing_review.sql). Not
   // updated_at: that moves on every later write, such as the owner hiding the
-  // flat or the ID-check trigger turning on the badge.
+  // flat.
   reviewed_at: string | null;
   created_by: string | null;
 };
@@ -145,7 +121,7 @@ export default async function AdminPage() {
   // fetchApartmentPins() tolerates unapplied migrations.
   const queueResult = await admin
     .from("housing_listings")
-    .select("id, created_at, title, city, price, rooms, furnished, available_from, description, link, photo_path, verified, created_by")
+    .select("id, created_at, title, city, price, rooms, furnished, available_from, description, link, photo_path, created_by")
     .eq("status", "pending")
     .order("created_at", { ascending: true });
 
@@ -180,19 +156,14 @@ export default async function AdminPage() {
   const reportsMissing = reportsResult.error?.code === "PGRST205" || reportsResult.error?.code === "42P01";
   const reportRows = (reportsResult.data ?? []) as Record<string, unknown>[];
 
-  // Two lookups for the whole batch rather than one per report.
+  // One lookup for the whole batch rather than one per report.
   const reportedListingIds = reportRows.map(r => r.listing_id as string | null).filter(Boolean) as string[];
-  const reportedUserIds = reportRows.map(r => r.profile_user_id as string | null).filter(Boolean) as string[];
 
   const { data: reportedListings } = reportedListingIds.length
     ? await admin.from("housing_listings").select("id, title, city, price, status").in("id", reportedListingIds)
     : { data: [] };
-  const { data: reportedProfiles } = reportedUserIds.length
-    ? await admin.from("housing_profiles").select("user_id, first_name").in("user_id", reportedUserIds)
-    : { data: [] };
 
   const listingById = new Map((reportedListings ?? []).map(l => [l.id as string, l]));
-  const profileNameOf = new Map((reportedProfiles ?? []).map(p => [p.user_id as string, p.first_name as string]));
 
   const reports: OpenReport[] = reportRows.map(row => {
     const listingId = row.listing_id as string | null;
@@ -216,7 +187,9 @@ export default async function AdminPage() {
       profile: profileUserId
         ? {
             userId: profileUserId,
-            name: profileNameOf.get(profileUserId) ?? null,
+            // The roommate profiles these reports were about no longer exist,
+            // so the account's email is all there is to show.
+            name: null,
             email: emailOf.get(profileUserId) ?? null,
           }
         : null,
@@ -226,8 +199,7 @@ export default async function AdminPage() {
   const reasonLabel = (value: string) =>
     REPORT_REASONS.find(r => r.value === value)?.label ?? value;
 
-  // Photo is in a public bucket, so a plain URL is enough. The ID document is
-  // reviewed in the Identity checks section, once per person.
+  // Photo is in a public bucket, so a plain URL is enough.
   const queue: QueueListing[] = await Promise.all(
     ((queueResult.data ?? []) as Record<string, unknown>[]).map(async (row) => {
       const photoPath = row.photo_path as string | null;
@@ -242,7 +214,6 @@ export default async function AdminPage() {
         available_from: (row.available_from as string | null) ?? null,
         description: (row.description as string | null) ?? null,
         link: (row.link as string | null) ?? null,
-        verified: Boolean(row.verified),
         created_by: (row.created_by as string | null) ?? null,
         photoUrl: photoPath
           ? admin.storage.from("housing-photos").getPublicUrl(photoPath).data.publicUrl
@@ -252,63 +223,6 @@ export default async function AdminPage() {
   );
 
   const decided = (decidedResult.data ?? []) as DecidedListing[];
-
-  // ── The ID check queue ─────────────────────────────────────────────────────
-  // housing_id_checks arrives with supabase/housing_id_checks.sql. Until that
-  // file is run the select fails and the section says so, like the listing
-  // queue above.
-  const idQueueResult = await admin
-    .from("housing_id_checks")
-    .select("user_id, file_path, submitted_at")
-    .eq("status", "pending")
-    .order("submitted_at", { ascending: true });
-  const idChecksMissing = Boolean(idQueueResult.error);
-  const idRows = (idQueueResult.data ?? []) as { user_id: string; file_path: string | null; submitted_at: string }[];
-  const idUserIds = idRows.map(r => r.user_id);
-
-  const [idProfilesResult, idListingsResult, idDecidedResult] = idChecksMissing
-    ? [{ data: null }, { data: null }, { data: null }]
-    : await Promise.all([
-        idUserIds.length
-          ? admin.from("housing_profiles").select("user_id, first_name, age, nationality, university, city").in("user_id", idUserIds)
-          : Promise.resolve({ data: [] }),
-        idUserIds.length
-          ? admin.from("housing_listings").select("created_by").in("created_by", idUserIds)
-          : Promise.resolve({ data: [] }),
-        admin.from("housing_id_checks").select("user_id, status, reviewed_at")
-          .in("status", ["verified", "rejected"])
-          .order("reviewed_at", { ascending: false })
-          .limit(8),
-      ]);
-
-  const idProfileOf = new Map(
-    ((idProfilesResult.data ?? []) as (NonNullable<QueueIdCheck["profile"]> & { user_id: string })[])
-      .map(p => [p.user_id, p])
-  );
-  const listingCountOf = new Map<string, number>();
-  for (const l of (idListingsResult.data ?? []) as { created_by: string }[]) {
-    listingCountOf.set(l.created_by, (listingCountOf.get(l.created_by) ?? 0) + 1);
-  }
-
-  // The document sits in a private bucket on purpose, so it gets a link that
-  // expires in 10 minutes and is generated per page load, never stored.
-  const idQueue: QueueIdCheck[] = await Promise.all(idRows.map(async (r) => {
-    const signed = r.file_path
-      ? await admin.storage.from("housing-ids").createSignedUrl(r.file_path, 600)
-      : null;
-    const profile = idProfileOf.get(r.user_id);
-    return {
-      user_id: r.user_id,
-      submitted_at: r.submitted_at,
-      docUrl: signed?.data?.signedUrl ?? null,
-      isPdf: (r.file_path ?? "").toLowerCase().endsWith(".pdf"),
-      profile: profile
-        ? { first_name: profile.first_name, age: profile.age, nationality: profile.nationality, university: profile.university, city: profile.city }
-        : null,
-      listingCount: listingCountOf.get(r.user_id) ?? 0,
-    };
-  }));
-  const idDecided = (idDecidedResult.data ?? []) as DecidedIdCheck[];
 
   const counts = (logs ?? []).reduce<Record<string, number>>((acc, log) => {
     acc[log.action] = (acc[log.action] ?? 0) + 1;
@@ -326,7 +240,6 @@ export default async function AdminPage() {
 
       <div style={{ display: "flex", gap: 12, marginBottom: 44, flexWrap: "wrap" }}>
         <Stat label="Users" value={profiles?.length ?? 0} />
-        <Stat label="IDs to check" value={idQueue.length} highlight={idQueue.length > 0} />
         <Stat label="Awaiting review" value={queue.length} highlight={queue.length > 0} />
         <Stat label="Open reports" value={reports.length} highlight={reports.length > 0} />
         {Object.entries(counts).map(([action, count]) => (
@@ -353,7 +266,7 @@ export default async function AdminPage() {
           </div>
           <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>
             Run <code>supabase/housing_reports_blocks.sql</code> in the Supabase SQL
-            Editor. Until then the report and block buttons on the site will fail.
+            Editor. Until then the report button on the site will fail.
           </div>
         </div>
       ) : reports.length === 0 ? (
@@ -433,128 +346,6 @@ export default async function AdminPage() {
         </div>
       )}
 
-      {/* ── Identity checks ───────────────────────────────────────────────── */}
-      <SectionTitle count={idQueue.length}>Identity checks</SectionTitle>
-      <p style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 16, lineHeight: 1.6 }}>
-        One check per person, covering their roommate profile and every listing.
-        Compare the document with what they told us: name, age, nationality, and
-        that it is a real, valid passport, national ID card or driving licence.
-        Their roommate profile stays off the map until you verify them. Either
-        decision deletes the document straight away.
-      </p>
-
-      {idChecksMissing ? (
-        <div style={{ ...card, padding: 18, marginBottom: 44, borderColor: "var(--accent)" }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--accent)", marginBottom: 6 }}>
-            ID checks are not set up on this database
-          </div>
-          <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>
-            Run <code>supabase/housing_id_checks.sql</code> in the Supabase SQL Editor.
-          </div>
-        </div>
-      ) : idQueue.length === 0 ? (
-        <div style={{ ...card, padding: 24, marginBottom: 44, textAlign: "center" }}>
-          <div style={{ fontSize: 14, color: "var(--text-2)" }}>No IDs waiting. All caught up.</div>
-        </div>
-      ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 44 }}>
-          {idQueue.map(c => (
-            <div key={c.user_id} style={{ ...card, padding: 16, display: "flex", gap: 16, flexWrap: "wrap" }}>
-              <div style={{ flex: "1 1 320px", minWidth: 0 }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>
-                  {c.profile ? c.profile.first_name : (emailOf.get(c.user_id) ?? "Unknown account")}
-                </div>
-                <div style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 8, lineHeight: 1.6 }}>
-                  {c.profile ? (
-                    <>
-                      {c.profile.age ? `${c.profile.age} years old` : "age not given"}
-                      {c.profile.nationality ? ` · ${c.profile.nationality}` : ""}
-                      {c.profile.university ? ` · ${c.profile.university}` : ""}
-                      {` · ${c.profile.city}`}
-                    </>
-                  ) : (
-                    "No roommate profile: uploaded the ID to post an apartment."
-                  )}
-                  {c.listingCount > 0 ? ` · ${c.listingCount} listing${c.listingCount === 1 ? "" : "s"}` : ""}
-                </div>
-                <div style={{ fontSize: 12, color: "var(--text-3)", display: "flex", gap: 14, flexWrap: "wrap" }}>
-                  <span>{emailOf.get(c.user_id) ?? "unknown email"}</span>
-                  <span>submitted {new Date(c.submitted_at).toLocaleString()}</span>
-                </div>
-                <div style={{ marginTop: 8 }}>
-                  {c.docUrl ? (
-                    <a href={c.docUrl} target="_blank" rel="noopener noreferrer"
-                       style={{ fontSize: 13, fontWeight: 600, color: "var(--accent)" }}>
-                      Open ID document{c.isPdf ? " (PDF)" : ""} ↗ <span style={{ fontWeight: 400, color: "var(--text-3)" }}>link expires in 10 min, reload for a new one</span>
-                    </a>
-                  ) : (
-                    <span style={{ fontSize: 13, color: "#f87171" }}>
-                      The document is missing from storage. Reject, and the student is asked to upload it again.
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, justifyContent: "center" }}>
-                <form action={verifyIdCheck}>
-                  <input type="hidden" name="userId" value={c.user_id} />
-                  <button type="submit" style={{
-                    padding: "10px 22px", borderRadius: 10, border: "none", cursor: "pointer",
-                    background: "var(--green)", color: "var(--bg)", fontSize: 13, fontWeight: 700,
-                    fontFamily: "inherit", width: "100%",
-                  }}>
-                    Verify
-                  </button>
-                </form>
-                <form action={rejectIdCheck}>
-                  <input type="hidden" name="userId" value={c.user_id} />
-                  <button type="submit" style={{
-                    padding: "10px 22px", borderRadius: 10, cursor: "pointer",
-                    background: "transparent", color: "#f87171", border: "1px solid #f87171",
-                    fontSize: 13, fontWeight: 700, fontFamily: "inherit", width: "100%",
-                  }}>
-                    Reject
-                  </button>
-                </form>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {idDecided.length > 0 && (
-        <>
-          <SectionTitle>Recently checked IDs</SectionTitle>
-          <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: 44, fontSize: 13 }}>
-            <thead>
-              <tr style={{ borderBottom: "1px solid var(--border-strong)" }}>
-                <th style={th}>Person</th>
-                <th style={th}>Outcome</th>
-                <th style={th}>Checked</th>
-              </tr>
-            </thead>
-            <tbody>
-              {idDecided.map(d => (
-                <tr key={d.user_id} style={{ borderBottom: "1px solid var(--border)" }}>
-                  <td style={{ padding: "8px 12px", color: "var(--text-1)" }}>{emailOf.get(d.user_id) ?? "—"}</td>
-                  <td style={{ padding: "8px 12px" }}>
-                    <span style={{
-                      fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em",
-                      color: d.status === "verified" ? "var(--green)" : "#f87171",
-                    }}>
-                      {d.status}
-                    </span>
-                  </td>
-                  <td style={{ padding: "8px 12px", color: "var(--text-2)" }}>
-                    {d.reviewed_at ? new Date(d.reviewed_at).toLocaleString() : "—"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )}
-
       {/* ── Housing requests ──────────────────────────────────────────────── */}
       <SectionTitle count={queue.length}>Housing requests</SectionTitle>
       <p style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 16, lineHeight: 1.6 }}>
@@ -621,9 +412,6 @@ export default async function AdminPage() {
                     posted by {(l.created_by && emailOf.get(l.created_by)) || "unknown account"}
                   </span>
                   <span>{new Date(l.created_at).toLocaleString()}</span>
-                  <span style={{ color: l.verified ? "var(--green)" : "var(--text-3)" }}>
-                    {l.verified ? "poster's ID verified" : "poster's ID not verified yet (see Identity checks)"}
-                  </span>
                 </div>
 
                 <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 8 }}>

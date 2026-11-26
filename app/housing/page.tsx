@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { roommatePins, apartmentPins, type RoommatePin, type ApartmentPin } from "../data/housing-cities";
+import { apartmentPins, type ApartmentPin } from "../data/housing-cities";
 import PinDetailPanel, { type ActivePin } from "../components/PinDetailPanel";
-import { fetchRoommatePins, fetchApartmentPins, fetchApartmentDetails } from "@/utils/housing";
+import { fetchApartmentPins, fetchApartmentDetails } from "@/utils/housing";
 import { PARTNER_THEMES, partnerTheme, partnerTint, partnerStripe, type PartnerTheme } from "../data/housing-partners";
 
 const HousingMap = dynamic(() => import("../components/HousingMap"), { ssr: false });
-
-type Tab = "roommates" | "apartments";
 
 const CITIES = [
   "All cities", "Amsterdam", "Barcelona", "Berlin", "Bologna", "Brussels",
@@ -56,8 +54,7 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
 }
 
 // ── Empty state ───────────────────────────────────────────────────
-function EmptyList({ tab }: { tab: Tab }) {
-  const isRoommates = tab === "roommates";
+function EmptyList() {
   return (
     <div style={{ paddingTop: 40 }}>
       {/* Dashed CTA card */}
@@ -67,61 +64,35 @@ function EmptyList({ tab }: { tab: Tab }) {
         display: "flex", flexDirection: "column", alignItems: "center", gap: 16,
         background: "rgba(255,255,255,0.01)",
       }}>
-        <div style={{ color: isRoommates ? "#6B9FFF" : "#F87171" }}>
-          {isRoommates ? (
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-          ) : (
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          )}
+        <div style={{ color: "#F87171" }}>
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
         </div>
         <div>
           <div style={{ fontSize: 18, fontWeight: 800, color: "var(--text-1)", marginBottom: 8, letterSpacing: "-0.3px" }}>
-            {isRoommates ? "No roommate posts yet" : "No listings yet"}
+            No listings yet
           </div>
           <p style={{ fontSize: 14, color: "var(--text-3)", lineHeight: 1.7, maxWidth: 360, margin: "0 auto" }}>
-            {isRoommates
-              ? "Be the first to post your roommate profile. Share your city, budget and move-in date so other students can find you."
-              : "Be the first to post a listing. Share a photo, price and city so students searching can find your place."}
+            Have a place to rent here? Email us the details and we&apos;ll publish it, so students searching can find it.
           </p>
         </div>
-        {isRoommates ? (
-          <Link
-            href="/housing/create-profile"
-            style={{
-              marginTop: 4, padding: "12px 28px", borderRadius: 12,
-              textDecoration: "none", display: "inline-block",
-              background: "var(--text-1)", color: "var(--bg)",
-              border: "none", fontSize: 13, fontWeight: 700, cursor: "pointer",
-              fontFamily: "inherit", transition: "opacity 0.15s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-          >
-            Post your profile →
-          </Link>
-        ) : (
-          <Link
-            href="/housing/post-listing"
-            style={{
-              marginTop: 4, padding: "12px 28px", borderRadius: 12,
-              textDecoration: "none", display: "inline-block",
-              background: "rgba(96,165,250,0.12)",
-              border: "1px solid rgba(96,165,250,0.3)",
-              color: "rgb(96,165,250)",
-              fontSize: 13, fontWeight: 700, cursor: "pointer",
-              fontFamily: "inherit", transition: "background 0.15s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
-            onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
-          >
-            Post a listing →
-          </Link>
-        )}
+        <Link
+          href="/housing/post-listing"
+          style={{
+            marginTop: 4, padding: "12px 28px", borderRadius: 12,
+            textDecoration: "none", display: "inline-block",
+            background: "rgba(96,165,250,0.12)",
+            border: "1px solid rgba(96,165,250,0.3)",
+            color: "rgb(96,165,250)",
+            fontSize: 13, fontWeight: 700, cursor: "pointer",
+            fontFamily: "inherit", transition: "background 0.15s",
+          }}
+          onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
+          onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
+        >
+          List an apartment →
+        </Link>
       </div>
 
       {/* How it works */}
@@ -130,15 +101,11 @@ function EmptyList({ tab }: { tab: Tab }) {
           How it works
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, max(220px, (100% - 32px) / 3)), 1fr))", gap: 16 }}>
-          {(isRoommates ? [
-            { num: "01", color: "201,163,92", title: "Create your profile", desc: "Tell others who you are, where you're studying and what kind of flatmate situation you're looking for." },
-            { num: "02", color: "201,163,92", title: "Browse other students", desc: "Filter by city, budget and move-in date. Read through profiles to find someone compatible." },
-            { num: "03", color: "201,163,92", title: "Message directly", desc: "Open the in-app chat and start a conversation. Share contact details only when you feel comfortable." },
-          ] : [
+          {[
             { num: "01", color: "96,165,250", title: "Choose your city", desc: "Select from 20+ European student cities. Filter by rent, furnished status and move-in date." },
             { num: "02", color: "96,165,250", title: "Browse curated listings", desc: "We aggregate trusted platforms like Kamernet, WG-Gesucht and HousingAnywhere into one feed." },
             { num: "03", color: "96,165,250", title: "Go to the platform", desc: "Click through to the original listing to get in touch with the landlord directly and securely." },
-          ]).map(({ num, color, title, desc }) => (
+          ].map(({ num, color, title, desc }) => (
             <div key={num} style={{
               borderRadius: 14, border: "1px solid var(--border)", background: "var(--surface)",
               padding: "22px 24px", display: "flex", gap: 16,
@@ -156,7 +123,7 @@ function EmptyList({ tab }: { tab: Tab }) {
   );
 }
 
-// ── Housing partners (apartments tab) ───────────────────────────────
+// ── Housing partners ───────────────────────────────
 // Add a new partner by adding an entry here — nothing else to change.
 type Partner = {
   name: string;
@@ -274,7 +241,7 @@ function PartnersSection({ cityFilter }: { cityFilter: string }) {
   );
 }
 
-// ── "Pick your filters first" prompt (apartments tab) ──────────────
+// ── "Pick your filters first" prompt ──────────────
 function SelectFiltersPrompt({ cityFilter }: {
   cityFilter: string;
 }) {
@@ -332,140 +299,23 @@ function SelectFiltersPrompt({ cityFilter }: {
   );
 }
 
-// ── Chat panel ────────────────────────────────────────────────────
-type ChatMsg = { from: "me" | "them"; text: string; time: string };
-
-function ChatPanel({ profile, onClose }: { profile: RoommatePin; onClose: () => void }) {
-  const [messages, setMessages] = useState<ChatMsg[]>([{
-    from: "them",
-    text: `Hey! I saw your profile on 4UNI 👋 I'm ${profile.name}, looking for a flatmate in ${profile.city}. My budget is around €${profile.budgetMin}–€${profile.budgetMax}/mo and I'm planning to move in ${profile.moveIn}. Feel free to ask me anything!`,
-    time: new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }),
-  }]);
-  const [input, setInput] = useState("");
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
-
-  const REPLIES = [
-    `Sounds good! When are you planning to move to ${profile.city}?`,
-    "That works for me! Would you prefer a shared flat or a studio?",
-    "Nice to meet you! What are you studying?",
-    "Cool! I'm also open to checking out different neighbourhoods. Any preferences?",
-    "I usually keep the place tidy and I'm pretty flexible about guests.",
-    `My move-in date is ${profile.moveIn} — does that timeline work for you?`,
-  ];
-
-  function send() {
-    const text = input.trim();
-    if (!text) return;
-    const t = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-    setMessages(m => [...m, { from: "me", text, time: t }]);
-    setInput("");
-    setTimeout(() => {
-      setMessages(m => [...m, { from: "them", text: REPLIES[Math.floor(Math.random() * REPLIES.length)], time: new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) }]);
-    }, 900 + Math.random() * 700);
-  }
-
-  return (
-    <div style={{
-      position: "fixed", bottom: 24, right: 24, width: 360, height: 520, zIndex: 500,
-      background: "rgba(14,14,18,0.97)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-      border: "1px solid rgba(255,255,255,0.12)", borderRadius: 20,
-      boxShadow: "0 32px 80px rgba(0,0,0,0.7)",
-      display: "flex", flexDirection: "column", overflow: "hidden",
-      animation: "slideUpChat 0.28s cubic-bezier(0.22,1,0.36,1)",
-    }}>
-      <style>{`@keyframes slideUpChat { from { opacity:0; transform:translateY(20px) scale(0.96); } to { opacity:1; transform:translateY(0) scale(1); } }`}</style>
-
-      {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)" }}>
-        <div style={{ width: 38, height: 38, borderRadius: "50%", flexShrink: 0, background: `rgba(${profile.avatarColor},0.2)`, border: `1.5px solid rgba(${profile.avatarColor},0.45)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800, color: `rgb(${profile.avatarColor})` }}>
-          {profile.initials}
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)" }}>{profile.name}</div>
-          <div style={{ fontSize: 11, color: "var(--text-3)" }}>{profile.city} · €{profile.budgetMin}–€{profile.budgetMax}/mo</div>
-        </div>
-        <button onClick={onClose} style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-2)", transition: "background 0.15s" }}
-          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.14)")}
-          onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.07)")}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-
-      {/* Demo notice */}
-      <div style={{ padding: "6px 14px", background: "rgba(251,191,36,0.07)", borderBottom: "1px solid rgba(251,191,36,0.14)", fontSize: 10, color: "rgba(251,191,36,0.7)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textAlign: "center" }}>
-        DEMO — messages are not saved or sent
-      </div>
-
-      {/* Messages */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "14px 12px", display: "flex", flexDirection: "column", gap: 10 }}>
-        {messages.map((msg, i) => (
-          <div key={i} style={{ display: "flex", flexDirection: msg.from === "me" ? "row-reverse" : "row", alignItems: "flex-end", gap: 8 }}>
-            {msg.from === "them" && (
-              <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: `rgba(${profile.avatarColor},0.18)`, border: `1px solid rgba(${profile.avatarColor},0.35)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 800, color: `rgb(${profile.avatarColor})` }}>{profile.initials}</div>
-            )}
-            <div style={{ maxWidth: "72%" }}>
-              <div style={{ padding: "9px 13px", borderRadius: msg.from === "me" ? "16px 16px 4px 16px" : "16px 16px 16px 4px", background: msg.from === "me" ? `rgba(${profile.avatarColor},0.22)` : "rgba(255,255,255,0.07)", border: msg.from === "me" ? `1px solid rgba(${profile.avatarColor},0.35)` : "1px solid rgba(255,255,255,0.1)", fontSize: 13, color: "var(--text-1)", lineHeight: 1.55 }}>{msg.text}</div>
-              <div style={{ fontWeight: 700, fontSize: 10, color: "var(--text-3)", marginTop: 3, textAlign: msg.from === "me" ? "right" : "left", fontFamily: "var(--font-mono)" }}>{msg.time}</div>
-            </div>
-          </div>
-        ))}
-        <div ref={bottomRef} />
-      </div>
-
-      {/* Input */}
-      <div style={{ padding: "10px 12px", borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", gap: 8, alignItems: "center" }}>
-        <input
-          type="text" placeholder="Type a message…" value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={e => { if (e.key === "Enter") send(); }}
-          style={{ flex: 1, padding: "10px 14px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.06)", color: "var(--text-1)", fontSize: 13, outline: "none", fontFamily: "inherit", transition: "border-color 0.15s" }}
-          onFocus={e => (e.target.style.borderColor = `rgba(${profile.avatarColor},0.5)`)}
-          onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
-        />
-        <button
-          onClick={send} disabled={!input.trim()}
-          style={{ width: 38, height: 38, borderRadius: 10, border: "none", cursor: input.trim() ? "pointer" : "default", background: input.trim() ? `rgba(${profile.avatarColor},0.9)` : "rgba(255,255,255,0.08)", color: input.trim() ? "#fff" : "var(--text-3)", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.15s, transform 0.1s", flexShrink: 0 }}
-          onMouseEnter={e => { if (input.trim()) e.currentTarget.style.transform = "scale(1.08)"; }}
-          onMouseLeave={e => (e.currentTarget.style.transform = "")}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-    </div>
-  );
-}
-
 // ── Main page ─────────────────────────────────────────────────────
 function HousingPageInner() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const tabParam = searchParams.get("tab");
-  const [tab, setTab] = useState<Tab>(tabParam === "apartments" ? "apartments" : "roommates");
-
-  // Keep the tab in sync when the URL changes without remounting the page
-  // (e.g. navigating from Housing › Apartments while already on /housing).
-  useEffect(() => {
-    if (tabParam === "apartments" || tabParam === "roommates") setTab(tabParam);
-  }, [tabParam]);
 
   const [cityFilter, setCityFilter] = useState("All cities");
   const [budgetFilter, setBudgetFilter] = useState("any");
   const [moveInFilter, setMoveInFilter] = useState("any");
   const [search, setSearch] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(true);
-  const [activeChat, setActiveChat] = useState<RoommatePin | null>(null);
   const [activePin, setActivePin]   = useState<ActivePin | null>(null);
 
-  // Real profiles/listings from Supabase, shown alongside the demo pins.
+  // Real listings from Supabase, shown alongside the demo pins.
   // Best-effort: if the fetch fails the page still works with demo data.
-  const [dbRoommates, setDbRoommates]   = useState<RoommatePin[]>([]);
   const [dbApartments, setDbApartments] = useState<ApartmentPin[]>([]);
   useEffect(() => {
-    fetchRoommatePins().then(setDbRoommates).catch(e => console.error("Failed to load roommate profiles:", e));
     fetchApartmentPins().then(setDbApartments).catch(e => console.error("Failed to load listings:", e));
   }, []);
-  const allRoommates  = [...dbRoommates, ...roommatePins];
   const allApartments = [...dbApartments, ...apartmentPins];
 
   // dbApartments is the light list (no description, photos, address or link).
@@ -490,27 +340,13 @@ function HousingPageInner() {
       .catch(e => console.error("Failed to load the listing:", e));
   }, [storeDetails]);
 
-  // Real profiles get the real inbox (/messages); demo pins keep the local
-  // demo chat panel with canned replies.
-  const openChat = (profile: RoommatePin) => {
-    if (profile.userId) {
-      router.push(`/messages?to=${profile.userId}`);
-    } else {
-      setActiveChat(activeChat?.id === profile.id ? null : profile);
-    }
-  };
-
   // ── Listen for postMessage from the Leaflet iframe ──────────────
   const handleMapMessage = useCallback((e: MessageEvent) => {
     try {
       const data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
       if (data?.type !== "pin-click") return;
 
-      if (data.pinType === "roommate") {
-        const pin = [...dbRoommates, ...roommatePins].find(p => p.id === data.id);
-        if (pin) setActivePin({ pinType: "roommate", data: pin });
-
-      } else if (data.pinType === "apartment") {
+      if (data.pinType === "apartment") {
         const pin = [...dbApartments, ...apartmentPins].find(p => p.id === data.id);
         if (pin) openApartment(apartmentDetails[pin.id] ?? pin);
 
@@ -520,19 +356,16 @@ function HousingPageInner() {
           cityName:      data.cityName,
           cityFlag:      data.cityFlag,
           cityCountry:   data.cityCountry,
-          roommateCount: data.roommateCount ?? 0,
           apartmentCount: data.apartmentCount ?? 0,
         });
       }
     } catch { /* ignore non-JSON messages */ }
-  }, [dbRoommates, dbApartments, apartmentDetails, openApartment]);
+  }, [dbApartments, apartmentDetails, openApartment]);
 
   useEffect(() => {
     window.addEventListener("message", handleMapMessage);
     return () => window.removeEventListener("message", handleMapMessage);
   }, [handleMapMessage]);
-
-  const mapFilter: "all" | "roommates" | "apartments" = tab === "roommates" ? "roommates" : "apartments";
 
   // ── Map a human-readable date string ("September 2025", "1 Aug 2025") to a quarter bucket ──
   function dateToQuarter(dateStr: string): "q1" | "q2" | "q3" | "q4" {
@@ -559,14 +392,6 @@ function HousingPageInner() {
     return dateToQuarter(dateStr) === moveInFilter;
   }
 
-  const filteredRoommates = allRoommates.filter(r => {
-    if (cityFilter !== "All cities" && r.city !== cityFilter) return false;
-    if (!matchesBudget(r.budgetMin, r.budgetMax)) return false;
-    if (!matchesMoveIn(r.moveIn)) return false;
-    if (search && !r.name.toLowerCase().includes(search.toLowerCase()) && !r.city.toLowerCase().includes(search.toLowerCase())) return false;
-    return true;
-  });
-
   const filteredApartments = allApartments.filter(a => {
     if (cityFilter !== "All cities" && a.city !== cityFilter) return false;
     if (!matchesBudget(a.price, a.price)) return false;
@@ -583,7 +408,7 @@ function HousingPageInner() {
   // filters that only narrow that list (left on "Any" they change nothing).
   const apartmentFiltersComplete = cityFilter !== "All cities";
 
-  const count = tab === "roommates" ? filteredRoommates.length : (apartmentFiltersComplete ? filteredApartments.length : 0);
+  const count = apartmentFiltersComplete ? filteredApartments.length : 0;
 
   // Cards come in blocks of APARTMENT_CARDS_PER_BLOCK; "Show more" adds one.
   // The block count belongs to one set of filters: change any of them and the
@@ -591,7 +416,7 @@ function HousingPageInner() {
   const filtersKey = `${cityFilter}|${budgetFilter}|${moveInFilter}|${search}`;
   const [cardBlocks, setCardBlocks] = useState({ key: filtersKey, blocks: 1 });
   const blocksShown = cardBlocks.key === filtersKey ? cardBlocks.blocks : 1;
-  const shownApartments = (apartmentFiltersComplete && tab === "apartments"
+  const shownApartments = (apartmentFiltersComplete
     ? filteredApartments.slice(0, blocksShown * APARTMENT_CARDS_PER_BLOCK)
     : []
   ).map(a => apartmentDetails[a.id] ?? a);
@@ -624,7 +449,7 @@ function HousingPageInner() {
           Find your home<br />in Europe.
         </h1>
         <p style={{ fontSize: 16, color: "var(--text-2)", lineHeight: 1.7, margin: "0 0 32px", maxWidth: 520 }}>
-          Connect with students looking for a flatmate, or browse apartments across 20+ European cities — all in one place.
+          Browse apartments and student rooms across 20+ European cities — all in one place.
         </p>
 
         {/* Search */}
@@ -636,7 +461,7 @@ function HousingPageInner() {
           </div>
           <input
             type="text"
-            placeholder={tab === "roommates" ? "Search by name or city…" : "Search by city or listing title…"}
+            placeholder="Search by city or listing title…"
             value={search}
             onChange={e => setSearch(e.target.value)}
             style={{
@@ -653,78 +478,24 @@ function HousingPageInner() {
 
       {/* ── Filters bar ───────────────────────────────── */}
       <div style={{ borderBottom: "1px solid var(--border)" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0 0" }}>
-          {/* Tabs */}
-          <div style={{ display: "flex", gap: 4, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: 3 }}>
-            {([
-              { key: "roommates",  label: "Roommates",  color: "201,163,92" },
-              { key: "apartments", label: "Apartments",  color: "96,165,250"  },
-            ] as const).map(({ key, label, color }) => (
-              <button
-                key={key}
-                onClick={() => setTab(key)}
-                style={{
-                  padding: "8px 18px", borderRadius: 8, border: "none", cursor: "pointer",
-                  fontFamily: "inherit", fontSize: 13, fontWeight: 600,
-                  background: tab === key ? `rgba(${color},0.15)` : "transparent",
-                  color: tab === key ? `rgb(${color})` : "var(--text-3)",
-                  transition: "background 0.15s, color 0.15s",
-                  display: "flex", alignItems: "center", gap: 8,
-                }}
-              >
-                {key === "roommates" ? (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                  </svg>
-                ) : (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                )}
-                {label}
-                {/* Pin dot color indicator */}
-                <div style={{ width: 7, height: 7, borderRadius: "50%", background: key === "roommates" ? "#6B9FFF" : "#F87171", flexShrink: 0 }} />
-              </button>
-            ))}
-          </div>
-
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "18px 0 0" }}>
           {/* Right controls */}
           <div style={{ display: "flex", gap: 8 }}>
-            {tab === "roommates" ? (
-              <button
-                onClick={() => router.push("/housing/create-profile")}
-                style={{
-                  display: "flex", alignItems: "center", gap: 6,
-                  padding: "7px 14px", borderRadius: 8, cursor: "pointer",
-                  background: "rgba(201,163,92,0.12)", border: "1px solid rgba(201,163,92,0.3)",
-                  color: "rgb(201,163,92)", fontSize: 12, fontWeight: 700, fontFamily: "inherit",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(201,163,92,0.2)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "rgba(201,163,92,0.12)")}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Post profile
-              </button>
-            ) : (
-              <button
-                onClick={() => router.push("/housing/post-listing")}
-                style={{
-                  display: "flex", alignItems: "center", gap: 6,
-                  padding: "7px 14px", borderRadius: 8, cursor: "pointer",
-                  background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
-                  color: "rgb(96,165,250)", fontSize: 12, fontWeight: 700, fontFamily: "inherit",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Post listing
-              </button>
-            )}
+            <button
+              onClick={() => router.push("/housing/post-listing")}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "7px 14px", borderRadius: 8, cursor: "pointer",
+                background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)",
+                color: "rgb(96,165,250)", fontSize: 12, fontWeight: 700, fontFamily: "inherit",
+                transition: "background 0.15s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = "rgba(96,165,250,0.2)")}
+              onMouseLeave={e => (e.currentTarget.style.background = "rgba(96,165,250,0.12)")}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              List an apartment
+            </button>
             <button
               onClick={() => setFiltersOpen(v => !v)}
               style={{
@@ -786,7 +557,7 @@ function HousingPageInner() {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 0 0" }}>
         <span style={{ fontSize: 13, color: "var(--text-3)" }}>
           <span style={{ color: "var(--text-1)", fontWeight: 700 }}>{count}</span>{" "}
-          {tab === "roommates" ? (count === 1 ? "roommate post" : "roommate posts") : (count === 1 ? "listing" : "listings")}
+          {count === 1 ? "listing" : "listings"}
         </span>
         {(cityFilter !== "All cities" || budgetFilter !== "any" || moveInFilter !== "any" || search !== "") && (
           <button
@@ -802,82 +573,14 @@ function HousingPageInner() {
 
       {/* ── Map ────────────────────────────────────────── */}
       <div style={{ marginTop: 20, marginBottom: 40 }}>
-        <HousingMap
-          roommatePins={filteredRoommates}
-          apartmentPins={filteredApartments}
-          filter={mapFilter}
-        />
+        <HousingMap apartmentPins={filteredApartments} />
       </div>
 
       {/* ── List ───────────────────────────────────────── */}
-      {tab === "roommates" && (
-        filteredRoommates.length === 0
-          ? <EmptyList tab="roommates" />
-          : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))", gap: 20 }}>
-              {filteredRoommates.map(r => (
-                <div key={r.id} style={{
-                  background: "var(--surface)", borderRadius: 18, border: "1px solid var(--border)",
-                  padding: "26px", display: "flex", flexDirection: "column", gap: 14,
-                  transition: "border-color 0.2s, transform 0.2s, box-shadow 0.2s",
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.4)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <div style={{
-                      width: 48, height: 48, borderRadius: "50%", flexShrink: 0,
-                      background: `rgba(${r.avatarColor},0.18)`, border: `1.5px solid rgba(${r.avatarColor},0.4)`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 15, fontWeight: 800, color: `rgb(${r.avatarColor})`,
-                    }}>
-                      {r.initials}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-1)" }}>{r.flag} {r.name}</div>
-                      <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>{r.university} · {r.city}</div>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", gap: 8 }}>
-                    {[
-                      { label: "City", value: r.city },
-                      { label: "Budget", value: `€${r.budgetMin}–€${r.budgetMax}` },
-                      { label: "Move-in", value: r.moveIn },
-                    ].map(({ label, value }) => (
-                      <div key={label} style={{ flex: 1, background: "rgba(0,0,0,0.3)", borderRadius: 8, padding: "8px 10px", border: "1px solid var(--border)" }}>
-                        <div style={{ fontWeight: 700, fontSize: 8, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-3)", marginBottom: 3 }}>{label}</div>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-1)" }}>{value}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <button
-                    onClick={() => openChat(r)}
-                    style={{
-                      width: "100%", padding: "10px 16px", borderRadius: 10,
-                      background: activeChat?.id === r.id ? `rgba(${r.avatarColor},0.25)` : `rgba(${r.avatarColor},0.13)`,
-                      border: `1px solid rgba(${r.avatarColor},0.4)`,
-                      color: `rgb(${r.avatarColor})`,
-                      fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
-                      display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                      transition: "background 0.15s",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.background = `rgba(${r.avatarColor},0.22)`)}
-                    onMouseLeave={e => (e.currentTarget.style.background = activeChat?.id === r.id ? `rgba(${r.avatarColor},0.25)` : `rgba(${r.avatarColor},0.13)`)}
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    {activeChat?.id === r.id ? "Chat open ↓" : "Message"}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )
-      )}
-
-      {tab === "apartments" && (
-        !apartmentFiltersComplete
+      {!apartmentFiltersComplete
           ? <SelectFiltersPrompt cityFilter={cityFilter} />
           : filteredApartments.length === 0
-          ? <EmptyList tab="apartments" />
+          ? <EmptyList />
           : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))", gap: 20 }}>
               {shownApartments.map(a => {
@@ -948,8 +651,7 @@ function HousingPageInner() {
                 );
               })}
             </div>
-          )
-      )}
+          )}
 
       {/* More cards of the same city, one block at a time */}
       {shownApartments.length > 0 && shownApartments.length < filteredApartments.length && (
@@ -974,25 +676,12 @@ function HousingPageInner() {
         </div>
       )}
 
-      {tab === "apartments" && <PartnersSection cityFilter={cityFilter} />}
-
-      {/* ── Chat panel ─────────────────────────────────── */}
-      {activeChat &&<ChatPanel profile={activeChat} onClose={() => setActiveChat(null)} />}
+      <PartnersSection cityFilter={cityFilter} />
 
       {/* ── Pin detail drawer (opens when map pin is clicked) ─── */}
       <PinDetailPanel
         pin={activePin}
         onClose={() => setActivePin(null)}
-        onMessage={(profile) => {
-          setActivePin(null);           // close the detail drawer first
-          openChat(profile);            // real inbox or demo chat panel
-        }}
-        onBlocked={(userId) => {
-          // The next fetch would leave them out anyway, but a pin that stays
-          // on the map after you blocked someone reads as "it didn't work".
-          setDbRoommates(pins => pins.filter(p => p.userId !== userId));
-          setDbApartments(pins => pins.filter(p => p.createdBy !== userId));
-        }}
       />
 
       {/* ── Safety note ────────────────────────────────── */}
@@ -1008,7 +697,7 @@ function HousingPageInner() {
           <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-1)", marginBottom: 5 }}>Safety reminder</div>
           <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.65, margin: 0 }}>
             Never pay a deposit before viewing a property. Legitimate landlords won't ask for a wire transfer upfront.
-            Use our in-app chat — never share your personal contact details until you feel comfortable.{" "}
+            Never share your personal contact details until you feel comfortable.{" "}
             <Link href="/chat?q=What are common rental scams for students in Europe?" style={{ color: "rgb(52,211,153)", textDecoration: "none", fontWeight: 600 }}>Ask the AI assistant →</Link>
           </p>
         </div>

@@ -1,0 +1,94 @@
+{
+  "city": "Vienna",
+  "slug": "vienna",
+  "country": "Austria",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "EUR 450-700/month incl. heating and electricity (student residence room or shared flat)",
+      "source_name": "University of Vienna International Office",
+      "source_url": "https://international.univie.ac.at/en/information-for-incoming-exchange-students/living-and-studying-in-vienna",
+      "extra_sources": ["https://studyinaustria.at/en/live-and-work/living-costs"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Guideline figure, no year stated on the page. Study in Austria (OeAD) gives the same EUR 450-700 range for a student residence, Austria-wide."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: EUR 1,182.88/month city centre, EUR 845 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Vienna",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Crowd-sourced, last updated 20 Nov 2026; user comments on the page dispute some figures."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Approx. EUR 1,400/month incl. rent (rent 450-700, food 350, study/personal 400-500)",
+      "source_name": "University of Vienna International Office",
+      "source_url": "https://international.univie.ac.at/en/information-for-incoming-exchange-students/living-and-studying-in-vienna",
+      "extra_sources": ["https://studyinaustria.at/en/live-and-work/living-costs"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Non-binding guideline, no year given. Study in Austria cites approx. EUR 1,300/month for Austria overall (Studierenden-Sozialerhebung 2025, IHS 2026) and says Vienna may be higher."
+    },
+    {
+      "field": "transport_pass",
+      "value": "'31 Tage Wien' pass EUR 75 (EUR 65.20 digital); Semesterticket price not verified",
+      "source_name": "BOKU International Relations",
+      "source_url": "https://boku.ac.at/en/international/themen/international-students-coming-to-boku/wie-plane-ich-mein-leben-in-wien/wie-plane-ich-mein-leben-wien-nach-der-ankunft/fortbewegungsmittel-in-wien",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "A 31-day Vienna pass costs EUR 75 (EUR 65.20 digital), per BOKU.", "source_url": "https://boku.ac.at/en/international/themen/international-students-coming-to-boku/wie-plane-ich-mein-leben-in-wien/wie-plane-ich-mein-leben-wien-nach-der-ankunft/fortbewegungsmittel-in-wien" },
+        { "hypothesis": "Numbeo lists a regular monthly pass at EUR 51 (crowd-sourced, Nov 2026).", "source_url": "https://www.numbeo.com/cost-of-living/in/Vienna" }
+      ],
+      "notes": "Wiener Linien semester-ticket page blocked automated access; youth tickets are not valid for university students (BOKU)."
+    },
+    {
+      "field": "climate",
+      "value": "Mean 11.5 °C/year; January 1.1 °C, July 21.9 °C; 626 mm rain; 2,042 h sunshine (1991-2020, Hohe Warte)",
+      "source_name": "Stadt Wien statistics (GeoSphere Austria data)",
+      "source_url": "https://www.wien.gv.at/statistik/klimamittelwerte-1991-2020",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Large student city with several universities; social life judged by students, no official measure",
+      "source_name": "No citable source",
+      "source_url": "https://international.univie.ac.at/en/information-for-incoming-exchange-students/living-and-studying-in-vienna",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "German C1 for German-taught bachelor's at Uni Vienna; English-taught master's need no German proof",
+      "source_name": "University of Vienna (language proficiency)",
+      "source_url": "https://studieren.univie.ac.at/en/applying-for-a-programme/language-proficiency/german-language-proficiency",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Only English-taught bachelor at Uni Vienna on the page: Mathematical Foundations of Data Science. German-language needs for daily life or jobs were not checked on an official page."
+    },
+    {
+      "field": "job_market",
+      "value": "No official source on student job availability found",
+      "source_name": "No citable source",
+      "source_url": "https://www.oeh.ac.at/en/study-2/work/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Rules: EU students work freely; non-EU need AMS permit, up to 20 h/week (see austria/bureaucracy.json)."
+    },
+    {
+      "field": "student_wage",
+      "value": "No statutory minimum wage; pay set by sector collective agreements. Typical student hourly pay not found",
+      "source_name": "Eurostat (minimum wage statistics)",
+      "source_url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    }
+  ]
+}

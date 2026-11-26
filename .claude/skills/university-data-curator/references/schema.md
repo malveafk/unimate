@@ -4,7 +4,8 @@
 
 ```typescript
 type Course = {
-  name: string;
+  name: string;       // nome ufficiale come lo scrive l'università, nella lingua originale
+  nameEn?: string;    // traduzione inglese breve, solo se il nome ufficiale non è in inglese
   credits?: string;   // es. "6 ECTS"
   year?: 1 | 2 | 3 | 4 | 5;
 };

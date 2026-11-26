@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { TransitionLink } from "../components/PageTransition";
 import { news } from "../data/news";
 import { universities } from "../data/universities";
+import { Linkified } from "../components/Linkified";
 
 /* ─── Types ───────────────────────────────────────── */
 type Tab = "ai" | "universities" | "compare" | "news";
@@ -48,7 +49,7 @@ function ChatTab() {
     if (textareaRef.current) textareaRef.current.style.height = "auto";
     setLoading(true);
     try {
-      const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: next }) });
+      const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: next, format: "plain" }) });
       const data = await res.json().catch(() => ({}));
       setMessages([...next, { role: "assistant", content: data.message ?? data.error ?? "Something went wrong." }]);
     } catch { setMessages([...next, { role: "assistant", content: "Something went wrong." }]); }
@@ -67,7 +68,7 @@ function ChatTab() {
                   {msg.role === "assistant" ? "4UNI AI" : "You"}
                 </span>
               </div>
-              <div style={{ paddingLeft: 32, fontSize: 14, lineHeight: 1.75, color: "var(--text-1)", whiteSpace: "pre-wrap" }}>{msg.content}</div>
+              <div style={{ paddingLeft: 32, fontSize: 14, lineHeight: 1.75, color: "var(--text-1)", whiteSpace: "pre-wrap" }}>{msg.role === "assistant" ? <Linkified text={msg.content} /> : msg.content}</div>
             </div>
           ))}
           {loading && (

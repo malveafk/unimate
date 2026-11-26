@@ -1,0 +1,278 @@
+{
+  "country": "Norway",
+  "country_code": "NO",
+  "currency": "NOK",
+  "verified_at": "2026-11-25",
+  "categories_checked": [
+    { "key": "state_grant_loan", "result": "found", "note": "Lånekassen: EEA/EFTA citizen rules, foreign-national rules, university support page, 2026-2027 rates news item." },
+    { "key": "rent", "result": "found", "note": "Husbanken bostøtte (housing allowance) student rules: students with a right to Lånekassen support are excluded. No municipal student rent subsidy found in Oslo." },
+    { "key": "health_insurance", "result": "found", "note": "SiO Health refund of GP user fees above NOK 490/year for SiO students with a SiO GP." },
+    { "key": "transport", "result": "found", "note": "Ruter 40% student discount on the 30-day ticket (Oslo/Akershus)." },
+    { "key": "tax", "result": "found", "note": "Skatteetaten exemption card (frikort): income up to NOK 100,000/year tax free, only for persons staying in Norway a full year." },
+    { "key": "student_work", "result": "none_found", "note": "Searched UiO part-time work page, Skatteetaten study page and Arbeidstilsynet: no subsidy specific to working students found (only rules, see bureaucracy.json)." },
+    { "key": "erasmus", "result": "found", "note": "UiO: incoming Erasmus, Nordplus/Nordlys and most bilateral exchange students are exempt from the semester fee. No host-country Erasmus top-up found; incoming Erasmus grants are paid by the home country." },
+    { "key": "regional", "result": "none_found", "note": "No Oslo municipality or county grant for students found on the pages checked (SiO, UiO, Husbanken). Search budget ran out before a dedicated search of oslo.kommune.no." },
+    { "key": "university", "result": "found", "note": "UiO: tuition fee exemptions (residence/ties-based); UiO states it has no scholarships covering tuition. SiO welfare services funded by the semester fee." }
+  ],
+  "items": [
+    {
+      "id": "no-lanekassen-eu-worker",
+      "category": "state_grant_loan",
+      "name_local": "Støtte fra Lånekassen (EØS/EFTA-arbeidstaker)",
+      "name_it": "Sostegno Lånekassen per cittadini UE/SEE con status di lavoratore",
+      "authority": "Lånekassen (Norwegian State Educational Loan Fund)",
+      "description": "EEA/EFTA citizens can get Norwegian student finance as workers: either by keeping a job of at least 10 hours/week while studying, or by leaving a job in Norway to study a programme professionally linked to that job (link waived after 6 months of involuntary unemployment registered with Nav). Eligibility ends when you lose worker status.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea"],
+        "min_work_hours": "at least 10 hours/week of employment in Norway while studying, or employment ended to study with a professional link to the programme",
+        "income_test": "Grant conversion only if income below NOK 234,821 (2026) and assets below the limit",
+        "residence_requirement": "None stated for this route; family members of the worker have their own routes",
+        "other": ["Swiss citizens: the Lånekassen page covers EEA/EFTA citizens; EFTA includes Switzerland - confirm with Lånekassen"]
+      },
+      "amount": "Basic support NOK 15,488/month for full-time students (2026-2027), as a loan; up to 40% can be converted to a grant if you live away from your parents, pass your studies and stay under the income/asset limits",
+      "how_to_apply": "Online application to Lånekassen after admission (from mid-May), with an employer confirmation on letterhead",
+      "deadline": "15 November (whole year or autumn only); 15 March (spring)",
+      "stackable": null,
+      "source_url": "https://lanekassen.no/en-US/rules-and-regulations/tildeling/del1-kapittel2/foreign-nationals/eea-and-efta-citizens/",
+      "extra_sources": [
+        "https://lanekassen.no/en-US/grants-and-loans/norway/university-and-university-college-in-Norway/",
+        "https://lanekassen.no/en-US/laresteder/nyheter/forskriftene-for-2026-2027-er-klare/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The page does not state a minimum duration of prior employment. The 15 Nov / 15 Mar deadlines are on the university support page without a year."
+    },
+    {
+      "id": "no-lanekassen-eu-permanent",
+      "category": "state_grant_loan",
+      "name_local": "Støtte fra Lånekassen (varig oppholdsrett)",
+      "name_it": "Sostegno Lånekassen per cittadini UE/SEE con diritto di soggiorno permanente",
+      "authority": "Lånekassen (Norwegian State Educational Loan Fund)",
+      "description": "EEA citizens with a permanent right of residence in Norway (normally after at least 5 years of continuous residence as worker, self-employed, student or with sufficient means) are eligible for Lånekassen support like Norwegian students.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["eu_eea"],
+        "residence_requirement": "Permanent right of residence in Norway (at least 5 years of continuous residence)",
+        "income_test": "Grant conversion only if income below NOK 234,821 (2026)"
+      },
+      "amount": "Basic support NOK 15,488/month for full-time students (2026-2027); up to 40% convertible to a grant",
+      "how_to_apply": "Online application to Lånekassen with proof of permanent residence (residence card or documentation of 5 years' residence)",
+      "deadline": "15 November (whole year or autumn only); 15 March (spring)",
+      "stackable": null,
+      "source_url": "https://lanekassen.no/en-US/rules-and-regulations/tildeling/del1-kapittel2/foreign-nationals/eea-and-efta-citizens/",
+      "extra_sources": ["https://lanekassen.no/en-US/grants-and-loans/norway/university-and-university-college-in-Norway/"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-lanekassen-non-eu",
+      "category": "state_grant_loan",
+      "name_local": "Støtte fra Lånekassen for utenlandske statsborgere",
+      "name_it": "Sostegno Lånekassen per cittadini extra-UE",
+      "authority": "Lånekassen (Norwegian State Educational Loan Fund)",
+      "description": "Non-EU/EEA citizens are generally not eligible on a study permit. Routes exist for permanent residence permit holders, refugees, family immigrants (not joining a student), family of EEA citizens, people with 24 months of continuous full-time work in Norway, or 3 years (180 credits) of completed full-time study in Norway.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["non_eu"],
+        "residence_requirement": "Permanent residence permit, protection, family immigration, or 24 months full-time work / 180 credits of prior study in Norway",
+        "other": ["A study permit alone does not appear among the eligible bases"]
+      },
+      "amount": "Same rates as other students when eligible (NOK 15,488/month basic support, 2026-2027)",
+      "how_to_apply": "Online application to Lånekassen",
+      "deadline": "15 November (whole year or autumn only); 15 March (spring)",
+      "stackable": null,
+      "source_url": "https://lanekassen.no/en-US/rules-and-regulations/tildeling/del1-kapittel2/foreign-nationals/foreign-nationals/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-bostotte",
+      "category": "rent",
+      "name_local": "Bostøtte (Husbanken)",
+      "name_it": "Contributo per l'affitto (Bostøtte, Husbanken)",
+      "authority": "Husbanken (Norwegian State Housing Bank) and municipalities",
+      "description": "Means-tested housing allowance for people with low income and high housing costs. As a rule, students with a right to a loan or grant from Lånekassen (or living with such a student) cannot get it, except e.g. households with children under 18.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "age": { "min": 18 },
+        "income_test": "Low income relative to housing costs (calculated by Husbanken)",
+        "other": ["Excluded if you have a right to Lånekassen support, unless an exception applies (child under 18 in the household, certain Nav benefits)"]
+      },
+      "amount": null,
+      "how_to_apply": "Online application to Husbanken / via the municipality",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.husbanken.no/person/bostotte/student/",
+      "extra_sources": ["https://www.husbanken.no/person/bostotte/kan-jeg-faa-bostotte/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Husbanken defines a 'student' as someone in approved education with a right to Lånekassen support and says students denied Lånekassen support can apply; a foreign student without Lånekassen rights could therefore in principle apply.",
+          "source_url": "https://www.husbanken.no/person/bostotte/student/"
+        },
+        {
+          "hypothesis": "In practice a foreign student is unlikely to qualify: failing to report a move to the National Registry is a common reason for refusal, and short-stay students are usually not registered as resident.",
+          "source_url": "https://www.husbanken.no/person/bostotte/kan-jeg-faa-bostotte/"
+        }
+      ],
+      "notes": "Whether a foreign student on a study permit qualifies was not confirmed; a human should check with Husbanken or the municipality."
+    },
+    {
+      "id": "no-sio-health-refund",
+      "category": "health_insurance",
+      "name_local": "SiO Helse - refusjon av egenandeler",
+      "name_it": "SiO Helse - rimborso dei ticket sanitari",
+      "authority": "SiO (Student Welfare Organisation in Oslo)",
+      "description": "Students who have paid the semester fee and have a SiO GP can claim a refund of GP user fees above NOK 490 per year. Registering with a SiO GP requires a Norwegian national ID number; without one you can still book SiO health appointments by phone.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["Semester fee paid to SiO", "SiO GP (requires a Norwegian national ID number)"]
+      },
+      "amount": "You pay at most NOK 490/year in GP user fees; SiO covers the rest (year not stated)",
+      "how_to_apply": "Apply to SiO for a refund of healthcare expenses",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.sio.no/en/health/medical-help-and-general-practitioner",
+      "extra_sources": ["https://www.sio.no/en/health/international-student"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-ruter-student-discount",
+      "category": "transport",
+      "name_local": "Ruter studentrabatt (30-dagersbillett)",
+      "name_it": "Sconto studenti Ruter sull'abbonamento 30 giorni",
+      "authority": "Ruter (Oslo and Akershus public transport)",
+      "description": "40% discount on the 30-day ticket for full-time students under 30 (only the 30-day ticket).",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "age": { "max": 29 },
+        "stay_duration": "Course of at least 3 months and at least 30 credits per term",
+        "other": ["Full-time student at an institution qualifying for Lånekassen support", "Part-time and 'visiting' students excluded", "Valid student ID for the current term"]
+      },
+      "amount": "NOK 393 per 30 days in zone 1 (price list from 1 August 2026) instead of NOK 655 adult",
+      "how_to_apply": "Buy in the Ruter app: Period ticket > 30-day ticket > student",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://ruter.no/en/about-our-tickets/season-ticket/student-discount",
+      "extra_sources": ["https://cdn.sanity.io/files/5a84xxkm/prod/f31c1f6b1c977698d935fccd5fd7570cab027b26.pdf"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "'Norwegian student' means enrolled full-time at a Norwegian institution, so foreign degree and full-time exchange students qualify.",
+          "source_url": "https://ruter.no/en/about-our-tickets/season-ticket/student-discount"
+        },
+        {
+          "hypothesis": "The price list footnote ('qualifying for support from Lånekassen') could be read as requiring personal Lånekassen eligibility.",
+          "source_url": "https://cdn.sanity.io/files/5a84xxkm/prod/f31c1f6b1c977698d935fccd5fd7570cab027b26.pdf"
+        }
+      ],
+      "notes": "Vy (28 Oct 2026) reports the student 30-day ticket became NOK 100 cheaper from 1 Nov 2026 (adult zone 1: NOK 495); the new student price was not found on a Ruter page."
+    },
+    {
+      "id": "no-frikort",
+      "category": "tax",
+      "name_local": "Frikort",
+      "name_it": "Frikort (esenzione fiscale fino a NOK 100.000)",
+      "authority": "Skatteetaten (Norwegian Tax Administration)",
+      "description": "Income up to NOK 100,000 in a year is tax free with an exemption card, issued automatically and electronically to people over 13. It can only be used by persons who stay in Norway for a full year; above the limit you need a tax deduction card or you are taxed at 50%.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "Staying in Norway for a full (calendar) year",
+        "other": ["Needs a Norwegian ID number and a job"]
+      },
+      "amount": "Tax-free income up to NOK 100,000 per year (year not stated on the page; UiO also cites NOK 100,000 per calendar year)",
+      "how_to_apply": "Automatic; view or split it between employers with a Norwegian electronic ID",
+      "deadline": null,
+      "stackable": null,
+      "source_url": "https://www.skatteetaten.no/en/person/taxes/tax-deduction-card-and-advance-tax/exemption-card/",
+      "extra_sources": ["https://www.uio.no/english/student-life/budget/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "Exchange students staying one semester do not qualify (the card is only for people staying the full year).",
+          "source_url": "https://www.skatteetaten.no/en/person/taxes/tax-deduction-card-and-advance-tax/exemption-card/"
+        },
+        {
+          "hypothesis": "UiO states without that caveat that students can earn up to NOK 100,000 tax free in a calendar year.",
+          "source_url": "https://www.uio.no/english/student-life/budget/"
+        }
+      ]
+    },
+    {
+      "id": "no-uio-semester-fee-exchange",
+      "category": "erasmus",
+      "name_local": "Fritak fra semesteravgift for innreisende utvekslingsstudenter",
+      "name_it": "Esenzione dalla quota semestrale per studenti Erasmus in entrata (UiO)",
+      "authority": "University of Oslo",
+      "description": "Incoming Erasmus, Nordplus/Nordlys and most bilateral exchange students at UiO do not pay the semester fee (NOK 690 SiO + NOK 220 Kopinor + optional NOK 60 SAIH) and are registered with an exemption automatically; they can still use many SiO welfare offers. No extra host-country Erasmus grant was found.",
+      "eligibility": {
+        "student_type": ["exchange"],
+        "nationality": "any",
+        "other": ["Incoming via Erasmus+, Nordplus/Nordlys or most bilateral agreements"]
+      },
+      "amount": "Exemption from the semester fee (NOK 970 incl. optional SAIH NOK 60)",
+      "how_to_apply": "Automatic",
+      "deadline": null,
+      "stackable": "Combinable with the Erasmus+ grant paid by the home institution",
+      "source_url": "https://www.uio.no/english/studies/registrations/semester-fee/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Note: SiO housing requires having paid the semester fee to SiO through your institution; how this applies to fee-exempt exchange students is handled by UiO's housing priority scheme (not checked)."
+    },
+    {
+      "id": "no-uio-tuition-exemption",
+      "category": "university",
+      "name_local": "Fritak fra studieavgift (UiO)",
+      "name_it": "Esenzione dalle tasse universitarie (UiO)",
+      "authority": "University of Oslo",
+      "description": "Non-EU/EEA/Swiss students can be exempted from UiO tuition fees on grounds of residence or ties to Norway (permanent residence, protection, family of an EEA citizen or of a Norwegian, 24 months full-time work, 36 months/180 credits of prior study). UiO says it has no scholarships that cover tuition fees.",
+      "eligibility": {
+        "student_type": ["degree"],
+        "nationality": ["non_eu"],
+        "residence_requirement": "One of the listed residence/ties grounds; grounds cannot be combined"
+      },
+      "amount": "Full exemption from tuition (UiO master's fees 2026/2027: NOK 136,000-295,000/year)",
+      "how_to_apply": "After accepting the offer, use the online form sent with the invoice and upload documentation",
+      "deadline": "Conditions must be documented by 8 August (autumn) or 10 January (spring) for conditional exemptions",
+      "stackable": null,
+      "source_url": "https://www.uio.no/english/studies/admission/tuition/exemptions.html",
+      "extra_sources": ["https://www.uio.no/english/studies/admission/tuition/"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "no-sio-welfare",
+      "category": "university",
+      "name_local": "SiO velferdstilbud (semesteravgift)",
+      "name_it": "Servizi di welfare SiO (finanziati dalla quota semestrale)",
+      "authority": "SiO (Student Welfare Organisation in Oslo)",
+      "description": "Paying the semester fee gives access to SiO's welfare services: student housing (students up to 34 at SiO-affiliated institutions), GP, psychologists and counselling at fixed rates or free, and other services. International students can use counselling, psychologists, GPs and dentists at fixed rates or free of charge.",
+      "eligibility": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["Semester fee paid to SiO via the institution (UiO: NOK 690 of the semester fee)", "Housing: age 34 or younger"]
+      },
+      "amount": "SiO share of UiO semester fee: NOK 690 per semester (year not stated)",
+      "how_to_apply": "Pay the semester fee through Studentweb; apply for housing at sio.no (apply early; prioritised by application date)",
+      "deadline": "SiO housing: 1 June for 1 August move-in, 1 November for 2 January move-in (SiO page is not fully consistent; check with SiO)",
+      "stackable": null,
+      "source_url": "https://www.sio.no/en/health/international-student",
+      "extra_sources": [
+        "https://www.sio.no/en/housing/information/how-to-apply",
+        "https://www.uio.no/english/studies/registrations/semester-fee/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "SiO rent levels are not shown in the static pages read today."
+    }
+  ]
+}

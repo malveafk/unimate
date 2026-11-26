@@ -1,0 +1,101 @@
+{
+  "city": "Tübingen",
+  "slug": "tubingen",
+  "country": "Germany",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "~€466/month warm (€381 cold) for a model 20 m² shared-flat (WG) room, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "rent_studio",
+      "value": "~€538/month warm (€411 cold) for a model 30 m² student flat, Q2 2026",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Modelled (hedonic) warm rent incl. utilities for a hypothetical 'normal' unit near the nearest university building, 2000s building; the report says these model values are less robust than its price index and not comparable with earlier reports."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "≈ €947/month (living incl. transport €467, rent €346, other incl. health insurance €134); non-EU students add €1,500/semester tuition",
+      "source_name": "University of Tübingen (citing BMBF)",
+      "source_url": "https://uni-tuebingen.de/en/international/study-in-tuebingen/degree-seeking-students/application-and-admission-of-international-students/costs-and-funding/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page gives no year; the €346 rent component is well below current market data (MLP 2026 model WG room: €466 warm)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "naldo semester ticket listed at €153.10 for 6 months; the page says it is being replaced by an annual subscription with monthly payments from winter 2025/26",
+      "source_name": "University of Tübingen (semester ticket page)",
+      "source_url": "https://uni-tuebingen.de/en/study/student-life/semester-ticket/",
+      "extra_sources": [
+        "https://www.bundesregierung.de/breg-de/aktuelles/deutschlandticket-2134074"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Price not dated on the page and the product may no longer be sold; check naldo.de. Not included in the semester fee per this page."
+    },
+    {
+      "field": "climate",
+      "value": "Temperate; mean Jan 1.3 °C, Jul 19.3 °C, year 10.0 °C, ~1,755 h sun/yr (DWD station Tübingen, 1991–2020 normals)",
+      "source_name": "Deutscher Wetterdienst (DWD) climate normals 1991-2020",
+      "source_url": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Temperatur_1991-2020.txt",
+      "extra_sources": [
+        "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/multi_annual/mean_91-20/Sonnenscheindauer_1991-2020.txt"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "DWD multi-annual means 1991-2020 for station 'Tübingen'. No 1991-2020 precipitation normal published for this station."
+    },
+    {
+      "field": "social_life",
+      "value": "~29,000 students (2025 est.) in Tübingen, 12.5 per 100 inhabitants",
+      "source_name": "MLP Studentenwohnreport 2026 (IW Koeln, Table 5-1, data Q2 2026)",
+      "source_url": "https://www.iwkoeln.de/fileadmin/user_upload/Studien/Gutachten/PDF/2026/MLP_Studentenwohnreport_2026.pdf",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "Student counts from the MLP Studentenwohnreport 2026 (2025 values estimated by trend). Whether this makes a lively student scene is a judgement."
+    },
+    {
+      "field": "language_needed",
+      "value": "German is the teaching language of most degree programmes; English-taught international programmes usually need only English proof. German makes daily life and social life much easier.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/living-in-germany/german-language/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Germany-wide DAAD guidance, not city-specific; exchange stays of 1-2 semesters may be exempt from German proof."
+    },
+    {
+      "field": "job_market",
+      "value": "Germany-wide (DAAD): waiting tables, shops, offices, tutoring, trade fairs, industry, university student-assistant jobs.",
+      "source_name": "DAAD (Germany-wide)",
+      "source_url": "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true,
+      "notes": "No city-specific student job-market data found; DAAD national guidance. Non-EU students: 140 full / 280 half days per year (student-assistant jobs exempt); EU/EEA/Swiss: unrestricted."
+    },
+    {
+      "field": "student_wage",
+      "value": "Min. €13.90/h gross (statutory, 2026; €14.60 from 2027). University student assistants (SHK): €15.20/h from summer semester 2026 (TdL guideline)",
+      "source_name": "TdL guideline for student assistants (30 Mar 2026) + Bundesregierung (minimum wage)",
+      "source_url": "https://www.uni-siegen.de/files/default/media/documents/2026-04/2026-04-01__rl__tdl_arbeitsbedingungen_whk_shk_april_2026.pdf",
+      "extra_sources": [
+        "https://www.bundesregierung.de/breg-de/aktuelles/mindestlohn-steigt-2391010",
+        "https://www.daad.de/en/studying-in-germany/work-career/side-jobs/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "TdL guideline applies to state universities in TdL member Länder; check your university's own rate. DAAD: many side jobs pay at or a little above the minimum wage. Baden-Württemberg is a TdL member."
+    }
+  ]
+}

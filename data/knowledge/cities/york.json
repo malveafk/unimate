@@ -1,0 +1,89 @@
+{
+  "city": "York",
+  "slug": "york",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of York",
+      "source_url": "https://www.york.ac.uk/study/undergraduate/fees-funding/living-costs/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "York living-costs page gives no prices (they are in a separate room finder not read). All University rooms include bills."
+    },
+    {
+      "field": "rent_studio",
+      "value": "£881/month average private rent, one-bedroom (York, Oct 2026); all private rents average £1,209/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E06000014/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of York",
+      "source_url": "https://www.york.ac.uk/study/undergraduate/fees-funding/living-costs/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "York page gives no total. No city-specific official budget found. For reference only: the UK Student visa requires showing £1,171/month outside London (up to 9 months), which is a visa threshold, not a measured cost (gov.uk/student-visa/money)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No price given; free shuttle between Campus West and East and, per the University, 'cheap fares' into the city centre.",
+      "source_name": "University of York, living costs",
+      "source_url": "https://www.york.ac.uk/study/undergraduate/fees-funding/living-costs/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 1.3–7.3°C, Jul avg 11.9–21.5°C (min–max); about 620 mm rain/year. Met Office Church Fenton station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/gcx6bh9x2",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Church Fenton is about 15 km south-west of York."
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of York",
+      "source_url": "https://www.york.ac.uk/study/undergraduate/fees-funding/living-costs/",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "The University says part-time jobs and paid internships are available on campus and across the city; no figures given.",
+      "source_name": "University of York, living costs",
+      "source_url": "https://www.york.ac.uk/study/undergraduate/fees-funding/living-costs/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

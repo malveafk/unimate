@@ -1,0 +1,338 @@
+{
+  "country": "Netherlands",
+  "country_code": "NL",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "IND pages for EU/EEA/Swiss citizens and for the non-EU university/HBO student permit; IND income requirements 2026." },
+    { "key": "registration", "result": "found", "note": "RvIG BRP brochure (English), government.nl BRP page, NetherlandsWorldwide RNI page." },
+    { "key": "tax_id", "result": "found", "note": "BSN via BRP registration (stay > 4 months) or via an RNI desk (stay < 4 months)." },
+    { "key": "health_insurance", "result": "found", "note": "Belastingdienst (foreign students), Rijksoverheid (working in NL), Study in NL / Nuffic healthcare page, UvA page. No official page found giving a minimum number of work hours that triggers the obligation." },
+    { "key": "bank_account", "result": "found", "note": "Only Study in NL (Nuffic) arrival page found: BSN needed. No official page on the right to a basic payment account was found." },
+    { "key": "transport_card", "result": "found", "note": "studentenreisproduct.nl (personal OV-chipkaart, activation). Subsidy side is in subsidies.json." },
+    { "key": "student_work", "result": "found", "note": "government.nl (EU free movement), IND student permit page (TWV, 16 h/week or full-time June-August), Maastricht University work page." },
+    { "key": "minimum_wage", "result": "found", "note": "Rijksoverheid minimum wage amounts 2026 (1 January and 1 July 2026)." }
+  ],
+  "items": [
+    {
+      "id": "nl-residence-eu",
+      "topic": "residence_permit",
+      "title": "EU/EEA/Swiss students: no residence permit needed",
+      "title_it": "Studenti UE/SEE/svizzeri: nessun permesso di soggiorno",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "rules below apply to stays longer than 3 months",
+        "other": ["as a student: registered at a Dutch school or university, health insurance and sufficient funds"]
+      },
+      "summary": "EU/EEA and Swiss citizens can live and study in the Netherlands with a valid passport or ID card; no residence permit or IND report is required. For stays over 3 months a student must be enrolled at a Dutch institution, have health insurance and sufficient funds, and must not rely on public funds. Permanent residence follows after 5 years of lawful residence.",
+      "steps": [
+        "Bring a valid passport or EU/EEA/Swiss ID card.",
+        "If staying more than 4 months, register at the town hall (BRP) — see nl-registration-brp.",
+        "Arrange health insurance within 4 months of arrival (students may use foreign insurance that covers the Netherlands)."
+      ],
+      "deadline": null,
+      "cost": null,
+      "authority": "IND (Immigratie- en Naturalisatiedienst)",
+      "source_url": "https://ind.nl/en/residence-permits/eu-eea-or-swiss-citizens/living-in-the-netherlands-as-an-eu-eea-or-swiss-citizen",
+      "extra_sources": [
+        "https://www.government.nl/themes/migration-and-travel/immigration-to-the-netherlands/question-and-answer/as-an-eu-citizen-how-can-i-stay-in-the-netherlands-for-longer-than-three-months",
+        "https://www.government.nl/themes/migration-and-travel/immigration-to-the-netherlands/freedom-of-movement-and-residence-within-the-eu-eea-and-switzerland"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "The IND student condition lists 'Dutch health insurance', but the same page says students may use overseas health insurance that covers the Netherlands: a student who only studies can rely on home/EHIC/private cover.", "source_url": "https://ind.nl/en/residence-permits/eu-eea-or-swiss-citizens/living-in-the-netherlands-as-an-eu-eea-or-swiss-citizen" },
+        { "hypothesis": "Students who only study are legally not allowed to take Dutch public health insurance, so 'Dutch health insurance' cannot be a strict condition for them.", "source_url": "https://www.studyinnl.org/practical-matters/insurance/healthcare-insurance" }
+      ],
+      "notes": "The IND page does not mention any optional EU residence document or its cost, nor separate rules for Swiss citizens beyond 'same rights as EU citizens'."
+    },
+    {
+      "id": "nl-residence-non-eu-study",
+      "topic": "residence_permit",
+      "title": "Non-EU students: residence permit for study at a university or HBO",
+      "title_it": "Studenti extra-UE: permesso di soggiorno per studio (università/HBO)",
+      "applies_to": {
+        "student_type": ["degree", "exchange"],
+        "nationality": ["non_eu"],
+        "income_test": "own means of at least € 1,130.77/month for HBO/university (2026, valid 1 Jan–31 Dec 2026)",
+        "other": ["institution must be an IND-recognised sponsor", "full-time enrolment in an accredited programme", "study progress of at least 50% of credits per year"]
+      },
+      "summary": "Only the Dutch institution (as IND-recognised sponsor) can apply for the permit and, where required, the MVV entry visa, using form 7504; the IND decides within 60 days. The permit is a type I temporary regular permit, valid up to 5 years (study duration plus 3 months) as long as the study requirements are met.",
+      "steps": [
+        "Get (provisional) admission at a recognised-sponsor institution.",
+        "The institution applies for the permit (and MVV if needed); you pay the fee through the institution.",
+        "If an MVV is granted, collect it at the Dutch representation within 3 months of the decision (MVV valid 90 days; passport valid at least 6 more months).",
+        "Register at the municipality after arrival (nl-registration-brp)."
+      ],
+      "deadline": null,
+      "cost": "€ 254.00 application fee (2026)",
+      "authority": "IND (Immigratie- en Naturalisatiedienst)",
+      "source_url": "https://ind.nl/en/residence-permits/study/student-residence-permit-for-university-or-higher-professional-education",
+      "extra_sources": ["https://ind.nl/en/required-amounts-income-requirements"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The IND page does not distinguish exchange from degree students and does not cover short stays; whether a short exchange needs this permit was not verified. If a person in the Netherlands finances the student, higher income amounts apply (IND income page)."
+    },
+    {
+      "id": "nl-registration-brp",
+      "topic": "registration",
+      "title": "Register in the BRP at the municipality (stay longer than 4 months)",
+      "title_it": "Iscrizione all'anagrafe comunale (BRP) per soggiorni oltre 4 mesi",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "more than 4 months"
+      },
+      "summary": "Anyone moving to the Netherlands for more than four months must register with the municipality in the Personal Records Database (BRP) within five days of arrival, bringing original documents. Registration automatically gives a citizen service number (BSN).",
+      "steps": [
+        "Book an appointment at the municipality (gemeente) where you live; some universities run special registration days for international students.",
+        "Bring originals: passport/ID, proof of lawful residence if applicable, and possibly birth/marriage certificates and a rental contract or consent of the main occupant.",
+        "Non-EU nationals without a valid residence permit must first apply to the IND."
+      ],
+      "deadline": "within 5 days of arrival",
+      "cost": null,
+      "authority": "Municipality (gemeente) / RvIG",
+      "source_url": "https://www.rvig.nl/brochure-personal-records-database",
+      "extra_sources": ["https://www.studyinnl.org/life-in-nl/to-do-after-arrival", "https://www.government.nl/topics/personal-data/personal-records-database-brp"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Deadline is 5 calendar days after arrival (English brochure; Dutch brochure intro).", "source_url": "https://www.rvig.nl/brochure-personal-records-database" },
+        { "hypothesis": "Deadline is 5 working days after settling (wording in a later section of the Dutch RvIG brochure).", "source_url": "https://www.rvig.nl/brochure-basisregistratie-personen" },
+        { "hypothesis": "For EU/EEA/Swiss citizens the IND only says to register 'as soon as possible' if staying longer than 4 months.", "source_url": "https://ind.nl/en/residence-permits/eu-eea-or-swiss-citizens/living-in-the-netherlands-as-an-eu-eea-or-swiss-citizen" }
+      ]
+    },
+    {
+      "id": "nl-bsn-via-brp",
+      "topic": "tax_id",
+      "title": "Citizen service number (BSN) through BRP registration",
+      "title_it": "Numero BSN tramite iscrizione all'anagrafe (BRP)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "more than 4 months"
+      },
+      "summary": "Everyone registered in the BRP automatically receives a BSN. You need the BSN to work or do an internship, open a bank account, take Dutch health insurance and apply for DigiD (login for DUO, Belastingdienst, Studielink).",
+      "steps": ["Register in the BRP (nl-registration-brp).", "After receiving the BSN, apply for DigiD."],
+      "deadline": null,
+      "cost": null,
+      "authority": "Municipality (gemeente)",
+      "source_url": "https://www.government.nl/topics/personal-data/citizen-service-number-bsn",
+      "extra_sources": ["https://www.studyinnl.org/life-in-nl/to-do-after-arrival"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "nl-bsn-via-rni",
+      "topic": "tax_id",
+      "title": "BSN for short stays (under 4 months): RNI desk",
+      "title_it": "BSN per soggiorni brevi (meno di 4 mesi): sportello RNI",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "stay_duration": "less than 4 months",
+        "other": ["EU/EEA/Swiss nationals can use any RNI desk; other nationals only Breda or Venlo"]
+      },
+      "summary": "People staying under 4 months register as non-residents in the RNI at one of 19 municipal RNI desks (e.g. Amsterdam, Rotterdam, Utrecht, The Hague, Groningen) and receive a BSN. You must go in person with a valid passport/ID and the QR code from the online RvIG form.",
+      "steps": ["Fill in the online RNI form (RvIG) and keep the QR code.", "Book an appointment at an RNI desk municipality.", "Attend in person with passport/ID."],
+      "deadline": null,
+      "cost": null,
+      "authority": "RNI desks (municipalities) / RvIG",
+      "source_url": "https://www.netherlandsworldwide.nl/non-residents-records-database/register",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "nl-health-insurance-study-only-eu",
+      "topic": "health_insurance",
+      "title": "EU/EEA/Swiss students who only study: home insurance / EHIC",
+      "title_it": "Studenti UE/SEE/svizzeri che solo studiano: assicurazione del paese d'origine / TEAM",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "other": ["no paid job, no paid internship"]
+      },
+      "summary": "If you are in the Netherlands only to study, you are legally not allowed to take Dutch public health insurance; you stay insured in your home country. EU/EEA students may use the EHIC for necessary care (check coverage with the home insurer) or take private insurance. You cannot get zorgtoeslag in this situation.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Belastingdienst / Nuffic (Study in NL)",
+      "source_url": "https://www.studyinnl.org/practical-matters/insurance/healthcare-insurance",
+      "extra_sources": ["https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/content/Zorgtoeslag-buitenlandse-student"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Study in NL is run by Nuffic, the Dutch government-funded organisation for internationalisation in education."
+    },
+    {
+      "id": "nl-health-insurance-study-only-non-eu",
+      "topic": "health_insurance",
+      "title": "Non-EU students who only study: private or home-country insurance",
+      "title_it": "Studenti extra-UE che solo studiano: assicurazione privata o del paese d'origine",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "other": ["no paid job, no paid internship"]
+      },
+      "summary": "Students in the Netherlands only to study cannot take Dutch public health insurance; they need home-country insurance with sufficient coverage or a private (student) policy. No zorgtoeslag in this situation.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Nuffic (Study in NL) / Belastingdienst",
+      "source_url": "https://www.studyinnl.org/practical-matters/insurance/healthcare-insurance",
+      "extra_sources": ["https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/content/Zorgtoeslag-buitenlandse-student"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "nl-health-insurance-work",
+      "topic": "health_insurance",
+      "title": "Dutch basic health insurance is mandatory once you work",
+      "title_it": "Assicurazione sanitaria olandese obbligatoria se lavori",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "min_work_hours": "any paid (part-time) job — no minimum hours stated on the official pages"
+      },
+      "summary": "A foreign student with a paid part-time job must take Dutch basic health insurance (basisverzekering), even if insured elsewhere, and can then apply for zorgtoeslag. Take it within 4 months; if late you are uninsured until then and may be fined. In doubtful cases (e.g. self-employed) the SVB assesses your Wlz position for free.",
+      "steps": ["Start the job.", "Take a Dutch basisverzekering within 4 months (premiums run from the start date of the policy).", "If unsure, ask the SVB for a Wlz assessment (takes 6–8 weeks).", "Apply for zorgtoeslag (see subsidies)."],
+      "deadline": "within 4 months",
+      "cost": "around € 1,500/year premium and € 385/year mandatory excess (2025) — UvA figures, indicative",
+      "authority": "Belastingdienst / Rijksoverheid / SVB / CAK",
+      "source_url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/content/Zorgtoeslag-buitenlandse-student",
+      "extra_sources": [
+        "https://www.rijksoverheid.nl/onderwerpen/immigratie-naar-nederland/vraag-en-antwoord/moet-ik-een-zorgverzekering-afsluiten-als-ik-in-nederland-ga-werken",
+        "https://www.studyinnl.org/practical-matters/insurance/healthcare-insurance",
+        "https://student.uva.nl/en/information/work-and-health-insurance-international-students"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        { "hypothesis": "Any paid side job triggers the obligation (Belastingdienst, Study in NL, UvA).", "source_url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/content/Zorgtoeslag-buitenlandse-student" },
+        { "hypothesis": "Rijksoverheid frames the general rule as working for a Dutch employer 'on a fixed basis' and paying wage tax, and says students' options depend on country of origin: check with the SVB.", "source_url": "https://www.rijksoverheid.nl/onderwerpen/immigratie-naar-nederland/vraag-en-antwoord/moet-ik-een-zorgverzekering-afsluiten-als-ik-in-nederland-ga-werken" }
+      ],
+      "notes": "If you ignore a CAK letter for 3 months you face a fine of € 529.72 (Study in NL), even if the letter was sent in error; request an SVB assessment and send it to the CAK."
+    },
+    {
+      "id": "nl-health-insurance-paid-internship",
+      "topic": "health_insurance",
+      "title": "Paid internships and Dutch health insurance",
+      "title_it": "Tirocini retribuiti e assicurazione sanitaria olandese",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["paid internship in the Netherlands"]
+      },
+      "summary": "An internship paid at or above the Dutch minimum wage requires Dutch insurance (and allows zorgtoeslag); unpaid or below-minimum-wage internships do not. Study in NL adds that EU/EEA/Swiss (and treaty-country) interns are Wlz-insured if covered by an employee scheme such as sickness benefit, while other non-EU interns are Wlz-insured if paid at least the minimum wage (rules changed 1 September 2025).",
+      "deadline": null,
+      "cost": null,
+      "authority": "Belastingdienst / Nuffic / SVB",
+      "source_url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/content/Zorgtoeslag-buitenlandse-student",
+      "extra_sources": ["https://www.studyinnl.org/practical-matters/insurance/healthcare-insurance"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "nl-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a Dutch bank account",
+      "title_it": "Aprire un conto in banca olandese",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "A Dutch bank account is useful for long stays and required if you work or do an internship. You need a BSN to open one; the usual card is a debit card (Maestro being replaced by Debit Mastercard/Visa Debit).",
+      "deadline": null,
+      "cost": null,
+      "authority": "Nuffic (Study in NL)",
+      "source_url": "https://www.studyinnl.org/life-in-nl/to-do-after-arrival",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Document requirements vary by bank and were not verified. No official page on the EU right to a basic payment account was checked."
+    },
+    {
+      "id": "nl-transport-ov-chipkaart",
+      "topic": "transport_card",
+      "title": "Personal OV-chipkaart for the student travel product",
+      "title_it": "OV-chipkaart personale per lo studentenreisproduct",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["only students entitled to the DUO student travel product (see subsidies: nl-ov-studentenreisproduct)"]
+      },
+      "summary": "To use the DUO student travel product you need a personal OV-chipkaart (from ov-chipkaart.nl), link its number in your online account, and load the product at a pick-up machine; the start date is shown in Mijn DUO.",
+      "steps": ["Apply for the travel product via DUO.", "Order a personal OV-chipkaart at ov-chipkaart.nl.", "Link the card number in 'Mijn omgeving' on studentenreisproduct.nl.", "Load the product at a pick-up machine."],
+      "deadline": null,
+      "cost": null,
+      "authority": "DUO / Studentenreisproduct",
+      "source_url": "https://www.studentenreisproduct.nl/en/ik-ben-een-nieuwe-student/wat-is-een-studentenreisproduct-en-wat-kan-je-ermee/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The cost of a personal OV-chipkaart and commercial student discounts for non-entitled students were not verified."
+    },
+    {
+      "id": "nl-work-eu",
+      "topic": "student_work",
+      "title": "EU/EEA/Swiss students can work without a permit or hour limits",
+      "title_it": "Studenti UE/SEE/svizzeri: lavoro senza permesso né limiti di ore",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "EU/EEA and Swiss nationals can work in the Netherlands without a work permit and without hour restrictions during their studies. Working triggers Dutch health insurance (nl-health-insurance-work) and you need a BSN.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Government of the Netherlands / Nuffic",
+      "source_url": "https://www.government.nl/themes/migration-and-travel/immigration-to-the-netherlands/freedom-of-movement-and-residence-within-the-eu-eea-and-switzerland",
+      "extra_sources": ["https://www.studyinnl.org/finances/scholarship-and-funding-for-eu-students", "https://www.maastrichtuniversity.nl/nl/support/coming-netherlands-abroad/werken-nederland-als-niet-nederlandse-student"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "nl-work-non-eu",
+      "topic": "student_work",
+      "title": "Non-EU students: work permit (TWV) and 16 hours/week",
+      "title_it": "Studenti extra-UE: permesso di lavoro (TWV) e 16 ore settimanali",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "other": ["holder of a Dutch student residence permit"]
+      },
+      "summary": "As an employee, a non-EU student needs a TWV work permit held by the employer, and must choose either up to 16 hours per week year-round or full-time seasonal work in June, July and August. Self-employment needs no TWV (KvK registration, tax and possibly Dutch health insurance apply); internships that are part of the study programme need no TWV.",
+      "steps": ["The employer applies to UWV for the TWV (residence permit and proof of enrolment needed; about 5 weeks per Maastricht University)."],
+      "deadline": null,
+      "cost": null,
+      "authority": "IND / UWV",
+      "source_url": "https://ind.nl/en/residence-permits/study/student-residence-permit-for-university-or-higher-professional-education",
+      "extra_sources": ["https://www.maastrichtuniversity.nl/nl/support/coming-netherlands-abroad/werken-nederland-als-niet-nederlandse-student"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "nl-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "Statutory minimum wage (hourly, 2026)",
+      "title_it": "Salario minimo legale (orario, 2026)",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Gross hourly minimum wage from 1 July 2026: € 14.99 (21 and older), € 11.99 (20), € 8.99 (19), € 7.50 (18), € 5.92 (17), € 5.17 (16), € 4.50 (15). From 1 January 2026 it was € 14.71 for 21+. There is no fixed monthly minimum: pay depends on hours worked.",
+      "deadline": null,
+      "cost": null,
+      "authority": "Rijksoverheid (Ministry of Social Affairs and Employment)",
+      "source_url": "https://www.rijksoverheid.nl/themas/werk/minimumloon/bedragen-minimumloon/bedragen-minimumloon-2026",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "1 January 2026 youth rates: € 11.77 (20), € 8.83 (19), € 7.36 (18), € 5.81 (17), € 5.07 (16), € 4.41 (15). Rates are revised every 1 January and 1 July."
+    },
+    {
+      "id": "nl-statutory-tuition-fee",
+      "topic": "other",
+      "title": "Statutory tuition fee (wettelijk collegegeld) 2026-2027",
+      "title_it": "Tassa universitaria legale (wettelijk collegegeld) 2026-2027",
+      "applies_to": {
+        "student_type": ["degree"],
+        "nationality": "any",
+        "other": ["who pays the statutory vs the institutional fee is not stated on this page; institutional fee is never lower than the statutory fee"]
+      },
+      "summary": "The full-time statutory tuition fee is € 2,694 for 2026-2027 (€ 2,601 for 2025-2026), the same at all institutions and indexed yearly. Institutions set their own (higher or equal) institutional fee; small-scale intensive programmes may charge up to five times the statutory fee.",
+      "deadline": null,
+      "cost": "€ 2,694/year full-time (2026-2027)",
+      "authority": "Rijksoverheid (Ministry of Education, OCW)",
+      "source_url": "https://www.rijksoverheid.nl/onderwerpen/hoger-onderwijs/vraag-en-antwoord/hoogte-van-het-collegegeld-hogeschool-universiteit",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The rule that EU/EEA/Swiss students on a first degree pay the statutory fee and non-EU students the institutional fee was NOT verified on this page; check each university's tuition page."
+    }
+  ]
+}

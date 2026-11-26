@@ -1,0 +1,91 @@
+{
+  "city": "Helsinki",
+  "slug": "helsinki",
+  "country": "Finland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "€ 250-519/month for a room in a HOAS shared student apartment, electricity and water included (HOAS, read 2026-11-25)",
+      "source_name": "HOAS (Foundation for Student Housing in the Helsinki Region)",
+      "source_url": "https://hoas.fi/en/applicants/apartment-types/room-in-a-shared-apartment/",
+      "extra_sources": ["https://www.helsinki.fi/en/admissions-and-education/international-students/student-life-helsinki/cost-living-and-financial-matters"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Non-profit student housing; private-market rooms cost more. University of Helsinki gives a broader student-housing range of about € 450-800/month without splitting rooms and studios."
+    },
+    {
+      "field": "rent_studio",
+      "value": "€ 500-747/month for a HOAS student studio (about 19-46 m², read 2026-11-25)",
+      "source_name": "HOAS (Foundation for Student Housing in the Helsinki Region)",
+      "source_url": "https://hoas.fi/en/applicants/apartment-types/studio-apartments/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "HOAS studios are for degree students; private-market studios cost more (no citable private-market figure found)."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "€ 1,000-1,300+/month incl. rent (University of Helsinki estimate, read 2026-11-25)",
+      "source_name": "University of Helsinki",
+      "source_url": "https://www.helsinki.fi/en/admissions-and-education/international-students/student-life-helsinki/cost-living-and-financial-matters",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Breakdown: student housing about € 450-800, food, phone and transport at least € 450. Page does not state the year."
+    },
+    {
+      "field": "transport_pass",
+      "value": "About € 50-70/month for a 30-day HSL student season ticket (Aalto estimate); students get 40% off season tickets",
+      "source_name": "Aalto University",
+      "source_url": "https://www.aalto.fi/en/international-students/moving-to-finland-and-financial-matters",
+      "extra_sources": ["https://www.aalto.fi/en/study-at-aalto/student-benefits-and-cost-of-living"],
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "hsl.fi returned HTTP 403 to automated fetches, so the operator's price list could not be read. The price depends on zones; degree students need a DVV municipality of residence for the discount."
+    },
+    {
+      "field": "climate",
+      "value": "Cold winters (daily means below 0 °C, about 100 days in SW Finland); shortest day about 6 h, longest nearly 19 h; summer daily means above 10 °C late May-mid Sept",
+      "source_name": "Finnish Meteorological Institute",
+      "source_url": "https://en.ilmatieteenlaitos.fi/seasons-in-finland",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "About 70,000 university students (over 10% of the city), incl. about 8,000 international; festivals (Flow, Helsinki Festival), museums, 250+ student organisations",
+      "source_name": "University of Helsinki",
+      "source_url": "https://www.helsinki.fi/en/admissions-and-education/international-students/student-life-helsinki/helsinki-student-city",
+      "extra_sources": ["https://www.helsinki.fi/en/admissions-and-education/international-students/student-life-helsinki"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English enough for English-taught degrees and many daily situations; most employers require Finnish or Swedish",
+      "source_name": "InfoFinland",
+      "source_url": "https://infofinland.fi/en/education/foreign-students-in-finland",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "Finding a job without Finnish is challenging; you cannot count on work to finance studies. English often enough in IT, industry and international companies",
+      "source_name": "University of Helsinki; InfoFinland",
+      "source_url": "https://www.helsinki.fi/en/admissions-and-education/international-students/student-life-helsinki/cost-living-and-financial-matters",
+      "extra_sources": ["https://infofinland.fi/en/work-and-enterprise/finnish-working-life/language-skills-and-qualification-requirements"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "No citable figure for typical student hourly pay; Finland has no statutory minimum wage (pay set by sector collective agreements)",
+      "source_name": "Occupational Safety and Health Administration (Työsuojelu)",
+      "source_url": "https://www.tyosuojelu.fi/en/employment-relationship/pay",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "notes": "Web search budget ran out before collective-agreement wage tables (e.g. retail, hospitality) could be checked."
+    }
+  ]
+}

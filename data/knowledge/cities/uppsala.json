@@ -1,0 +1,96 @@
+{
+  "city": "Uppsala",
+  "slug": "uppsala",
+  "country": "Sweden",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "SEK 4,000–6,500/month (Uppsala University budget). Fee-paying students are guaranteed a dorm room; EU/EEA/Swiss students must find their own.",
+      "source_name": "Uppsala University",
+      "source_url": "https://www.uu.se/en/study/bachelors-studies/living-in-sweden/financing",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.uu.se/en/study/bachelors-studies/living-in-sweden/housing"
+      ]
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: ~SEK 7,840/month outside centre, ~SEK 10,450 in centre (Nov 2026).",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Uppsala",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "SEK 9,500–11,600/month incl. rent (Uppsala University budget; its items sum to up to SEK 12,000).",
+      "source_name": "Uppsala University",
+      "source_url": "https://www.uu.se/en/study/bachelors-studies/living-in-sweden/financing",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "transport_pass",
+      "value": "UL 30-day ticket: SEK 850 at reduced price (students studying ≥75%), adult SEK 1,150; SEK 425 reduced in the 2026 campaign (activate by 2 Dec). UU budget assumes SEK 500.",
+      "source_name": "UL (Region Uppsala)",
+      "source_url": "https://www.ul.se/biljetter/vara-biljetter/vara-biljetter/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://www.uu.se/en/study/bachelors-studies/living-in-sweden/financing"
+      ],
+      "valid_until": "2026-12-02"
+    },
+    {
+      "field": "climate",
+      "value": "Mean temperature about −2.0 °C in January and 18.2 °C in July; about 565 mm precipitation/year (SMHI 1991–2020).",
+      "source_name": "Wikipedia (citing SMHI)",
+      "source_url": "https://en.wikipedia.org/wiki/Uppsala",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing SMHI 1991–2020 normals; SMHI's own tables were not reached."
+    },
+    {
+      "field": "social_life",
+      "value": "Classic student city built around the student nations, whose pubs, clubs and restaurants are a hub of student life and offer student jobs.",
+      "source_name": "Uppsala University",
+      "source_url": "https://www.uu.se/en/study/bachelors-studies/living-in-sweden/financing",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "English is enough for daily life, but many Uppsala employers require Swedish for part-time jobs.",
+      "source_name": "Uppsala University; Study in Sweden",
+      "source_url": "https://www.uu.se/en/study/bachelors-studies/living-in-sweden/financing",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "extra_sources": [
+        "https://studyinsweden.se/moving-to-sweden/learn-swedish/"
+      ]
+    },
+    {
+      "field": "job_market",
+      "value": "Part-time work in Uppsala is 'very difficult' to find; nation jobs exist but won't cover living costs. Do not rely on work income.",
+      "source_name": "Uppsala University",
+      "source_url": "https://www.uu.se/en/study/bachelors-studies/living-in-sweden/financing",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "student_wage",
+      "value": "No city data. National example: hotel/restaurant agreement floor SEK 153.64–164.30/hour (from 1 Apr 2026, no experience; youth rates under 20). No statutory minimum wage.",
+      "source_name": "HRF (Hotel and Restaurant Workers' Union) – Gröna Riksavtalet",
+      "source_url": "https://www.hrf.net/lon-och-villkor/",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "extra_sources": [
+        "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Minimum_wage_statistics"
+      ],
+      "notes": "A collective-agreement wage floor for one sector, not a measured typical student wage; no citable source for typical student pay found."
+    }
+  ]
+}

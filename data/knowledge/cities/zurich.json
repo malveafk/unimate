@@ -1,0 +1,84 @@
+{
+  "city": "Zurich",
+  "slug": "zurich",
+  "country": "Switzerland",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "About CHF 910/month for housing (rent, heating, energy) in UZH's minimum student budget",
+      "source_name": "University of Zurich - Finances",
+      "source_url": "https://www.uzh.ch/en/studies/planning/finances.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page footer (c) 2023; figure is a minimum guideline, not a market average."
+    },
+    {
+      "field": "rent_studio",
+      "value": "1-bedroom flat: CHF 2,386/month city centre, CHF 1,729 outside centre (Nov 2026)",
+      "source_name": "Numbeo (crowd-sourced)",
+      "source_url": "https://www.numbeo.com/cost-of-living/in/Zurich?displayCurrency=CHF",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "living_cost_month",
+      "value": "Minimum about CHF 2,200/month incl. rent, insurance and study costs (UZH guideline)",
+      "source_name": "University of Zurich - Finances",
+      "source_url": "https://www.uzh.ch/en/studies/planning/finances.html",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Page footer (c) 2023."
+    },
+    {
+      "field": "transport_pass",
+      "value": "ZVV NetworkPass zone 110 (city): CHF 64/month under 25, CHF 88 adults (2nd class)",
+      "source_name": "ZVV",
+      "source_url": "https://www.zvv.ch/en/travelcards-and-tickets/travelcards/network-pass.html",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "climate",
+      "value": "Zurich-Fluntern 1991-2020: Jan mean 0.9 C, July mean 19.0 C, about 1,108 mm rain/year",
+      "source_name": "Wikipedia (MeteoSwiss normals)",
+      "source_url": "https://en.wikipedia.org/wiki/Zurich",
+      "verified_at": "2026-11-25",
+      "status": "unverified",
+      "notes": "Wikipedia climate table citing MeteoSwiss/NOAA 1991-2020 normals; MeteoSwiss station pages could not be fetched."
+    },
+    {
+      "field": "social_life",
+      "value": "No citable source checked; the bot should not characterise student life here.",
+      "source_name": "none",
+      "source_url": "https://www.uzh.ch/en/studies.html",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "German (Swiss German spoken). ETH Bachelor programmes are taught mainly in German; English also indispensable",
+      "source_name": "ETH Zurich - Bachelor",
+      "source_url": "https://ethz.ch/en/studies/bachelor.html",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "No citable data on student job availability found. Non-EU students need an employer-filed permit (max 15 h/week after 6 months)",
+      "source_name": "Canton of Zurich - Students & Interns",
+      "source_url": "https://www.zh.ch/en/wirtschaft-arbeit/erwerbstaetigkeit-auslaender/studierende-und-praktikanten.html",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    },
+    {
+      "field": "student_wage",
+      "value": "No canton-wide minimum wage verified for Zurich; typical student hourly pay not found on an official page",
+      "source_name": "none",
+      "source_url": "https://www.stadt-zuerich.ch/de/lebenslagen/neu-in-zuerich/zuzug-ausland/willkommen.html",
+      "verified_at": "2026-11-25",
+      "status": "missing"
+    }
+  ]
+}

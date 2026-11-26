@@ -1,0 +1,274 @@
+{
+  "country": "Ireland",
+  "country_code": "IE",
+  "currency": "EUR",
+  "verified_at": "2026-11-25",
+  "topics_checked": [
+    { "key": "residence_permit", "result": "found", "note": "Citizens Information (EU rights) and Immigration Service Delivery (non-EU students)." },
+    { "key": "registration", "result": "found", "note": "EU/EEA/Swiss: no immigration registration. Non-EU: IRP registration within 90 days (ISD)." },
+    { "key": "tax_id", "result": "found", "note": "PPS Number, gov.ie (Department of Social Protection)." },
+    { "key": "health_insurance", "result": "found", "note": "HSE (EHIC visitors), Citizens Information (ordinary residence), ISD (private medical insurance for non-EU students)." },
+    { "key": "bank_account", "result": "found", "note": "Citizens Information + UCC International Office guide." },
+    { "key": "transport_card", "result": "found", "note": "TFI Leap Student and Young Adult cards (about.leapcard.ie)." },
+    { "key": "student_work", "result": "found", "note": "ISD student FAQ (Stamp 2: 20/40 hours) and UCC International Office (EEA students)." },
+    { "key": "minimum_wage", "result": "found", "note": "Citizens Information: national minimum wage 2026 with sub-minimum rates under 20; Budget 2027 rate for 2027." }
+  ],
+  "items": [
+    {
+      "id": "ie-residence-eu",
+      "topic": "residence_permit",
+      "title": "Right of residence for EU/EEA and Swiss students",
+      "title_it": "Diritto di soggiorno per studenti UE/SEE e svizzeri",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["eu_eea", "swiss"],
+        "stay_duration": "up to 3 months without conditions; more than 3 months under the student conditions"
+      },
+      "summary": "EEA and Swiss citizens can enter without a visa and stay up to 3 months without restriction. To stay longer as a student you must be enrolled in an approved college, have enough income not to need Irish social welfare, and have comprehensive health insurance. You do not register with immigration and do not need a residence card; the right ends when studies end unless you have another basis (e.g. a job).",
+      "authority": "Citizens Information Board (Ireland)",
+      "source_url": "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/residence-rights-eu-national/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Ireland is not part of Schengen (same page). UK citizens have their own Common Travel Area arrangements (not covered by this record). The page does not state whether an EHIC satisfies 'comprehensive health insurance': see ie-health-insurance-eu.",
+      "interpretations": [
+        { "hypothesis": "A home-country EHIC is enough as health cover for an EU student, since it gives free necessary treatment in the Irish public system.", "source_url": "https://www2.hse.ie/services/schemes-allowances/ehic/visitors-to-ireland/" },
+        { "hypothesis": "'Comprehensive health insurance' may mean more than an EHIC (e.g. private cover) for a long stay; the Citizens Information page does not define it.", "source_url": "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/residence-rights-eu-national/" }
+      ]
+    },
+    {
+      "id": "ie-residence-non-eu",
+      "topic": "residence_permit",
+      "title": "Student permission (Stamp 2) for non-EU students",
+      "title_it": "Permesso di studio (Stamp 2) per studenti extra-UE",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": ["non_eu"],
+        "stay_duration": "more than 90 days",
+        "other": ["full-time, day-time programme listed on the ILEP (or TrustEd Ireland list); part-time and distance courses do not qualify"]
+      },
+      "summary": "Non-EEA/non-Swiss students need a letter of enrolment on a full-time ILEP-listed programme and must have paid their fees; depending on nationality they also need a visa (short-stay C or long-stay D). Proof of funds: immediate access to €10,000 per year for courses longer than 8 months (plus fees), or €833/month or €6,665 in total for 8 months or less. Students are registered on Stamp 2; total time as a student is capped at 7 years.",
+      "steps": [
+        "Get an offer on an ILEP-listed full-time programme and pay the fees",
+        "Apply for a study visa if your nationality requires one (funds are checked in the visa process)",
+        "On arrival show documents to the immigration officer (landing stamp, usually up to 3 months)",
+        "Register your permission within 90 days (see ie-registration-non-eu)"
+      ],
+      "authority": "Immigration Service Delivery (ISD), Department of Justice, Home Affairs and Migration",
+      "source_url": "https://www.irishimmigration.ie/coming-to-study-in-ireland/frequently-asked-questions-for-students/",
+      "extra_sources": [
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/",
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/what-are-my-study-options/a-fee-paying-private-primary-or-secondary-school/information-on-student-finances/",
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/what-are-my-study-options/a-third-level-course-or-a-language-course/",
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/before-and-after-you-arrive/what-do-i-need-to-do-after-arriving/"
+      ],
+      "cost": "Funds: €10,000 per year (courses > 8 months) or €833/month / €6,665 (≤ 8 months), figures in force for courses from 1 July 2023",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Non-visa-required nationals prove funds at registration; visa-required nationals prove them in the visa application. Degree students may use an education bond of at least €10,000 instead of bank statements (pilot)."
+    },
+    {
+      "id": "ie-registration-eu",
+      "topic": "registration",
+      "title": "No immigration registration for EU/EEA and Swiss citizens",
+      "title_it": "Nessuna registrazione presso l'immigrazione per cittadini UE/SEE e svizzeri",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "EEA and Swiss citizens do not need to register with the immigration authorities and do not need a residence card to live in Ireland. Only their non-EEA family members must apply for residence and get an Irish Residence Permit.",
+      "authority": "Citizens Information Board (Ireland)",
+      "source_url": "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/residence-rights-eu-national/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "No source found for a general municipal address/population register in Ireland; a PPS Number (ie-pps-number) is the identifier you will actually need."
+    },
+    {
+      "id": "ie-registration-non-eu",
+      "topic": "registration",
+      "title": "Irish Residence Permit (IRP) registration for non-EU students",
+      "title_it": "Registrazione IRP (Irish Residence Permit) per studenti extra-UE",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "stay_duration": "more than 90 days" },
+      "summary": "All non-EEA students, including those who do not need a visa, must register their permission within 90 days of arriving. Since 13 January 2025 all first-time registrations in the Republic are done by ISD at the Registration Office, 13-14 Burgh Quay, Dublin 2, by appointment; photo and fingerprints are taken and the IRP card is posted within about 10 working days.",
+      "steps": [
+        "Book a first-time registration appointment via the ISD Customer Portal",
+        "Bring passport, required documents, proof of private medical insurance and (if visa-exempt) proof of funds",
+        "Pay the registration fee by card at the appointment",
+        "Receive the IRP card by post"
+      ],
+      "deadline": "Within 90 days of arrival (ISD will not cancel your permission if no appointment is available in time)",
+      "cost": "Up to €300 per registration (fee depends on the permission; ISD student FAQ states €300)",
+      "authority": "Immigration Service Delivery (ISD)",
+      "source_url": "https://www.irishimmigration.ie/registering-your-immigration-permission/how-to-register-your-immigration-permission-for-the-first-time/information-on-registering-your-immigration-permission-for-the-first-time/",
+      "extra_sources": [
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/frequently-asked-questions-for-students/",
+        "https://www.ucd.ie/global/study-at-ucd/scholarshipsfinances/livingcosts/"
+      ],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Students in Cork also register at Burgh Quay, Dublin (first-time registration is centralised). UCD states the €300 IRP registration is needed each year of the programme."
+    },
+    {
+      "id": "ie-pps-number",
+      "topic": "tax_id",
+      "title": "PPS Number (Personal Public Service Number)",
+      "title_it": "PPS Number (codice per tasse e servizi pubblici)",
+      "applies_to": { "student_type": "any", "nationality": "any", "age": { "min": 18 } },
+      "summary": "The PPS Number (7 digits plus one or two letters) is needed to work and be taxed correctly and to access public services. Adults apply online at MyWelfare with a basic or verified MyGovID and attend an appointment; bring a passport or national ID card (EU/EEA) or passport (non-EU), proof of address not older than 3 months, and evidence of why you need it (e.g. a job).",
+      "steps": [
+        "Create a MyGovID account",
+        "Apply on MyWelfare.ie and book the appointment",
+        "Bring ID, proof of address (≤ 3 months old) and the reason you need the number"
+      ],
+      "cost": null,
+      "authority": "Department of Social Protection",
+      "source_url": "https://www.gov.ie/en/department-of-social-protection/services/get-a-personal-public-service-pps-number/",
+      "extra_sources": ["https://www.ucc.ie/en/international/studentinfohub/afteryouarrive/workinginireland/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "A student card and an EHIC are listed as helpful supporting documents. UCC: you need a PPS Number to take up employment."
+    },
+    {
+      "id": "ie-health-insurance-eu",
+      "topic": "health_insurance",
+      "title": "Healthcare with an EHIC for EU/EEA/Swiss students",
+      "title_it": "Assistenza sanitaria con la TEAM (EHIC) per studenti UE/SEE/svizzeri",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "With a valid EHIC you get necessary medical treatment in the Irish public system free of charge: GPs in the PCRS scheme, public hospital care and emergency dental care at HSE clinics. Prescriptions cost €1.50 per item up to €15 per month; ask to be treated as a public patient. The EHIC does not cover private healthcare.",
+      "authority": "Health Service Executive (HSE)",
+      "source_url": "https://www2.hse.ie/services/schemes-allowances/ehic/visitors-to-ireland/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Working in Ireland and paying PRSI moves you under Irish social security; Citizens Information says EU-rule medical cards are not available to people working in Ireland and liable to PRSI (a means-tested medical card may apply).",
+      "interpretations": [
+        { "hypothesis": "For the residence right (> 3 months), the EHIC counts as the required health cover.", "source_url": "https://www2.hse.ie/services/schemes-allowances/ehic/visitors-to-ireland/" },
+        { "hypothesis": "The residence right requires 'comprehensive health insurance', which Citizens Information does not define; a degree student staying several years may need more than an EHIC.", "source_url": "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/residence-rights-eu-national/" }
+      ]
+    },
+    {
+      "id": "ie-health-ordinary-residence",
+      "topic": "health_insurance",
+      "title": "Public health services if you live in Ireland for a year or more",
+      "title_it": "Servizi sanitari pubblici se vivi in Irlanda per almeno un anno",
+      "applies_to": { "student_type": ["degree"], "nationality": "any", "stay_duration": "living in Ireland, or intending to live there, for at least one year" },
+      "summary": "People ordinarily resident in Ireland (living there, or intending to, for at least one year) are entitled to public health services. Without a medical card you have 'limited eligibility': GP visits and medicines are not free, while public hospital care is free or at reduced cost. The HSE may ask for proof such as a tenancy, bank statement or utility bill.",
+      "authority": "Citizens Information Board (Ireland) / HSE",
+      "source_url": "https://www.citizensinformation.ie/en/health/health-system/entitlement-to-public-health-services/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "This does not remove the private medical insurance requirement for non-EU students (ie-health-insurance-non-eu)."
+    },
+    {
+      "id": "ie-health-insurance-non-eu",
+      "topic": "health_insurance",
+      "title": "Mandatory private medical insurance for non-EU students",
+      "title_it": "Assicurazione sanitaria privata obbligatoria per studenti extra-UE",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"] },
+      "summary": "All non-EEA students must hold private medical insurance covering accident, disease and hospitalisation, and show it at every registration. Accepted: a college group scheme (shown on the enrolment letter) or an individual policy bought in Ireland; in the first year only, travel insurance can suffice if it covers the whole stay with at least €25,000 for accident and €25,000 for disease. From the second registration travel insurance is not accepted; cancelling cover breaches your permission.",
+      "authority": "Immigration Service Delivery (ISD)",
+      "source_url": "https://www.irishimmigration.ie/coming-to-study-in-ireland/what-are-my-study-options/a-fee-paying-private-primary-or-secondary-school/private-medical-insurance/",
+      "extra_sources": [
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/frequently-asked-questions-for-students/",
+        "https://www.ucd.ie/global/study-at-ucd/scholarshipsfinances/livingcosts/"
+      ],
+      "cost": "UCD estimate: up to €690 per year depending on course length (2026)",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The ISD guidance page is signed 'January 2011' but is still the live page linked from the current student FAQ, which confirms the requirement. Evidence must be in English."
+    },
+    {
+      "id": "ie-bank-account",
+      "topic": "bank_account",
+      "title": "Opening a bank account",
+      "title_it": "Aprire un conto in banca",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "To open an account you must prove your identity and verify your address. Some banks offer free student current accounts, and a basic bank account has no fees for everyday banking in the first year. Universities issue a letter of attendance after registration that can serve as proof of address; at UCC, Bank of Ireland (on campus) also accepts non-resident applications before arrival.",
+      "authority": "Citizens Information Board (Ireland)",
+      "source_url": "https://www.citizensinformation.ie/en/money-and-tax/personal-finance/banking/opening-a-bank-account/",
+      "extra_sources": ["https://www.ucc.ie/en/international/studentinfohub/afteryouarrive/openingabankaccount/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "UCC page: the online application needs an Irish/UK mobile number; IBAN details go live in 3-5 working days. Bank procedures are set by each bank and may change."
+    },
+    {
+      "id": "ie-leap-student-card",
+      "topic": "transport_card",
+      "title": "TFI Student Leap Card",
+      "title_it": "TFI Student Leap Card (tessera trasporti studenti)",
+      "applies_to": {
+        "student_type": "any",
+        "nationality": "any",
+        "other": ["full-time course or at least 15 hours/week of in-person classes", "course of at least 6 months / 25 weeks in the year", "online courses not eligible"]
+      },
+      "summary": "The Student Leap Card gives half-price single fares across the TFI network (Dublin Bus, Luas, DART/Irish Rail, Bus Éireann, Go-Ahead, Local Link) and lower daily/weekly caps. Apply online after your course starts, uploading a college letter (international students: the acceptance letter in English or Irish); after the confirmation email collect the card from a Student Leap agent with student ID and proof of age.",
+      "cost": "€5 refundable deposit plus at least €5 travel credit (2026)",
+      "authority": "Transport for Ireland (TFI Leap Card)",
+      "source_url": "https://about.leapcard.ie/about/tfi-leap-card-types/student",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ie-leap-young-adult-card",
+      "topic": "transport_card",
+      "title": "TFI Young Adult Leap Card (19-25)",
+      "title_it": "TFI Young Adult Leap Card (19-25 anni)",
+      "applies_to": { "student_type": "any", "nationality": "any", "age": { "min": 19, "max": 25 } },
+      "summary": "Anyone aged 19-25 can get the Young Adult Leap Card without being a student: same half-price fares and caps as the Student card. Apply online with passport or driving licence and a live selfie; the card is posted within about 5 working days and is valid until your 26th birthday.",
+      "cost": "€5 refundable deposit plus at least €5 travel credit (2026)",
+      "authority": "Transport for Ireland (TFI Leap Card)",
+      "source_url": "https://about.leapcard.ie/about/tfi-leap-card-types/student",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Same page lists both card types."
+    },
+    {
+      "id": "ie-work-eu",
+      "topic": "student_work",
+      "title": "Working while studying: EU/EEA and Swiss students",
+      "title_it": "Lavorare durante gli studi: studenti UE/SEE e svizzeri",
+      "applies_to": { "student_type": "any", "nationality": ["eu_eea", "swiss"] },
+      "summary": "EEA nationals may take up full-time or part-time employment while studying, with no hour limit. You need a PPS Number to start a job. Under EU law any 'genuine and effective' paid work also gives worker status, with no minimum hours or earnings.",
+      "authority": "University College Cork International Office; Citizens Information Board",
+      "source_url": "https://www.ucc.ie/en/international/studentinfohub/afteryouarrive/workinginireland/",
+      "extra_sources": ["https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/residence-rights-eu-national/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "UCC's page names EEA nationals; Swiss citizens are included on the basis of Citizens Information, which gives EEA and Swiss citizens the same right to live in Ireland as workers."
+    },
+    {
+      "id": "ie-work-non-eu",
+      "topic": "student_work",
+      "title": "Working while studying: non-EU students on Stamp 2",
+      "title_it": "Lavorare durante gli studi: studenti extra-UE con Stamp 2",
+      "applies_to": { "student_type": "any", "nationality": ["non_eu"], "other": ["registered on Stamp 2 (ILEP programme)", "Stamp 2A holders may not work"] },
+      "summary": "Stamp 2 students may work up to 20 hours per week in term time and up to 40 hours per week in the holidays, without an employment permit. Holiday periods are June, July, August and September, and 15 December to 15 January. Students with Stamp 2A permission may not work.",
+      "authority": "Immigration Service Delivery (ISD)",
+      "source_url": "https://www.irishimmigration.ie/coming-to-study-in-ireland/frequently-asked-questions-for-students/",
+      "extra_sources": ["https://www.ucc.ie/en/international/studentinfohub/afteryouarrive/workinginireland/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Whether a short-stay non-EU visiting/exchange student is on Stamp 2 or 2A depends on the permission granted; check the stamp on the IRP card. Work placements that are an integral part of a degree (max 50% of course length) are allowed."
+    },
+    {
+      "id": "ie-graduate-programme-non-eu",
+      "topic": "other",
+      "title": "Third Level Graduate Programme (Stamp 1G) after graduation",
+      "title_it": "Third Level Graduate Programme (Stamp 1G) dopo la laurea",
+      "applies_to": { "student_type": ["degree"], "nationality": ["non_eu"], "other": ["Irish award at NFQ level 8 or higher"] },
+      "summary": "Non-EEA graduates with an Irish level 8 award can get a 12-month extension on Stamp 1G (total student-pathway time max 7 years); level 9 or above can get up to 24 months (max 8 years). Stamp 1G allows 40 hours of work per week without a permit while seeking graduate employment.",
+      "authority": "Immigration Service Delivery (ISD)",
+      "source_url": "https://www.irishimmigration.ie/coming-to-study-in-ireland/frequently-asked-questions-for-students/",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "id": "ie-minimum-wage",
+      "topic": "minimum_wage",
+      "title": "National minimum wage and youth rates",
+      "title_it": "Salario minimo nazionale e tariffe per i giovani",
+      "applies_to": { "student_type": "any", "nationality": "any" },
+      "summary": "Since 1 January 2026 the national minimum wage is €14.15/hour for workers aged 20 and over. Sub-minimum rates: age 19 €12.74 (90%), age 18 €11.32 (80%), under 18 €9.91 (70%). Budget 2027 announced €14.94/hour for people aged 20+ from 1 January 2027 (requires legislation).",
+      "authority": "Citizens Information Board (Ireland), under the National Minimum Wage Act 2000",
+      "source_url": "https://www.citizensinformation.ie/en/employment/employment-rights-and-conditions/pay-and-employment/minimum-wage/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "The 2027 youth rates were not stated on the page. Overtime, Sunday and unsocial-hours premiums and tips do not count towards the minimum."
+    }
+  ]
+}

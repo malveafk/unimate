@@ -1,0 +1,89 @@
+{
+  "city": "Cambridge",
+  "slug": "cambridge",
+  "country": "United Kingdom",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "£880/month for accommodation in the University's estimate (2027-28); College rooms vary, minimum contracts 27–39 weeks.",
+      "source_name": "University of Cambridge, undergraduate living costs",
+      "source_url": "https://www.undergraduate.study.cam.ac.uk/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "rent_studio",
+      "value": "£1,253/month average private rent, one-bedroom (Cambridge, Oct 2026); all private rents average £1,805/month.",
+      "source_name": "ONS Price Index of Private Rents (local area)",
+      "source_url": "https://www.ons.gov.uk/visualisations/housingpriceslocal/E07000008/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "ONS publishes no separate studio figure; the one-bedroom average is used as the closest proxy."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "£1,330/month (University estimate for 2027-28): about £11,970 for 9 months term-time, £15,960 for 12 months.",
+      "source_name": "University of Cambridge, undergraduate living costs",
+      "source_url": "https://www.undergraduate.study.cam.ac.uk/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Figures include projected inflation (calculated May 2026). Breakdown: food £255, accommodation £880, personal £75, social £85, study £10, misc £25."
+    },
+    {
+      "field": "transport_pass",
+      "value": "No pass price given; the University says transport is cheap or free, most students walk or cycle, and the Universal bus offers student discounts.",
+      "source_name": "University of Cambridge, undergraduate living costs",
+      "source_url": "https://www.undergraduate.study.cam.ac.uk/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "climate",
+      "value": "Jan avg 1.9–7.7°C, Jul avg 12.6–23.1°C (min–max); about 559 mm rain/year. Met Office Cambridge NIAB station, 1991–2020 averages.",
+      "source_name": "Met Office UK climate averages (1991–2020)",
+      "source_url": "https://www.metoffice.gov.uk/research/climate/maps-and-data/location-specific-long-term-averages/u120fz8ty",
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "social_life",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Cambridge",
+      "source_url": "https://www.undergraduate.study.cam.ac.uk/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "Web search budget ran out during research; no citable source opened. Best starting point is the university's student-life page."
+    },
+    {
+      "field": "language_needed",
+      "value": "English. For a UK Student visa at degree level you must show English at CEFR B2; your university may assess it with its own test.",
+      "source_name": "GOV.UK Student visa: knowledge of English",
+      "source_url": "https://www.gov.uk/student-visa/knowledge-of-english",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Nationals of listed majority-English-speaking countries (e.g. Ireland, USA) are exempt from proving English for the visa."
+    },
+    {
+      "field": "job_market",
+      "value": "Not found: no citable source checked for this city.",
+      "source_name": "University of Cambridge",
+      "source_url": "https://www.undergraduate.study.cam.ac.uk/fees-funding/living-costs",
+      "verified_at": "2026-11-25",
+      "status": "missing",
+      "subjective": true,
+      "notes": "No city-specific data on student job availability opened. Best starting point is the university careers service."
+    },
+    {
+      "field": "student_wage",
+      "value": "No local student-pay data found. Legal minimum from 1 Apr 2026: £12.71/h (21+), £10.85/h (18–20), £8.00/h (under 18).",
+      "source_name": "GOV.UK National Minimum Wage rates",
+      "source_url": "https://www.gov.uk/national-minimum-wage-rates",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Statutory floor, not typical pay. From 1 Apr 2027: £13.21/h (21+), £11.27/h (18–20). "
+    }
+  ]
+}

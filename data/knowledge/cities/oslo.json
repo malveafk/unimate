@@ -1,0 +1,100 @@
+{
+  "city": "Oslo",
+  "slug": "oslo",
+  "country": "Norway",
+  "verified_at": "2026-11-25",
+  "facts": [
+    {
+      "field": "rent_room",
+      "value": "About NOK 7,500/month for housing in UiO's student budget (based on Eurostudent 8 survey data)",
+      "source_name": "University of Oslo - student budget",
+      "source_url": "https://www.uio.no/english/student-life/budget/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "This is the housing line of a student budget, not a measured market average for a room. SiO room prices were not visible on SiO's static pages."
+    },
+    {
+      "field": "rent_studio",
+      "value": "NOK 10,090/month average rent for a 1-room dwelling in Oslo and Bærum (2025)",
+      "source_name": "Statistics Norway (SSB) - Rental market survey 2025",
+      "source_url": "https://www.ssb.no/en/priser-og-prisindekser/boligpriser-og-boligprisindekser/statistikk/leiemarkedsundersokelsen",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "2-room dwellings: NOK 15,260/month (2025). Next SSB update scheduled 21 Dec 2026."
+    },
+    {
+      "field": "living_cost_month",
+      "value": "About NOK 15,250/month incl. housing (UiO budget); UDI requires NOK 15,488/month for permits (2026-2027)",
+      "source_name": "University of Oslo - student budget",
+      "source_url": "https://www.uio.no/english/student-life/budget/",
+      "extra_sources": ["https://www.udi.no/en/want-to-apply/studies/studietillatelse/university-college-or-university/"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "UiO breakdown: housing 7,500; food 3,500; transport 700; study costs 1,000; leisure 700; phone/internet 400; health 250; other 1,200. The UiO page does not state the year of the figures (last modified April 2026)."
+    },
+    {
+      "field": "transport_pass",
+      "value": "Ruter student 30-day ticket, zone 1: NOK 393 (prices from 1 Aug 2026); 40% off adult, students under 30",
+      "source_name": "Ruter price list from 1 August 2026",
+      "source_url": "https://cdn.sanity.io/files/5a84xxkm/prod/f31c1f6b1c977698d935fccd5fd7570cab027b26.pdf",
+      "extra_sources": ["https://ruter.no/en/practical-information/student"],
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "interpretations": [
+        {
+          "hypothesis": "The price is still NOK 393 (Ruter's student page, updated 19 Oct 2026).",
+          "source_url": "https://ruter.no/en/practical-information/student"
+        },
+        {
+          "hypothesis": "Vy reports the student ticket is NOK 100 cheaper from 1 Nov 2026 (adult zone 1 NOK 495), which would make it about NOK 293; not confirmed on a Ruter page.",
+          "source_url": "https://www.vy.no/en/news/billigere-ruter-manedskort-november"
+        }
+      ]
+    },
+    {
+      "field": "climate",
+      "value": "Cold winters, mild summers: average about -2.3 °C in January and 17.7 °C in July (Blindern); about 837 mm precipitation/year",
+      "source_name": "Store norske leksikon (Norwegian encyclopedia)",
+      "source_url": "https://snl.no/Oslo",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "Reference period of the averages not stated on the page."
+    },
+    {
+      "field": "social_life",
+      "value": "UiO highlights student associations, affordable SiO sports and services, student politics, and events such as language cafés",
+      "source_name": "University of Oslo - student life",
+      "source_url": "https://www.uio.no/english/student-life/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "language_needed",
+      "value": "Norwegian for almost all UiO bachelor's (only one taught in English); master's options in English; few part-time jobs without Norwegian",
+      "source_name": "University of Oslo - admission and part-time work pages",
+      "source_url": "https://www.uio.no/english/studies/admission/",
+      "extra_sources": ["https://www.uio.no/english/student-life/part-time-work/"],
+      "verified_at": "2026-11-25",
+      "status": "verified"
+    },
+    {
+      "field": "job_market",
+      "value": "UiO warns it can be difficult to get a part-time job to supplement your budget; few jobs open to students without Norwegian",
+      "source_name": "University of Oslo - part-time work",
+      "source_url": "https://www.uio.no/english/student-life/part-time-work/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "subjective": true
+    },
+    {
+      "field": "student_wage",
+      "value": "No general minimum wage; legal floors e.g. hospitality NOK 215.29/h, cleaning NOK 247.29/h (from 6 Nov 2026)",
+      "source_name": "Arbeidstilsynet (Norwegian Labour Inspection Authority)",
+      "source_url": "https://www.arbeidstilsynet.no/en/pay-and-engagement-of-employees/pay-and-minimum-rates-of-pay/minimum-wage/",
+      "verified_at": "2026-11-25",
+      "status": "verified",
+      "notes": "These are sector minimums (national), not measured typical student pay in Oslo. Hospitality rate is for over-20s (or 18+ with 4 months' experience). No citable source for typical student hourly pay was found."
+    }
+  ]
+}
